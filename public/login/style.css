@@ -5,7 +5,6 @@
 }
 .main_wrapper-form {
   background-color: black;
-  height: 90%;
   width: 100%;
   max-width: 600px;
   display: flex;
@@ -13,6 +12,11 @@
   gap: 1rem;
   padding-block: 8vh;
   padding-inline: 4rem;
+}
+@media screen and (max-width: 576px) {
+  .main-wrapper-form {
+    height: 90%;
+  }
 }
 .form-status {
   font-size: 4rem;
