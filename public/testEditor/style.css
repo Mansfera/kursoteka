@@ -1,0 +1,81 @@
+#save_btn {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+}
+#save_btn img {
+  height: 100%;
+}
+textarea {
+  resize: none;
+}
+#middle_lines {
+  height: 100px;
+}
+#question_image {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border: 2px gray dashed;
+}
+#deleteImg {
+  position: absolute;
+  top: 10%;
+  right: 10%;
+  height: 15%;
+}
+.short-field {
+  width: 6rem;
+  height: 2rem;
+  font-size: 1.4rem;
+}
+.app_toolbar_for_questions {
+  margin: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 0.3rem;
+}
+.btn.tool {
+  position: relative;
+  overflow: hidden;
+  font-size: 1rem;
+}
+.red-bg.btn:hover {
+  background: rgb(220, 22, 15);
+  color: snow;
+}
+.question__answer {
+  align-items: center;
+  width: 100%;
+}
+.question__answer-text.bold {
+  width: 10%;
+}
+.question__answer-text {
+  width: 100%;
+}
+.comment_field {
+  width: 100%;
+  font-size: 1.5rem;
+  height: 7rem;
+}
+
+.green-bg {
+  background: rgb(146, 174, 144);
+}
+.yellow-bg {
+  background: rgb(255, 255, 84);
+}
+.red-bg {
+  background: rgb(255, 28, 20);
+}
+.remove-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Darker progress bar color */
+  transition: width .5s linear; /* Animation transition for width change */
+}

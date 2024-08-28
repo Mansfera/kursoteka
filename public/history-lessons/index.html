@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <meta name="description" content="Підготовка до НМТ! © Mansfera" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/top_bar.css">
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/text-formatting.css" />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/global.js"></script>
+    <script src="/top_bar.js"></script>
+    <script src="script.js"></script>
+    <title>Підготовка до НМТ</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div class="top_bar_spacefiller"></div>
+      <div class="main_wrapper-modules">
+        <div class="modules-title title_text white_text">Блоки</div>
+        <div class="modules-material_list">
+          <div class="material_list-element">
+            <div class="material_list-element-info">
+              <div class="material_list-element-number white_text">01</div>
+              <div class="material_list-element-text white_text title_text">
+                Українські землі від найдавніших часів до першої половини ХVІ
+                ст.
+              </div>
+              <img src="expand.svg" onclick="toggleLessons(1)" />
+            </div>
+            <div
+              class="material_list-lessons display-none"
+              id="lessons_block-1"
+            >
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_1-2">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №1-2
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_3">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №3
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_4">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №4
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_5">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №5
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="material_list-element">
+            <div class="material_list-element-info">
+              <div class="material_list-element-number white_text">02</div>
+              <div class="material_list-element-text white_text title_text">
+                Українські землі в другій половині XVI – наприкінці XVIII ст.
+              </div>
+              <img src="expand.svg" onclick="toggleLessons(2)" />
+            </div>
+            <div
+              class="material_list-lessons display-none"
+              id="lessons_block-2"
+            >
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_6">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №6
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_7">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №7
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_8">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №8
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_9">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №9
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_10">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №10
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_11">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №11
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="material_list-element">
+            <div class="material_list-element-info">
+              <div class="material_list-element-number white_text">03</div>
+              <div class="material_list-element-text white_text title_text">
+                Українські землі наприкінці XVIII – на початку XX ст.
+              </div>
+              <img src="expand.svg" onclick="toggleLessons(3)" />
+            </div>
+            <div
+              class="material_list-lessons display-none"
+              id="lessons_block-3"
+            >
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_12">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №12
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_13">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №13
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_14">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №14
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_15">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №15
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_16">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №16
+                    </div>
+                    <div class="card-text white_text">Українські землі у складі Австро-Угорщини в другій половині XIX ст.</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_17">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №17
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_18">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №18
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+              <div class="lessons-card_wrapper">
+                <div class="lessons-card" id="lesson_card_19">
+                  <div class="lesson-card-top_buttons">
+                    <div class="lessons-card-materials circle_button">
+                      <img src="attachment.svg" alt="" />
+                    </div>
+                    <div class="lessons-card-tests circle_button">
+                      <img src="test.svg" alt="" />
+                    </div>
+                    <div
+                      class="lessons-card-video circle_button video_link_button"
+                    >
+                      <img src="/assets/play-triangle.png" alt="" />
+                    </div>
+                  </div>
+                  <div class="lessons-card-text">
+                    <div class="card-text subtitle_text white_text">
+                      Тема №19
+                    </div>
+                    <div class="card-text white_text">Назва</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

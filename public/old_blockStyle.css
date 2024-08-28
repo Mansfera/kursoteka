@@ -1,0 +1,231 @@
+.main-wrapper {
+  height: auto;
+}
+.tests-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+.tests {
+  width: 95%;
+  display: grid;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+.b-wrapper {
+  overflow: hidden;
+  width: 100%;
+  min-width: 420px;
+  min-height: 350px;
+  height: 35vh;
+  max-height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.edit-test {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 1rem;
+  right: 1rem;
+  height: 15%;
+  background: rgb(139, 178, 249);
+  border-radius: 0.25rem;
+  padding: 0.2rem;
+  cursor: pointer;
+}
+.edit-test img {
+  height: 80%;
+}
+.test {
+  margin: 4px;
+  min-width: 320px;
+  width: 90%;
+  height: 320px;
+  background-color: rgb(245, 245, 245);
+  border-radius: 11px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: all 0.5s ease;
+  position: relative;
+}
+.title {
+  font-weight: 600;
+}
+.block-info-text {
+  height: 40%;
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+.block-text {
+  width: 100%;
+  text-align: center;
+  /* height: 10px; */
+  font-size: 19px;
+}
+.test-info {
+  font-size: 19px;
+}
+.options {
+  height: 40%;
+  /* min-height: 150px; */
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+}
+.option {
+  width: 90%;
+  height: 50px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: 1s;
+}
+.option:hover {
+  cursor: pointer;
+  background-color: rgb(179, 179, 179);
+}
+.option-text {
+  height: auto;
+  color: snow;
+  font-size: 24px;
+  font-weight: 400;
+}
+.icon-options {
+  height: 30%;
+  flex-direction: row;
+}
+.icon-btn {
+  width: 25%;
+  height: 100%;
+}
+.icon-btn img {
+  height: 80%;
+}
+/* КОЛЬОРИ */
+* {
+  --border-rem: 0.8rem;
+
+  --color1: rgb(157, 213, 131);
+  --color1-light: rgb(240, 255, 234);
+  --color1-dark: rgb(79, 142, 72);
+
+  --color2: rgb(131, 160, 213);
+  --color2-light: rgb(222, 234, 252);
+  --color2-dark: rgb(75, 105, 126);
+
+  --color3: rgb(238, 235, 148);
+  --color3-light: rgb(158, 158, 44);
+  --color3-dark: rgb(201, 198, 112);
+
+  --color4: rgb(238, 148, 148);
+  --color4-light: rgb(255, 230, 230);
+  --color4-dark: rgb(166, 80, 80);
+
+  --color5: rgb(167, 124, 179);
+  --color5-light: rgb(249, 224, 255);
+  --color5-dark: rgb(98, 66, 107);
+}
+
+.test.b1 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color1);
+}
+.option.b1 {
+  background-color: var(--color1);
+  color: var(--color1-light);
+}
+.option.b1:hover {
+  background-color: var(--color1-dark);
+}
+
+.test.b2 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color2);
+}
+.option.b2 {
+  background-color: var(--color2);
+  color: var(--color2-light);
+}
+.option.b2:hover {
+  background-color: var(--color2-dark);
+}
+
+.test.b3 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color3);
+}
+.option.b3 {
+  background-color: var(--color3);
+  color: var(--color3-light);
+}
+.option.b3:hover {
+  background-color: var(--color3-dark);
+}
+
+.test.b4 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color4);
+}
+.option.b4 {
+  background-color: var(--color4);
+  color: var(--color4-light);
+}
+.option.b4:hover {
+  background-color: var(--color4-dark);
+}
+
+.test.b5 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color5);
+}
+.option.b5 {
+  background-color: var(--color5);
+  color: var(--color5-light);
+}
+.option.b5:hover {
+  background-color: var(--color5-dark);
+}
+.test.blurred {
+  width: 80%;
+  height: 80%;
+}
+
+@media screen and (min-width: 1300px) and (max-width: 1400px) {
+  html {
+    font-size: 13px;
+  }
+}
+@media screen and (max-width: 1300px) {
+  html {
+    font-size: 10px;
+  }
+  .tests {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 576px) and (max-width: 992px) {
+  .tests {
+    grid-template-columns: 1fr;
+  }
+}
+@media screen and (max-width: 576px) {
+  html {
+    font-size: 8px;
+  }
+  .tests {
+    grid-template-columns: 1fr;
+  }
+}

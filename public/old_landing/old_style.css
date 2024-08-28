@@ -1,0 +1,124 @@
+html {
+  font-size: 16px; /* зміна rem */
+}
+
+#remainingTime {
+  font-size: 14px;
+  color: black;
+}
+.admin-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  height: 3rem;
+  cursor: pointer;
+  border-radius: 0.75rem;
+  background: cornflowerblue;
+  color: aliceblue;
+}
+#logout-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+}
+#logout-btn img {
+  max-height: 100%;
+  max-width: 100%;
+  height: auto;
+  width: auto;
+  object-fit: contain;
+}
+
+.test img {
+  /* height: 40%; */
+  width: 100%;
+  opacity: 0;
+  overflow: hidden;
+  transition: 3s;
+}
+.test img:hover {
+  opacity: 1;
+}
+.block-text {
+  width: 75%;
+  height: auto;
+  color: #000000;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.option-text {
+  height: auto;
+  color: snow;
+  font-size: 2rem;
+  font-weight: 400;
+}
+.NMT-title {
+  font-size: 3rem;
+}
+
+.test.b1 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color1);
+}
+.option.b1 {
+  background-color: var(--color1);
+  color: var(--color1-light);
+}
+.option.b1:hover {
+  background-color: var(--color1-dark);
+}
+
+.test.b2 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color2);
+}
+.option.b2 {
+  background-color: var(--color2);
+  color: var(--color2-light);
+}
+.option.b2:hover {
+  background-color: var(--color2-dark);
+}
+
+.test.b3 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color3);
+}
+.option.b3 {
+  background-color: var(--color3);
+  color: var(--color3-light);
+}
+.option.b3:hover {
+  background-color: var(--color3-dark);
+}
+
+.test.b4 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color4);
+}
+.option.b4 {
+  background-color: var(--color4);
+  color: var(--color4-light);
+}
+.option.b4:hover {
+  background-color: var(--color4-dark);
+}
+
+.test.b5 {
+  box-shadow: 0 0 0 var(--border-rem) var(--color5);
+}
+.option.b5 {
+  background-color: var(--color5);
+  color: var(--color5-light);
+}
+.option.b5:hover {
+  background-color: var(--color5-dark);
+}
+
+.blocked {
+  cursor: not-allowed;
+  color: dimgray;
+}

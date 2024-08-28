@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Курсотека</title>
+    <script src="global.js"></script>
+  </head>
+  <body>
+    <script src="global.js"></script>
+    <script>
+      var queryString = window.location.search;
+      var params = new URLSearchParams(queryString);
+      if (params.get("style") != null) {
+        setCookie("styleVariant", params.get("style"), 90);
+      }
+      if (params.get("reset") != null) {
+        clearCookies()
+      }
+
+      if (getCookie("styleVariant") == "old") {
+        window.location = "/old_landing"
+        console.log("old");
+      } else {
+        window.location = "/landing";
+        console.log("new");
+      }
+    </script>
+  </body>
+</html>

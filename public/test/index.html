@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <meta name="description" content="Підготовка до НМТ! © Mansfera" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
+    <script src="/global.js"></script>
+    <script src="/top_bar.js"></script>
+    <script src="/authCheck.js"></script>
+    <title>Підготовка до НМТ</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div class="top_bar_spacefiller"></div>
+      <div class="main_wrapper-test_info">
+        <div class="test_info __left">
+          <div class="test_info-test_name white_text title_text" id="test_name">
+            Назва тесту
+          </div>
+          <div class="test_info-question_info">
+            <div class="white_text subtitle_text">Запитання №</div>
+            <div class="white_text subtitle_text" id="question_number">1</div>
+            <div class="question_info-id_bubble" id="question_id">ID#0</div>
+          </div>
+        </div>
+        <div class="test_info __right">
+          <div id="timerDiv">
+            <div class="timer_line" id="bg_timer_line"></div>
+            <div class="timer_line" id="timer_line"></div>
+          </div>
+          <div class="time_control">
+            <img
+              onclick="pauseTest()"
+              src="/assets/pause.svg"
+              id="pause_btn_img"
+              alt=""
+            />
+            <div class="white_text" id="timer">Часу залишилося: --:--</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div
+        class="main_wrapper-question_task white_text subtitle_text"
+        id="quest_task"
+      >
+        Дайте відповідь на запитання
+      </div> -->
+      <div class="main_wrapper-question_text_rows __can_be_blurred">
+        <div class="question_text_rows-top_line white_text bold" id="top_line">
+          Верхнє запитання
+        </div>
+        <div class="question_text_rows-middle_lines" id="middle_lines">
+          <p class="middle_lines-element"></p>
+          <p class="middle_lines-element">"...пряма мова..."</p>
+          <p class="middle_lines-element"></p>
+        </div>
+        <div
+          class="question_text_rows-bottom-line white_text subtitle_text bold"
+          id="bottom_line"
+        >
+          Нижнє запитання
+        </div>
+      </div>
+      <div class="main_wrapper-question_image __can_be_blurred" id="q_img">
+        <img src="" draggable="false" id="question_image" />
+      </div>
+      <div class="main_wrapper-question_answers_list __can_be_blurred">
+        <div
+          class="question_answers_list-element-wrapper left"
+          id="list_abcd-fields"
+        >
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              А
+            </div>
+            <div class="question_answers_list-element-text" id="af">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              Б
+            </div>
+            <div class="question_answers_list-element-text" id="bf">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              В
+            </div>
+            <div class="question_answers_list-element-text" id="cf">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              Г
+            </div>
+            <div class="question_answers_list-element-text" id="df">text</div>
+          </div>
+        </div>
+
+        <div
+          class="question_answers_list-element-wrapper right"
+          id="list_num-fields"
+        >
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              1
+            </div>
+            <div class="question_answers_list-element-text" id="f1">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              2
+            </div>
+            <div class="question_answers_list-element-text" id="f2">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              3
+            </div>
+            <div class="question_answers_list-element-text" id="f3">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              4
+            </div>
+            <div class="question_answers_list-element-text" id="f4">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              5
+            </div>
+            <div class="question_answers_list-element-text" id="f5">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              6
+            </div>
+            <div class="question_answers_list-element-text" id="f6">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              7
+            </div>
+            <div class="question_answers_list-element-text" id="f7">text</div>
+          </div>
+        </div>
+      </div>
+      <div class="main_wrapper-answer_selection_methdods-wrapper">
+        <div class="main_wrapper-answer_selection_methdods __can_be_blurred">
+          <div
+            class="answer_selection_methdods-abcd_answer_buttons"
+            id="answer-buttons"
+          >
+            <div class="abcd_button">А</div>
+            <div class="abcd_button selected">Б</div>
+            <div class="abcd_button">В</div>
+            <div class="abcd_button">Г</div>
+          </div>
+          <div class="answer_selection_methdods-answer_sheet" id="ansSheetBtns">
+            <div class="answer_sheet-column" id="answer_sheet_column-abcd">
+              <div class="answer_sheet-column-name"></div>
+              <div class="answer_sheet-column-name">А</div>
+              <div class="answer_sheet-column-name">Б</div>
+              <div class="answer_sheet-column-name">В</div>
+              <div class="answer_sheet-column-name">Г</div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-1">
+              <div class="answer_sheet-column-name">1</div>
+              <div class="answer_sheet-column-square selected" id="a1"></div>
+              <div class="answer_sheet-column-square" id="b1"></div>
+              <div class="answer_sheet-column-square" id="c1"></div>
+              <div class="answer_sheet-column-square" id="d1"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-2">
+              <div class="answer_sheet-column-name">2</div>
+              <div class="answer_sheet-column-square" id="a2"></div>
+              <div class="answer_sheet-column-square selected" id="b2"></div>
+              <div class="answer_sheet-column-square" id="c2"></div>
+              <div class="answer_sheet-column-square" id="d2"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-3">
+              <div class="answer_sheet-column-name">3</div>
+              <div class="answer_sheet-column-square" id="a3"></div>
+              <div class="answer_sheet-column-square" id="b3"></div>
+              <div class="answer_sheet-column-square selected" id="c3"></div>
+              <div class="answer_sheet-column-square" id="d3"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-4">
+              <div class="answer_sheet-column-name">4</div>
+              <div class="answer_sheet-column-square" id="a4"></div>
+              <div class="answer_sheet-column-square" id="b4"></div>
+              <div class="answer_sheet-column-square" id="c4"></div>
+              <div class="answer_sheet-column-square selected" id="d4"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-5">
+              <div class="answer_sheet-column-name">5</div>
+              <div class="answer_sheet-column-square" id="a5"></div>
+              <div class="answer_sheet-column-square" id="b5"></div>
+              <div class="answer_sheet-column-square" id="c5"></div>
+              <div class="answer_sheet-column-square" id="d5"></div>
+            </div>
+          </div>
+          <div
+            class="answer_selection_methdods-answer_text_fields"
+            id="text_fields"
+          >
+            <input
+              class="text_input"
+              id="text_input1"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input2"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input3"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+          </div>
+        </div>
+        <div class="select_answers_filler"></div>
+      </div>
+
+      <div class="main_wrapper-bottom_division">
+        <div class="main_wrapper-bottom_division-part left">
+          <div class="bottom_division-part-nav_bar" id="bottom-buttons">
+            <div class="nav_bar-button" id="read-explanation-btn">Коментар</div>
+            <div class="nav_bar-navigation_arrows">
+              <div class="navigation_arrows-button back-arrow" id="back_arrow">
+                <img src="left-arrow.svg" alt="" />
+              </div>
+              <div class="navigation_arrows-button next-arrow" id="next_arrow">
+                <img src="right-arrow.svg" alt="" />
+              </div>
+            </div>
+            <div
+              class="nav_bar-button nav_bar-finish_test display-none"
+              id="finishTestButton"
+            >
+              Завершити тестування
+            </div>
+          </div>
+        </div>
+        <div class="main_wrapper-bottom_division-part right">
+          <div class="bottom_division-part-block_answers" id="block_answers">
+            <div class="block_answers-item answered">1</div>
+            <div class="block_answers-item selected">2</div>
+            <div class="block_answers-item">3</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="alert_window display-none" id="alert_window">
+        <div class="alert_box">
+          <div id="alert_text"></div>
+          <div class="mini-button" id="alert_close_btn">Закрити</div>
+        </div>
+      </div>
+      <div class="fullScreenImgContainer display-none" id="fsic">
+        <img src="" id="fullScreenImg" />
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

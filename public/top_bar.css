@@ -1,0 +1,48 @@
+.main_wrapper-top_bar {
+  height: 8vh;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+}
+.top_bar-wrapper {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  align-items: center;
+  background-color: black;
+  padding-inline: 2rem;
+}
+.top_bar-part {
+  width: 50%;
+  height: 100%;
+  display: flex;
+  flex-wrap: nowrap;
+  padding-inline: 2rem;
+  gap: 2rem;
+  align-items: center;
+}
+.top_bar-left {
+  justify-content: flex-start;
+}
+.top_bar-right {
+  justify-content: flex-end;
+}
+.top_bar-element {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: fit-content;
+  cursor: pointer;
+}
+.top_bar-login,
+.top_bar-profile {
+  border: 1px aliceblue solid;
+  border-radius: 5rem;
+  padding: 1.3rem;
+  padding-inline: 2rem;
+}

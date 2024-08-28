@@ -1,0 +1,54 @@
+.title_text {
+  padding: 0.5rem 0;
+  font-weight: 500;
+  font-size: xx-large;
+}
+.subtitle_text {
+  padding: 0.25rem 0;
+  font-weight: 400;
+  font-size: medium;
+}
+.info_text {
+  padding: 0.25rem 0;
+  font-weight: 400;
+  font-size: small;
+}
+.bold {
+  font-weight: 600;
+}
+.underline_text {
+  text-decoration: underline;
+  font-weight: 600;
+}
+.white_text,
+.white_text p,
+.white_text p span {
+  color: whitesmoke;
+}
+.gray_text {
+  color: rgb(172, 172, 172);
+}
+.black_text {
+  color: black;
+}
+.black_background {
+  background: black;
+}
+.small_title_text {
+  font-size: 2rem;
+  font-weight: 500;
+  padding: 0.5rem;
+}
+.paragraph_text {
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.display-none {
+  display: none;
+  width: 0;
+  height: 0;
+}
+.invisible {
+  opacity: 0;
+}

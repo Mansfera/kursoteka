@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <meta name="description" content="Підготовка до НМТ! © Mansfera" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+    <script src="/global.js"></script>
+    <title>Вхід</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-form">
+        <div class="form-status">ВХІД</div>
+        <div class="form-fields">
+          <div class="form-fields-input">
+            <input
+              class="field"
+              type="text"
+              id="login"
+              name="login"
+              maxlength="32"
+              pattern="[^ ]*"
+              placeholder="Логін"
+              required
+            />
+          </div>
+          <div class="form-fields-input">
+            <input
+              class="field"
+              type="password"
+              id="password"
+              name="password"
+              maxlength="32"
+              pattern="[^ ]*"
+              placeholder="Пароль"
+              required
+            />
+          </div>
+        </div>
+        <div class="display-none" id="status_wrapper">
+          <div id="status_line"></div>
+        </div>
+        <div class="main_wrapper-login_button display-none" id="registerBtn" onclick="register()">
+          Зареєструватися
+        </div>
+        <div class="main_wrapper-login_button" id="loginBtn" onclick="login()">
+          Продовжити
+        </div>
+      </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

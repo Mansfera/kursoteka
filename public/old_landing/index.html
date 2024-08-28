@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <!-- <link rel="icon" type="image/png" sizes="192x192" href="icons/android-chrome-192x192.png"> -->
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <meta
+      name="description"
+      content="Тест з історії для самоперевірки та підготовки до ЗНО/НМТ! © Mansfera"
+    />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/old_globalStyle.css" />
+    <link rel="stylesheet" href="/old_blockStyle.css" />
+    <link rel="stylesheet" href="old_style.css" />
+    <script src="/global.js"></script>
+    <title>Тест з історії</title>
+  </head>
+
+  <body>
+    <div class="main-wrapper">
+      <div class="top-bar">
+        <div class="hidden admin-btn" onclick="toAdminBoard()">
+          Панель керування
+        </div>
+        <div id="remainingTime"></div>
+        <div id="logout-btn" onclick="logout()">
+          <img src="/assets/logout.webp" />
+        </div>
+      </div>
+      <div class="tests-wrapper">
+        <div class="tests">
+          <div id="b1_wrapper" class="b-wrapper">
+            <div class="test b1 blurred" id="b1">
+              <div class="block-text title">Блок 1</div>
+              <div class="block-text">‌</div>
+            </div>
+          </div>
+          <div id="b2_wrapper" class="b-wrapper">
+            <div class="test b2 blurred" id="b2">
+              <div class="block-text">Блок 2</div>
+              <div class="block-text">‌</div>
+              <div class="block-text title">Українські землі</div>
+              <div class="block-text title">в другій половині XVI –</div>
+              <div class="block-text title">наприкінці XVIII ст.</div>
+              <div class="options">
+                <div class="option b2" onclick="openBlock(2)">
+                  <div class="option-text">Тематичний огляд</div>
+                </div>
+                <div class="option b2" onclick="openFinalTest(2)">
+                  <div class="option-text">Підсумковий тест</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="b3_wrapper" class="b-wrapper">
+            <div class="test b3 blurred" id="b3">
+              <div class="block-text">Блок 3</div>
+              <div class="block-text">‌</div>
+              <div class="block-text title">Українські землі</div>
+              <div class="block-text title">наприкінці XVIII –</div>
+              <div class="block-text title">на початку XX ст.</div>
+              <div class="options">
+                <div class="option b3" onclick="openBlock(3)">
+                  <div class="option-text b3o">Тематичний огляд</div>
+                </div>
+                <div class="option b3" onclick="openFinalTest(3)">
+                  <div class="option-text b3o">Підсумковий тест</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="b4_wrapper" class="b-wrapper">
+            <div class="test b4 blurred" id="b4">
+              <div class="block-text title">Блок 4</div>
+              <div class="block-text">‌</div>
+            </div>
+          </div>
+          <div id="b5_wrapper" class="b-wrapper">
+            <div class="test b5 blurred" id="b5">
+              <div class="block-text title">Блок 5</div>
+              <div class="block-text">‌</div>
+            </div>
+          </div>
+          <div id="b6_wrapper" class="b-wrapper">
+            <div class="test NMT blurred" id="NMT">
+              <div class="block-text title NMT-title">НМТ</div>
+              <div class="block-text">‌</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="/authCheck.js"></script>
+    <script src="/old_pageOpener.js"></script>
+    <script src="old_script.js"></script>
+  </body>
+</html>

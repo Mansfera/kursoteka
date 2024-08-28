@@ -1,0 +1,168 @@
+.main_wrapper-modules {
+  padding-inline: 4rem;
+}
+.modules-material_list {
+  margin-top: 2rem;
+  display: flex;
+  gap: 4rem;
+  flex-direction: column;
+  width: 100%;
+  justify-content: flex-start;
+  align-items: start;
+}
+.material_list-element {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+.material_list-element-info {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  gap: 1rem;
+  justify-content: start;
+  align-items: center;
+}
+.material_list-element-info img {
+  height: 100%;
+  min-width: 2rem;
+  object-fit: contain;
+  filter: invert(1);
+  cursor: pointer;
+}
+.material_list-lessons {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+  overflow: hidden;
+  transition: all 0.5s ease-in-out;
+  width: 100%;
+}
+.lessons-card_wrapper {
+  height: 30rem;
+  width: 20rem;
+  overflow: hidden;
+}
+.lessons-card {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.3);
+  background-position: center;
+  background-size: cover;
+  border-radius: 1rem;
+  overflow: hidden;
+  padding: 1.5rem;
+}
+
+#lesson_card_1-2 {
+  background-image: url("tema1_2.jpg");
+}
+#lesson_card_3 {
+  background-image: url("tema3.jpg");
+}
+#lesson_card_4 {
+  background-image: url("tema4.jpg");
+}
+#lesson_card_5 {
+  background-image: url("tema5.jpg");
+}
+#lesson_card_6 {
+  background-image: url("tema6.jpg");
+}
+#lesson_card_7 {
+  background-image: url("tema7.jpg");
+}
+#lesson_card_8 {
+  background-image: url("tema8.jpg");
+}
+#lesson_card_9 {
+  background-image: url("tema9.jpg");
+}
+#lesson_card_10 {
+  background-image: url("tema10.jpg");
+}
+#lesson_card_11 {
+  background-image: url("tema11.jpeg");
+}
+#lesson_card_12 {
+  background-image: url("tema12.jpg");
+}
+#lesson_card_13 {
+  background-image: url("tema13.jpeg");
+  background-position: left;
+}
+#lesson_card_14 {
+  background-image: url("tema14.jpg");
+}
+#lesson_card_15 {
+  background-image: url("tema15.jpeg");
+}
+#lesson_card_16 {
+  background-image: url("tema16.jpeg");
+}
+#lesson_card_17 {
+  background-image: url("");
+}
+#lesson_card_18 {
+  background-image: url("");
+}
+#lesson_card_19 {
+  background-image: url("");
+}
+.lesson-card-top_buttons {
+  display: flex;
+  width: 100%;
+  height: 3rem;
+  gap: 0.25rem;
+}
+.circle_button {
+  width: 3rem;
+  height: 100%;
+  border-radius: 3rem;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
+  padding: 0.75rem;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.circle_button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  filter: invert(1);
+}
+.video_link_button {
+  background-color: white;
+  margin-left: auto;
+}
+.video_link_button img {
+  filter: none;
+}
+.lessons-card-text {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: end;
+  align-items: start;
+  margin-bottom: auto;
+  gap: 0.2rem;
+}
+.card-text {
+  font-weight: 600;
+  font-size: x-large;
+  backdrop-filter: blur(2px);
+  background-color: rgba(0, 0, 0, 0.35);
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  padding-inline: 1rem;
+}
+
