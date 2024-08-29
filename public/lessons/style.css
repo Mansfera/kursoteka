@@ -2,6 +2,11 @@
   padding-inline: 4rem;
   padding-bottom: 4rem;
 }
+@media screen and (max-width: 576px) {
+  .main_wrapper-modules {
+    padding-inline: 2rem;
+  }
+}
 .modules-material_list {
   margin-top: 2rem;
   display: flex;
@@ -43,7 +48,7 @@
   padding-block: 1rem;
 }
 .final_test-button {
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   display: flex;
   padding-block: 2rem;
   padding-inline: 2rem;
@@ -90,7 +95,7 @@
   background-color: rgba(255, 255, 255, 0.3);
   background-position: center;
   background-size: cover;
-  border-radius: 1rem;
+  border-radius: 1.25rem;
   overflow: hidden;
   padding: 1.5rem;
 }
@@ -147,7 +152,7 @@
   z-index: 2;
 }
 .card-text {
-  font-weight: 600;
+  font-weight: 700;
   font-size: x-large;
   backdrop-filter: blur(2px);
   border-radius: 0.5rem;
