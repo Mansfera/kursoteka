@@ -26,6 +26,7 @@
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="/old_globalStyle.css" />
+    <script src="/global.js"></script>
     <title>Адмін панель</title>
   </head>
   <body>
@@ -33,8 +34,10 @@
       <div class="button exit-btn" onclick="exitToMenu()">
         До головного меню
       </div>
-      <div class="name-title">Запити на реєстрацію</div>
-      <div class="user-list reg-list" id="regList"></div>
+      <div class="generate_code">
+        <div class="button generate_code-btn" onclick="requestCode()">Згенерувати код</div>
+        <div id="code"></div>
+      </div>
       <div class="name-title">Керування доступом</div>
       <div class="user-list" id="userList"></div>
     </div>

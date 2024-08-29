@@ -1,5 +1,6 @@
 .main_wrapper-modules {
   padding-inline: 4rem;
+  padding-bottom: 4rem;
 }
 .modules-material_list {
   margin-top: 2rem;
@@ -32,6 +33,29 @@
   filter: invert(1);
   cursor: pointer;
 }
+.material_list-final_test {
+  width: 100%;
+  border-top: 2px aliceblue solid;
+  display: flex;
+  padding-block: 1rem;
+}
+.final_test-button {
+  border-radius: 1rem;
+  display: flex;
+  padding-block: 2rem;
+  padding-inline: 2rem;
+  background-color: aliceblue;
+  font-size: 1.25rem;
+  font-weight: 500;
+  width: 20rem;
+  justify-content: center;
+  cursor: pointer;
+}
+@media screen and (max-width: 576px) {
+  .final_test-button {
+    width: 100%;
+  }
+}
 .material_list-lessons {
   display: flex;
   flex-direction: row;
@@ -45,6 +69,7 @@
   height: 30rem;
   width: 20rem;
   overflow: hidden;
+  position: relative;
 }
 .lessons-card {
   width: 100%;
@@ -58,61 +83,14 @@
   overflow: hidden;
   padding: 1.5rem;
 }
-
-#lesson_card_1-2 {
-  background-image: url("tema1_2.jpg");
-}
-#lesson_card_3 {
-  background-image: url("tema3.jpg");
-}
-#lesson_card_4 {
-  background-image: url("tema4.jpg");
-}
-#lesson_card_5 {
-  background-image: url("tema5.jpg");
-}
-#lesson_card_6 {
-  background-image: url("tema6.jpg");
-}
-#lesson_card_7 {
-  background-image: url("tema7.jpg");
-}
-#lesson_card_8 {
-  background-image: url("tema8.jpg");
-}
-#lesson_card_9 {
-  background-image: url("tema9.jpg");
-}
-#lesson_card_10 {
-  background-image: url("tema10.jpg");
-}
-#lesson_card_11 {
-  background-image: url("tema11.jpeg");
-}
-#lesson_card_12 {
-  background-image: url("tema12.jpg");
-}
-#lesson_card_13 {
-  background-image: url("tema13.jpeg");
-  background-position: left;
-}
-#lesson_card_14 {
-  background-image: url("tema14.jpg");
-}
-#lesson_card_15 {
-  background-image: url("tema15.jpeg");
-}
-#lesson_card_16 {
-  background-image: url("tema16.jpeg");
-}
-#lesson_card_17 {
-  background-image: url("");
-}
-#lesson_card_18 {
-  background-image: url("");
-}
-#lesson_card_19 {
-  background-image: url("");
+.lessons-card::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 70%;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
 }
 .lesson-card-top_buttons {
   display: flex;
@@ -155,14 +133,69 @@
   align-items: start;
   margin-bottom: auto;
   gap: 0.2rem;
+  z-index: 2;
 }
 .card-text {
   font-weight: 600;
   font-size: x-large;
   backdrop-filter: blur(2px);
-  background-color: rgba(0, 0, 0, 0.35);
+  /* background-color: rgba(0, 0, 0, 0.35); */
   border-radius: 0.5rem;
-  padding: 0.5rem;
-  padding-inline: 1rem;
 }
 
+.lessons-test_picker {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  z-index: 10;
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+.test_picker-close_btn-wrapper {
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+}
+.test_picker-close_btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background-color: aliceblue;
+  cursor: pointer;
+}
+.test_picker-close_btn img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+}
+.test_picker-bubble_wrapper {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+.test_picker-test_bubble {
+  width: 80%;
+  padding-inline: 1.25rem;
+  padding-block: 0.75rem;
+  font-size: 1.25rem;
+  border-radius: 1rem;
+  color: aliceblue;
+  background-color: rgba(0, 0, 0, 0.35);
+  cursor: pointer;
+  text-align: center;
+}

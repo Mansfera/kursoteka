@@ -59,39 +59,6 @@ function deleteUser(login, password, username) {
       console.log(error.message);
     });
 }
-function acceptUser(login, password, username) {
-  fetch("/api/acceptUser", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      login,
-      password,
-      username,
-    }),
-  })
-    .then((response) => {
-      switch (response.status) {
-        case 200: {
-          document
-            .getElementById("accept_user_" + username)
-            .classList.add("green-bg");
-          document.getElementById("accept_user_" + username).innerHTML = "✅";
-          setTimeout(() => {
-            var element = document.getElementById("user_" + username);
-            element.parentNode.removeChild(element);
-            getUsers(getCookie("login"), getCookie("password"));
-          }, 1000);
-          break;
-        }
-      }
-      return response.json();
-    })
-    .catch((error) => {
-      console.log(error.message);
-    });
-}
 function createUserDiv(login) {
   let newDiv = document.createElement("div");
   newDiv.className = "list-element";
@@ -121,22 +88,6 @@ function createUserDiv(login) {
     `;
   return newDiv;
 }
-function createRegUserDiv(login) {
-  let newRegDiv = document.createElement("div");
-  newRegDiv.className = "list-element reg-list-element";
-  newRegDiv.id = `user_${login.toString()}`;
-  newRegDiv.innerHTML = `
-  <div class="list-element__info credentials">
-    <div class="user-login__text">Імʼя:</div>
-    <div id="reg_user_${login.toString()}_login">${login.toString()}</div>
-  </div>
-  <div class="list-element__info user-buttons">
-    <div class="accept-btn button user-btn" id="accept_user_${login.toString()}">Надати доступ</div>
-    <div class="reject-btn button user-btn red-bg" id="delete_user_${login.toString()}">Відхилити</div>
-  </div>
-`;
-  return newRegDiv;
-}
 function getUsers(login, password) {
   fetch("/api/getUsers", {
     method: "POST",
@@ -154,8 +105,6 @@ function getUsers(login, password) {
     .then((data) => {
       let students = data.students;
       document.getElementById("userList").innerHTML = "";
-      let regRequests = data.regRequests;
-      document.getElementById("regList").innerHTML = "";
       Array.from(students).forEach((user) => {
         let newUserDiv = createUserDiv(user.login);
         document.getElementById("userList").appendChild(newUserDiv);
@@ -249,40 +198,6 @@ function getUsers(login, password) {
             endDatePicker.value = new Date().toISOString().slice(0, 10);
             updateStats();
             document.getElementById("stats_screen").classList.remove("hidden");
-          });
-      });
-      Array.from(regRequests).forEach((regUser) => {
-        let regUserDiv = createRegUserDiv(regUser.login);
-        document.getElementById("regList").appendChild(regUserDiv);
-        document
-          .getElementById("accept_user_" + regUser.login)
-          .addEventListener("click", () => {
-            if (
-              !document
-                .getElementById("accept_user_" + regUser.login)
-                .classList.contains("green-bg")
-            ) {
-              acceptUser(
-                getCookie("login"),
-                getCookie("password"),
-                regUser.login
-              );
-            }
-          });
-        document
-          .getElementById("delete_user_" + regUser.login)
-          .addEventListener("click", () => {
-            if (
-              !document
-                .getElementById("delete_user_" + regUser.login)
-                .classList.contains("green-bg")
-            ) {
-              deleteUser(
-                getCookie("login"),
-                getCookie("password"),
-                regUser.login
-              );
-            }
           });
       });
     })
@@ -441,4 +356,29 @@ function updateStats() {
 
   const total_test_amount = completed_tests.length;
   document.getElementById("total_test_amount").innerHTML = total_test_amount;
+}
+
+function requestCode() {
+  let auth_key = getCookie("auth_key");
+  let course = "history"
+  fetch('/api/generateCode', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ auth_key, course })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Failed to generate code');
+    }
+    return response.json();
+  })
+  .then(data => {
+    document.getElementById("code").innerHTML = data.code;
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    document.getElementById("code").innerHTML = 'Error generating code';
+  });
 }

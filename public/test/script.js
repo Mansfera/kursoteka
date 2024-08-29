@@ -20,8 +20,8 @@ var course = params.get("course");
 var auth_key = getCookie("auth_key");
 
 let test_name;
-let first_test_id = 0;
-let last_test_id = 0;
+let first_test_id = +params.get("first_test_id");
+let last_test_id = +params.get("last_test_id");
 let questions = [];
 let vidpovidnist_questions = [];
 let hronology_questions = [];
@@ -48,27 +48,9 @@ let startingMinutes;
 let time;
 let timerInterval;
 let testIsPaused = false;
-
 switch (test_type) {
-  case "short":
-    loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
-      .then((testData) => {
-        if (testData) {
-          questions = testData.questions;
-          vidpovidnist_questions = testData.vidpovidnistQuestions;
-          hronology_questions = testData.hronologyQuestions;
-          mul_ans_questions = testData.mulAnsQuestions;
-          prepareTest();
-          console.log("prepared short test"); //debug
-        } else {
-          console.error("Failed to load test data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading test data:", error);
-      });
-    break;
-  case "full":
+  case ("short" || "full"):
+    test_name = params.get("test_name")
     loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
       .then((testData) => {
         if (testData) {
@@ -86,33 +68,7 @@ switch (test_type) {
       });
     break;
   case "final":
-    switch (block_id) {
-      case "1":
-        test_name = "<i>Підсумковий тест по блоку 1</i>";
-        first_test_id = 1;
-        last_test_id = 6;
-        break;
-      case "2":
-        test_name = "<i>Підсумковий тест по блоку 2</i>";
-        first_test_id = 6;
-        last_test_id = 12;
-        break;
-      case "3":
-        test_name = "<i>Підсумковий тест по блоку 3</i>";
-        first_test_id = 12;
-        last_test_id = 20;
-        break;
-      case "4":
-        test_name = "<i>Підсумковий тест по блоку 4</i>";
-        first_test_id = 20;
-        last_test_id = 25;
-        break;
-      case "5":
-        test_name = "<i>Підсумковий тест по блоку 5</i>";
-        break;
-      default:
-        test_name = "Назва тесту";
-    }
+    test_name = `<i>Підсумковий тест по блоку ${block_id}</i>`;
     loadTestDataFromServer(
       auth_key,
       course,
@@ -138,62 +94,6 @@ switch (test_type) {
 }
 
 function startShortTest() {
-  switch (test_id) {
-    case "6":
-      test_name = "<i>Українські землі в другій половині XVI ст.</i>";
-      break;
-    case "7":
-      test_name = "<i>Українські землі в першій половині XVII ст.</i>";
-      break;
-    case "8":
-      test_name =
-        "<i>Національно-визвольна війна Українського народу середини XVII ст.</i>";
-      break;
-    case "9":
-      test_name = "<i>Козацька Україна наприкінці 50 – 80-х років XVII ст.</i>";
-      break;
-    case "10":
-      test_name =
-        "<i>Українські землі наприкінці XVII – в першій половині XVIII ст.</i>";
-      break;
-    case "11":
-      test_name = "<i>Українські землі в другій половині XVIII ст.</i>";
-      break;
-    case "12":
-      test_name =
-        "<i>Українські землі у складі російської імперії наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "13":
-      test_name =
-        "<i>Українські землі у складі Австрійської імперії наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "14":
-      test_name =
-        "<i>Культура України наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "15":
-      test_name =
-        "<i>Українські землі в складі російської імперії в другій половині ХІХ ст.</i>";
-      break;
-    case "16":
-      test_name =
-        "<i>Українські землі в складі Австрійської імперії в другій половині ХІХ ст.</i>";
-      break;
-    case "17":
-      test_name =
-        "<i>Культура України в другій половині ХІХ ст. – на початку XX ст.</i>";
-      break;
-    case "18":
-      test_name =
-        "<i>Українські землі у складі російської імперії в 1900-1914-х роках</i>";
-      break;
-    case "19":
-      test_name =
-        "<i>Українські землі у складі Австро-Угорщини в 1900-1914-х роках</i>";
-      break;
-    default:
-      test_name = "Назва тесту";
-  }
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + " " + test_name;
 
@@ -257,33 +157,6 @@ function startShortTest() {
   }
 }
 function startFinalTest() {
-  switch (block_id) {
-    case "1":
-      test_name = "<i>Підсумковий тест по блоку 1</i>";
-      first_test_id = 1;
-      last_test_id = 6;
-      break;
-    case "2":
-      test_name = "<i>Підсумковий тест по блоку 2</i>";
-      first_test_id = 6;
-      last_test_id = 12;
-      break;
-    case "3":
-      test_name = "<i>Підсумковий тест по блоку 3</i>";
-      first_test_id = 12;
-      last_test_id = 20;
-      break;
-    case "4":
-      test_name = "<i>Підсумковий тест по блоку 4</i>";
-      first_test_id = 20;
-      last_test_id = 25;
-      break;
-    case "5":
-      test_name = "<i>Підсумковий тест по блоку 5</i>";
-      break;
-    default:
-      test_name = "Назва тесту";
-  }
   document.getElementById("test_name").innerHTML = test_name;
   questions_length = (last_test_id - first_test_id) * 3;
   vidpovidnist_length = (last_test_id - first_test_id) * 1;
@@ -371,62 +244,6 @@ function startFinalTest() {
   );
 }
 function startFullTest() {
-  switch (test_id) {
-    case "6":
-      test_name = "<i>Українські землі в другій половині XVI ст.</i>";
-      break;
-    case "7":
-      test_name = "<i>Українські землі в першій половині XVII ст.</i>";
-      break;
-    case "8":
-      test_name =
-        "<i>Національно-визвольна війна Українського народу середини XVII ст.</i>";
-      break;
-    case "9":
-      test_name = "<i>Козацька Україна наприкінці 50 – 80-х років XVII ст.</i>";
-      break;
-    case "10":
-      test_name =
-        "<i>Українські землі наприкінці XVII – в першій половині XVIII ст.</i>";
-      break;
-    case "11":
-      test_name = "<i>Українські землі в другій половині XVIII ст.</i>";
-      break;
-    case "12":
-      test_name =
-        "<i>Українські землі у складі російської імперії наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "13":
-      test_name =
-        "<i>Українські землі у складі Австрійської імперії наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "14":
-      test_name =
-        "<i>Культура України наприкінці XVIII – в першій половині XIX ст.</i>";
-      break;
-    case "15":
-      test_name =
-        "<i>Українські землі в складі російської імперії в другій половині ХІХ ст.</i>";
-      break;
-    case "16":
-      test_name =
-        "<i>Українські землі в складі Австрійської імперії в другій половині ХІХ ст.</i>";
-      break;
-    case "17":
-      test_name =
-        "<i>Культура України в другій половині ХІХ ст. – на початку XX ст.</i>";
-      break;
-    case "18":
-      test_name =
-        "<i>Українські землі у складі російської імперії в 1900-1914-х роках</i>";
-      break;
-    case "19":
-      test_name =
-        "<i>Українські землі у складі Австро-Угорщини в 1900-1914-х роках</i>";
-      break;
-    default:
-      test_name = "Назва тесту";
-  }
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + " " + test_name;
 

@@ -33,7 +33,6 @@ function register() {
   }
 }
 function sendRegisterInfo(login, password) {
-  document.getElementById("status_line").innerHTML = "Реєстрація...";
   fetch("/api/register", {
     method: "POST",
     headers: {
@@ -69,10 +68,17 @@ function sendRegisterInfo(login, password) {
       console.log("Error:", error.message);
     });
 }
+let password_warning = false;
 function login() {
   document.getElementById("status_wrapper").classList.remove("display-none");
+  document.getElementById("form-fields").style.marginBottom = "0";
   const login = document.getElementById("login").value.toString();
   const password = document.getElementById("password").value.toString();
+
+  if (password.length == 0 && login.length > 2) {
+    document.getElementById("form-fields").style.marginLeft =
+      "calc(-100% - 4rem)";
+  }
 
   if (
     !login.includes(" ") &&
@@ -82,7 +88,16 @@ function login() {
   ) {
     if (login.length <= 32 && password.length <= 32) {
       if (login.length > 2) {
-        sendLoginInfo(login, password);
+        if (password.length > 6) {
+          sendLoginInfo(login, password);
+        } else {
+          if (password_warning) {
+            document.getElementById("status_line").innerHTML =
+              "Пароль має бути довшим за 6 символів";
+          } else {
+            document.getElementById("status_line").innerHTML = "Введіть пароль"
+          }
+        }
       } else {
         document.getElementById("status_line").innerHTML =
           "Логін має бути довшим ніж 2 символи";
@@ -127,6 +142,7 @@ function sendLoginInfo(login, password) {
           document.getElementById("status_line").innerHTML =
             "Користувача не знайдено, бажаєте зареєструватися?";
           document.getElementById("loginBtn").innerHTML = "Увійти";
+          document.getElementById("loginBtn").classList.add("display-none");
           break;
         }
       }

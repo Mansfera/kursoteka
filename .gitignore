@@ -1,0 +1,5 @@
+.gitattributes
+*.DS_Store
+users.json
+node_modules/
+package-lock.json
