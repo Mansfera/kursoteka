@@ -599,7 +599,7 @@ function generateCode() {
 }
 
 app.post("/api/activateCode", (req, res) => {
-  const { auth_key, course, code } = req.body;
+  const { auth_key, code } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -613,70 +613,98 @@ app.post("/api/activateCode", (req, res) => {
       const users = JSON.parse(data);
       const user = users.find((user) => user.auth_key === auth_key);
       if (user) {
-        if (user) {
-          if (!user.coursesOwned.some(c => c.id === course)) {
-            const coursesFilePath = path.join(__dirname, "courses.json");
-  
-            fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
+        const coursesFilePath = path.join(__dirname, "courses.json");
+        const promocodesFilePath = path.join(__dirname, "promocodes.json");
+
+        fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
+          if (err) {
+            console.error("Error reading promocodes file:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+          }
+
+          const promocodes = JSON.parse(promocodesData);
+          const promocode = promocodes.find(
+            (p) => p.code === code && p.used_date === -1
+          );
+
+          if (promocode && !user.courses.some((c) => c.id === promocode.id)) {
+            promocode.used_date = Date.now();
+
+            fs.readFile(coursesFilePath, "utf8", (err, coursesData) => {
               if (err) {
                 console.error("Error reading courses file:", err);
                 res.status(500).send("Internal Server Error");
                 return;
               }
-  
-              try {
-                const courses = JSON.parse(courseData);
-                const courseToUpdate = courses.find(c => c.id === course);
-  
-                if (courseToUpdate && courseToUpdate.promoCodes.includes(code)) {
-                  user.coursesOwned.push({
-                    id: courseToUpdate.id,
-                    data: {
-                      join_date: Date.now(),
-                      expire_date: "never",
-                      allowed_tests: ["all"],
-                      completed_tests: []
-                    }
-                  });
-  
-                  courseToUpdate.promoCodes = courseToUpdate.promoCodes.filter(promoCode => promoCode !== code);
-  
-                  fs.writeFile(filePath, JSON.stringify(users, null, 2), "utf8", (writeErr) => {
-                    if (writeErr) {
-                      console.error("Error writing users file:", writeErr);
+
+              const courses = JSON.parse(coursesData);
+              const course = courses.find((c) => c.id === promocode.id);
+
+              if (course) {
+                course.totalUsers++;
+                course.users.push(auth_key);
+
+                user.courses.push({
+                  id: course.id,
+                  data: {
+                    join_date: Date.now(),
+                    expire_date: "never",
+                    allowed_tests: ["all"],
+                    completed_tests: [],
+                  },
+                });
+
+                // Write updated data back to files
+                fs.writeFile(
+                  promocodesFilePath,
+                  JSON.stringify(promocodes, null, 2),
+                  (err) => {
+                    if (err) {
+                      console.error("Error writing promocodes file:", err);
                       res.status(500).send("Internal Server Error");
                       return;
                     }
-  
-                    fs.writeFile(coursesFilePath, JSON.stringify(courses, null, 2), "utf8", (writeErr) => {
-                      if (writeErr) {
-                        console.error("Error writing courses file:", writeErr);
-                        res.status(500).send("Internal Server Error");
-                        return;
+
+                    fs.writeFile(
+                      coursesFilePath,
+                      JSON.stringify(courses, null, 2),
+                      (err) => {
+                        if (err) {
+                          console.error("Error writing courses file:", err);
+                          res.status(500).send("Internal Server Error");
+                          return;
+                        }
+
+                        fs.writeFile(
+                          filePath,
+                          JSON.stringify(users, null, 2),
+                          (err) => {
+                            if (err) {
+                              console.error("Error writing users file:", err);
+                              res.status(500).send("Internal Server Error");
+                              return;
+                            }
+
+                            res.status(200).json({ message: "Успіх! ✅" });
+                          }
+                        );
                       }
-  
-                      res.status(200).send("Course activated successfully");
-                    });
-                  });
-  
-                } else {
-                  res.status(404).send("Course not found or invalid promo code");
-                }
-  
-              } catch (courseParseErr) {
-                console.error("Error parsing courses JSON:", courseParseErr);
-                res.status(500).send("Internal Server Error");
+                    );
+                  }
+                );
+              } else {
+                res.status(404).json({ message: "Курс не знайдено 🤔" });
               }
             });
-  
           } else {
-            res.status(403).send("User already owns this course");
+            res
+              .status(400)
+              .json({ message: "Неправильний або використаний код ❌" });
           }
-        } else {
-          res.status(404).send("User not found");
-        }
+        });
       } else {
-        res.status(404);
+        res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
       }
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);
@@ -684,6 +712,7 @@ app.post("/api/activateCode", (req, res) => {
     }
   });
 });
+
 app.post("/api/generateCode", (req, res) => {
   const { auth_key, course } = req.body;
   const filePath = path.join(__dirname, "users.json");
@@ -700,50 +729,49 @@ app.post("/api/generateCode", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
       if (user) {
         if (user.coursesOwned.includes(course)) {
-          const code = generateCode();
-          const coursesFilePath = path.join(__dirname, "courses.json");
-          fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
+          const promocodesFilePath = path.join(__dirname, "promocodes.json");
+
+          fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
             if (err) {
-              console.error("Error reading courses file:", err);
+              console.error("Error reading promocodes file:", err);
               res.status(500).send("Internal Server Error");
               return;
             }
 
-            try {
-              const courses = JSON.parse(courseData);
-              const courseToUpdate = courses.find((c) => c.id === course);
+            const promocodes = JSON.parse(promocodesData);
+            let code;
+            do {
+              code = generateCode();
+            } while (promocodes.some((p) => p.code === code));
 
-              if (courseToUpdate) {
-                courseToUpdate.promoCodes = courseToUpdate.promoCodes || [];
-                courseToUpdate.promoCodes.push(code);
+            const newPromocode = {
+              id: course,
+              code: code,
+              expire_date: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days from now
+              used_date: -1,
+            };
 
-                fs.writeFile(
-                  coursesFilePath,
-                  JSON.stringify(courses, null, 2),
-                  "utf8",
-                  (writeErr) => {
-                    if (writeErr) {
-                      console.error("Error writing courses file:", writeErr);
-                      res.status(500).send("Internal Server Error");
-                      return;
-                    }
+            promocodes.push(newPromocode);
 
-                    res.send({ code });
-                  }
-                );
-              } else {
-                res.status(404).send("Course not found");
+            fs.writeFile(
+              promocodesFilePath,
+              JSON.stringify(promocodes, null, 2),
+              (err) => {
+                if (err) {
+                  console.error("Error writing promocodes file:", err);
+                  res.status(500).send("Internal Server Error");
+                  return;
+                }
+
+                res.status(200).json({ code: code });
               }
-            } catch (courseParseErr) {
-              console.error("Error parsing courses JSON:", courseParseErr);
-              res.status(500).send("Internal Server Error");
-            }
+            );
           });
         } else {
-          res.status(403);
+          res.status(403).json({ message: "User does not own this course" });
         }
       } else {
-        res.status(404);
+        res.status(404).json({ message: "User not found" });
       }
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);
@@ -836,6 +864,55 @@ app.post("/api/changeUserData", (req, res) => {
   });
 });
 app.post("/api/getUserCourses", (req, res) => {
+  const { auth_key } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+  const coursesFilePath = path.join(__dirname, "courses.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+
+      if (user) {
+        fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
+          if (err) {
+            console.error("Error reading file:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+          }
+
+          try {
+            const courses = JSON.parse(courseData);
+            let userCourses = [];
+            Array.from(user.courses).forEach((u_course) => {
+              Array.from(courses).forEach((a_course) => {
+                if (a_course.id === u_course.id) {
+                  userCourses.push(a_course);
+                }
+              });
+            });
+
+            res.json({
+              courses: userCourses,
+            });
+          } catch {}
+        });
+      } else {
+        res.status(404);
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/getOwnedCourses", (req, res) => {
   const { auth_key } = req.body;
   const filePath = path.join(__dirname, "users.json");
   const coursesFilePath = path.join(__dirname, "courses.json");

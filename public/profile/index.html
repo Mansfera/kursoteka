@@ -39,31 +39,28 @@
       <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
       <div class="main_wrapper-segment">
         <div class="top_bar_spacefiller"></div>
-        <div class="segment-my_courses_title white_text title_text">МОЇ КУРСИ</div>
+        <div class="segment-my_courses_title white_text title_text">
+          МОЇ КУРСИ
+        </div>
+        <div class="segment-course_activation">
+          <input
+            class="course_activation-code_field"
+            type="text"
+            id="activation-code"
+            name="activation-code"
+            maxlength="17"
+            placeholder="XXXXX-XXXXX-XXXXX"
+            required
+          />
+          <div class="course_activation-button" onclick="redeemCode()" id="course_activation-button">Активувати код</div>
+        </div>
         <div class="segment-courses" id="course_list">
-          <div class="courses-no_courses_text gray_text title_text display-none" id="no_courses_text">
+          <div
+            class="courses-no_courses_text gray_text title_text display-none"
+            id="no_courses_text"
+          >
             Тут відображатимуться ваші курси
           </div>
-          <!-- <div class="courses-card-wrapper">
-            <div class="courses-card" id="course_card-">
-              <div class="card-top_buttons">
-                <div
-                  class="card-course_stats card-blob white_text"
-                  id="course_stats-"
-                >Статистика</div>
-                <div class="card-course_start_btn card-blob" id="course_start-">
-                    <img src="/assets/play-triangle.png" alt="" />
-                </div>
-              </div>
-              <div class="card-bottom">
-                <div class="card-course_type card-blob white_text" id="course_type-">Тип курсу</div>
-                <div
-                  class="card-course_name white_text"
-                  id="course_name-"
-                >Назва курсу</div>
-              </div>
-            </div>
-          </div> -->
         </div>
       </div>
     </div>

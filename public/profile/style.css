@@ -4,6 +4,49 @@
 .main_wrapper-my_courses_title {
   padding-block: 4rem;
 }
+
+.segment-course_activation {
+  display: flex;
+  justify-content: flex-end;
+  padding-block: 2rem;
+  overflow: hidden;
+  gap: 2rem;
+  width: 100%;
+}
+.course_activation-code_field {
+  background-color: transparent;
+  color: aliceblue;
+  padding: 1rem;
+  border: none;
+  border-bottom: 2px aliceblue solid;
+  text-align: center;
+  min-width: fit-content;
+}
+.course_activation-button {
+  background-color: aliceblue;
+  border-radius: 2rem;
+  padding: 1rem;
+  font-weight: 500;
+  font-size: 1.25rem;
+  cursor: pointer;
+  text-align: center;
+  min-width: fit-content;
+  height: fit-content;
+  transition: 0.3s all linear;
+}
+@media screen and (max-width: 576px) {
+  .segment-course_activation {
+    justify-content: center;
+    flex-direction: column;
+  }
+  .course_activation-code_field {
+    width: 100%;
+  }
+  .course_activation-button {
+    width: 100%;
+  }
+}
+
 .segment-courses {
   width: 100%;
   height: auto;

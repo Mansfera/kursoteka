@@ -159,15 +159,10 @@
         ]
       }
     ],
-    "totalUsers": 0,
-    "promoCodes": [
-      "Q6GTU-0N94H-RZTJF",
-      "MYCCW-KBW28-J5H7V",
-      "EXPKC-IQZVA-DOAYZ",
-      "1GANR-QO3O3-MN9WS",
-      "Z641A-6ZOBF-UT4PD",
-      "PR8KF-SKKMN-6UOQN",
-      "P6N7B-FCEIO-FYKPK"
+    "totalUsers": 2,
+    "users": [
+      "ja55LX3tz5VguDzEYEQeIf032Zr6x8FJUwtrsj3L2ii1FCse3NmNpXM5vpHlT9ey4lVZqEqDtHNKW1NZ9zA2n4eYPgIYaYRKTDVl3mKLBgpLAsEQRckEznTgzFN56MAS",
+      "zFag7yHlY7Mzdoo5A23ab5PWmVTqbNBmeAdqYkkNyykhiDFYHscQ3UnoJD3cRZkKuRRtDyyZ7cLGVjXcxRvc3ZjrhobqJsRnddZcKQL8M94EoPsfwP7yu3wbfTW6P3Ml"
     ]
   }
 ]

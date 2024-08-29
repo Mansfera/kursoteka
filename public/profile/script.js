@@ -57,3 +57,90 @@ function fetchAndDisplayUserCourses() {
 }
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
+document.addEventListener("DOMContentLoaded", function () {
+  var codeInput = document.getElementById("activation-code");
+
+  function formatCode(value) {
+    // Remove any non-alphanumeric characters
+    value = value.replace(/[^a-zA-Z0-9]/g, "");
+
+    // Convert to uppercase
+    value = value.toUpperCase();
+
+    // Add hyphens
+    var formattedValue = "";
+    for (var i = 0; i < value.length; i++) {
+      if (i > 0 && i % 5 === 0 && i < 15) {
+        formattedValue += "-";
+      }
+      formattedValue += value[i];
+    }
+
+    return formattedValue;
+  }
+
+  codeInput.addEventListener("input", function (e) {
+    var cursorPosition = e.target.selectionStart;
+    var oldLength = e.target.value.length;
+
+    e.target.value = formatCode(e.target.value);
+
+    var newLength = e.target.value.length;
+    cursorPosition += newLength - oldLength;
+
+    // Adjust cursor position if a hyphen was added or removed
+    if (cursorPosition > 5 && e.target.value[5] === "-") cursorPosition++;
+    if (cursorPosition > 11 && e.target.value[11] === "-") cursorPosition++;
+
+    e.target.setSelectionRange(cursorPosition, cursorPosition);
+  });
+
+  codeInput.addEventListener("paste", function (e) {
+    e.preventDefault();
+    var pastedText = (e.clipboardData || window.clipboardData).getData("text");
+    e.target.value = formatCode(pastedText);
+  });
+});
+
+function redeemCode() {
+  // Get the value from the input field with id "activation-code"
+  const activationCode = document.getElementById("activation-code").value;
+
+  // Get the auth_key from cookies
+  const authKey = getCookie("auth_key");
+
+  // Prepare the data to be sent in the POST request
+  const data = {
+    auth_key: authKey,
+    code: activationCode,
+  };
+
+  // Send a POST request to /api/activateCode
+  fetch("/api/activateCode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      // Check if the response has a "message"
+      if (json.message) {
+        const button = document.getElementById("course_activation-button");
+        // Set the button text to the response message
+        button.textContent = json.message;
+
+        document.getElementById("course_list").innerHTML = "";
+        document.getElementById("activation-code").value = "";
+        fetchAndDisplayUserCourses();
+        // Change the button text back to "Активувати код" after 5 seconds
+        setTimeout(() => {
+          button.textContent = "Активувати код";
+        }, 5000);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
