@@ -26,6 +26,9 @@
   justify-content: start;
   align-items: center;
 }
+.material_list-element-text {
+  cursor: pointer;
+}
 .material_list-element-info img {
   height: 100%;
   min-width: 2rem;
@@ -35,7 +38,7 @@
 }
 .material_list-final_test {
   width: 100%;
-  border-top: 2px aliceblue solid;
+  /* border-top: 2px aliceblue solid; */
   display: flex;
   padding-block: 1rem;
 }
@@ -64,6 +67,14 @@
   overflow: hidden;
   transition: all 0.5s ease-in-out;
   width: 100%;
+}
+@media screen and (max-width: 576px) {
+  .material_list-lessons {
+    flex-direction: column;
+    overflow: scroll;
+    white-space: nowrap;
+    max-height: 70vh;
+  }
 }
 .lessons-card_wrapper {
   height: 30rem;
@@ -139,8 +150,8 @@
   font-weight: 600;
   font-size: x-large;
   backdrop-filter: blur(2px);
-  /* background-color: rgba(0, 0, 0, 0.35); */
   border-radius: 0.5rem;
+  white-space: initial;
 }
 
 .lessons-test_picker {

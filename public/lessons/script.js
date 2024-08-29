@@ -59,7 +59,7 @@ function fetchAndDisplayUserCourses() {
             blockCard.innerHTML = `
               <div class="material_list-element-info">
                 <div class="material_list-element-number white_text">0${block.id}</div>
-                <div class="material_list-element-text white_text title_text">${block.name}</div>
+                <div class="material_list-element-text white_text title_text" onclick="toggleLessons('${block.id}')">${block.name}</div>
                 <img src="/assets/expand.svg" onclick="toggleLessons('${block.id}')" />
               </div>
               <div class="material_list-lessons display-none" id="lessons_block-${block.id}"></div>

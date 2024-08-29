@@ -23,7 +23,7 @@ function fetchAndDisplayUserCourses() {
                   id="course_stats-${course.id}"
                 >Статистика</div>
                 <div class="card-course_start_btn card-blob" id="course_start-${course.id}">
-                  <img src="/assets/play-triangle.png" alt="" />
+                  <img src="/assets/play.svg" alt="" />
                 </div>
               </div>
               <div class="card-bottom">

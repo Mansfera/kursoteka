@@ -38,6 +38,11 @@ body {
   scroll-snap-align: center; /* Snap to center of the viewport */
   flex-shrink: 0; /* Prevent shrinking */
 }
+@media screen and (max-width: 576px) {
+  .main_wrapper-segment {
+    padding-inline: 2rem;
+  }
+}
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
   -webkit-appearance: none;

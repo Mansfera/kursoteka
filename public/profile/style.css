@@ -19,13 +19,15 @@
   padding: 1rem;
   border: none;
   border-bottom: 2px aliceblue solid;
+  border-radius: 0;
   text-align: center;
   min-width: fit-content;
+  outline: none;
 }
 .course_activation-button {
   background-color: aliceblue;
   border-radius: 2rem;
-  padding: 1rem;
+  padding: 1.5rem;
   font-weight: 500;
   font-size: 1.25rem;
   cursor: pointer;
@@ -98,19 +100,15 @@
   cursor: pointer;
 }
 .card-blob img {
-  width: 100%;
-  height: 100%;
+  width: 80%;
+  height: 80%;
   object-fit: contain;
-  filter: invert(1);
 }
 .card-course_start_btn {
   background-color: white;
   margin-left: auto;
   padding-inline: 0.75rem;
   width: 3rem;
-}
-.card-course_start_btn img {
-  filter: none;
 }
 .card-bottom {
   width: 100%;
@@ -125,7 +123,7 @@
 .card-course_name {
   font-weight: 600;
   font-size: x-large;
-  backdrop-filter: blur(2px);
+  /* backdrop-filter: blur(2px); */
   /* background-color: rgba(0, 0, 0, 0.35); */
   border-radius: 0.5rem;
   /* padding: 1rem; */
@@ -141,5 +139,13 @@
   .card-blob {
     padding-inline: 2.5rem;
     font-size: 1.5rem;
+  }
+  .card-course_start_btn {
+    padding: 0;
+    width: 5rem;
+  }
+  .card-course_start_btn img {
+    width: 50%;
+    height: 50%;
   }
 }
