@@ -1,5 +1,6 @@
 .gitattributes
 *.DS_Store
 users.json
+promocodes.json
 node_modules/
 package-lock.json
