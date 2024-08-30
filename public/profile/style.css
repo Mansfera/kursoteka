@@ -120,6 +120,7 @@
 }
 .card-course_type {
   width: fit-content;
+  cursor: initial;
 }
 .card-course_name {
   font-weight: 700;
