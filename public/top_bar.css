@@ -27,6 +27,14 @@
   gap: 2rem;
   align-items: center;
 }
+@media screen and (max-width: 576px) {
+  .top_bar-part {
+    padding-inline: 0;
+  }
+}
+.top_bar-mobile_menu {
+  padding-inline: 1rem;
+}
 .top_bar-left {
   justify-content: flex-start;
 }
@@ -124,4 +132,15 @@
   font-size: 1.25rem;
   cursor: pointer;
   font-weight: 600;
+}
+.category-items-page:hover {
+  text-decoration: underline;
+}
+.mobile_menu-bottom {
+  width: 100%;
+  display: flex;
+  position: absolute;
+  bottom: 0;
+  padding-inline: 2rem;
+  padding-bottom: 5rem;
 }
