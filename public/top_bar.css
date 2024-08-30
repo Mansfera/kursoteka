@@ -125,6 +125,7 @@
 }
 .category-items-page {
   color: gray;
+  font-size: 1.85rem;
 }
 .category-items-page.selected {
   color: aliceblue;
