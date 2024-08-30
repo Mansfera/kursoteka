@@ -1087,6 +1087,7 @@ app.post("/api/changeUserData", (req, res) => {
 app.post("/api/getUserCourses", (req, res) => {
   const { auth_key } = req.body;
   const filePath = path.join(__dirname, "users.json");
+  const coursesFilePath = path.join(__dirname, "courses.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
@@ -1100,19 +1101,34 @@ app.post("/api/getUserCourses", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
 
       if (user) {
-        let userCourses = [];
-        let lostCourses = [];
-        Array.from(user.courses).forEach((u_course) => {
-          if (!u_course.restricted) {
-            userCourses.push(u_course);
-          } else {
-            lostCourses.push(u_course);
+        fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
+          if (err) {
+            console.error("Error reading file:", err);
+            res.status(500).send("Internal Server Error");
+            return;
           }
-        });
 
-        res.status(200).json({
-          courses: userCourses,
-          restricted: lostCourses,
+          try {
+            const courses = JSON.parse(courseData);
+            let userCourses = [];
+            let lostCourses = [];
+            Array.from(user.courses).forEach((u_course) => {
+              Array.from(courses).forEach((a_course) => {
+                if (a_course.id === u_course.id) {
+                  if (!u_course.restricted) {
+                    userCourses.push(a_course);
+                  } else {
+                    lostCourses.push(a_course);
+                  }
+                }
+              });
+            });
+
+            res.status(200).json({
+              courses: userCourses,
+              restricted: lostCourses,
+            });
+          } catch {}
         });
       } else {
         res.status(404);

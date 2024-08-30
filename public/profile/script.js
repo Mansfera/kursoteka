@@ -10,9 +10,9 @@ function fetchAndDisplayUserCourses() {
     .then((response) => response.json())
     .then((data) => {
       const courseListElement = document.getElementById("course_list");
-
       if (data.courses.length > 0) {
         data.courses.forEach((course) => {
+          console.log(course)
           const courseCard = document.createElement("div");
           courseCard.className = "courses-card-wrapper";
           courseCard.innerHTML = `
@@ -95,7 +95,9 @@ document.addEventListener("DOMContentLoaded", function () {
     e.target.setSelectionRange(cursorPosition, cursorPosition);
 
     if (e.target.value.length > 16) {
-      document.getElementById("course_activation-button").classList.remove("display-none")
+      document
+        .getElementById("course_activation-button")
+        .classList.remove("display-none");
     }
   });
 
