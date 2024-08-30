@@ -870,7 +870,7 @@ app.post("/api/getPromoCodes", (req, res) => {
     }
   });
 });
-app.post("/api/removePromoCode", (req, res) => {
+app.post("/api/deletePromoCode", (req, res) => {
   const { auth_key, code } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
@@ -899,6 +899,8 @@ app.post("/api/removePromoCode", (req, res) => {
             const promocodes = JSON.parse(promocodesData);
 
             const promocode = promocodes.find((p) => p.code === code);
+            console.log(code);
+            console.log(promocode);
 
             if (promocode) {
               if (user.coursesOwned.some((c) => c === promocode.course_id)) {

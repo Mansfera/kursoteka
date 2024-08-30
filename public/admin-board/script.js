@@ -223,29 +223,33 @@ function createPromocodeElement(promocode, used_by, used_date) {
   // Create the main wrapper div
   const wrapper = document.createElement("div");
   wrapper.className = "promocodes_list-item-wrapper";
-  wrapper.id = `promocodes_list-item-${promocode.id}`;
+  wrapper.id = `promocodes_list-item-${promocode.code}`;
 
   // Use template literal to create inner HTML
   wrapper.innerHTML = `
   <div class="promocodes_list-item-info_wrapper">
     <div class="promocodes_list-item promocode" id="code-${
-      promocode.id
-    }" onclick="copyInnerHtml('code-${promocode.id}')">
+      promocode.code
+    }" onclick="copyInnerHtml('code-${promocode.code}')">
         ${promocode.code}
     </div>
-    <div class="promocodes_list-item" id="code-expire_date-${promocode.id}">
+    <div class="promocodes_list-item" id="code-expire_date-${promocode.code}">
         Дійсний до ${formatDate(promocode.expire_date)}
     </div>
-    <div class="promocodes_list-item" id="code-course_duration-${promocode.id}">
+    <div class="promocodes_list-item" id="code-course_duration-${
+      promocode.code
+    }">
         Кількість днів, що надається: ${
           promocode.access_duration / (24 * 60 * 60 * 1000)
         }
     </div>
-    <div class="promocodes_list-item" id="code-used_by-${promocode.id}">
+    <div class="promocodes_list-item" id="code-used_by-${promocode.code}">
         Використаний: ${used_by} ${used_date}
     </div>
   </div>
-  <div class="promocodes_list-item-remove-item" id="code-remove-${promocode.id}">
+  <div class="promocodes_list-item-remove-item" id="code-remove-${
+    promocode.code
+  }" onclick="deleteCode('${promocode.code}')">
     <img src="/assets/cross.svg" alt="">
   </div>
   `;
@@ -275,4 +279,27 @@ function formatDate(timestamp) {
 
   // Construct the formatted date string
   return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+function deleteCode(code) {
+  fetch("/api/deletePromoCode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      auth_key,
+      code,
+    }),
+  })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to delete code");
+      }
+      const element = document.getElementById(`promocodes_list-item-${code}`);
+      element.remove();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById("code").innerHTML = "Error generating code";
+    });
 }
