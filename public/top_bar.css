@@ -51,7 +51,7 @@
 }
 
 .main_wrapper-mobile_menu {
-  position: absolute;
+  position: fixed;
   top: 8vh;
   width: 100%;
   backdrop-filter: brightness(0.2);
