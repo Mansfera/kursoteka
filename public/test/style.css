@@ -151,6 +151,11 @@
 .select_answers_filler {
   width: 100%;
 }
+@media screen and (max-width: 576px) {
+  .select_answers_filler {
+    display: none;
+  }
+}
 .main_wrapper-answer_selection_methdods {
   display: flex;
   flex-direction: column;
