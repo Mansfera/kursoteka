@@ -400,11 +400,7 @@ app.get("/loadTestData", async (req, res) => {
         try {
           const testData = await fetchData();
           if (testData != false) {
-            if (courseAllowed) {
-              res.json(testData);
-            } else {
-              res.status(403).send("Course is blocked");
-            }
+            res.json(testData);
           } else {
             res.status(403).send("Found non-allowed test");
           }
