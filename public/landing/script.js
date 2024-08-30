@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     },
     {
       category: "Історія України",
-      name: "Курс підготовки до нмт з історії україни",
+      name: "Курси підготовки до НМТ з історії України",
       id: "history",
     },
     {
