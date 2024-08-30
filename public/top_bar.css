@@ -39,6 +39,9 @@
   height: fit-content;
   cursor: pointer;
 }
+.top_bar-element:hover {
+  text-decoration: underline;
+}
 .top_bar-login,
 .top_bar-profile {
   border: 1px aliceblue solid;

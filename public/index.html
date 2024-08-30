@@ -9,8 +9,6 @@
   <body>
     <script src="global.js"></script>
     <script>
-      var queryString = window.location.search;
-      var params = new URLSearchParams(queryString);
       if (params.get("style") != null) {
         setCookie("styleVariant", params.get("style"), 90);
       }

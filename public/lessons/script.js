@@ -3,6 +3,8 @@ function toggleLessons(id) {
   lessons.classList.toggle("display-none");
   const final_test = document.getElementById("final_test-" + id);
   final_test.classList.toggle("display-none");
+  const dropdown = document.getElementById("dropdown-" +id);
+  dropdown.classList.toggle("active-dropdown")
 }
 let closeTimeout;
 function closeTestWindow(test) {
@@ -28,6 +30,8 @@ function openTestWindow(test) {
   }, 30000);
 }
 
+let current_course = params.get("id");
+
 function openTest(course, block, test, type, test_name) {
   window.location = `/test/?course=${course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
 }
@@ -45,7 +49,7 @@ function fetchAndDisplayUserCourses() {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ auth_key }),
+    body: JSON.stringify({ auth_key, specific_course: current_course }),
   })
     .then((response) => response.json())
     .then((data) => {
@@ -58,13 +62,27 @@ function fetchAndDisplayUserCourses() {
             blockCard.className = "material_list-element";
             blockCard.innerHTML = `
               <div class="material_list-element-info">
-                <div class="material_list-element-number white_text">0${block.id}</div>
-                <div class="material_list-element-text white_text title_text" onclick="toggleLessons('${block.id}')">${block.name}</div>
-                <img src="/assets/expand.svg" onclick="toggleLessons('${block.id}')" />
+                <div class="material_list-element-number white_text">0${
+                  block.id
+                }</div>
+                <div class="material_list-element-text white_text title_text" onclick="toggleLessons('${
+                  block.id
+                }')">${block.name}</div>
+                <img src="/assets/dropdown.svg" id="dropdown-${
+                  block.id
+                }" onclick="toggleLessons('${block.id}')" />
               </div>
-              <div class="material_list-lessons display-none" id="lessons_block-${block.id}"></div>
-              <div class="material_list-final_test display-none" id="final_test-${block.id}">
-                <div class="final_test-button" onclick="openFinalTest('${course.id}', '${block.id}', ${block.tests[0].id}, ${block.tests[block.tests.length-1].id})">Підсумковий тест</div>
+              <div class="material_list-lessons display-none" id="lessons_block-${
+                block.id
+              }"></div>
+              <div class="material_list-final_test display-none" id="final_test-${
+                block.id
+              }">
+                <div class="final_test-button" onclick="openFinalTest('${
+                  course.id
+                }', '${block.id}', ${block.tests[0].id}, ${
+              block.tests[block.tests.length - 1].id
+            })">Підсумковий тест</div>
               </div>
             `;
             material_list.appendChild(blockCard);
@@ -105,11 +123,16 @@ function fetchAndDisplayUserCourses() {
                   <div class="test_picker-bubble_wrapper">
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
+                    <div class="test_picker-test_bubble" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Картки на памʼять</div>
+                    <div class="test_picker-test_bubble display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Редактор тесту</div>
                   </div>
                 </div>
               `;
               const imageCard = testCard.querySelector(".lessons-card");
               imageCard.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
+              testCard.querySelector(
+                ".test_picker-bubble_wrapper"
+              ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               block_tests.appendChild(testCard);
             });
           });

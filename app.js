@@ -1081,7 +1081,7 @@ app.post("/api/changeUserData", (req, res) => {
   });
 });
 app.post("/api/getUserCourses", (req, res) => {
-  const { auth_key } = req.body;
+  const { auth_key, specific_course } = req.body;
   const filePath = path.join(__dirname, "users.json");
   const coursesFilePath = path.join(__dirname, "courses.json");
 
@@ -1106,24 +1106,41 @@ app.post("/api/getUserCourses", (req, res) => {
 
           try {
             const courses = JSON.parse(courseData);
-            let userCourses = [];
-            let lostCourses = [];
-            Array.from(user.courses).forEach((u_course) => {
-              Array.from(courses).forEach((a_course) => {
-                if (a_course.id === u_course.id) {
-                  if (!u_course.restricted) {
-                    userCourses.push(a_course);
-                  } else {
-                    lostCourses.push(a_course);
+            if (specific_course == null) {
+              let userCourses = [];
+              let lostCourses = [];
+              Array.from(user.courses).forEach((u_course) => {
+                Array.from(courses).forEach((a_course) => {
+                  if (a_course.id === u_course.id) {
+                    if (!u_course.restricted) {
+                      userCourses.push(a_course);
+                    } else {
+                      lostCourses.push(a_course);
+                    }
                   }
+                });
+              });
+
+              res.status(200).json({
+                courses: userCourses,
+                restricted: lostCourses,
+              });
+            } else {
+              const course = courses.find(
+                (course) => course.id === specific_course
+              );
+              let restricted = true;
+              Array.from(user.courses).forEach((u_course) => {
+                if (u_course.id === course.id) {
+                  restricted = u_course.restricted;
                 }
               });
-            });
-
-            res.status(200).json({
-              courses: userCourses,
-              restricted: lostCourses,
-            });
+              if (!restricted) {
+                res.status(200).json({
+                  courses: [course],
+                });
+              }
+            }
           } catch {}
         });
       } else {

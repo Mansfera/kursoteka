@@ -1,18 +1,21 @@
 document.addEventListener("DOMContentLoaded", function () {
-    $(function () {
-      $("#top_bar-placeholder").load("/top_bar.html", function () {
-        // This code runs after the top_bar is fully loaded
-        if (getCookie("auth_key") != null) {
-          document.getElementById("login").classList.add("display-none");
-          document.getElementById("profile").classList.remove("display-none");
-        }
-        if (getCookie("coursesOwned") != [] && getCookie("coursesOwned") != null) {
-            document.getElementById("admin_panel").classList.remove("display-none");
-          }
-      });
+  $(function () {
+    $("#top_bar-placeholder").load("/top_bar.html", function () {
+      // This code runs after the top_bar is fully loaded
+      if (getCookie("auth_key") != null) {
+        document.getElementById("login").classList.add("display-none");
+        document.getElementById("profile").classList.remove("display-none");
+        document.getElementById("my_courses").classList.remove("display-none");
+      }
+      if (
+        getCookie("coursesOwned") != [] &&
+        getCookie("coursesOwned") != null
+      ) {
+        document.getElementById("admin_panel").classList.remove("display-none");
+      }
     });
   });
-  
+});
 
 function goToHomepage() {
   window.location = "/landing/";
@@ -25,6 +28,9 @@ function goToControlPanel() {
 }
 function goToLogin() {
   window.location = "/login/";
+}
+function goToCourses() {
+  window.location = "/my_courses/";
 }
 function goToProfile() {
   window.location = "/profile/";

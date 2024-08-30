@@ -1,3 +1,5 @@
+var queryString = window.location.search;
+var params = new URLSearchParams(queryString);
 function setCookie(name, value, days) {
   let expires = "";
   if (days) {
