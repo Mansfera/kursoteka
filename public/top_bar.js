@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
             let pageName = path.replace(/^\/|\/$/g, "");
 
             document
-              .getElementById("mobile_menu-list-" + pathname)
+              .getElementById("mobile_menu-list-" + pageName)
               .classList.add("white_text");
           });
         });
