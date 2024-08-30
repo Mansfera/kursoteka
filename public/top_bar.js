@@ -19,6 +19,9 @@ document.addEventListener("DOMContentLoaded", function () {
           $("#mobile_menu-placeholder").load("/mobile_menu.html", function () {
             if (getCookie("auth_key") != null) {
               document
+                .getElementById("mobile_menu-list-login")
+                .classList.add("display-none");
+              document
                 .getElementById("mobile_menu-list-profile")
                 .classList.remove("display-none");
               document
@@ -32,6 +35,13 @@ document.addEventListener("DOMContentLoaded", function () {
               document
                 .getElementById("mobile_menu-list-admin_panel")
                 .classList.remove("display-none");
+            }
+            if (params.get("mobile_bar_tag") != null) {
+              document
+                .getElementById(
+                  "mobile_menu-list-" + params.get("mobile_bar_tag")
+                )
+                .classList.add("white_text");
             }
           });
         });
@@ -54,21 +64,17 @@ function showMobileMenu() {
   mobile_menu.classList.toggle("collapsed");
 }
 
-function goToHomepage() {
-  window.location = "/landing/";
-}
-function goToContacts() {
-  window.location = "/contacts/";
-}
-function goToControlPanel() {
-  window.location = "/admin-board/";
-}
-function goToLogin() {
-  window.location = "/login/";
-}
-function goToCourses() {
-  window.location = "/my_courses/";
-}
-function goToProfile() {
-  window.location = "/profile/";
+function changePage(page) {
+  Array.from(document.getElementsByClassName("category-items-page")).forEach(
+    (element) => {
+      element.classList.remove("white_text");
+    }
+  );
+  document
+    .getElementById("mobile_menu-list-" + page)
+    .classList.add("white_text");
+  setTimeout(showMobileMenu, 200);
+  setTimeout(() => {
+    window.location = `/${page}/?mobile_bar_tag=${page}`;
+  }, 700);
 }

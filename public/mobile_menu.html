@@ -1,30 +1,74 @@
 <div class="mobile_menu-list">
-    <div
-      class="mobile_menu-list-element white_text"
-      id="mobile_menu-list-contacts"
-      onclick="goToContacts()"
-    >
-      Контакти
+  <div class="mobile_menu-close_menu_btn-wrapper">
+    <div class="close_menu_btn" onclick="showMobileMenu()">
+      <img src="/assets/cross.svg" alt="" />
     </div>
-    <div
-      class="mobile_menu-list-element white_text display-none"
-      id="mobile_menu-list-admin_panel"
-      onclick="goToControlPanel()"
-    >
-      Панель керування
+  </div>
+  <div class="mobile_menu-list-category __no_border">
+    <div class="category-name">Курсотека</div>
+    <div class="category-items">
+      <div
+        class="category-items-page"
+        id="mobile_menu-list-landing"
+        onclick="changePage('landing')"
+      >
+        ГОЛОВНА
+      </div>
+      <div
+        class="category-items-page"
+        id="mobile_menu-list-contacts"
+        onclick="changePage('contacts')"
+      >
+        КОНТАКТИ
+      </div>
+      <div
+        class="category-items-page"
+        id="mobile_menu-list-marketplace"
+        onclick="changePage('marketplace')"
+      >
+        УСІ КУРСИ
+      </div>
     </div>
-    <div
-      class="mobile_menu-list-element white_text display-none"
-      id="mobile_menu-list-my_courses"
-      onclick="goToCourses()"
-    >
-      Мої курси
+  </div>
+  <div class="mobile_menu-list-category">
+    <div class="category-name">Користувач</div>
+    <div class="category-items">
+      <div
+        class="category-items-page"
+        id="mobile_menu-list-login"
+        onclick="changePage('login')"
+      >
+        УВІЙТИ
+      </div>
+
+      <div
+        class="category-items-page display-none"
+        id="mobile_menu-list-admin_panel"
+        onclick="changePage('admin_panel')"
+      >
+        ПАНЕЛЬ КЕРУВАННЯ
+      </div>
+      <div
+        class="category-items-page display-none"
+        id="mobile_menu-list-my_courses"
+        onclick="changePage('my_courses')"
+      >
+        МОЇ КУРСИ
+      </div>
+      <div
+        class="category-items-page display-none"
+        id="mobile_menu-list-profile"
+        onclick="changePage('profile')"
+      >
+        МІЙ ПРОФІЛЬ
+      </div>
+      <div
+        class="category-items-page display-none"
+        id="mobile_menu-list-logout"
+        onclick="logout()"
+      >
+        ВИЙТИ
+      </div>
     </div>
-    <div
-      class="mobile_menu-list-element white_text display-none"
-      id="mobile_menu-list-profile"
-      onclick="goToProfile()"
-    >
-      Мій профіль
-    </div>
+  </div>
 </div>
