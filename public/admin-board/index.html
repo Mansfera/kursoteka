@@ -24,97 +24,40 @@
       content="Тест з історії для самоперевірки та підготовки до ЗНО/НМТ! © Mansfera"
     />
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="/old_globalStyle.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/top_bar.js"></script>
     <script src="/global.js"></script>
     <title>Адмін панель</title>
   </head>
   <body>
-    <div class="main-wrapper">
-      <div class="button exit-btn" onclick="exitToMenu()">
-        До головного меню
+    <div class="main_wrapper" id="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div class="main_wrapper-segment">
+        <div class="top_bar_spacefiller"></div>
+        <div class="segment-course_selector">
+          <div class="course_selector-text white_text">
+            Будь ласка оберіть курс із списку:
+          </div>
+          <select class="course_selector-list" id="course_selector-list">
+            <option value="">Натисніть щоб обрати</option>
+          </select>
+        </div>
+        <div class="segment-student_list" id="student_list"></div>
       </div>
-      <div class="generate_code">
+
+      <!-- <div class="generate_code">
         <div class="button generate_code-btn" onclick="requestCode()">Згенерувати код</div>
         <div id="code"></div>
-      </div>
-      <div class="name-title">Керування доступом</div>
-      <div class="user-list" id="userList"></div>
-    </div>
-    <div class="stats_screen hidden" id="stats_screen">
-      <div class="stats_screen-container">
-        <div id="close_stats_btn">
-          <img src="/assets/red-cross.png" alt="" />
-        </div>
-        <div class="period-picker">
-          <input type="date" id="stats-start_date" name="start-date" />
-          <input type="date" id="stats-end_date" name="end-date" />
-        </div>
-        <div class="bubble_container best_test-container">
-          <div class="stat_name">Найлегша для учня тема:</div>
-          <div class="test_id-container stat_text_container">
-            <div gray_text>Номер:</div>
-            <div id="best-test_id" class="stat_result">0</div>
-          </div>
-          <div class="test_date-container stat_text_container">
-            <div gray_text>Останній раз проходження:</div>
-            <div id="best-test_date" class="stat_result">дд.мм.рррр</div>
-          </div>
-          <div class="test_score-container stat_text_container">
-            <div gray_text>Середня оцінка:</div>
-            <div id="best-test_score" class="stat_result">-</div>
-          </div>
-        </div>
-        <div class="bubble_container worst_test-container">
-          <div class="stat_name">Найважча для учня тема:</div>
-          <div class="test_id-container stat_text_container">
-            <div gray_text>Номер:</div>
-            <div id="worst-test_id" class="stat_result">-</div>
-          </div>
-          <div class="test_date-container stat_text_container">
-            <div gray_text>Останній раз проходження:</div>
-            <div id="worst-test_date" class="stat_result">дд.мм.рррр</div>
-          </div>
-          <div class="test_score-container stat_text_container">
-            <div gray_text>Середня оцінка:</div>
-            <div id="worst-test_score" class="stat_result">-</div>
-          </div>
-        </div>
-        <div class="bubble_container last_test-container">
-          <div class="stat_name">Останній пройдений тест:</div>
-          <div class="test_id-container stat_text_container">
-            <div gray_text>Номер:</div>
-            <div id="last-test_id" class="stat_result">-</div>
-          </div>
-          <div class="test_date-container stat_text_container">
-            <div gray_text>Дата:</div>
-            <div id="last-test_date" class="stat_result">дд.мм.рррр</div>
-          </div>
-          <div class="test_time-container stat_text_container">
-            <div gray_text>Час проходження:</div>
-            <div id="last-test_time" class="stat_result">--:--</div>
-          </div>
-          <div class="test_score-container stat_text_container">
-            <div gray_text>Оцінка:</div>
-            <div id="last-test_score" class="stat_result">-</div>
-          </div>
-        </div>
-        <div class="bubble_container average_score-container">
-          <div class="stat_text_container">
-            <div gray_text>Успішність учня:</div>
-            <div id="average_score_overall" class="stat_result">-</div>
-          </div>
-        </div>
-        <div class="bubble_container total_test_amount-container">
-          <div class="stat_text_container">
-            <div gray_text>Кількість пройдених тестів:</div>
-            <div id="total_test_amount" class="stat_result">-</div>
-          </div>
-        </div>
-      </div>
+      </div> -->
+
+      <!-- <div class="name-title">Керування учнями</div>
+      <div class="user-list" id="userList"></div> -->
     </div>
   </body>
-  <script src="/authCheck.js"></script>
-  <script src="/old_pageOpener.js"></script>
   <script src="script.js"></script>
 </html>

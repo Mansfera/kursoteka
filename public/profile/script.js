@@ -93,6 +93,10 @@ document.addEventListener("DOMContentLoaded", function () {
     if (cursorPosition > 11 && e.target.value[11] === "-") cursorPosition++;
 
     e.target.setSelectionRange(cursorPosition, cursorPosition);
+
+    if (e.target.value.length > 16) {
+      document.getElementById("course_activation-button").classList.remove("display-none")
+    }
   });
 
   codeInput.addEventListener("paste", function (e) {

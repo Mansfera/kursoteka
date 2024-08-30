@@ -8,6 +8,7 @@
 .segment-course_activation {
   display: flex;
   justify-content: flex-end;
+  align-items: center;
   padding-block: 2rem;
   overflow: hidden;
   gap: 2rem;

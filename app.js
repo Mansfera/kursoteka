@@ -244,7 +244,7 @@ app.get("/getPlaylist", async (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
       if (user) {
         const course = findCourse(users, user.auth_key, courseName);
-        if (course != null) {
+        if (course != null && !course.restricted) {
           readJsonFile(
             `courseData/${course.id}/block${blockId}/test${testId}/playlist.json`
           ).then((data) => {
@@ -266,8 +266,8 @@ app.get("/getImage", (req, res) => {
   const blockId = req.query.blockId;
   const testId = req.query.testId;
   const imageId = req.query.imageId;
-
   const auth_key = req.query.auth_key;
+
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", async (err, data) => {
@@ -282,11 +282,13 @@ app.get("/getImage", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
       if (user) {
         const course = findCourse(users, user.auth_key, courseName);
-        if (course != null) {
+
+        if (course != null && !course.restricted) {
           const filePathImg = path.join(
             __dirname,
             `courseData/${course.id}/block${blockId}/test${testId}/images/${imageId}.png`
           );
+
           fs.readFile(filePathImg, (err, data) => {
             if (err) {
               res.status(404).send("Image not found");
@@ -329,6 +331,9 @@ app.get("/loadTestData", async (req, res) => {
           const hronologyQuestions = [];
           const mulAnsQuestions = [];
           const course = findCourse(users, user.auth_key, courseName);
+          if (course.restricted) {
+            return false;
+          }
           if (!course.data.allowed_tests.includes("all")) {
             let found_non_allowedTest = false;
             for (let j = firstTest; j <= lastTest; j++) {
@@ -395,7 +400,11 @@ app.get("/loadTestData", async (req, res) => {
         try {
           const testData = await fetchData();
           if (testData != false) {
-            res.json(testData);
+            if (courseAllowed) {
+              res.json(testData);
+            } else {
+              res.status(403).send("Course is blocked");
+            }
           } else {
             res.status(403).send("Found non-allowed test");
           }
@@ -413,7 +422,7 @@ app.get("/loadTestData", async (req, res) => {
   });
 });
 app.post("/sendTestResult", (req, res) => {
-  const { auth_key, date, time, course, test_type, block, test, score } =
+  const { auth_key, date, time, courseName, test_type, block, test, score } =
     req.body;
   const filePath = path.join(__dirname, "users.json");
 
@@ -429,6 +438,7 @@ app.post("/sendTestResult", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
 
       if (user) {
+        const course = findCourse(users, user.auth_key, courseName);
         const changedUser = users.find((user) => user.auth_key === auth_key);
         let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
         let new_test = {
@@ -439,9 +449,7 @@ app.post("/sendTestResult", (req, res) => {
           test: test,
           score: score,
         };
-        findCourse(users, user.auth_key, course).data.completed_tests.push(
-          new_test
-        );
+        course.data.completed_tests.push(new_test);
         updatedUsers.push(changedUser);
         fs.writeFile(
           filePath,
@@ -452,7 +460,7 @@ app.post("/sendTestResult", (req, res) => {
               res.status(500).send("Internal Server Error");
               return;
             }
-            res.status(200).send("Дані оновлені успішно");
+            res.status(200).send("Sent successful");
           }
         );
       } else {
@@ -508,6 +516,7 @@ app.post("/api/register", (req, res) => {
           const newUser = {
             login: login,
             password: password,
+            name: "",
             group: "student",
             auth_key: createRandomString(128),
             coursesOwned: [],
@@ -651,6 +660,7 @@ app.post("/api/activateCode", (req, res) => {
                     data: {
                       join_date: Date.now(),
                       expire_date: "never",
+                      restricted: false,
                       allowed_tests: ["all"],
                       completed_tests: [],
                     },
@@ -784,7 +794,7 @@ app.post("/api/generateCode", (req, res) => {
   });
 });
 app.post("/api/getUsers", (req, res) => {
-  const { auth_key, course } = req.body;
+  const { auth_key, courseName } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -799,15 +809,69 @@ app.post("/api/getUsers", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
 
       if (user) {
-        if (user.coursesOwned.includes(course)) {
-          let students = getUsersWithSpecificCourse(users, course);
+        if (user.coursesOwned.includes(courseName)) {
+          let students = getUsersWithSpecificCourse(users, courseName);
           Array.from(students).forEach((safeUser) => {
             safeUser.password = "";
             safeUser.auth_key = "";
+            safeUser.courses = safeUser.courses.filter(
+              (course) => course.id === courseName
+            );
           });
           res.json({
             students: students,
           });
+        } else {
+          res.status(403).send("Ви не володієте цим курсом!");
+        }
+      }
+      res.status(404);
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/changeAccessCourseForUser", (req, res) => {
+  const { auth_key, courseName, login, access } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+
+      if (user) {
+        if (user.coursesOwned.includes(courseName)) {
+          const student = users.find((student) => student.login === login);
+          const course = findCourse(users, student.auth_key, courseName);
+          const changedUser = users.find(
+            (student) => student.auth_key === auth_key
+          );
+          let updatedUsers = users.filter(
+            (student) => student.auth_key !== auth_key
+          );
+          course.restricted = !access;
+          updatedUsers.push(changedUser);
+          fs.writeFile(
+            filePath,
+            JSON.stringify(updatedUsers, null, 2),
+            (writeErr) => {
+              if (writeErr) {
+                console.error("Error writing file:", writeErr);
+                res.status(500).send("Internal Server Error");
+                return;
+              } else {
+                res.status(200).send({ data: "success" });
+              }
+            }
+          );
         } else {
           res.status(403).send("Ви не володієте цим курсом!");
         }
@@ -894,16 +958,22 @@ app.post("/api/getUserCourses", (req, res) => {
           try {
             const courses = JSON.parse(courseData);
             let userCourses = [];
+            let lostCourses = [];
             Array.from(user.courses).forEach((u_course) => {
               Array.from(courses).forEach((a_course) => {
                 if (a_course.id === u_course.id) {
-                  userCourses.push(a_course);
+                  if (a_course.users.includes(auth_key)) {
+                    userCourses.push(a_course);
+                  } else {
+                    lostCourses.push(a_course);
+                  }
                 }
               });
             });
 
             res.json({
               courses: userCourses,
+              restricted: lostCourses,
             });
           } catch {}
         });

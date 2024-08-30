@@ -435,7 +435,7 @@ function sendTestResult() {
     test: test_id,
     score: Math.ceil(score),
     auth_key: auth_key,
-    course: course,
+    courseName: course,
   };
   fetch("/sendTestResult", {
     method: "POST",
@@ -611,7 +611,7 @@ function checkIfImageExists(blockId, testId, imageId) {
     }
   };
 
-  xhr.timeout = 30000;
+  xhr.timeout = 10000;
 
   xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
