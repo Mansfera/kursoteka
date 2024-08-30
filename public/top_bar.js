@@ -36,13 +36,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 .getElementById("mobile_menu-list-admin_panel")
                 .classList.remove("display-none");
             }
-            if (params.get("mobile_bar_tag") != null) {
-              document
-                .getElementById(
-                  "mobile_menu-list-" + params.get("mobile_bar_tag")
-                )
-                .classList.add("white_text");
-            }
+            let path = window.location.pathname;
+
+            let pageName = path.replace(/^\/|\/$/g, "");
+
+            document
+              .getElementById("mobile_menu-list-" + pathname)
+              .classList.add("white_text");
           });
         });
         __tag = "__tag-pc";
@@ -75,6 +75,6 @@ function changePage(page) {
     .classList.add("white_text");
   setTimeout(showMobileMenu, 200);
   setTimeout(() => {
-    window.location = `/${page}/?mobile_bar_tag=${page}`;
+    window.location = `/${page}/`;
   }, 700);
 }
