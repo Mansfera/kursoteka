@@ -640,6 +640,7 @@ app.post("/api/activateCode", (req, res) => {
           if (promocode) {
             if (!user.courses.some((c) => c.id === promocode.id)) {
               promocode.used_date = Date.now();
+              promocode.used_by = auth_key;
 
               fs.readFile(coursesFilePath, "utf8", (err, coursesData) => {
                 if (err) {
@@ -653,13 +654,12 @@ app.post("/api/activateCode", (req, res) => {
 
                 if (course) {
                   course.totalUsers++;
-                  course.users.push(auth_key);
 
                   user.courses.push({
                     id: course.id,
                     data: {
                       join_date: Date.now(),
-                      expire_date: "never",
+                      expire_date: Date.now() + promocode.access_duration,
                       restricted: false,
                       allowed_tests: ["all"],
                       completed_tests: [],
@@ -726,9 +726,8 @@ app.post("/api/activateCode", (req, res) => {
     }
   });
 });
-
 app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course } = req.body;
+  const { auth_key, course, expire_date, accessDuration } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -757,12 +756,26 @@ app.post("/api/generateCode", (req, res) => {
             do {
               code = generateCode();
             } while (promocodes.some((p) => p.code === code));
+            let _expire_date;
+            if (expire_date == null) {
+              _expire_date = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days from now
+            } else {
+              _expire_date = expire_date;
+            }
+            let _access_time;
+            if (accessDuration == null) {
+              _access_time = 270 * 24 * 60 * 60 * 1000; // 270 days from now
+            } else {
+              _access_time = accessDuration * 24 * 60 * 60 * 1000;
+            }
 
             const newPromocode = {
               id: course,
               code: code,
-              expire_date: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 days from now
+              expire_date: _expire_date,
+              access_duration: _access_time,
               used_date: -1,
+              used_by: "",
             };
 
             promocodes.push(newPromocode);
@@ -793,6 +806,7 @@ app.post("/api/generateCode", (req, res) => {
     }
   });
 });
+
 app.post("/api/getUsers", (req, res) => {
   const { auth_key, courseName } = req.body;
   const filePath = path.join(__dirname, "users.json");
