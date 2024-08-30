@@ -124,20 +124,17 @@
   gap: 1rem;
 }
 .category-items-page {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  cursor: pointer;
+  font-weight: 600;
   color: gray;
   font-size: 1.85rem;
 }
 .category-items-page.selected {
   color: aliceblue;
-}
-.category-items-page {
-  width: 100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 1.25rem;
-  cursor: pointer;
-  font-weight: 600;
 }
 .category-items-page:hover {
   text-decoration: underline;
