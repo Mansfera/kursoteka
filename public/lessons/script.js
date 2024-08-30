@@ -103,8 +103,8 @@ function fetchAndDisplayUserCourses() {
                     </div>
                   </div>
                   <div class="test_picker-bubble_wrapper">
-                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Короткий тест</div>
-                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Повний тест</div>
+                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
+                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
                   </div>
                 </div>
               `;
