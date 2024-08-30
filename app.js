@@ -899,11 +899,9 @@ app.post("/api/deletePromoCode", (req, res) => {
             const promocodes = JSON.parse(promocodesData);
 
             const promocode = promocodes.find((p) => p.code === code);
-            console.log(code);
-            console.log(promocode);
 
             if (promocode) {
-              if (user.coursesOwned.some((c) => c === promocode.course_id)) {
+              if (user.coursesOwned.some((c) => c === promocode.id)) {
                 const updatedPromocodes = promocodes.filter(
                   (p) => p.code !== code
                 );
