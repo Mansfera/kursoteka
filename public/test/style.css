@@ -451,6 +451,9 @@ input {
 }
 
 @media screen and (max-width: 576px) {
+  .main_wrapper {
+    padding-inline: 2rem;
+  }
   .main_wrapper-test_info {
     flex-direction: column;
   }
@@ -473,10 +476,14 @@ input {
   .main_wrapper-bottom_division-part.left {
     position: fixed;
     bottom: 0;
+    left: 0;
+    min-width: 100vw;
+    padding: 2rem;
+    background-color: black;
   }
   .bottom_division-part-block_answers {
     padding-inline-start: 0;
     overflow-y: visible;
-    padding-bottom: 4rem;
+    padding-bottom: 15rem;
   }
 }
