@@ -24,6 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .catch((error) => {
       console.error("Error fetching courses:", error);
     });
+
   courseSelector.addEventListener("change", function () {
     selected_course = this.value;
     if (selected_course != "") {
@@ -31,8 +32,42 @@ document.addEventListener("DOMContentLoaded", function () {
         "main_wrapper"
       ).style.backgroundImage = `url('/api/getCoverImage?course=${selected_course}&auth_key=${auth_key}')`;
       getUsers();
+      document.getElementById("existing_promocodes").innerHTML = "";
+      fetch("/api/getPromoCodes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ auth_key, course: selected_course }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          data.promocodes.forEach((promocode) => {
+            let usedBy = "ні";
+            let usedDate = "";
+
+            // Check if promocode.used_by is not empty
+            if (promocode.used_by) {
+              usedBy = "користувачем ";
+
+              if (promocode.used_by_name) {
+                usedBy += promocode.used_by_name;
+              } else {
+                usedBy += promocode.used_by;
+              }
+
+              usedDate = "о " + formatDate(promocode.used_date);
+            }
+
+            const element = createPromocodeElement(promocode, usedBy, usedDate);
+            document.getElementById("existing_promocodes").appendChild(element);
+          });
+        });
       if (courseSelector.children[0].value == "") {
         courseSelector.children[0].remove();
+        document
+          .getElementById("show_promocode_generator")
+          .classList.remove("display-none");
       }
     }
   });
@@ -132,14 +167,42 @@ function getUsers() {
       console.log(error.message);
     });
 }
+let promocodesVisible = false;
+document
+  .getElementById("show_promocode_generator")
+  .addEventListener("click", function () {
+    if (!promocodesVisible) {
+      document.getElementById("show_promocode_generator").innerHTML =
+        "Приховати генератор промокодів";
+    } else {
+      document.getElementById("show_promocode_generator").innerHTML =
+        "Показати генератор промокодів";
+    }
+    document
+      .getElementById("promocode-section")
+      .classList.toggle("display-none");
+    promocodesVisible = !promocodesVisible;
+  });
 
-function requestCode() {
+document
+  .getElementById("create_promocode")
+  .addEventListener("click", function () {
+    const access_duration = document.getElementById("promocode-duration").value;
+    const expire_date = document.getElementById("promocode-expire_date").value;
+    requestCode(expire_date, access_duration);
+  });
+function requestCode(expire_date, access_duration) {
   fetch("/api/generateCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ auth_key, selected_course }),
+    body: JSON.stringify({
+      auth_key,
+      course: selected_course,
+      expire_date,
+      access_duration,
+    }),
   })
     .then((response) => {
       if (!response.ok) {
@@ -148,10 +211,68 @@ function requestCode() {
       return response.json();
     })
     .then((data) => {
-      document.getElementById("code").innerHTML = data.code;
+      const element = createPromocodeElement(data.promocode, "ні", "");
+      document.getElementById("existing_promocodes").appendChild(element);
     })
     .catch((error) => {
       console.error("Error:", error);
       document.getElementById("code").innerHTML = "Error generating code";
     });
+}
+function createPromocodeElement(promocode, used_by, used_date) {
+  // Create the main wrapper div
+  const wrapper = document.createElement("div");
+  wrapper.className = "promocodes_list-item-wrapper";
+  wrapper.id = `promocodes_list-item-${promocode.id}`;
+
+  // Use template literal to create inner HTML
+  wrapper.innerHTML = `
+  <div class="promocodes_list-item-info_wrapper">
+    <div class="promocodes_list-item promocode" id="code-${
+      promocode.id
+    }" onclick="copyInnerHtml('code-${promocode.id}')">
+        ${promocode.code}
+    </div>
+    <div class="promocodes_list-item" id="code-expire_date-${promocode.id}">
+        Дійсний до ${formatDate(promocode.expire_date)}
+    </div>
+    <div class="promocodes_list-item" id="code-course_duration-${promocode.id}">
+        Кількість днів, що надається: ${
+          promocode.access_duration / (24 * 60 * 60 * 1000)
+        }
+    </div>
+    <div class="promocodes_list-item" id="code-used_by-${promocode.id}">
+        Використаний: ${used_by} ${used_date}
+    </div>
+  </div>
+  <div class="promocodes_list-item-remove-item" id="code-remove-${promocode.id}">
+    <img src="/assets/cross.svg" alt="">
+  </div>
+  `;
+
+  return wrapper;
+}
+function copyInnerHtml(elementId) {
+  var content = document.getElementById(elementId).innerHTML;
+  var tempTextarea = document.createElement("textarea");
+  tempTextarea.value = content;
+  document.body.appendChild(tempTextarea);
+  tempTextarea.select();
+  tempTextarea.setSelectionRange(0, 99999);
+  document.execCommand("copy");
+  document.body.removeChild(tempTextarea);
+}
+function formatDate(timestamp) {
+  // Create a new Date object using the timestamp
+  var date = new Date(timestamp);
+
+  // Get the individual components of the date
+  var day = String(date.getDate()).padStart(2, "0"); // Day with leading zero
+  var month = String(date.getMonth() + 1).padStart(2, "0"); // Month is 0-based
+  var year = date.getFullYear(); // Full year
+  var hours = String(date.getHours()).padStart(2, "0"); // Hours with leading zero
+  var minutes = String(date.getMinutes()).padStart(2, "0"); // Minutes with leading zero
+
+  // Construct the formatted date string
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
 }

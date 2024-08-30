@@ -46,18 +46,51 @@
           <select class="course_selector-list" id="course_selector-list">
             <option value="">Натисніть щоб обрати</option>
           </select>
+          <div
+            class="promocodes-show_promocode_generator display-none"
+            id="show_promocode_generator"
+          >
+            Показати генератор промокодів
+          </div>
         </div>
-        <div class="segment-student_list" id="student_list"></div>
+        <div class="segment-promocodes display-none" id="promocode-section">
+          <div class="promocodes-creation" id="promocodes-creation">
+            <input
+              type="date"
+              class="promocodes-creation-field display-none"
+              id="promocode-expire_date"
+              name="expire_date"
+            />
+            <input
+              type="number"
+              name="duration"
+              class="promocodes-creation-field"
+              placeholder="Кількість днів"
+              id="promocode-duration"
+            />
+            <div
+              class="promocodes-creation-generate_button"
+              id="create_promocode"
+            >
+              Згенерувати промокод
+            </div>
+          </div>
+          <div
+            class="promocodes-promocodes_list"
+            id="existing_promocodes"
+          ></div>
+        </div>
+        <div class="segment-student_list" id="student_list">
+        </div>
       </div>
-
-      <!-- <div class="generate_code">
-        <div class="button generate_code-btn" onclick="requestCode()">Згенерувати код</div>
-        <div id="code"></div>
-      </div> -->
-
-      <!-- <div class="name-title">Керування учнями</div>
-      <div class="user-list" id="userList"></div> -->
     </div>
   </body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      document
+        .getElementById("promocode-expire_date")
+        .setAttribute("min", Date.now());
+    });
+  </script>
   <script src="script.js"></script>
 </html>

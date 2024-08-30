@@ -727,7 +727,7 @@ app.post("/api/activateCode", (req, res) => {
   });
 });
 app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course, expire_date, accessDuration } = req.body;
+  const { auth_key, course, expire_date, access_duration } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -757,16 +757,18 @@ app.post("/api/generateCode", (req, res) => {
               code = generateCode();
             } while (promocodes.some((p) => p.code === code));
             let _expire_date;
-            if (expire_date == null) {
+            if (expire_date == "") {
               _expire_date = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days from now
             } else {
-              _expire_date = expire_date;
+              _expire_date = +expire_date;
             }
             let _access_time;
-            if (accessDuration == null) {
+            if (access_duration == "") {
               _access_time = 270 * 24 * 60 * 60 * 1000; // 270 days from now
+            } else if (+access_duration == 0) {
+              _access_time = "never";
             } else {
-              _access_time = accessDuration * 24 * 60 * 60 * 1000;
+              _access_time = +access_duration * 24 * 60 * 60 * 1000;
             }
 
             const newPromocode = {
@@ -790,7 +792,7 @@ app.post("/api/generateCode", (req, res) => {
                   return;
                 }
 
-                res.status(200).json({ code: code });
+                res.status(200).json({ promocode: newPromocode });
               }
             );
           });
@@ -799,6 +801,143 @@ app.post("/api/generateCode", (req, res) => {
         }
       } else {
         res.status(404).json({ message: "User not found" });
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/getPromoCodes", (req, res) => {
+  const { auth_key, course } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+
+      if (user) {
+        if (user.coursesOwned.includes(course)) {
+          const promocodesFilePath = path.join(__dirname, "promocodes.json");
+
+          fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
+            if (err) {
+              console.error("Error reading promocodes file:", err);
+              res.status(500).send("Internal Server Error");
+              return;
+            }
+
+            try {
+              const promocodes = JSON.parse(promocodesData);
+
+              const filteredPromocodes = promocodes.filter(
+                (promocode) => promocode.id === course
+              );
+
+              filteredPromocodes.forEach((promocode) => {
+                if (promocode.used_by) {
+                  const student = users.find(
+                    (student) => student.auth_key === promocode.used_by
+                  );
+                  if (student) {
+                    promocode.used_by = student.login;
+                    if (student.name != "") {
+                      promocode.used_by_name = student.name;
+                    }
+                  } else {
+                    promocode.used_by = "";
+                  }
+                }
+              });
+              res.status(200).json({ promocodes: filteredPromocodes });
+            } catch (parseErr) {
+              console.error("Error parsing promocodes JSON:", parseErr);
+              res.status(500).send("Internal Server Error");
+            }
+          });
+        } else {
+          res.status(403).json({ message: "User does not own this course" });
+        }
+      } else {
+        res.status(404).json({ message: "User not found" });
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/removePromoCode", (req, res) => {
+  const { auth_key, code } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+
+      if (user) {
+        const promocodesFilePath = path.join(__dirname, "promocodes.json");
+
+        fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
+          if (err) {
+            console.error("Error reading promocodes file:", err);
+            res.status(500).send("Internal Server Error");
+            return;
+          }
+
+          try {
+            const promocodes = JSON.parse(promocodesData);
+
+            const promocode = promocodes.find((p) => p.code === code);
+
+            if (promocode) {
+              if (user.coursesOwned.some((c) => c === promocode.course_id)) {
+                const updatedPromocodes = promocodes.filter(
+                  (p) => p.code !== code
+                );
+                fs.writeFile(
+                  promocodesFilePath,
+                  JSON.stringify(updatedPromocodes, null, 2),
+                  (err) => {
+                    if (err) {
+                      console.error("Error writing promocodes file:", err);
+                      res.status(500).send("Internal Server Error");
+                      return;
+                    }
+                    res.status(200).json({ message: "Успіх! ✅" });
+                  }
+                );
+              } else {
+                res
+                  .status(403)
+                  .json({ message: "Ви не володієте цим курсом ❌" });
+              }
+            } else {
+              res
+                .status(400)
+                .json({ message: "Неправильний або використаний код ❌" });
+            }
+          } catch (parseErr) {
+            console.error("Error parsing promocodes JSON:", parseErr);
+            res.status(500).send("Internal Server Error");
+          }
+        });
+      } else {
+        res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
       }
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);
@@ -948,7 +1087,6 @@ app.post("/api/changeUserData", (req, res) => {
 app.post("/api/getUserCourses", (req, res) => {
   const { auth_key } = req.body;
   const filePath = path.join(__dirname, "users.json");
-  const coursesFilePath = path.join(__dirname, "courses.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
@@ -962,34 +1100,19 @@ app.post("/api/getUserCourses", (req, res) => {
       const user = users.find((user) => user.auth_key === auth_key);
 
       if (user) {
-        fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
-          if (err) {
-            console.error("Error reading file:", err);
-            res.status(500).send("Internal Server Error");
-            return;
+        let userCourses = [];
+        let lostCourses = [];
+        Array.from(user.courses).forEach((u_course) => {
+          if (!u_course.restricted) {
+            userCourses.push(u_course);
+          } else {
+            lostCourses.push(u_course);
           }
+        });
 
-          try {
-            const courses = JSON.parse(courseData);
-            let userCourses = [];
-            let lostCourses = [];
-            Array.from(user.courses).forEach((u_course) => {
-              Array.from(courses).forEach((a_course) => {
-                if (a_course.id === u_course.id) {
-                  if (a_course.users.includes(auth_key)) {
-                    userCourses.push(a_course);
-                  } else {
-                    lostCourses.push(a_course);
-                  }
-                }
-              });
-            });
-
-            res.json({
-              courses: userCourses,
-              restricted: lostCourses,
-            });
-          } catch {}
+        res.status(200).json({
+          courses: userCourses,
+          restricted: lostCourses,
         });
       } else {
         res.status(404);

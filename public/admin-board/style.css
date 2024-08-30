@@ -34,6 +34,20 @@
   color: aliceblue;
   cursor: pointer;
 }
+.promocodes-show_promocode_generator {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 3rem;
+  background-color: aliceblue;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  width: fit-content;
+  margin-left: auto;
+  text-align: center;
+}
 @media screen and (max-width: 576px) {
   .segment-course_selector {
     flex-direction: column;
@@ -42,7 +56,127 @@
   .course_selector-list {
     width: 100%;
   }
+  .promocodes-show_promocode_generator {
+    width: 100%;
+  }
 }
+.segment-promocodes {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 2rem;
+}
+.promocodes-creation {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 1rem;
+}
+.promocodes-creation-field {
+  display: flex;
+  padding: 1.5rem;
+  border-radius: 3rem;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  border: none;
+  min-width: 20rem;
+  width: fit-content;
+  background-color: aliceblue;
+}
+.promocodes-creation-generate_button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+  border-radius: 3rem;
+  background-color: aliceblue;
+  font-size: 1.25rem;
+  font-weight: 500;
+  cursor: pointer;
+  min-width: 20rem;
+  width: fit-content;
+  text-align: center;
+}
+.promocodes-promocodes_list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+}
+.promocodes_list-item-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  border-radius: 1.25rem;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(1rem);
+  padding: 1rem;
+  flex-wrap: nowrap;
+  height: auto;
+}
+.promocodes_list-item-info_wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  width: 100%;
+  height: 100%;
+}
+.promocode {
+  cursor: pointer;
+}
+.promocodes_list-item {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 500;
+  background-color: aliceblue;
+  border-radius: 1rem;
+  padding: 1rem;
+}
+.promocodes_list-item-remove-item {
+  height: 100%;
+  padding: 1rem;
+  background-color: coral;
+  border-radius: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+.promocodes_list-item-remove-item img {
+  width: 100%;
+  height: 80%;
+  object-fit: contain;
+}
+
+@media screen and (max-width: 576px) {
+  .promocodes-creation {
+    flex-direction: column;
+  }
+  .promocodes-creation-field {
+    width: 100%;
+  }
+  .promocodes-creation-generate_button {
+    width: 100%;
+  }
+  .promocodes_list-item-info_wrapper {
+    flex-direction: column;
+  }
+  .promocodes_list-item-remove-item img {
+    width: 80%;
+    height: 80%;
+    object-fit: contain;
+  }
+}
+
 .segment-student_list {
   z-index: 2;
   display: flex;
