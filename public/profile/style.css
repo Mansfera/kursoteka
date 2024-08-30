@@ -126,6 +126,10 @@
   font-weight: 700;
   font-size: x-large;
   border-radius: 0.5rem;
+  cursor: pointer;
+}
+.card-course_name:hover {
+  text-decoration: underline;
 }
 @media screen and (max-width: 576px) {
   .courses-card-wrapper {
