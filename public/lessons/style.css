@@ -7,6 +7,9 @@
     padding-inline: 2rem;
   }
 }
+::-webkit-scrollbar {
+  display: none;
+}
 .modules-material_list {
   margin-top: 2rem;
   display: flex;
