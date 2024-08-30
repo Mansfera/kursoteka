@@ -110,7 +110,7 @@
   gap: 2rem;
   flex-wrap: nowrap;
   border-top: 2px gray dashed;
-  padding-block: 1rem;
+  padding-block: 2rem;
   padding-inline: 2rem;
 }
 .mobile_menu-list-category.__no_border {
