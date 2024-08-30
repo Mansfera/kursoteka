@@ -81,6 +81,7 @@
   border-radius: 1.25rem;
   overflow: hidden;
   padding: 1.5rem;
+  cursor: pointer;
 }
 .card-top_buttons {
   display: flex;
@@ -110,6 +111,10 @@
   margin-left: auto;
   padding-inline: 0.75rem;
   width: 3rem;
+}
+.card-course_stats {
+  background-color: white;
+  color: black;
 }
 .card-bottom {
   width: 100%;

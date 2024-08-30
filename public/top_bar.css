@@ -49,3 +49,34 @@
   padding: 1.3rem;
   padding-inline: 2rem;
 }
+
+.main_wrapper-mobile_menu {
+  position: absolute;
+  top: 8vh;
+  width: 100%;
+  backdrop-filter: brightness(0.2);
+  z-index: 100;
+  overflow: hidden;
+  transition: all 0.3s linear;
+  height: 100%;
+}
+.main_wrapper-mobile_menu.collapsed {
+  height: 0;
+}
+.mobile_menu-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  width: 100%;
+}
+.mobile_menu-list-element {
+  width: 100%;
+  border-top: 2px aliceblue solid;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  background-color: black;
+}

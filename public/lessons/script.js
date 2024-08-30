@@ -3,8 +3,19 @@ function toggleLessons(id) {
   lessons.classList.toggle("display-none");
   const final_test = document.getElementById("final_test-" + id);
   final_test.classList.toggle("display-none");
-  const dropdown = document.getElementById("dropdown-" +id);
-  dropdown.classList.toggle("active-dropdown")
+  const dropdown = document.getElementById("dropdown-" + id);
+  dropdown.classList.toggle("active-dropdown");
+  if (
+    getCookie("coursesOwned") != [] &&
+    getCookie("coursesOwned") != null &&
+    getCookie("coursesOwned").includes(current_course)
+  ) {
+    Array.from(document.getElementsByClassName("__test_editor")).forEach(
+      (element) => {
+        element.classList.remove("display-none");
+      }
+    );
+  }
 }
 let closeTimeout;
 function closeTestWindow(test) {
@@ -123,8 +134,8 @@ function fetchAndDisplayUserCourses() {
                   <div class="test_picker-bubble_wrapper">
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
-                    <div class="test_picker-test_bubble" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Картки на памʼять</div>
-                    <div class="test_picker-test_bubble display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Редактор тесту</div>
+                    <div class="test_picker-test_bubble display-none" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Картки на памʼять</div>
+                    <div class="test_picker-test_bubble __test_editor display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Редактор тесту</div>
                   </div>
                 </div>
               `;

@@ -19,7 +19,7 @@ function fetchAndDisplayUserCourses() {
             <div class="courses-card" id="course_card-${course.id}">
               <div class="card-top_buttons">
                 <div
-                  class="card-course_stats card-blob white_text"
+                  class="card-course_stats card-blob"
                   id="course_stats-${course.id}"
                 >Статистика</div>
                 <div class="card-course_start_btn card-blob" id="course_start-${course.id}">
