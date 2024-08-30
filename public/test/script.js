@@ -49,8 +49,9 @@ let time;
 let timerInterval;
 let testIsPaused = false;
 switch (test_type) {
-  case ("short" || "full"):
-    test_name = params.get("test_name")
+  case "short":
+  case "full":
+    test_name = params.get("test_name");
     loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
       .then((testData) => {
         if (testData) {
