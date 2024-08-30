@@ -34,6 +34,9 @@
 .material_list-element-text {
   cursor: pointer;
 }
+.material_list-element-text:hover {
+  text-decoration: underline;
+}
 .material_list-element-info img {
   height: 100%;
   min-width: 2rem;
