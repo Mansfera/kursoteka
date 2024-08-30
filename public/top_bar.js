@@ -68,17 +68,21 @@ function showMobileMenu() {
   mobile_menu.classList.toggle("collapsed");
 }
 
-function changePage(page) {
-  Array.from(document.getElementsByClassName("category-items-page")).forEach(
-    (element) => {
-      element.classList.remove("white_text");
-    }
-  );
-  document
-    .getElementById("mobile_menu-list-" + page)
-    .classList.add("white_text");
-  setTimeout(showMobileMenu, 200);
-  setTimeout(() => {
+function changePage(mobile, page) {
+  if (mobile) {
+    Array.from(document.getElementsByClassName("category-items-page")).forEach(
+      (element) => {
+        element.classList.remove("white_text");
+      }
+    );
+    document
+      .getElementById("mobile_menu-list-" + page)
+      .classList.add("white_text");
+    setTimeout(showMobileMenu, 200);
+    setTimeout(() => {
+      window.location = `/${page}/`;
+    }, 700);
+  } else {
     window.location = `/${page}/`;
-  }, 700);
+  }
 }
