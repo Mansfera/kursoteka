@@ -107,7 +107,7 @@
 .mobile_menu-list-category {
   display: flex;
   flex-direction: row;
-  gap: 1rem;
+  gap: 2rem;
   flex-wrap: nowrap;
   border-top: 2px gray dashed;
   padding-block: 1rem;
@@ -133,9 +133,9 @@
   justify-content: flex-start;
   align-items: center;
   cursor: pointer;
-  font-weight: 600;
+  font-weight: 500;
   color: gray;
-  font-size: 1.85rem;
+  font-size: 2rem;
 }
 .category-items-page.selected {
   color: aliceblue;
@@ -150,4 +150,7 @@
   bottom: 0;
   padding-inline: 2rem;
   padding-bottom: 5rem;
+}
+.designer {
+  font-size: 2rem;
 }
