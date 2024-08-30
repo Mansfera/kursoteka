@@ -57,6 +57,9 @@
 .top_bar-element:hover {
   text-decoration: underline;
 }
+.top_bar-element.__tag-pc {
+  height: initial;
+}
 .top_bar-login,
 .top_bar-profile {
   border: 1px aliceblue solid;
