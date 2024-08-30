@@ -21,12 +21,16 @@ document.addEventListener("DOMContentLoaded", function () {
               document
                 .getElementById("mobile_menu-list-login")
                 .classList.add("display-none");
-              document
-                .getElementById("mobile_menu-list-profile")
-                .classList.remove("display-none");
-              document
-                .getElementById("mobile_menu-list-my_courses")
-                .classList.remove("display-none");
+              const elements_remove = [
+                "mobile_menu-list-profile",
+                "mobile_menu-list-my_courses",
+                "mobile_menu-list-logout",
+              ];
+              Array.from(elements_remove).forEach((element) => {
+                document
+                  .getElementById(element)
+                  .classList.remove("display-none");
+              });
             }
             if (
               getCookie("coursesOwned") != [] &&
