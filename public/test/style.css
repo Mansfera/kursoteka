@@ -151,17 +151,20 @@
 .select_answers_filler {
   width: 100%;
 }
-@media screen and (max-width: 576px) {
-  .select_answers_filler {
-    display: none;
-  }
-}
 .main_wrapper-answer_selection_methdods {
   display: flex;
   flex-direction: column;
   width: 40%;
   max-width: 450px;
   margin-bottom: 2rem;
+}
+@media screen and (max-width: 576px) {
+  .select_answers_filler {
+    display: none;
+  }
+  .main_wrapper-answer_selection_methdods {
+    width: 100%;
+  }
 }
 .answer_selection_methdods-abcd_answer_buttons {
   width: 100%;
@@ -466,6 +469,10 @@ input {
   }
   .main_wrapper-bottom_division-part {
     width: 100%;
+  }
+  .main_wrapper-bottom_division-part.left {
+    position: fixed;
+    bottom: 0;
   }
   .bottom_division-part-block_answers {
     padding-inline-start: 0;
