@@ -1209,7 +1209,7 @@ app.get("/api/getCoverImage", (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const image_name = req.query.image_name;
+  let image_name = req.query.image_name;
 
   if (image_name == null) {
     image_name = "cover"
