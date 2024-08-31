@@ -1,5 +1,6 @@
 .main_wrapper-segment {
   overflow: hidden;
+  overflow-y: visible;
 }
 .segment-top_screen_title {
   display: flex;
@@ -40,6 +41,7 @@
   justify-content: center;
   align-items: center;
   scroll-snap-align: center;
+  perspective: 1000px;
   opacity: 0;
 }
 @media screen and (max-width: 576px) {
@@ -79,26 +81,27 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  transition: transform 1s ease-in-out, box-shadow 1s ease-in-out;
+  transition: translate 1s ease-in-out, transform 1s ease-in-out,
+    box-shadow 1s ease-in-out;
 }
 .course_gallery-item.move-2 {
-  transform: rotateX(0deg) rotateY(25deg) rotateZ(5deg);
+  transform: translateZ(-300px) rotateY(0deg) rotateZ(5deg);
   box-shadow: -5px -1px 0.5rem rgba(255, 255, 255, 0.5);
 }
 .course_gallery-item.move-1 {
   box-shadow: 10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: rotateX(-10deg) rotateY(-45deg) rotateZ(-5deg);
+  transform: translateZ(-300px) rotateY(-45deg) rotateZ(0deg);
 }
 .course_gallery-item.move0 {
-  transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+  transform: translateZ(0px) rotateY(0deg) rotateZ(0deg);
 }
 .course_gallery-item.move1 {
   box-shadow: -10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: rotateX(-10deg) rotateY(45deg) rotateZ(5deg);
+  transform: translateZ(-300px) rotateY(45deg) rotateZ(0deg);
 }
 .course_gallery-item.move2 {
   box-shadow: 5px 1px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: rotateX(0deg) rotateY(-25deg) rotateZ(-5deg);
+  transform: translateZ(-300px) rotateY(0deg) rotateZ(-5deg);
 }
 .course_gallery-item::after {
   content: "";
@@ -108,6 +111,7 @@
   right: 0;
   height: 70%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.65), transparent);
+  border-radius: 1.75rem;
 }
 .course_gallery-item-category {
   padding-block: 1.25rem;
