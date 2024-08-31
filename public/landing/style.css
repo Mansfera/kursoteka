@@ -13,10 +13,14 @@
 }
 .top_screen_title-ukrainian {
   width: 80%;
+  leading-trim: both;
+  text-edge: cap;
 }
 .top_screen_title-latin {
   font-weight: 600;
   font-size: calc(4vw + 1rem);
+  leading-trim: both;
+  text-edge: cap;
 }
 .segment-course_gallery {
   margin-top: -1rem;

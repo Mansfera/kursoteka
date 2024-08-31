@@ -64,6 +64,8 @@
   padding-block: 1.5rem;
   padding-inline: 2rem;
   height: fit-content;
+  leading-trim: both;
+  text-edge: cap;
 }
 
 .main_wrapper-mobile_menu {
