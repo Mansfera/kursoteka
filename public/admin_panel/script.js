@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (selected_course != "") {
       document.getElementById(
         "main_wrapper"
-      ).style.backgroundImage = `url('/api/getCoverImage?course=${selected_course}&auth_key=${auth_key}')`;
+      ).style.backgroundImage = `url('/api/getCoverImage?course=${selected_course}&auth_key=${auth_key}&image_name=admin_panel')`;
       getUsers();
       document.getElementById("existing_promocodes").innerHTML = "";
       fetch("/api/getPromoCodes", {

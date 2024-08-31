@@ -1209,10 +1209,16 @@ app.get("/api/getCoverImage", (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
+  const image_name = req.query.image_name;
+
+  if (image_name == null) {
+    image_name = "cover"
+  }
 
   const auth_key = req.query.auth_key;
 
   if (auth_key != null) {
+    const filePath = path.join(__dirname, "users.json");
     fs.readFile(filePath, "utf8", async (err, data) => {
       if (err) {
         console.error("Error reading file:", err);
@@ -1230,17 +1236,17 @@ app.get("/api/getCoverImage", (req, res) => {
             if (testId != null) {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/block${blockId}/test${testId}/cover.png`
+                `courseData/${course.id}/block${blockId}/test${testId}/${image_name}.png`
               );
             } else if (blockId != null) {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/block${blockId}/cover.png`
+                `courseData/${course.id}/block${blockId}/${image_name}.png`
               );
             } else {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/cover.png`
+                `courseData/${course.id}/${image_name}.png`
               );
             }
             fs.readFile(filePathImg, (err, data) => {
@@ -1259,7 +1265,10 @@ app.get("/api/getCoverImage", (req, res) => {
       }
     });
   } else {
-    let filePathImg = path.join(__dirname, `courseData/${courseName}/cover.png`);
+    let filePathImg = path.join(
+      __dirname,
+      `courseData/${courseName}/${image_name}.png`
+    );
     fs.readFile(filePathImg, (err, data) => {
       if (err) {
         res.status(404).send("Image not found");
