@@ -4,54 +4,95 @@
 .free_height_segment {
   height: fit-content;
 }
+.main_wrapper-segment {
+  padding-block: 2rem;
+}
 .segment-pictures_collection {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(2, 1fr);
-  border-radius: 2rem;
-  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
   gap: 1rem;
   width: 100%;
-  height: 70%;
+  height: 100%;
   bottom: 0;
 }
-.pictures_collection-picture {
-  border-radius: 2rem;
-  background-color: rgb(208, 208, 208);
-  overflow: hidden;
+.pictures_collection-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
-.horizontal_picture {
-  grid-column: span 2;
+.pictures_collection-column-row {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
 }
-.vertical_picture {
-  grid-row: span 2;
-}
-.pictures_collection-picture img {
+.pictures_collection-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
+  background-color: lightgray;
+  border-radius: 1.5rem;
 }
+.__2_squre-width {
+  width: 50%;
+}
+.__1_squre-width {
+  width: 25%;
+}
+.__2_squre-height {
+  height: 100%;
+}
+.__1_squre-height {
+  height: 50%;
+}
+@media screen and (max-width: 576px) {
+  .pictures_collection-column.__tag-pc {
+    display: none;
+  }
+  .pictures_collection-column {
+    width: 100%;
+  }
+}
+
 .segment-start_course_button-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  padding-top: 1rem;
+  padding-left: 1rem;
+  border-top-left-radius: 2rem;
+  border-bottom-left-radius: -2rem;
+  background-color: black;
 }
 .segment-start_course_button {
-  padding: 0.5rem;
+  padding-block: 1rem;
   padding-inline: 2rem;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
   background-color: aliceblue;
-  border-radius: 1.5rem;
-  margin-top: 1rem;
-  gap: 0.5rem;
+  border-radius: 1.25rem;
   cursor: pointer;
-  position: fixed;
-  bottom: 3rem;
-  right: 3rem;
-  height: 4rem;
+  height: 100%;
+  position: relative;
+}
+.circle_cutout_bottom {
+  position: absolute;
+  bottom: 0;
+  left: -3rem;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  box-shadow: 1.5rem 1.5rem 0 black;
+}
+.circle_cutout_top {
+  position: absolute;
+  top: -3rem;
+  right: 0;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  box-shadow: 1.5rem 1.5rem 0 black;
 }
 .segment-start_course_button img {
   height: 2rem;

@@ -22,9 +22,9 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
     <meta name="description" content="Підготовка до НМТ! © Mansfera" />
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
-    <link rel="stylesheet" href="/top_bar.css">
+    <link rel="stylesheet" href="/top_bar.css" />
     <link rel="stylesheet" href="/global.css" />
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="/text-formatting.css" />
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="/global.js"></script>
@@ -34,7 +34,10 @@
   <body>
     <div class="main_wrapper">
       <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
-      <div class="main_wrapper-mobile_menu collapsed" id="mobile_menu-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
       <div class="main_wrapper-segment">
         <div class="top_bar_spacefiller"></div>
         <div class="title_text white_text">
@@ -44,20 +47,23 @@
           35 тем, рівень підготовки 190+
         </div>
         <div class="segment-pictures_collection">
-          <div class="pictures_collection-picture horizontal_picture">
-            <img src="picture2.jpeg" alt="" />
+          <div class="pictures_collection-column __2_squre-width __2_squre-height __tag-pc">
+            <img src="" class="pictures_collection-image __1_squre-height" id="about_course-horizobtal" />
+            <div class="pictures_collection-column-row __1_squre-height">
+              <img src="" class="pictures_collection-image" id="about_course-square-1" />
+              <img src="" class="pictures_collection-image" id="about_course-square-2"/>
+            </div>
           </div>
-          <div class="pictures_collection-picture vertical_picture">
-            <img src="picture1.jpeg" alt="" />
+          <div class="pictures_collection-column __1_squre-width __2_squre-height">
+            <img src="" class="pictures_collection-image __2_squre-height" id="about_course-vertical" />
           </div>
-          <div class="pictures_collection-picture square_picture">
-            <img src="picture1.jpeg" alt="" />
-          </div>
-          <div class="pictures_collection-picture square_picture">
-            <img src="picture1.jpeg" alt="" />
+          <div class="pictures_collection-column __1_squre-width __1_squre-height __tag-pc">
+            <img src="" class="pictures_collection-image " id="about_course-square-3"/>
           </div>
         </div>
         <div class="segment-start_course_button-wrapper">
+          <div class="circle_cutout_bottom"></div>
+          <div class="circle_cutout_top"></div>
           <div class="segment-start_course_button" id="start_course">
             <img src="/assets/play-triangle.png" alt="" />
             <span>Почати курс</span>
@@ -212,7 +218,10 @@
                 class="white_text"
                 id="registration_form-phone_number"
               />
-              <div class="registration_form-submit_btn white_text subtitle_text" id="submit_reg_form">
+              <div
+                class="registration_form-submit_btn white_text subtitle_text"
+                id="submit_reg_form"
+              >
                 Відправити
               </div>
             </div>

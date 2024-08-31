@@ -36,6 +36,7 @@ body {
   padding-inline: 4rem;
   scroll-snap-align: center; /* Snap to center of the viewport */
   flex-shrink: 0; /* Prevent shrinking */
+  position: relative;
 }
 @media screen and (max-width: 576px) {
   .main_wrapper-segment {

@@ -149,7 +149,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const course_element = createGalleryItem(course, moveIndex);
         gallery.appendChild(course_element);
         course_element.addEventListener("click", () => {
-          window.location = "/course/" + course.id;
+          window.location = "/course/?course=" + course.id;
         });
         if (course.tags.includes("in_developement")) {
           document
