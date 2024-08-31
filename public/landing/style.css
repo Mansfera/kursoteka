@@ -85,23 +85,23 @@
     box-shadow 1s ease-in-out;
 }
 .course_gallery-item.move-2 {
-  transform: translateZ(-300px) rotateY(0deg) rotateZ(5deg);
+  transform: translateZ(-300px) rotateY(10deg) rotateZ(5deg);
   box-shadow: -5px -1px 0.5rem rgba(255, 255, 255, 0.5);
 }
 .course_gallery-item.move-1 {
   box-shadow: 10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: translateZ(-300px) rotateY(-45deg) rotateZ(0deg);
+  transform: translateZ(-300px) rotateX(10deg) rotateY(-30deg) rotateZ(0deg);
 }
 .course_gallery-item.move0 {
   transform: translateZ(0px) rotateY(0deg) rotateZ(0deg);
 }
 .course_gallery-item.move1 {
   box-shadow: -10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: translateZ(-300px) rotateY(45deg) rotateZ(0deg);
+  transform: translateZ(-300px) rotateX(-10deg) rotateY(30deg) rotateZ(0deg);
 }
 .course_gallery-item.move2 {
   box-shadow: 5px 1px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: translateZ(-300px) rotateY(0deg) rotateZ(-5deg);
+  transform: translateZ(-300px) rotateY(-10deg) rotateZ(-5deg);
 }
 .course_gallery-item::after {
   content: "";
