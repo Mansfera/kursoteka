@@ -97,6 +97,11 @@ function swipeRightGallery() {
   }
 }
 
+function resetSwipeInterval() {
+  clearInterval(swipeInterval);
+  swipeInterval = setInterval(swipeLeftGallery, 3000);
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   const gallery = document.querySelector(".course_gallery-wrapper");
   fetchCourses()
@@ -110,6 +115,58 @@ document.addEventListener("DOMContentLoaded", function () {
         gallery.appendChild(course_element);
       });
       swipeInterval = setInterval(swipeLeftGallery, 3000);
+
+      const galleryElement = document.getElementById("course_gallery");
+
+      galleryElement.addEventListener(
+        "touchstart",
+        function (event) {
+          startX = event.touches[0].clientX;
+          startY = event.touches[0].clientY;
+        },
+        false
+      );
+
+      galleryElement.addEventListener(
+        "touchmove",
+        function (event) {
+          endX = event.touches[0].clientX;
+          endY = event.touches[0].clientY;
+        },
+        false
+      );
+
+      galleryElement.addEventListener(
+        "touchend",
+        function (event) {
+          const diffX = endX - startX;
+          const diffY = endY - startY;
+
+          // Only consider horizontal swipes with a significant difference
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+            if (diffX > 0) {
+              // Swipe to the right
+              swipeRightGallery();
+            } else {
+              // Swipe to the left
+              swipeLeftGallery();
+            }
+          }
+          resetSwipeInterval();
+
+          // Reset values
+          startX = 0;
+          startY = 0;
+          endX = 0;
+          endY = 0;
+        },
+        false
+      );
     })
     .catch((error) => console.error("Error:", error));
 });
+
+let startX = 0;
+let startY = 0;
+let endX = 0;
+let endY = 0;

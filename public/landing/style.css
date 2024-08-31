@@ -1,3 +1,6 @@
+.main_wrapper-segment {
+  overflow: hidden;
+}
 .segment-top_screen_title {
   display: flex;
   flex-direction: row-reverse;
