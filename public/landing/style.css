@@ -71,7 +71,7 @@
   flex-direction: column;
   border-radius: 1.75rem;
   width: 90%;
-  height: 100%;
+  height: 95%;
   padding: 2.5rem;
   background-color: rgb(91, 91, 91);
   background-image: url("../assets/upload-image.png");
@@ -87,14 +87,14 @@
 }
 .course_gallery-item.move-1 {
   box-shadow: 10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: rotateX(0deg) rotateY(-45deg) rotateZ(0deg);
+  transform: rotateX(-10deg) rotateY(-45deg) rotateZ(-5deg);
 }
 .course_gallery-item.move0 {
   transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
 }
 .course_gallery-item.move1 {
   box-shadow: -10px 0px 0.5rem rgba(255, 255, 255, 0.5);
-  transform: rotateX(0deg) rotateY(45deg) rotateZ(0deg);
+  transform: rotateX(-10deg) rotateY(45deg) rotateZ(5deg);
 }
 .course_gallery-item.move2 {
   box-shadow: 5px 1px 0.5rem rgba(255, 255, 255, 0.5);
