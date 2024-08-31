@@ -167,7 +167,7 @@
     "id": "math",
     "name": "Підготовка до НМТ з математики",
     "type": "Математика",
-    "tags": ["math", "nmt", "recommended"],
+    "tags": ["math", "nmt", "recommended", "in_developement"],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -176,7 +176,7 @@
     "id": "english",
     "name": "Підготовка до НМТ з англійської мови",
     "type": "Англійська мова",
-    "tags": ["english", "nmt", "recommended"],
+    "tags": ["english", "nmt", "recommended", "in_developement"],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -185,7 +185,7 @@
     "id": "ukrainian",
     "name": "Підготовка до НМТ з української мови",
     "type": "Українська мова",
-    "tags": ["ukrainian", "nmt", "recommended"],
+    "tags": ["ukrainian", "nmt", "recommended", "in_developement"],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -194,7 +194,7 @@
     "id": "biology",
     "name": "Підготовка до НМТ з біології",
     "type": "Біологія",
-    "tags": ["biology", "nmt", "recommended"],
+    "tags": ["biology", "nmt", "recommended", "in_developement"],
     "author": "",
     "totalUsers": 1,
     "blocks": []
