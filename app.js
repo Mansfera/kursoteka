@@ -228,7 +228,7 @@ app.get("/getPlaylist", async (req, res) => {
   const auth_key = req.query.auth_key;
   const courseName = req.query.course;
   const blockId = req.query.block;
-  const testId = req.query.test;
+  const testId = req.query.tema;
 
   const filePath = path.join(__dirname, "users.json");
 
@@ -253,7 +253,11 @@ app.get("/getPlaylist", async (req, res) => {
               res.json({ list });
             }
           });
+        } else {
+          res.status(403).send("Course not found");
         }
+      } else {
+        res.status(404).send("User not found");
       }
     } catch (error) {
       console.error("Error loading test data:", error);
@@ -1207,9 +1211,77 @@ app.get("/api/getCoverImage", (req, res) => {
   const testId = req.query.testId;
 
   const auth_key = req.query.auth_key;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", async (err, data) => {
+  if (auth_key != null) {
+    fs.readFile(filePath, "utf8", async (err, data) => {
+      if (err) {
+        console.error("Error reading file:", err);
+        res.status(500).send("Internal Server Error");
+        return;
+      }
+
+      try {
+        const users = JSON.parse(data);
+        const user = users.find((user) => user.auth_key === auth_key);
+        if (user) {
+          const course = findCourse(users, user.auth_key, courseName);
+          if (course != null) {
+            let filePathImg;
+            if (testId != null) {
+              filePathImg = path.join(
+                __dirname,
+                `courseData/${course.id}/block${blockId}/test${testId}/cover.png`
+              );
+            } else if (blockId != null) {
+              filePathImg = path.join(
+                __dirname,
+                `courseData/${course.id}/block${blockId}/cover.png`
+              );
+            } else {
+              filePathImg = path.join(
+                __dirname,
+                `courseData/${course.id}/cover.png`
+              );
+            }
+            fs.readFile(filePathImg, (err, data) => {
+              if (err) {
+                res.status(404).send("Image not found");
+              } else {
+                res.writeHead(200, { "Content-Type": "image/png" });
+                res.end(data);
+              }
+            });
+          }
+        }
+      } catch (error) {
+        console.error("Error loading test data:", error);
+        res.status(500).send("Error loading test data");
+      }
+    });
+  } else {
+    let filePathImg = path.join(__dirname, `courseData/${courseName}/cover.png`);
+    fs.readFile(filePathImg, (err, data) => {
+      if (err) {
+        res.status(404).send("Image not found");
+      } else {
+        res.writeHead(200, { "Content-Type": "image/png" });
+        res.end(data);
+      }
+    });
+  }
+});
+app.post("/api/marketplace/getCourses", (req, res) => {
+  const {
+    auth_key,
+    search_tags,
+    authors,
+    only_show_non_owned,
+    search_index,
+    search_amount,
+  } = req.body;
+  const coursesFilePath = path.join(__dirname, "courses.json");
+
+  fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
     if (err) {
       console.error("Error reading file:", err);
       res.status(500).send("Internal Server Error");
@@ -1217,42 +1289,96 @@ app.get("/api/getCoverImage", (req, res) => {
     }
 
     try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
-        if (course != null) {
-          let filePathImg;
-          if (testId != null) {
-            filePathImg = path.join(
-              __dirname,
-              `courseData/${course.id}/block${blockId}/test${testId}/cover.png`
-            );
-          } else if (blockId != null) {
-            filePathImg = path.join(
-              __dirname,
-              `courseData/${course.id}/block${blockId}/cover.png`
-            );
-          } else {
-            filePathImg = path.join(
-              __dirname,
-              `courseData/${course.id}/cover.png`
-            );
-          }
-          fs.readFile(filePathImg, (err, data) => {
-            if (err) {
-              res.status(404).send("Image not found");
-            } else {
-              res.writeHead(200, { "Content-Type": "image/png" });
-              res.end(data);
+      const courses = JSON.parse(courseData);
+      const searchForTags = search_tags != null && search_tags != [];
+      const searchForAuthors = authors != null && authors != [];
+      const searchForUserCourses =
+        auth_key != null && auth_key != "" && only_show_non_owned;
+      let tag_courses = [];
+      let author_courses = [];
+      let owned_courses = [];
+      Array.from(courses).forEach((course) => {
+        if (searchForTags) {
+          Array.from(course.tags).forEach((tag) => {
+            if (search_tags.includes(tag)) {
+              tag_courses.push(course);
             }
           });
         }
+
+        if (searchForAuthors) {
+          Array.from(authors).forEach((author) => {
+            if (author == course.author) {
+              author_courses.push(course);
+            }
+          });
+        }
+        if (searchForUserCourses) {
+          const usersFilePath = path.join(__dirname, "users.json");
+          fs.readFile(usersFilePath, "utf8", (err, data) => {
+            if (err) {
+              console.error("Error reading file:", err);
+              res.status(500).send("Internal Server Error");
+              return;
+            }
+
+            try {
+              const users = JSON.parse(data);
+              const user = users.find((user) => user.auth_key === auth_key);
+              if (user) {
+                Array.from(user.courses).forEach((u_course) => {
+                  if (u_course.id == course.id) {
+                    owned_courses.push(course);
+                  }
+                });
+              } else {
+                res.status(404);
+              }
+            } catch (parseErr) {
+              console.error("Error parsing JSON:", parseErr);
+              res.status(500).send("Internal Server Error");
+            }
+          });
+        }
+      });
+      let similar_courses = [];
+      function intersectArrays(arr1, arr2) {
+        return arr1.filter((item) => arr2.includes(item));
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
+
+      // Process similar_courses based on search_tags
+      if (searchForTags) {
+        if (similar_courses.length === 0) {
+          similar_courses = tag_courses;
+        } else {
+          similar_courses = intersectArrays(similar_courses, tag_courses);
+        }
+      }
+
+      // Process similar_courses based on authors
+      if (searchForAuthors) {
+        if (similar_courses.length === 0) {
+          similar_courses = author_courses;
+        } else {
+          similar_courses = intersectArrays(similar_courses, author_courses);
+        }
+      }
+
+      // Process similar_courses based on owned courses
+      if (searchForUserCourses) {
+        if (similar_courses.length === 0) {
+          similar_courses = owned_courses;
+        } else {
+          similar_courses = intersectArrays(similar_courses, owned_courses);
+        }
+      }
+
+      const startIndex = search_index * search_amount;
+      const endIndex = (search_index + 1) * search_amount;
+      const maxIndex = Math.floor(similar_courses.length / search_amount);
+      similar_courses = similar_courses.slice(startIndex, endIndex);
+      res.status(200).send({ courses: similar_courses, maxIndex: maxIndex });
+    } catch {}
   });
 });
 

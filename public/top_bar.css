@@ -20,7 +20,7 @@
 }
 .top_bar-part {
   width: 50%;
-  height: 100%;
+  height: 90%;
   display: flex;
   flex-wrap: nowrap;
   padding-inline: 2rem;
@@ -58,7 +58,7 @@
   text-decoration: underline;
 }
 .top_bar-element.__tag-pc {
-  height: initial;
+  height: 90%;
 }
 .top_bar-login,
 .top_bar-profile {

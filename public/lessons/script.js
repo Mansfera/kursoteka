@@ -50,8 +50,12 @@ function openFinalTest(course, block, first_test_id, last_test_id) {
   window.location = `/test/?course=${course}&block=${block}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
 }
 
-function openMaterials(course, block, test) {}
-function openVideo(course, block, test) {}
+function openMaterials(course, block, tema) {
+  window.open(`/lesson_materials/?scroll_to=materials&course=${course}&block=${block}&tema=${tema}`)
+}
+function openVideo(course, block, tema) {
+  window.open(`/lesson_materials/?scroll_to=video&course=${course}&block=${block}&tema=${tema}`)
+}
 
 function fetchAndDisplayUserCourses() {
   let auth_key = getCookie("auth_key");
