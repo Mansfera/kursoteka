@@ -61,7 +61,7 @@
 .top_bar-profile {
   border: 1px aliceblue solid;
   border-radius: 5rem;
-  padding: 1.3rem;
+  padding-block: 1.5rem;
   padding-inline: 2rem;
   height: fit-content;
 }
