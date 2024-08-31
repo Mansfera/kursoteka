@@ -1,6 +1,7 @@
 .main_wrapper-segment {
   overflow: hidden;
   overflow-y: visible;
+  height: 100vh;
 }
 .segment-top_screen_title {
   display: flex;
@@ -23,6 +24,7 @@
   height: 100%;
   display: flex;
   justify-content: center;
+  align-items: center;
   flex-direction: row;
   position: relative;
 }
