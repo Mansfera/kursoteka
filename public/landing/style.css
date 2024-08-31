@@ -28,6 +28,11 @@
   flex-direction: row;
   position: relative;
 }
+@media screen and (min-width: 2048px) {
+  .segment-course_gallery {
+    margin-top: -3rem;
+  }
+}
 .course_gallery-wrapper {
   display: flex;
   height: 600px;

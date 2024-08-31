@@ -34,8 +34,10 @@ function createGalleryItem(course, moveIndex) {
       </div>
     </div>
     <div class="course_gallery-lock_overlay transition move${moveIndex} display-none" id="course_lock_overlay-${course.id}">
-      <div class="lock_overlay-lock_blob">
-        <img src="/assets/lock.svg" alt="locked course"/>
+      <div class="lock_overlay-lock_blob-wrapper">
+        <div class="lock_overlay-lock_blob">
+          <img src="/assets/lock.svg" alt="locked course"/>
+        </div>
       </div>
     </div>
     `;
