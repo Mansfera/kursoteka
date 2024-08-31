@@ -43,6 +43,7 @@ var swipeInterval;
 function swipeLeftGallery() {
   for (let i = 2; i > -3; i--) {
     const element = document.getElementById("__move_index" + i);
+    const element_child = element.children[0];
     const classes = element.classList;
 
     let number = null;
@@ -54,16 +55,21 @@ function swipeLeftGallery() {
     });
     if (number == -2) {
       element.classList.toggle("transition");
+      element_child.classList.toggle("transition");
     }
     element.classList.remove("move" + number);
+    element_child.classList.remove("move" + number);
     if (number - 1 == -3) {
       element.classList.add("move2");
+      element_child.classList.add("move2");
     } else {
       element.classList.add("move" + (number - 1));
+      element_child.classList.add("move" + (number - 1));
     }
     if (number == -2) {
       setTimeout(() => {
         element.classList.toggle("transition");
+        element_child.classList.toggle("transition");
       }, 500);
     }
   }
@@ -71,6 +77,8 @@ function swipeLeftGallery() {
 function swipeRightGallery() {
   for (let i = -2; i < 3; i++) {
     const element = document.getElementById("__move_index" + i);
+    const element_child = element.children[0];
+
     const classes = element.classList;
 
     let number = null;
@@ -82,16 +90,21 @@ function swipeRightGallery() {
     });
     if (number == 2) {
       element.classList.toggle("transition");
+      element_child.classList.toggle("transition");
     }
     element.classList.remove("move" + number);
+    element_child.classList.remove("move" + number);
     if (number + 1 == 3) {
       element.classList.add("move-2");
+      element_child.classList.add("move-2");
     } else {
       element.classList.add("move" + (number + 1));
+      element_child.classList.add("move" + (number + 1));
     }
     if (number == 2) {
       setTimeout(() => {
         element.classList.toggle("transition");
+        element_child.classList.toggle("transition");
       }, 500);
     }
   }
