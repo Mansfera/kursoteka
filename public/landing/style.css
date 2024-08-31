@@ -24,11 +24,9 @@
   justify-content: center;
   flex-direction: row;
   position: relative;
-  transition: all 1s linear;
 }
 .course_gallery-wrapper {
   display: flex;
-  transition: transform 0.5s ease-in-out;
   height: 100%;
   width: 100%;
   justify-content: center;
@@ -50,7 +48,7 @@
   }
 }
 .course_gallery-item-wrapper.transition {
-  transition: translate 0.5s ease-in-out;
+  transition: translate 1s ease-in-out;
   opacity: 1;
 }
 .course_gallery-item-wrapper.move-2 {
@@ -81,7 +79,7 @@
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  transition: transform 0.5s ease-in-out;
+  transition: transform 1s ease-in-out, box-shadow 1s ease-in-out;
 }
 .course_gallery-item.move-2 {
   transform: rotateX(0deg) rotateY(25deg) rotateZ(5deg);
