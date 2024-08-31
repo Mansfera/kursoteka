@@ -203,6 +203,14 @@
   overflow-x: clip;
   margin-left: -3rem;
 }
+@keyframes linearMove {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
 .spining_text-item-wrapper {
   position: relative;
   display: flex;
@@ -210,12 +218,12 @@
   gap: 23rem;
   width: max-content;
   height: 100%;
-  animation: linearMove 30s linear infinite;
 }
 .spining_text-item {
   width: max-content;
   font-size: calc(15vw + 1rem);
   font-weight: 600;
+  animation: linearMove 30s linear infinite;
 }
 .footer-util_columns {
   display: flex;
