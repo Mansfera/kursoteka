@@ -1,5 +1,23 @@
 [
   {
+    "id": "math",
+    "name": "Підготовка до НМТ з математики",
+    "type": "Математика",
+    "tags": ["math", "nmt", "recommended", "in_developement"],
+    "author": "",
+    "totalUsers": 1,
+    "blocks": []
+  },
+  {
+    "id": "english",
+    "name": "Підготовка до НМТ з англійської мови",
+    "type": "Англійська мова",
+    "tags": ["english", "nmt", "recommended", "in_developement"],
+    "author": "",
+    "totalUsers": 1,
+    "blocks": []
+  },
+  {
     "id": "history",
     "name": "Курси підготовки до НМТ з історії України",
     "type": "Історія",
@@ -162,24 +180,6 @@
         ]
       }
     ]
-  },
-  {
-    "id": "math",
-    "name": "Підготовка до НМТ з математики",
-    "type": "Математика",
-    "tags": ["math", "nmt", "recommended", "in_developement"],
-    "author": "",
-    "totalUsers": 1,
-    "blocks": []
-  },
-  {
-    "id": "english",
-    "name": "Підготовка до НМТ з англійської мови",
-    "type": "Англійська мова",
-    "tags": ["english", "nmt", "recommended", "in_developement"],
-    "author": "",
-    "totalUsers": 1,
-    "blocks": []
   },
   {
     "id": "ukrainian",
