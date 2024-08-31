@@ -103,8 +103,9 @@
 .course_gallery-item-name {
   margin-top: auto;
   z-index: 2;
-  font-weight: 400;
-  font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 2rem;
+  text-transform: uppercase;
 }
 
 .segment-citate-wrapper {
