@@ -37,12 +37,17 @@
 .course_gallery-item-wrapper {
   position: absolute;
   height: 100%;
-  width: 350px;
+  width: 450px;
   display: flex;
   justify-content: center;
   align-items: center;
   scroll-snap-align: center;
   opacity: 0;
+}
+@media screen and (max-width: 576px) {
+  .course_gallery-item-wrapper {
+    width: 350px;
+  }
 }
 .course_gallery-item-wrapper.transition {
   transition: translate 0.5s ease-in-out;
@@ -130,14 +135,6 @@
   display: flex;
   overflow-x: clip;
   margin-left: -3rem;
-}
-@keyframes linearMove {
-  0% {
-    left: 100%;
-  }
-  100% {
-    left: -350vw;
-  }
 }
 .spining_text-item-wrapper {
   position: relative;
