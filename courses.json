@@ -175,7 +175,7 @@
   {
     "id": "english",
     "name": "Підготовка до НМТ з англійської мови",
-    "type": "Математика",
+    "type": "Англійська мова",
     "tags": ["english", "nmt", "recommended"],
     "author": "",
     "totalUsers": 1,
@@ -184,7 +184,7 @@
   {
     "id": "ukrainian",
     "name": "Підготовка до НМТ з української мови",
-    "type": "Математика",
+    "type": "Українська мова",
     "tags": ["ukrainian", "nmt", "recommended"],
     "author": "",
     "totalUsers": 1,
@@ -193,7 +193,7 @@
   {
     "id": "biology",
     "name": "Підготовка до НМТ з біології",
-    "type": "Математика",
+    "type": "Біологія",
     "tags": ["biology", "nmt", "recommended"],
     "author": "",
     "totalUsers": 1,
