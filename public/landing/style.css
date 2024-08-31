@@ -50,6 +50,7 @@
   scroll-snap-align: center;
   perspective: 1000px;
   opacity: 0;
+  cursor: pointer;
 }
 @media screen and (max-width: 576px) {
   .course_gallery-item-wrapper {

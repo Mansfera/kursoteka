@@ -148,6 +148,9 @@ document.addEventListener("DOMContentLoaded", function () {
         moveIndex++;
         const course_element = createGalleryItem(course, moveIndex);
         gallery.appendChild(course_element);
+        course_element.addEventListener("click", () => {
+          window.location = "/course/" + course.id;
+        });
         if (course.tags.includes("in_developement")) {
           document
             .getElementById(`course_lock_overlay-${course.id}`)
