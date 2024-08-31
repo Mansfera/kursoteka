@@ -222,7 +222,7 @@
   width: max-content;
   font-size: calc(15vw + 1rem);
   font-weight: 600;
-  animation: linearMove 30s linear infinite;
+  animation: linearMove 15s linear infinite;
 }
 .footer-util_columns {
   display: flex;
