@@ -7,7 +7,7 @@ if (getCookie("auth_key") != null && params.get("noRedirect") == null) {
 
 function register() {
   document.getElementById("status_wrapper").classList.remove("display-none");
-  const login = document.getElementById("login").value.toString();
+  const login = document.getElementById("login").value.toString().toLowerCase();
   const password = document.getElementById("password").value.toString();
   const name = document.getElementById("name").value.toString();
   const surname = document.getElementById("surname").value.toString();
@@ -99,7 +99,7 @@ function login() {
     if (login.length <= 32 && password.length <= 32) {
       if (login.length > 2) {
         if (password.length > 6) {
-          sendLoginInfo(login, password);
+          sendLoginInfo(login.toLowerCase(), password);
         } else {
           if (password_warning) {
             document.getElementById("status_line").innerHTML =
