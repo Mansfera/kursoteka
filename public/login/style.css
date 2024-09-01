@@ -93,9 +93,6 @@ input::placeholder {
 }
 
 @media screen and (max-width: 576px) {
-  .main_wrapper-form {
-    height: calc(100% - 8vh);
-  }
   .form-status {
     margin-bottom: 4rem;
     font-weight: 500;

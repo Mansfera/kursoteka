@@ -87,6 +87,7 @@ function login() {
   if (password.length == 0 && login.length > 2) {
     Array.from(form_fields.children).forEach((half) => {
       half.classList.add("move");
+      document.getElementById("form-name").innerHTML = "ЩЕ ТРІШКИ"
     });
   }
 

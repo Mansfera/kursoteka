@@ -12,17 +12,19 @@ function fetchAndDisplayUserCourses() {
       const courseListElement = document.getElementById("course_list");
       if (data.courses.length > 0) {
         data.courses.forEach((course) => {
-          console.log(course)
+          console.log(course);
           const courseCard = document.createElement("div");
           courseCard.className = "courses-card-wrapper";
           courseCard.innerHTML = `
             <div class="courses-card" id="course_card-${course.id}">
               <div class="card-top_buttons">
                 <div
-                  class="card-course_stats card-blob"
+                  class="card-course_stats top_button card-blob"
                   id="course_stats-${course.id}"
-                >Статистика</div>
-                <div class="card-course_start_btn card-blob" id="course_start-${course.id}">
+                >
+                  <img src="/assets/stats.svg" alt="" />
+                </div>
+                <div class="card-course_start_btn top_button card-blob" id="course_start-${course.id}">
                   <img src="/assets/play.svg" alt="" />
                 </div>
               </div>
