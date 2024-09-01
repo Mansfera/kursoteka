@@ -257,15 +257,26 @@ function createPromocodeElement(promocode, used_by, used_date) {
   return wrapper;
 }
 function copyInnerHtml(elementId) {
-  var content = document.getElementById(elementId).innerHTML;
+  var element = document.getElementById(elementId);
+  var content = element.innerHTML;
+
+  // Change innerHTML to "Скопійовано!"
+  element.innerHTML = "Скопійовано!";
+
+  // Use a function in setTimeout to reset innerHTML after 3 seconds
+  setTimeout(function() {
+      element.innerHTML = content;
+  }, 3000);
+
+  // Create a temporary textarea to copy the content
   var tempTextarea = document.createElement("textarea");
   tempTextarea.value = content;
   document.body.appendChild(tempTextarea);
   tempTextarea.select();
-  tempTextarea.setSelectionRange(0, 99999);
   document.execCommand("copy");
   document.body.removeChild(tempTextarea);
 }
+
 function formatDate(timestamp) {
   // Create a new Date object using the timestamp
   var date = new Date(timestamp);
