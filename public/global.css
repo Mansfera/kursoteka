@@ -58,3 +58,7 @@ select:focus {
   --glass-light: rgba(0, 0, 0, 0.35);
   --glass-strong: rgba(0, 0, 0, 0.65);
 }
+
+.global_svg {
+  stroke-width: 3;
+}
