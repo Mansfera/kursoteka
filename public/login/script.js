@@ -12,7 +12,6 @@ function register() {
   const name = document.getElementById("name").value.toString();
   const surname = document.getElementById("surname").value.toString();
 
-
   if (
     !login.includes(" ") &&
     !password.includes(" ") &&
@@ -22,10 +21,11 @@ function register() {
     if (login.length <= 32 && password.length <= 32) {
       if (login.length > 2) {
         if (name.length >= 2 && surname.length >= 2) {
-          sendRegisterInfo(login, password);
-        } {
+          sendRegisterInfo(login, password, name, surname);
+        }
+        {
           document.getElementById("status_line").innerHTML =
-          "Введіть ваше прізвище та імʼя";
+            "Введіть ваше прізвище та імʼя";
         }
       } else {
         document.getElementById("status_line").innerHTML =
@@ -40,13 +40,13 @@ function register() {
       "Логін чи пароль можуть містити БУДЬ ЯКІ символи крім пробілів, \" та '";
   }
 }
-function sendRegisterInfo(login, password) {
+function sendRegisterInfo(login, password, name, surname) {
   fetch("/api/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ login, password }),
+    body: JSON.stringify({ login, password, name, surname }),
   })
     .then((response) => {
       switch (response.status) {
