@@ -29,7 +29,7 @@
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="/global.js"></script>
     <script src="/top_bar.js"></script>
-    <title>Підготовка до НМТ</title>
+    <title>Про курс</title>
   </head>
   <body>
     <div class="main_wrapper">
@@ -40,197 +40,138 @@
       ></div>
       <div class="main_wrapper-segment">
         <div class="top_bar_spacefiller"></div>
-        <div class="title_text white_text">
-          Курс підготовки з НМТ до історії України
-        </div>
-        <div class="subtitle_text white_text">
-          35 тем, рівень підготовки 190+
-        </div>
+        <div class="title_text white_text" id="course_name"></div>
+        <div class="subtitle_text white_text" id="master-key_feature"></div>
         <div class="segment-pictures_collection">
-          <div class="pictures_collection-column __2_squre-width __2_squre-height __tag-pc">
-            <img src="" class="pictures_collection-image __1_squre-height" id="about_course-horizobtal" />
+          <div
+            class="pictures_collection-column __2_squre-width __2_squre-height __tag-pc"
+          >
+            <img
+              src=""
+              class="pictures_collection-image __1_squre-height"
+              id="about_course-horizontal"
+            />
             <div class="pictures_collection-column-row __1_squre-height">
-              <img src="" class="pictures_collection-image" id="about_course-square-1" />
-              <img src="" class="pictures_collection-image" id="about_course-square-2"/>
+              <img
+                src=""
+                class="pictures_collection-image"
+                id="about_course-square-1"
+              />
+              <img
+                src=""
+                class="pictures_collection-image"
+                id="about_course-square-2"
+              />
             </div>
           </div>
-          <div class="pictures_collection-column __1_squre-width __2_squre-height">
-            <img src="" class="pictures_collection-image __2_squre-height" id="about_course-vertical" />
+          <div
+            class="pictures_collection-column __1_squre-width __2_squre-height"
+          >
+            <img
+              src=""
+              class="pictures_collection-image __2_squre-height"
+              id="about_course-vertical"
+            />
           </div>
-          <div class="pictures_collection-column __1_squre-width __1_squre-height __tag-pc">
-            <img src="" class="pictures_collection-image " id="about_course-square-3"/>
+          <div
+            class="pictures_collection-column __1_squre-width __1_squre-height __tag-pc"
+          >
+            <img
+              src=""
+              class="pictures_collection-image"
+              id="about_course-square-3"
+            />
           </div>
         </div>
         <div class="segment-start_course_button-wrapper">
           <div class="circle_cutout_bottom"></div>
           <div class="circle_cutout_top"></div>
           <div class="segment-start_course_button" id="start_course">
-            <img src="/assets/play-triangle.png" alt="" />
+            <img src="/assets/play.svg" alt="" />
             <span>Почати курс</span>
           </div>
         </div>
       </div>
-      <div class="main_wrapper-segment no_padding">
+      <div class="main_wrapper-segment no_gap no_padding free_height_segment">
         <div class="segment-top_bar_spacefiller"></div>
-        <div class="segment-half_screen_picture">
+        <div class="segment-half_screen_picture" id="segment-half_screen_picture">
           <div class="half_screen_picture-top white_text title_text">
             ДЕТАЛІ ПРО КУРС
           </div>
           <div class="half_screen_picture-bottom">
             <div class="mini_text_card">
-              <div class="subtitle_text white_text">9 місяців</div>
-              <div class="info_text white_text">
-                Мікронавчання у стилі «трохи тут, трохи там» — не працює. Це
-                тривала і складна програма, націлена на серйозний результат.
-              </div>
+              <div
+                class="subtitle_text white_text"
+                id="details_card-title-1"
+              ></div>
+              <div class="info_text white_text" id="details_card-text-1"></div>
             </div>
             <div class="mini_text_card">
-              <div class="subtitle_text white_text">±7000 грн/міс.</div>
-              <div class="info_text white_text">
-                Загальна вартість програми — 63 000 грн за 9 місяців. Кожен
-                модуль оплачується окремо.
-              </div>
+              <div
+                class="subtitle_text white_text"
+                id="details_card-title-2"
+              ></div>
+              <div class="info_text white_text" id="details_card-text-2"></div>
             </div>
             <div class="mini_text_card">
-              <div class="subtitle_text white_text">100+ занять</div>
-              <div class="info_text white_text">
-                Ви пройдете 5 практичних модулів і 2 модулі від Humanitarium на
-                вибір. Щоб перейти на наступний модуль, необхідно успішно
-                завершити попередній.
-              </div>
+              <div
+                class="subtitle_text white_text"
+                id="details_card-title-3"
+              ></div>
+              <div class="info_text white_text" id="details_card-text-3"></div>
             </div>
             <div class="mini_text_card">
-              <div class="subtitle_text white_text">Графік</div>
-              <div class="info_text white_text">
-                У кожного модуля індивідуальний розклад та канікули між ними.
-                Детальніше про процес навчання дізнавайтесь на сторінках кожного
-                модуля.
-              </div>
+              <div
+                class="subtitle_text white_text"
+                id="details_card-title-4"
+              ></div>
+              <div class="info_text white_text" id="details_card-text-4"></div>
             </div>
           </div>
         </div>
-        <div class="segment-row-wrapper">
-          <div class="segment-row">
-            <div class="segment-row-left segment-row-element">
+        <div class="segment-bottom_info-wrapper">
+          <div class="segment-bottom_info">
+            <div class="segment-bottom_info-left segment-bottom_info-element">
               <div class="title_text white_text">Вас навчатиме</div>
-              <div class="subtitle_text white_text">
-                Турчин Володимир Володимирович
-              </div>
-              <div class="info_text white_text">
-                Викладач історії, народжений 15 березня 1975 року в Києві.
-                Закінчив історичний факультет Київського національного
-                університету імені Тараса Шевченка. Працює викладачем з 2000
-                року, має значний досвід роботи у школі та вищих навчальних
-                закладах. Автор наукових статей та навчальних посібників,
-                активний учасник наукових конференцій. Відомий своїм
-                інноваційним підходом до викладання та вихованням успішних
-                випускників.
-              </div>
+              <div class="subtitle_text white_text" id="teacher_name"></div>
+              <div class="big_white_circle __tag-mobile"></div>
+              <div class="info_text white_text" id="teacher_bio"></div>
             </div>
-            <div class="segment-row-right segment-row-element">
-              <div class="row-text_card">
-                <div class="title_text white_text">19</div>
-                <div class="subtitle_text white_text">років досвіду</div>
+            <div class="segment-bottom_info-center segment-bottom_info-element">
+              <div class="big_white_circle"></div>
+            </div>
+            <div class="segment-bottom_info-right segment-bottom_info-element">
+              <div class="bottom_info-text_card">
+                <div class="bottom_info-text_card-text title_text white_text" id="key_feature-top-1"></div>
+                <div
+                  class="bottom_info-text_card-text subtitle_text white_text"
+                  id="key_feature-bottom-1"
+                ></div>
               </div>
-              <div class="row-text_card">
-                <div class="title_text white_text">30+</div>
-                <div class="subtitle_text white_text">
-                  учнів набрало 200 балів
-                </div>
+              <div class="bottom_info-text_card">
+                <div class="bottom_info-text_card-text title_text white_text" id="key_feature-top-2"></div>
+                <div
+                  class="bottom_info-text_card-text subtitle_text white_text"
+                  id="key_feature-bottom-2"
+                ></div>
               </div>
-              <div class="row-text_card">
-                <div class="title_text white_text">144</div>
-                <div class="subtitle_text white_text">позитивні відгуки</div>
+              <div class="bottom_info-text_card">
+                <div class="bottom_info-text_card-text title_text white_text" id="key_feature-top-3"></div>
+                <div
+                  class="bottom_info-text_card-text subtitle_text white_text"
+                  id="key_feature-bottom-3"
+                ></div>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="main_wrapper-segment free_height_segment">
-        <div class="segment-material_list">
+        <div class="segment-material_list" id="segment-material_list">
           <div class="title_text white_text">НАВЧАЛЬНИЙ ПЛАН</div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">01</div>
-            <div class="material_list-element-text white_text title_text">
-              Від найдавніших часів до першої половини ХVІ ст.
-            </div>
-          </div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">02</div>
-            <div class="material_list-element-text white_text title_text">
-              Друга половина ХVІ ст. – XVIII ст.
-            </div>
-          </div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">03</div>
-            <div class="material_list-element-text white_text title_text">
-              Довге ХІХ століття
-            </div>
-          </div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">04</div>
-            <div class="material_list-element-text white_text title_text">
-              ХХ століття
-            </div>
-          </div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">05</div>
-            <div class="material_list-element-text white_text title_text">
-              Утворення СРСР, тоталітарний режим і Друга світова війна
-            </div>
-          </div>
-          <div class="material_list-element">
-            <div class="material_list-element-number white_text">06</div>
-            <div class="material_list-element-text white_text title_text">
-              Україна від повоєнних років до незалежності, 50-ті роки ХХ ст. -
-              ХХІ ст.
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="main_wrapper-segment">
-        <div class="segment-top_bar_spacefiller"></div>
-
-        <div class="segment-reg_form_division">
-          <div class="segment-registration_form-wrapper">
-            <div class="title_text white_text">
-              Залишити заявку на реєстрацію
-            </div>
-            <div class="registration_form">
-              <input
-                type="text"
-                name="surname"
-                placeholder="Прізвище"
-                class="white_text"
-                id="registration_form-surname"
-              />
-              <input
-                type="text"
-                name="name"
-                placeholder="Імʼя"
-                class="white_text"
-                id="registration_form-name"
-              />
-              <input
-                type="text"
-                name="phone number"
-                placeholder="Номер телефону"
-                class="white_text"
-                id="registration_form-phone_number"
-              />
-              <div
-                class="registration_form-submit_btn white_text subtitle_text"
-                id="submit_reg_form"
-              >
-                Відправити
-              </div>
-            </div>
-          </div>
-          <div class="segment-right_screen_picture">
-            <img src="right-side-picture.png" alt="" />
-          </div>
         </div>
       </div>
     </div>
   </body>
+  <script src="script.js"></script>
 </html>

@@ -1212,7 +1212,7 @@ app.get("/api/getCoverImage", (req, res) => {
   let image_name = req.query.image_name;
 
   if (image_name == null) {
-    image_name = "cover"
+    image_name = "cover";
   }
 
   const auth_key = req.query.auth_key;
@@ -1279,6 +1279,7 @@ app.get("/api/getCoverImage", (req, res) => {
     });
   }
 });
+
 app.post("/api/marketplace/getCourses", (req, res) => {
   const {
     auth_key,
@@ -1388,6 +1389,85 @@ app.post("/api/marketplace/getCourses", (req, res) => {
       similar_courses = similar_courses.slice(startIndex, endIndex);
       res.status(200).send({ courses: similar_courses, maxIndex: maxIndex });
     } catch {}
+  });
+});
+app.post("/api/marketplace/getCourseInfo", (req, res) => {
+  const { specific_course } = req.body;
+  const coursesFilePath = path.join(__dirname, "courses.json");
+
+  fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const courses = JSON.parse(courseData);
+      let blocks = [];
+      let testCount = 0;
+      let found_course;
+      let courseName = "";
+      let authorName = "";
+      let authorAbout = "";
+      let masterFeature = "";
+      let keyFeatures = [];
+      let courseDetails = [];
+      Array.from(courses).forEach((course) => {
+        if (course.id == specific_course) {
+          found_course = course;
+        }
+      });
+      Array.from(found_course.blocks).forEach((block) => {
+        testCount += block.tests.length;
+        blocks.push(block);
+      });
+      courseName = found_course.name;
+      authorName = found_course.marketplace_info.author_name;
+      authorAbout = found_course.marketplace_info.author_about;
+      if (testCount > 4) {
+        let tema_text;
+        if (testCount % 10 === 1) {
+          tema_text = `${testCount} тема, `;
+        } else if (testCount % 10 > 1 && testCount % 10 < 5) {
+          tema_text = `${testCount} теми, `;
+        } else {
+          tema_text = `${testCount} тем, `;
+        }
+        masterFeature =
+          tema_text + found_course.marketplace_info.master_feature;
+      } else {
+        masterFeature = found_course.marketplace_info.master_feature;
+      }
+      keyFeatures = found_course.marketplace_info.key_features;
+      courseDetails = found_course.marketplace_info.course_details;
+      res.status(200).json({
+        courseName,
+        masterFeature,
+        courseDetails,
+        authorName,
+        authorAbout,
+        keyFeatures,
+        blocks,
+      });
+    } catch {}
+  });
+});
+app.get("/api/marketplace/getCourseImage", (req, res) => {
+  const courseName = req.query.course;
+  const imageName = req.query.image_name;
+
+  let filePathImg = path.join(
+    __dirname,
+    `courseData/${courseName}/marketplace/${imageName}.png`
+  );
+  fs.readFile(filePathImg, (err, data) => {
+    if (err) {
+      res.status(404).send("Image not found");
+    } else {
+      res.writeHead(200, { "Content-Type": "image/png" });
+      res.end(data);
+    }
   });
 });
 

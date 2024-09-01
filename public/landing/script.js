@@ -149,7 +149,13 @@ document.addEventListener("DOMContentLoaded", function () {
         const course_element = createGalleryItem(course, moveIndex);
         gallery.appendChild(course_element);
         course_element.addEventListener("click", () => {
-          window.location = "/course/?course=" + course.id;
+          const lock = document.getElementById(
+            `course_lock_overlay-${course.id}`
+          );
+          console.log(lock.classList)
+          if (lock.classList.contains("display-none")) {
+            window.location = "/course/?course=" + course.id;
+          }
         });
         if (course.tags.includes("in_developement")) {
           document

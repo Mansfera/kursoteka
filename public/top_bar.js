@@ -44,9 +44,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let pageName = path.replace(/^\/|\/$/g, "");
 
-            document
-              .getElementById("mobile_menu-list-" + pageName)
-              .classList.add("white_text");
+            current_page = document.getElementById(
+              "mobile_menu-list-" + pageName
+            );
+            if (current_page) {
+              current_page.classList.add("white_text");
+            }
           });
         });
         __tag = "__tag-pc";
