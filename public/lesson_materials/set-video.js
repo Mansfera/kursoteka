@@ -44,7 +44,7 @@ getPlaylist().then((data) => {
           const info = findBlockAndTest(data.courses[0], block, tema);
           console.log(info);
           if (info) {
-            document.getElementById("block_name").innerHTML = info.block.name;
+            // document.getElementById("block_name").innerHTML = info.block.name;
             document.getElementById("tema_name").innerHTML = info.tema.name;
           }
         }
