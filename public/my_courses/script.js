@@ -107,6 +107,11 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     var pastedText = (e.clipboardData || window.clipboardData).getData("text");
     e.target.value = formatCode(pastedText);
+    if (e.target.value.length > 16) {
+      document
+        .getElementById("course_activation-button")
+        .classList.remove("display-none");
+    }
   });
 });
 
