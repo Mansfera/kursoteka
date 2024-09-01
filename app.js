@@ -851,6 +851,7 @@ app.post("/api/getPromoCodes", (req, res) => {
                     promocode.used_by = student.login;
                     if (student.name != "") {
                       promocode.used_by_name = student.name;
+                      promocode.used_by_surname = student.surname;
                     }
                   } else {
                     promocode.used_by = "";

@@ -51,7 +51,8 @@ document.addEventListener("DOMContentLoaded", function () {
               usedBy = "користувачем ";
 
               if (promocode.used_by_name) {
-                usedBy += promocode.used_by_name;
+                usedBy +=
+                  promocode.used_by_name + " " + promocode.used_by_surname;
               } else {
                 usedBy += promocode.used_by;
               }
@@ -264,8 +265,8 @@ function copyInnerHtml(elementId) {
   element.innerHTML = "Скопійовано!";
 
   // Use a function in setTimeout to reset innerHTML after 3 seconds
-  setTimeout(function() {
-      element.innerHTML = content;
+  setTimeout(function () {
+    element.innerHTML = content;
   }, 3000);
 
   // Create a temporary textarea to copy the content
