@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
     <meta name="description" content="Курсотека © Mansfera" />
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes" />
 
     <link rel="stylesheet" href="/top_bar.css" />
     <link rel="stylesheet" href="/global.css" />
@@ -21,23 +21,15 @@
   </head>
   <body>
     <div class="main_wrapper">
-      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
-      <div
-        class="main_wrapper-mobile_menu collapsed"
-        id="mobile_menu-placeholder"
-      ></div>
-      <div class="top_bar_spacefiller"></div>
-      <div class="main_wrapper-player-wrapper">
-        <div class="player" id="player"></div>
-      </div>
-      <div class="main_wrapper-block_and_tema">
-        <div class="block_and_tema-block_name title_text white_text" id="block_name">
-        </div>
-        <div class="block_and_tema-tema_name">
-          <!-- <img src="/assets/dropdown.svg" alt="" /> -->
-          <div class="tema_name-text title_text white_text" id="tema_name">
-            Назва теми
+      <div class="main_wrapper-segment">
+        <div class="segment-material_name">
+          <div id="close_window" onclick="window.close()">
+            <img src="/assets/cross.svg" alt="" />
           </div>
+          <div class="tema_name-text subtitle_text white_text" id="tema_name"></div>
+        </div>
+        <div class="segment-player-wrapper">
+          <div class="player" id="player"></div>
         </div>
       </div>
     </div>

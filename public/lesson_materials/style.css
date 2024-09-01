@@ -1,8 +1,29 @@
-.main_wrapper {
-  padding-inline: 4rem;
+.main_wrapper-segment {
+  position: relative;
+  justify-content: center;
 }
-
-.main_wrapper-player-wrapper {
+.segment-material_name {
+  position: absolute;
+  top: 0;
+  padding-block: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 2rem;
+  align-items: center;
+}
+#close_window {
+  height: 50%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+#close_window img {
+  width: 75%;
+  object-fit: contain;
+  filter: invert(1);
+}
+.segment-player-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,6 +31,7 @@
   width: 100%;
   min-height: 20%;
   height: fit-content;
+  max-height: 100%;
   margin-top: 2rem;
 }
 @media screen and (max-width: 576px) {
