@@ -87,7 +87,7 @@ function login() {
   if (password.length == 0 && login.length > 2) {
     Array.from(form_fields.children).forEach((half) => {
       half.classList.add("move");
-      document.getElementById("form-name").innerHTML = "ЩЕ ТРІШКИ"
+      document.getElementById("form-name").innerHTML = "Ще трішки";
     });
   }
 
@@ -158,6 +158,8 @@ function sendLoginInfo(login, password) {
               input.classList.remove("display-none");
             }
           );
+          document.getElementById("form-name").innerHTML = "Необхідна інформація";
+
           document.getElementById("loginBtn").innerHTML = "Увійти";
           document.getElementById("loginBtn").classList.add("display-none");
           break;

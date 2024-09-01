@@ -5,6 +5,9 @@
   background-position: right;
   height: 100%;
 }
+#form-name {
+  text-transform: uppercase;
+}
 .main_wrapper-form {
   background-color: black;
   height: 100%;
