@@ -33,29 +33,56 @@
       <div class="main_wrapper-form">
         <div class="form-status">ВХІД</div>
         <div class="form-fields" id="form-fields">
-          <div class="form-fields-input">
-            <input
-              class="field"
-              type="text"
-              id="login"
-              name="login"
-              maxlength="32"
-              pattern="[^ ]*"
-              placeholder="Логін"
-              required
-            />
+          <div class="form-half">
+            <div class="form-fields-input">
+              <input
+                class="field"
+                type="text"
+                id="login"
+                name="login"
+                maxlength="32"
+                pattern="[^ ]*"
+                placeholder="Логін"
+                required
+              />
+            </div>
           </div>
-          <div class="form-fields-input">
-            <input
-              class="field"
-              type="password"
-              id="password"
-              name="password"
-              maxlength="32"
-              pattern="[^ ]*"
-              placeholder="Пароль"
-              required
-            />
+          <div class="form-half">
+            <div class="form-fields-input register_input display-none">
+              <input
+                class="field"
+                type="name"
+                id="name"
+                name="name"
+                maxlength="12"
+                placeholder="Імʼя"
+                required
+              />
+            </div>
+            <div class="form-fields-input register_input display-none">
+              <input
+                class="field"
+                type="surname"
+                id="surname"
+                name="surname"
+                maxlength="20"
+                pattern="[^ ]*"
+                placeholder="Прізвище"
+                required
+              />
+            </div>
+            <div class="form-fields-input">
+              <input
+                class="field"
+                type="password"
+                id="password"
+                name="password"
+                maxlength="32"
+                pattern="[^ ]*"
+                placeholder="Пароль"
+                required
+              />
+            </div>
           </div>
         </div>
         <div class="display-none" id="status_wrapper">

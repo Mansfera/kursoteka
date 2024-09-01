@@ -492,7 +492,7 @@ function readJsonFile(filePath) {
 }
 
 app.post("/api/register", (req, res) => {
-  const { login, password } = req.body;
+  const { login, password, name, surname } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -516,7 +516,8 @@ app.post("/api/register", (req, res) => {
           const newUser = {
             login: login,
             password: password,
-            name: "",
+            name: name,
+            surname: surname,
             group: "student",
             auth_key: createRandomString(128),
             coursesOwned: [],
