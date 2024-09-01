@@ -152,6 +152,7 @@
   }
 }
 .segment-bottom_info-wrapper {
+  z-index: 2;
   margin-top: 10%;
   justify-content: center;
   display: flex;
