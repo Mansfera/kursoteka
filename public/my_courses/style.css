@@ -138,7 +138,8 @@
 }
 @media screen and (max-width: 576px) {
   .courses-card-wrapper {
-    height: 50vh;
+    min-height: 600px;
+    height: 60vh;
     width: 100%;
   }
   .card-top_buttons {
