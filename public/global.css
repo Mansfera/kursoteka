@@ -55,6 +55,8 @@ select:focus {
 }
 :root {
   --rich-green: rgb(49, 83, 67);
+  --light-red: rgb(255 114 114);
+
   --glass-light: rgba(0, 0, 0, 0.35);
   --glass-strong: rgba(0, 0, 0, 0.65);
 }

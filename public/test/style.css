@@ -68,7 +68,7 @@
 }
 #timer_line {
   width: 100%;
-  background: rgba(49, 83, 67, 1);
+  background: var(--rich-green);
 }
 #bg_timer_line {
   width: 100%;
@@ -307,7 +307,7 @@
   /* padding: 1rem; */
 }
 .navigation_arrows-button {
-  border: 2px rgb(49, 83, 67) solid;
+  border: 2px var(--rich-green) solid;
   background-color: rgb(49, 83, 67);
   border-radius: 3rem;
   color: aliceblue;
@@ -429,10 +429,10 @@ input {
 }
 
 .incorrect {
-  background: rgb(255 114 114);
+  background: var(--light-red);
 }
 .correct {
-  background: rgba(49, 83, 67);
+  background: var(--rich-green);
 }
 .answered {
   background-color: teal;
