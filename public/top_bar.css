@@ -64,6 +64,7 @@
   padding-block: 1.5rem;
   padding-inline: 2rem;
   height: fit-content;
+  max-height: 85%;
 }
 
 .main_wrapper-mobile_menu {

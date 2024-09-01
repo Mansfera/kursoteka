@@ -612,7 +612,7 @@ function checkIfImageExists(blockId, testId, imageId) {
     }
   };
 
-  xhr.timeout = 10000;
+  // xhr.timeout = 10000;
 
   xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
