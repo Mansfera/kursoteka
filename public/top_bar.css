@@ -136,6 +136,7 @@
   font-weight: 500;
   color: gray;
   font-size: 2rem;
+  text-transform: uppercase;
 }
 .category-items-page.selected {
   color: aliceblue;

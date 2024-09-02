@@ -1,3 +1,5 @@
+const { param } = require("express/lib/request");
+
 document.addEventListener("DOMContentLoaded", function () {
   $(function () {
     $("#top_bar-placeholder").load("/top_bar.html", function () {
@@ -71,7 +73,14 @@ function showMobileMenu() {
   mobile_menu.classList.toggle("collapsed");
 }
 
-function changePage(mobile, page) {
+function changePage(mobile, page, params) {
+  let goToLoc = `/${page}/`;
+  if (params != null && params != []) {
+    goToLoc += "?";
+    Array.from(params).forEach((param) => {
+      goToLoc += `${param}&`;
+    });
+  }
   if (mobile) {
     Array.from(document.getElementsByClassName("category-items-page")).forEach(
       (element) => {
@@ -83,9 +92,9 @@ function changePage(mobile, page) {
       .classList.add("white_text");
     setTimeout(showMobileMenu, 200);
     setTimeout(() => {
-      window.location = `/${page}/`;
+      window.location = goToLoc;
     }, 700);
   } else {
-    window.location = `/${page}/`;
+    window.location = goToLoc;
   }
 }
