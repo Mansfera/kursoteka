@@ -13,8 +13,8 @@
 }
 .top_screen_title-ukrainian {
   width: 80%;
-  color: lightgray;
   text-align: start;
+  color: aliceblue;
 }
 .top_screen_title-latin {
   font-weight: 600;
@@ -32,6 +32,9 @@
   position: relative;
 }
 @media screen and (min-width: 2048px) {
+  .top_screen_title-ukrainian {
+    color: lightgray;
+  }
   .segment-course_gallery {
     margin-top: -3.75rem;
   }
