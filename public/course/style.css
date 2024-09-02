@@ -5,6 +5,7 @@
   gap: 0;
 }
 .free_height_segment {
+  min-height: fit-content;
   height: fit-content;
 }
 .main_wrapper-segment {
@@ -55,6 +56,7 @@
 }
 @media screen and (max-width: 768px) {
   .main_wrapper-segment {
+    min-height: 80vh;
     height: fit-content;
   }
   .pictures_collection-column.__tag-pc {
