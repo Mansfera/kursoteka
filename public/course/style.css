@@ -56,8 +56,9 @@
 }
 @media screen and (max-width: 768px) {
   .main_wrapper-segment {
-    min-height: 80vh;
+    min-height: 79vh;
     height: fit-content;
+    max-height: 100vh;
   }
   .segment-pictures_collection {
     min-height: 75%;
