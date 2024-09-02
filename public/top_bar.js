@@ -4,8 +4,14 @@ document.addEventListener("DOMContentLoaded", function () {
       // This code runs after the top_bar is fully loaded
       if (getCookie("auth_key") != null) {
         document.getElementById("login").classList.add("display-none");
-        document.getElementById("profile").classList.remove("display-none");
-        document.getElementById("my_courses").classList.remove("display-none");
+        const elements_remove_pc = [
+          "profile",
+          "my_courses",
+          "test_and_materials",
+        ];
+        Array.from(elements_remove_pc).forEach((element) => {
+          document.getElementById(element).classList.remove("display-none");
+        });
       }
       if (
         getCookie("coursesOwned") != [] &&
