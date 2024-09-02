@@ -73,8 +73,8 @@
   background-color: black;
 }
 .segment-start_course_button {
-  padding-block: 1rem;
-  padding-inline: 2rem;
+  padding-block: 2rem;
+  padding-inline: 2.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
