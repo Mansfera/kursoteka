@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("admin_panel").classList.remove("display-none");
       }
       let __tag = "";
-      if (window.matchMedia("(max-width: 576px)").matches) {
+      if (window.matchMedia("(max-width: 965px)").matches) {
         $(function () {
           $("#mobile_menu-placeholder").load("/mobile_menu.html", function () {
             if (getCookie("auth_key") != null) {
