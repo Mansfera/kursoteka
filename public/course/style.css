@@ -217,15 +217,14 @@
 .bottom_info-text_card-text {
   text-align: center;
 }
+
 #teacher_name {
   font-size: 1.85rem;
 }
 #teacher_bio {
   font-size: 1.25rem;
 }
-#you_will_be_teached_by {
-  font-size: 3.7rem;
-}
+
 @media screen and (max-width: 576px) {
   .segment-bottom_info-wrapper {
     margin-top: 0;

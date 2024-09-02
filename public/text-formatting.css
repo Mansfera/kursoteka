@@ -13,6 +13,9 @@
   font-weight: 400;
   font-size: small;
 }
+.big_text {
+  font-size: 3.7rem;
+}
 .bold {
   font-weight: 600;
 }
