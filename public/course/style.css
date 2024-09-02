@@ -85,7 +85,7 @@
   justify-content: center;
   align-items: center;
   background-color: aliceblue;
-  border-radius: 1.25rem;
+  border-radius: 2.5rem;
   cursor: pointer;
   height: 100%;
   position: relative;
@@ -115,7 +115,7 @@
 }
 .segment-half_screen_picture {
   z-index: 0;
-  height: 40%;
+  height: 50%;
   background-position: bottom;
   background-size: cover;
   display: flex;
@@ -150,6 +150,9 @@
   padding: 1rem;
 }
 @media screen and (max-width: 576px) {
+  .free_height_segment__mobile {
+    height: auto;
+  }
   .segment-half_screen_picture {
     height: fit-content;
   }
@@ -162,7 +165,7 @@
 }
 .segment-bottom_info-wrapper {
   z-index: 2;
-  margin-top: 10%;
+  margin-top: 3rem;
   justify-content: center;
   display: flex;
   flex-direction: column;
