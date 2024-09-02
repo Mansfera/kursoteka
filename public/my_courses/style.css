@@ -92,9 +92,10 @@
 .card-blob {
   height: 100%;
   border-radius: 10rem;
-  background-color: rgba(0, 0, 0, 0.35);
-  backdrop-filter: blur(10px);
-  padding: 0.75rem;
+  background-color: var(--glass-light);
+  backdrop-filter: blur(1rem);
+  padding-block: 1rem;
+  padding-inline: 1.25rem;
   overflow: hidden;
   display: flex;
   justify-content: center;
