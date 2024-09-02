@@ -37,15 +37,3 @@ function logout() {
   window.location = "/login";
   clearCookies();
 }
-document.addEventListener("DOMContentLoaded", function () {
-  const main_wrapper = document.querySelector(".main_wrapper");
-  if (main_wrapper.requestFullscreen) {
-    main_wrapper.requestFullscreen();
-  } else if (main_wrapper.webkitRequestFullscreen) {
-    /* Safari */
-    main_wrapper.webkitRequestFullscreen();
-  } else if (main_wrapper.msRequestFullscreen) {
-    /* IE11 */
-    main_wrapper.msRequestFullscreen();
-  }
-});
