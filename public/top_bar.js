@@ -86,9 +86,10 @@ function changePage(mobile, page, params) {
         element.classList.remove("white_text");
       }
     );
-    document
-      .getElementById("mobile_menu-list-" + page)
-      .classList.add("white_text");
+    const going_page = document.getElementById("mobile_menu-list-" + page);
+    if (going_page) {
+      going_page.classList.add("white_text");
+    }
     setTimeout(showMobileMenu, 200);
     setTimeout(() => {
       window.location = goToLoc;
