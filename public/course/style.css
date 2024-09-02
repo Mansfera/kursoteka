@@ -59,6 +59,9 @@
     min-height: 80vh;
     height: fit-content;
   }
+  .segment-pictures_collection {
+    min-height: 75%;
+  }
   .pictures_collection-column.__tag-pc {
     display: none;
   }
@@ -73,9 +76,9 @@
   right: 0;
   padding-top: 1rem;
   padding-left: 1rem;
-  border-top-left-radius: 2rem;
-  border-bottom-left-radius: -2rem;
+  border-radius: 2rem;
   background-color: black;
+  transition: all 0.3s ease-in-out;
 }
 .segment-start_course_button {
   padding-block: 2rem;
@@ -88,6 +91,7 @@
   cursor: pointer;
   height: 100%;
   position: relative;
+  font-size: 1.5rem;
 }
 .circle_cutout_bottom {
   position: absolute;
