@@ -23,8 +23,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 .classList.add("display-none");
               const elements_remove = [
                 "mobile_menu-list-profile",
-                "mobile_menu-list-my_courses",
                 "mobile_menu-list-logout",
+                "mobile_menu-list-my_courses",
+                "mobile_menu-list-test_and_materials",
               ];
               Array.from(elements_remove).forEach((element) => {
                 document
