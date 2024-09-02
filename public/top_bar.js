@@ -1,5 +1,3 @@
-const { param } = require("express/lib/request");
-
 document.addEventListener("DOMContentLoaded", function () {
   $(function () {
     $("#top_bar-placeholder").load("/top_bar.html", function () {
