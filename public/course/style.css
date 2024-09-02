@@ -56,7 +56,7 @@
 }
 @media screen and (max-width: 768px) {
   .main_wrapper-segment {
-    min-height: 79vh;
+    min-height: 75vh;
     height: fit-content;
     max-height: 100vh;
   }
