@@ -3,6 +3,9 @@ html {
 }
 * {
   user-select: none;
+  -webkit-user-select: none; /* Safari, Chrome, and other WebKit-based browsers */
+  -moz-user-select: none; /* Older versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
   box-sizing: border-box;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Arial;
   font-size: 1.1rem;
