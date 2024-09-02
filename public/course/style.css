@@ -53,7 +53,10 @@
 .__1_squre-height {
   height: 50%;
 }
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 768px) {
+  .main_wrapper-segment {
+    height: fit-content;
+  }
   .pictures_collection-column.__tag-pc {
     display: none;
   }
