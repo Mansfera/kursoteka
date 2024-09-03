@@ -24,9 +24,6 @@ function fetchAndDisplayUserCourses() {
                 >
                   <img src="/assets/stats.svg" alt="" />
                 </div>
-                <div class="card-course_start_btn top_button card-blob" id="course_start-${course.id}">
-                  <img src="/assets/play.svg" alt="" />
-                </div>
               </div>
               <div class="card-bottom">
                 <div class="card-course_type card-blob white_text" id="course_type-${course.id}">${course.type}</div>
