@@ -37,3 +37,6 @@ function logout() {
   window.location = "/login";
   clearCookies();
 }
+document.addEventListener('contextmenu', function(e) {
+  e.preventDefault();
+});
