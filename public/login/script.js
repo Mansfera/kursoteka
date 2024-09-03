@@ -93,8 +93,8 @@ function login() {
 
   if (
     !login.includes(" ") &&
-    !password.includes(" ") &&
     !login.includes('"') &&
+    !password.includes(" ") &&
     !password.includes('"')
   ) {
     if (login.length <= 32 && password.length <= 32) {
