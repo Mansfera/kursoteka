@@ -41,7 +41,8 @@
 }
 .course_gallery-wrapper {
   display: flex;
-  height: 600px;
+  height: 100%;
+  min-height: 410px;
   width: 100%;
   justify-content: center;
   position: relative;
