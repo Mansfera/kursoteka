@@ -6,9 +6,9 @@
   .main_wrapper-modules {
     padding-inline: 2rem;
   }
-}
-::-webkit-scrollbar {
-  display: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 .modules-material_list {
   margin-top: 2rem;

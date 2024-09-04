@@ -428,12 +428,18 @@ function showScore() {
 }
 
 function sendTestResult() {
+  let _test_id;
+  if (test_type == "final") {
+    _test_id = last_test_id;
+  } else {
+    _test_id = test_id;
+  }
   let testData = {
-    date: Math.round(Date.now() / 1000),
+    date: Date.now(),
     time: startingMinutes * 60 - time,
     test_type: test_type,
     block: block_id,
-    test: test_id,
+    test: _test_id,
     score: Math.ceil(score),
     auth_key: auth_key,
     courseName: course,

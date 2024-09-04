@@ -450,6 +450,105 @@ app.post("/sendTestResult", (req, res) => {
           score: score,
         };
         course.data.completed_tests.push(new_test);
+        if (!course.data.allowed_tests.includes("all")) {
+          switch (test_type) {
+            case "short": {
+              if (course.data.allowed_tests.includes(`${test + 1}`)) {
+                break;
+              }
+              const filteredTests = course.data.completed_tests.filter(
+                (item) => {
+                  item.test === test && item.test_type == test_type;
+                }
+              );
+              if (filteredTests.length < 3) {
+                break;
+              }
+              const filteredAndSortedTests = filteredTests
+                .filter(
+                  (item) =>
+                    Date.now() - new Date(item.date).getTime() <=
+                    3 * 24 * 60 * 60 * 1000
+                )
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              if (filteredAndSortedTests.length < 3) {
+                break;
+              }
+              const lastTests = filteredAndSortedTests.slice(0, 5);
+              const averageScore =
+                lastTests.reduce((sum, item) => sum + item.score, 0) /
+                lastTests.length;
+
+              if (averageScore < 70) {
+                break;
+              }
+              course.data.allowed_tests.push(`${test + 1}`);
+              break;
+            }
+            case "full": {
+              if (course.data.allowed_tests.includes(`${test + 1}`)) {
+                break;
+              }
+              const filteredTests = course.data.completed_tests.filter(
+                (item) => {
+                  item.test === test && item.test_type == test_type;
+                }
+              );
+              if (filteredTests.length == 0) {
+                break;
+              }
+              const filteredAndSortedTests = filteredTests
+                .filter(
+                  (item) =>
+                    Date.now() - new Date(item.date).getTime() <=
+                    3 * 24 * 60 * 60 * 1000
+                )
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              if (filteredAndSortedTests.length == 0) {
+                break;
+              }
+              const lastTests = filteredAndSortedTests.slice(0, 2);
+              const averageScore =
+                lastTests.reduce((sum, item) => sum + item.score, 0) /
+                lastTests.length;
+
+              if (averageScore < 60) {
+                break;
+              }
+              course.data.allowed_tests.push(`${test + 1}`);
+              break;
+            }
+            case "final": {
+              if (course.data.allowed_tests.includes(`${test + 1}`)) {
+                break;
+              }
+              const filteredTests = course.data.completed_tests.filter(
+                (item) => item.test === test
+              );
+              if (filteredTests.length == 0) {
+                break;
+              }
+              const filteredAndSortedTests = filteredTests
+                .filter(
+                  (item) =>
+                    Date.now() - new Date(item.date).getTime() <=
+                    3 * 24 * 60 * 60 * 1000
+                )
+                .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+              const lastTest =
+                filteredAndSortedTests[filteredAndSortedTests.length - 1];
+
+              if (lastTest.score < 70) {
+                break;
+              }
+              course.data.allowed_tests.push(`${test + 1}`);
+              break;
+            }
+          }
+        }
         updatedUsers.push(changedUser);
         fs.writeFile(
           filePath,
