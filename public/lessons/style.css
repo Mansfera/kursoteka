@@ -251,17 +251,25 @@
   width: 100%;
   height: 100%;
   display: flex;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  z-index: 4;
+  cursor: no-drop;
+}
+.lessons-lock_overlay-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
   flex-direction: column;
   gap: 2rem;
   padding: 2rem;
   justify-content: center;
   align-items: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  backdrop-filter: blur(1rem) brightness(0.45);
-  z-index: 4;
-  cursor: no-drop;
+  backdrop-filter: brightness(0.45);
 }
 .lock_overlay-lock_blob {
   padding: 1.5rem;
@@ -284,4 +292,5 @@
   text-align: center;
   white-space: initial;
   color: aliceblue;
+  font-size: 1.25rem;
 }

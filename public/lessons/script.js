@@ -147,16 +147,21 @@ function fetchAndDisplayUserCourses() {
                   </div>
                 </div>
                 <div class="lessons-lock_overlay" id="lesson_lock-${test.id}">
-                  <div class="lock_overlay-lock_blob">
-                    <img src="/assets/lock.svg" alt="locked lesson" />
+                  <div class="lessons-lock_overlay-wrapper">
+                    <div class="lock_overlay-lock_blob">
+                      <img src="/assets/lock.svg" alt="locked lesson" />
+                    </div>
+                    <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
                   </div>
-                  <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
                 </div>
               `;
               const imageCard = testCard.querySelector(".lessons-card");
               imageCard.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               testCard.querySelector(
                 ".test_picker-bubble_wrapper"
+              ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
+              testCard.querySelector(
+                ".lessons-lock_overlay"
               ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               block_tests.appendChild(testCard);
               if (!data.allowed_tests.includes("all")) {
