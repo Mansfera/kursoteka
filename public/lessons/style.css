@@ -251,24 +251,27 @@
   width: 100%;
   height: 100%;
   display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem;
   justify-content: center;
   align-items: center;
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem) brightness(0.45);
   z-index: 4;
   cursor: no-drop;
 }
 .lock_overlay-lock_blob {
-  padding: 2rem;
+  padding: 1.5rem;
   width: fit-content;
   max-width: 80%;
-  gap: 2rem;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: var(--glass-strong);
+  border-radius: 50%;
 }
 .lock_overlay-lock_blob img {
   width: 100%;

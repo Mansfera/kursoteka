@@ -149,8 +149,8 @@ function fetchAndDisplayUserCourses() {
                 <div class="lessons-lock_overlay" id="lesson_lock-${test.id}">
                   <div class="lock_overlay-lock_blob">
                     <img src="/assets/lock.svg" alt="locked lesson" />
-                    <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
                   </div>
+                  <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
                 </div>
               `;
               const imageCard = testCard.querySelector(".lessons-card");
