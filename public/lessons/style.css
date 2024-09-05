@@ -229,7 +229,7 @@
   left: 0;
   right: 0;
   height: 100%;
-  background:  rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.45);
 }
 .test_picker-test_bubble {
   z-index: 5;
@@ -242,4 +242,43 @@
   background-color: rgba(0, 0, 0, 0.35);
   cursor: pointer;
   text-align: center;
+}
+.lessons-lock_overlay {
+  position: absolute;
+  border-radius: 1.25rem;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  backdrop-filter: blur(1rem);
+  z-index: 4;
+  cursor: no-drop;
+}
+.lock_overlay-lock_blob {
+  padding: 2rem;
+  width: fit-content;
+  max-width: 80%;
+  gap: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.lock_overlay-lock_blob img {
+  width: 100%;
+  height: 100%;
+  max-width: 3rem;
+  object-fit: contain;
+}
+.lock_blob-text {
+  display: flex;
+  text-align: center;
+  white-space: initial;
+  color: aliceblue;
 }

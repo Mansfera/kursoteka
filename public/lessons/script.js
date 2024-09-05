@@ -51,10 +51,14 @@ function openFinalTest(course, block, first_test_id, last_test_id) {
 }
 
 function openMaterials(course, block, tema) {
-  window.open(`/lesson_materials/?scroll_to=materials&course=${course}&block=${block}&tema=${tema}`)
+  window.open(
+    `/lesson_materials/?scroll_to=materials&course=${course}&block=${block}&tema=${tema}`
+  );
 }
 function openVideo(course, block, tema) {
-  window.open(`/lesson_materials/?scroll_to=video&course=${course}&block=${block}&tema=${tema}`)
+  window.open(
+    `/lesson_materials/?scroll_to=video&course=${course}&block=${block}&tema=${tema}`
+  );
 }
 
 function fetchAndDisplayUserCourses() {
@@ -142,6 +146,12 @@ function fetchAndDisplayUserCourses() {
                     <div class="test_picker-test_bubble __test_editor display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Редактор тесту</div>
                   </div>
                 </div>
+                <div class="lessons-lock_overlay" id="lesson_lock-${test.id}">
+                  <div class="lock_overlay-lock_blob">
+                    <img src="/assets/lock.svg" alt="locked lesson" />
+                    <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
+                  </div>
+                </div>
               `;
               const imageCard = testCard.querySelector(".lessons-card");
               imageCard.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
@@ -149,6 +159,18 @@ function fetchAndDisplayUserCourses() {
                 ".test_picker-bubble_wrapper"
               ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               block_tests.appendChild(testCard);
+              if (!data.allowed_tests.includes("all")) {
+                Array.from(data.allowed_tests).forEach((item) => {
+                  if (item == test.id) {
+                    const lesson_card = document.getElementById(
+                      `lesson_lock-${item}`
+                    );
+                    if (lesson_card) {
+                      lesson_card.classList.toggle("display-none");
+                    }
+                  }
+                });
+              }
             });
           });
         });
