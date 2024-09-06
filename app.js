@@ -7,7 +7,7 @@ const sharp = require("sharp");
 const { error } = require("console");
 
 const app = express();
-const port = 8080;
+const port = 30000;
 
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
