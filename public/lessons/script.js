@@ -151,7 +151,7 @@ function fetchAndDisplayUserCourses() {
                     <div class="lock_overlay-lock_blob">
                       <img src="/assets/lock.svg" alt="locked lesson" />
                     </div>
-                    <div class="lock_blob-text">Будь ласка пройдіть попередню тему</div>
+                    <div class="lock_blob-text">Будь ласка, пройдіть попередню тему</div>
                   </div>
                 </div>
               `;
@@ -168,13 +168,18 @@ function fetchAndDisplayUserCourses() {
                 Array.from(data.allowed_tests).forEach((item) => {
                   if (item == test.id) {
                     const lesson_card = document.getElementById(
-                      `lesson_lock-${item}`
+                      `lesson_lock-${test.id}`
                     );
                     if (lesson_card) {
                       lesson_card.classList.toggle("display-none");
                     }
                   }
                 });
+              } else {
+                const lesson_card = document.getElementById(
+                  `lesson_lock-${test.id}`
+                );
+                lesson_card.classList.toggle("display-none");
               }
             });
           });

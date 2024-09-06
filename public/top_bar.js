@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("login").classList.add("display-none");
         document.getElementById("profile").classList.remove("display-none");
         document.getElementById("my_courses").classList.remove("display-none");
-        document.getElementById("tests_and_materials").classList.remove("display-none");
       }
       if (
         getCookie("coursesOwned") != [] &&
@@ -26,7 +25,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 "mobile_menu-list-profile",
                 "mobile_menu-list-logout",
                 "mobile_menu-list-my_courses",
-                "mobile_menu-list-test_and_materials",
               ];
               Array.from(elements_remove).forEach((element) => {
                 document

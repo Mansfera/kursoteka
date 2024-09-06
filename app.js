@@ -1540,7 +1540,8 @@ app.post("/api/marketplace/getCourseInfo", (req, res) => {
           tema_text = `${testCount} тем, `;
         }
         masterFeature =
-          tema_text + found_course.marketplace_info.master_feature;
+          // tema_text + 
+          found_course.marketplace_info.master_feature;
       } else {
         masterFeature = found_course.marketplace_info.master_feature;
       }
