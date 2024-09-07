@@ -689,7 +689,6 @@ function getUsersWithSpecificCourse(users, courseName) {
       user.courses &&
       user.courses.some((course) => course.id === courseName && !course.hidden)
   );
-  
 }
 function generateCode() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -1352,24 +1351,24 @@ app.get("/api/getCoverImage", (req, res) => {
             if (testId != null) {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/block${blockId}/test${testId}/${image_name}.png`
+                `courseData/${course.id}/block${blockId}/test${testId}/${image_name}.jpeg`
               );
             } else if (blockId != null) {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/block${blockId}/${image_name}.png`
+                `courseData/${course.id}/block${blockId}/${image_name}.jpeg`
               );
             } else {
               filePathImg = path.join(
                 __dirname,
-                `courseData/${course.id}/${image_name}.png`
+                `courseData/${course.id}/${image_name}.jpeg`
               );
             }
             fs.readFile(filePathImg, (err, data) => {
               if (err) {
                 res.status(404).send("Image not found");
               } else {
-                res.writeHead(200, { "Content-Type": "image/png" });
+                res.writeHead(200, { "Content-Type": "image/jpeg" });
                 res.end(data);
               }
             });
@@ -1383,13 +1382,13 @@ app.get("/api/getCoverImage", (req, res) => {
   } else {
     let filePathImg = path.join(
       __dirname,
-      `courseData/${courseName}/${image_name}.png`
+      `courseData/${courseName}/${image_name}.jpeg`
     );
     fs.readFile(filePathImg, (err, data) => {
       if (err) {
         res.status(404).send("Image not found");
       } else {
-        res.writeHead(200, { "Content-Type": "image/png" });
+        res.writeHead(200, { "Content-Type": "image/jpeg" });
         res.end(data);
       }
     });
@@ -1576,13 +1575,13 @@ app.get("/api/marketplace/getCourseImage", (req, res) => {
 
   let filePathImg = path.join(
     __dirname,
-    `courseData/${courseName}/marketplace/${imageName}.png`
+    `courseData/${courseName}/marketplace/${imageName}.jpeg`
   );
   fs.readFile(filePathImg, (err, data) => {
     if (err) {
       res.status(404).send("Image not found");
     } else {
-      res.writeHead(200, { "Content-Type": "image/png" });
+      res.writeHead(200, { "Content-Type": "image/jpeg" });
       res.end(data);
     }
   });
