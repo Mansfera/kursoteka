@@ -1104,7 +1104,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send("Internal Server Error #1");
       return;
     }
 
@@ -1130,7 +1130,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
             (writeErr) => {
               if (writeErr) {
                 console.error("Error writing file:", writeErr);
-                res.status(500).send("Internal Server Error");
+                res.status(500).send("Internal Server Error #2");
                 return;
               } else {
                 res.status(200).send({ data: "success" });
@@ -1144,7 +1144,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
       res.status(404);
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+      res.status(500).send("Internal Server Error #3");
     }
   });
 });
