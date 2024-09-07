@@ -1130,7 +1130,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
             (writeErr) => {
               if (writeErr) {
                 console.error("Error writing file:", writeErr);
-                res.status(500).send("Internal Server Error #2: " + writeErr);
+                res.status(500).send("Internal Server Error #2");
                 return;
               } else {
                 res.status(200).send({ data: "success" });
