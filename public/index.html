@@ -3,6 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Курсотека - це платформа, можна сказати навіть онлайн школа, де люди з усього світу обмінюються знаннями! © Mansfera"
+    />
     <title>Курсотека</title>
     <script src="global.js"></script>
   </head>
@@ -13,11 +17,11 @@
         setCookie("styleVariant", params.get("style"), 90);
       }
       if (params.get("reset") != null) {
-        clearCookies()
+        clearCookies();
       }
 
       if (getCookie("styleVariant") == "old") {
-        window.location = "/old_landing"
+        window.location = "/old_landing";
         console.log("old");
       } else {
         window.location = "/landing";
