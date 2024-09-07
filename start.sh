@@ -1,2 +1,2 @@
 git pull
-node start
+node app
