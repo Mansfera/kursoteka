@@ -686,8 +686,10 @@ app.post("/api/login", (req, res) => {
 function getUsersWithSpecificCourse(users, courseName) {
   return users.filter(
     (user) =>
-      user.courses && user.courses.some((course) => course.id === courseName)
+      user.courses &&
+      user.courses.some((course) => course.id === courseName && !course.hidden)
   );
+  
 }
 function generateCode() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
@@ -1077,9 +1079,9 @@ app.post("/api/getUsers", (req, res) => {
           Array.from(students).forEach((safeUser) => {
             safeUser.password = "";
             safeUser.auth_key = "";
-            safeUser.courses = safeUser.courses.filter((course) => {
-              course.id === courseName && !course.hidden;
-            });
+            safeUser.courses = safeUser.courses.filter(
+              (course) => course.id === courseName
+            );
           });
           res.json({
             students: students,
