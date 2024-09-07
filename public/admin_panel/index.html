@@ -21,7 +21,7 @@
     <link rel="apple-touch-icon" href="site-icon.png" />
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
     <meta name="description" content="Курсотека! © Mansfera" />
-    
+
     <link rel="stylesheet" href="/top_bar.css" />
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="style.css" />
@@ -35,7 +35,10 @@
   <body>
     <div class="main_wrapper" id="main_wrapper">
       <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
-      <div class="main_wrapper-mobile_menu collapsed" id="mobile_menu-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
       <div class="main_wrapper-segment">
         <div class="top_bar_spacefiller"></div>
         <div class="segment-course_selector">
@@ -54,19 +57,43 @@
         </div>
         <div class="segment-promocodes display-none" id="promocode-section">
           <div class="promocodes-creation" id="promocodes-creation">
-            <input
-              type="date"
-              class="promocodes-creation-field display-none"
-              id="promocode-expire_date"
-              name="expire_date"
-            />
-            <input
-              type="number"
-              name="duration"
-              class="promocodes-creation-field"
-              placeholder="Кількість днів"
-              id="promocode-duration"
-            />
+            <form class="promocodes-creation-form">
+              <label for="expire_date" class="promocodes-creation-label"
+                >Термін придатності</label
+              >
+              <input
+                type="date"
+                placeholder=""
+                class="promocodes-creation-field"
+                id="promocode-expire_date"
+                name="expire_date"
+              />
+            </form>
+            <form class="promocodes-creation-form">
+              <label for="duration" class="promocodes-creation-label"
+                >Кількість днів</label
+              >
+              <input
+                type="number"
+                name="duration"
+                class="promocodes-creation-field"
+                placeholder="270"
+                id="promocode-duration"
+              />
+            </form>
+            <form class="promocodes-creation-form">
+              <label for="start_temas" class="promocodes-creation-label"
+                >Теми що будуть відкриті (лишіть неторканим щоб були усі
+                теми)</label
+              >
+              <input
+                type="text"
+                name="start_temas"
+                class="promocodes-creation-field"
+                placeholder="1, 2..."
+                id="promocode-start_temas"
+              />
+            </form>
             <div
               class="promocodes-creation-generate_button"
               id="create_promocode"
@@ -79,8 +106,7 @@
             id="existing_promocodes"
           ></div>
         </div>
-        <div class="segment-student_list" id="student_list">
-        </div>
+        <div class="segment-student_list" id="student_list"></div>
       </div>
     </div>
   </body>

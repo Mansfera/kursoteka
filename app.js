@@ -757,11 +757,12 @@ app.post("/api/activateCode", (req, res) => {
 
                   user.courses.push({
                     id: course.id,
+                    hidden: false,
                     data: {
                       join_date: Date.now(),
                       expire_date: Date.now() + promocode.access_duration,
                       restricted: false,
-                      allowed_tests: ["all"],
+                      allowed_tests: promocode.start_temas,
                       completed_tests: [],
                     },
                   });
@@ -827,7 +828,8 @@ app.post("/api/activateCode", (req, res) => {
   });
 });
 app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course, expire_date, access_duration } = req.body;
+  const { auth_key, course, expire_date, access_duration, start_temas } =
+    req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -870,6 +872,12 @@ app.post("/api/generateCode", (req, res) => {
             } else {
               _access_time = +access_duration * 24 * 60 * 60 * 1000;
             }
+            let _start_temas = [];
+            if (start_temas == []) {
+              _start_temas.push("all");
+            } else {
+              _start_temas = start_temas;
+            }
 
             const newPromocode = {
               id: course,
@@ -878,6 +886,7 @@ app.post("/api/generateCode", (req, res) => {
               access_duration: _access_time,
               used_date: -1,
               used_by: "",
+              start_temas: _start_temas,
             };
 
             promocodes.push(newPromocode);
@@ -1068,9 +1077,9 @@ app.post("/api/getUsers", (req, res) => {
           Array.from(students).forEach((safeUser) => {
             safeUser.password = "";
             safeUser.auth_key = "";
-            safeUser.courses = safeUser.courses.filter(
-              (course) => course.id === courseName
-            );
+            safeUser.courses = safeUser.courses.filter((course) => {
+              course.id === courseName && !course.hidden;
+            });
           });
           res.json({
             students: students,
@@ -1540,7 +1549,7 @@ app.post("/api/marketplace/getCourseInfo", (req, res) => {
           tema_text = `${testCount} тем, `;
         }
         masterFeature =
-          // tema_text + 
+          // tema_text +
           found_course.marketplace_info.master_feature;
       } else {
         masterFeature = found_course.marketplace_info.master_feature;
@@ -1577,6 +1586,6 @@ app.get("/api/marketplace/getCourseImage", (req, res) => {
   });
 });
 
-app.listen(port, '0.0.0.0', () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server running on http://localhost:${port}`);
 });

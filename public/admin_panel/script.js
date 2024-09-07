@@ -190,9 +190,15 @@ document
   .addEventListener("click", function () {
     const access_duration = document.getElementById("promocode-duration").value;
     const expire_date = document.getElementById("promocode-expire_date").value;
-    requestCode(expire_date, access_duration);
+    var start_temas = document.getElementById("promocode-start_temas").value;
+    start_temas = start_temas
+      .replace(" ", "")
+      .split(",")
+      .map((item) => item.trim());
+
+    requestCode(expire_date, access_duration, start_temas);
   });
-function requestCode(expire_date, access_duration) {
+function requestCode(expire_date, access_duration, start_temas) {
   fetch("/api/generateCode", {
     method: "POST",
     headers: {
@@ -203,6 +209,7 @@ function requestCode(expire_date, access_duration) {
       course: selected_course,
       expire_date,
       access_duration,
+      start_temas,
     }),
   })
     .then((response) => {
