@@ -4,13 +4,13 @@ console.log(getCookie("auth_key"));
 if (getCookie("auth_key") != null && params.get("noRedirect") == null) {
   window.location = "/";
 }
-const username = document.getElementById("name").value.toString();
-const surname = document.getElementById("surname").value.toString();
-const login = document.getElementById("login").value.toString().toLowerCase();
 
 function register() {
-  document.getElementById("status_wrapper").classList.remove("display-none");
+  const username = document.getElementById("name").value.toString();
+  const surname = document.getElementById("surname").value.toString();
+  const login = document.getElementById("login").value.toString().toLowerCase();
   const password = document.getElementById("password").value.toString();
+  document.getElementById("status_wrapper").classList.remove("display-none");
 
   if (
     !login.includes(" ") &&
@@ -80,11 +80,11 @@ function sendRegisterInfo(login, password, name, surname) {
     });
 }
 let password_warning = false;
-function login() {
+function login_func() {
   document.getElementById("status_wrapper").classList.remove("display-none");
   const form_fields = document.getElementById("form-fields");
   form_fields.style.marginBottom = "0";
-  const login = document.getElementById("login").value.toString();
+  const login = document.getElementById("login").value.toString().toLowerCase();
   const password = document.getElementById("password").value.toString();
 
   if (password.length == 0 && login.length > 2) {

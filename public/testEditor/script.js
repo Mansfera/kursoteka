@@ -10,10 +10,18 @@ let mul_ans_questions = [];
 let questionCount;
 let currentQuestionIndex = 0;
 let currentQuestion;
-async function loadTestDataFromServer(login, password, block, test) {
+const auth_key = getCookie("auth_key");
+const course = params.get("course");
+async function loadTestDataFromServer(
+  auth_key,
+  course,
+  block,
+  firstTest,
+  lastTest
+) {
   try {
     const response = await fetch(
-      `/loadTestData?login=${login}&password=${password}&block=${block}&firstTest=${test}&lastTest=${test}`
+      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
     );
     if (!response.ok) {
       throw new Error(`Failed to load test data: ${response.statusText}`);
@@ -26,8 +34,8 @@ async function loadTestDataFromServer(login, password, block, test) {
 }
 
 loadTestDataFromServer(
-  getCookie("login"),
-  getCookie("password"),
+  auth_key,
+  course,
   block_id,
   test_id
 )
