@@ -1,5 +1,3 @@
-var test_id = params.get("id");
-var block_id = params.get("block");
 let promises = [];
 
 let questions = [];
@@ -12,16 +10,12 @@ let currentQuestionIndex = 0;
 let currentQuestion;
 const auth_key = getCookie("auth_key");
 const course = params.get("course");
-async function loadTestDataFromServer(
-  auth_key,
-  course,
-  block,
-  firstTest,
-  lastTest
-) {
+const block_id = params.get("block");
+const test_id = params.get("test");
+async function loadTestDataFromServer() {
   try {
     const response = await fetch(
-      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
+      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block_id}&firstTest=${test_id}&lastTest=${test_id}`
     );
     if (!response.ok) {
       throw new Error(`Failed to load test data: ${response.statusText}`);
@@ -32,13 +26,7 @@ async function loadTestDataFromServer(
     return null;
   }
 }
-
-loadTestDataFromServer(
-  auth_key,
-  course,
-  block_id,
-  test_id
-)
+loadTestDataFromServer()
   .then((testData) => {
     if (testData) {
       questions = testData.questions;
@@ -79,194 +67,6 @@ function resetState() {
   });
 }
 
-function showQuestion() {
-  resetState();
-  if (currentQuestionIndex < q_len) {
-    currentQuestion = questions[currentQuestionIndex];
-  } else if (currentQuestionIndex < q_len + v_len) {
-    currentQuestion = vidpovidnist_questions[currentQuestionIndex - q_len];
-  } else if (currentQuestionIndex < q_len + v_len + h_len) {
-    currentQuestion = hronology_questions[currentQuestionIndex - q_len - v_len];
-  } else if (currentQuestionIndex < q_len + v_len + h_len + ma_len) {
-    currentQuestion =
-      mul_ans_questions[currentQuestionIndex - q_len - v_len - h_len];
-  }
-
-  //other data
-
-  document.getElementById("q_info").innerHTML = currentQuestion.question;
-  document.getElementById("questionNumber").innerHTML =
-    "Запитання №" + (currentQuestionIndex + 1);
-  Array.from(document.getElementsByClassName("hidden")).forEach((elem) => {
-    elem.classList.remove("hidden");
-  });
-  document.getElementById("comment_field").value = currentQuestion.comment;
-  if (currentQuestion.year != 0) {
-    document.getElementById("year_f").value = currentQuestion.year;
-  }
-
-  //questions
-
-  let top_question = currentQuestion.top_question;
-  if (top_question != undefined && top_question != "") {
-    document.getElementById("top_line").value = top_question;
-  }
-  if (currentQuestion.middle_rows != []) {
-    let middle_lines = "";
-    Array.from(currentQuestion.middle_rows).forEach((row) => {
-      if (row != "") {
-        middle_lines += row + "\n";
-      } else {
-        middle_lines += "\n";
-      }
-      document.getElementById("middle_lines").value = middle_lines;
-    });
-  }
-  let bottom_question = currentQuestion.bottom_question;
-  if (bottom_question != undefined && bottom_question != "") {
-    document.getElementById("bottom_line").value = bottom_question;
-  }
-
-  // image
-
-  checkIfImageExists(
-    block_id,
-    currentQuestion.test_id,
-    currentQuestion.question
-  );
-
-  //aswer options
-
-  let answer_row_amount;
-  if (currentQuestionIndex < q_len) {
-    Array.from(document.getElementById("answer-buttons").children).forEach(
-      (button) => {
-        Array.from(currentQuestion.answers).forEach((answer) => {
-          if (answer.text === button.innerHTML) {
-            if (answer.correct) {
-              button.classList.add("selected");
-            }
-          }
-        });
-      }
-    );
-    let keys = ["af", "bf", "cf", "df"];
-    keys.forEach((key) => {
-      let value = currentQuestion[key];
-      if (value != undefined && value !== "") {
-        document.getElementById(key).value = value;
-      }
-    });
-    answer_row_amount = 0;
-    for (let i = 1; i <= 7; i++) {
-      document.getElementById("f" + i).parentNode.classList.add("hidden");
-    }
-    document.getElementById("answer_sheet").classList.add("hidden");
-    document.getElementById("text_fields").classList.add("hidden");
-  } else if (currentQuestionIndex < q_len + v_len) {
-    let keys = ["af", "bf", "cf", "df"];
-    keys.forEach((key) => {
-      let value = currentQuestion[key];
-      if (value != undefined && value !== "") {
-        document.getElementById(key).value = value;
-      }
-    });
-    answer_row_amount = 5;
-    for (let i = answer_row_amount + 1; i <= 7; i++) {
-      document.getElementById("f" + i).parentNode.classList.add("hidden");
-    }
-    document.getElementById("answer-buttons").classList.add("hidden");
-    document.getElementById("text_fields").classList.add("hidden");
-    ansSheetBtns.style.gridTemplateColumns = "repeat(6, 1fr)";
-    Array.from(ansSheetBtns.children).forEach((button) => {
-      if (button.id.endsWith("5")) {
-        button.classList.remove("hidden");
-      }
-      let str_char = 0;
-      if (button.id.startsWith("a")) {
-        str_char = 0;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("b")) {
-        str_char = 1;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("c")) {
-        str_char = 2;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("d")) {
-        str_char = 3;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      }
-    });
-  } else if (currentQuestionIndex < q_len + v_len + h_len) {
-    let keys = ["af", "bf", "cf", "df"];
-    keys.forEach((key) => {
-      let value = currentQuestion[key];
-      if (value != undefined && value !== "") {
-        document.getElementById(key).value = value;
-      }
-    });
-    answer_row_amount = 0;
-    for (let i = 1; i <= 7; i++) {
-      document.getElementById("f" + i).parentNode.classList.add("hidden");
-    }
-    document.getElementById("answer-buttons").classList.add("hidden");
-    document.getElementById("text_fields").classList.add("hidden");
-    ansSheetBtns.style.gridTemplateColumns = "repeat(5, 1fr)";
-    Array.from(ansSheetBtns.children).forEach((button) => {
-      if (button.id.endsWith("5")) {
-        button.classList.add("hidden");
-      }
-      let str_char = 0;
-      if (button.id.startsWith("a")) {
-        str_char = 0;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("b")) {
-        str_char = 1;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("c")) {
-        str_char = 2;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      } else if (button.id.startsWith("d")) {
-        str_char = 3;
-        if (button.innerHTML == currentQuestion.correct[str_char]) {
-          button.classList.add("selected");
-        }
-      }
-    });
-  } else if (currentQuestionIndex < q_len + v_len + h_len + ma_len) {
-    answer_row_amount = 7;
-    let keys = ["af", "bf", "cf", "df"];
-    keys.forEach((key) => {
-      document.getElementById(key).parentNode.classList.add("hidden");
-    });
-    document.getElementById("answer-buttons").classList.add("hidden");
-    document.getElementById("answer_sheet").classList.add("hidden");
-    for (let i = 1; i <= 3; i++) {
-      document.getElementById("text_input" + i).value =
-        currentQuestion.correct[i - 1];
-    }
-  }
-  for (let i = 1; i <= answer_row_amount; i++) {
-    let num_f = currentQuestion["f" + i];
-    if (num_f != undefined && num_f !== "") {
-      document.getElementById("f" + i).value = num_f;
-    }
-  }
-}
 function removeFromArray(array, element) {
   const index = array.indexOf(element);
 
@@ -274,42 +74,48 @@ function removeFromArray(array, element) {
     array.splice(index, 1);
   }
 }
-
 function checkIfImageExists(blockId, testId, imageId) {
   const xhr = new XMLHttpRequest();
   xhr.onreadystatechange = function () {
     if (xhr.readyState === XMLHttpRequest.DONE) {
       if (xhr.status === 200) {
-        const imageUrl = `/getImage?blockId=${blockId}&testId=${testId}&imageId=${imageId}`;
+        // Construct the image URL with a cache buster
+        const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
+
         const questionImageElement = document.getElementById("question_image");
-        document.getElementById("deleteImg").classList.remove("hidden");
-        questionImageElement.src = imageUrl;
-        questionImageElement.onload = function () {
-          document.getElementById("image-loader").classList.add("hidden");
-          Array.from(
-            document.getElementsByClassName("__can_be_blurred")
-          ).forEach((element) => {
-            element.classList.remove("blurred");
-          });
-          document.getElementById("q_img").classList.remove("hidden");
-        };
-        questionImageElement.onerror = function () {
-          document.getElementById("question_image").src =
-            "/assets/upload-image.png";
-          document.getElementById("deleteImg").classList.add("hidden");
-          document.getElementById("image-loader").classList.add("hidden");
-          Array.from(
-            document.getElementsByClassName("__can_be_blurred")
-          ).forEach((element) => {
-            element.classList.remove("blurred");
-          });
-        };
+        if (questionImageElement) {
+          questionImageElement.src = imageUrl;
+          questionImageElement.onload = function () {
+            // document
+            //   .getElementById("image-loader")
+            //   .classList.add("display-none");
+            Array.from(
+              document.getElementsByClassName("__can_be_blurred")
+            ).forEach((element) => {
+              element.classList.remove("blurred");
+            });
+            document.getElementById("q_img").classList.remove("display-none");
+          };
+          questionImageElement.onerror = function () {
+            document.getElementById("question_image").src = "";
+            document.getElementById("q_img").classList.add("display-none");
+            // document
+            //   .getElementById("image-loader")
+            //   .classList.add("display-none");
+            Array.from(
+              document.getElementsByClassName("__can_be_blurred")
+            ).forEach((element) => {
+              element.classList.remove("blurred");
+            });
+          };
+        } else {
+          console.error("Element with ID 'question_image' not found.");
+        }
       } else {
-        // console.error(`Failed to fetch image. Status: ${xhr.status}`);
-        document.getElementById("question_image").src =
-          "/assets/upload-image.png";
-        document.getElementById("deleteImg").classList.add("hidden");
-        document.getElementById("image-loader").classList.add("hidden");
+        console.error(`Failed to fetch image. Status: ${xhr.status}`);
+        document.getElementById("question_image").src = "";
+        document.getElementById("q_img").classList.add("display-none");
+        // document.getElementById("image-loader").classList.add("display-none");
         Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
           (element) => {
             element.classList.remove("blurred");
@@ -318,12 +124,337 @@ function checkIfImageExists(blockId, testId, imageId) {
       }
     }
   };
+
+  // xhr.timeout = 10000;
+
+  xhr.ontimeout = function () {
+    console.error("The request for the image timed out.");
+    document.getElementById("question_image").src = "";
+    document.getElementById("q_img").classList.add("display-none");
+    Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
+      (element) => {
+        element.classList.remove("blurred");
+      }
+    );
+  };
+
   xhr.open(
     "GET",
-    `/getImage?blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
+    `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
     true
   );
   xhr.send();
+}
+
+function showQuestion() {
+  resetState();
+  let currentQuestion = test_questions[currentQuestionIndex];
+  const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
+  q_id.classList.add("selected");
+  displayedQuestion = currentQuestion;
+  let questionNo = currentQuestionIndex + 1;
+  questionNumber.innerHTML = questionNo;
+  topLine.innerHTML = currentQuestion.top_question;
+  if (currentQuestion.middle_rows != null) {
+    currentQuestion.middle_rows.forEach((row) => {
+      const mid_row = document.createElement("div");
+      mid_row.innerHTML = row;
+      mid_row.classList.add("middle_lines-element");
+      middleLines.appendChild(mid_row);
+    });
+  } else {
+    middleLines.innerHTML = "";
+  }
+  bottomLine.classList.remove("display-none");
+  bottomLine.innerHTML = currentQuestion.bottom_question;
+  if (bottomLine.innerHTML.length < 1) {
+    bottomLine.classList.add("display-none");
+  }
+  // document.getElementById("image-loader").classList.remove("display-none");
+  checkIfImageExists(
+    block_id,
+    currentQuestion.test_id,
+    currentQuestion.question
+  );
+  document.getElementById("af").innerHTML = currentQuestion.af;
+  document.getElementById("bf").innerHTML = currentQuestion.bf;
+  document.getElementById("cf").innerHTML = currentQuestion.cf;
+  document.getElementById("df").innerHTML = currentQuestion.df;
+
+  if (currentQuestionIndex < questions_length) {
+    document.getElementById("list_num-fields").classList.add("display-none");
+    document
+      .getElementById("list_abcd-fields")
+      .classList.remove("display-none");
+    currentQuestion.answers.forEach((answer) => {
+      const button = document.createElement("div");
+      button.innerHTML = answer.text;
+      button.classList.add("abcd_button");
+      if (answer.text == currentQuestion.selected && !test_completed) {
+        button.classList.add("selected");
+      }
+      answerButtons.appendChild(button);
+      if (answer.correct) {
+        button.dataset.correct = answer.correct;
+      }
+      if (test_completed) {
+        if (button.innerHTML == currentQuestion.selected) {
+          button.classList.add("incorrect");
+        }
+        if (button.dataset.correct) {
+          button.classList.add("correct");
+        }
+        if (
+          !(
+            button.classList.contains("correct") ||
+            button.classList.contains("incorrect")
+          )
+        ) {
+          button.classList.add("half-visible");
+        }
+      }
+      button.addEventListener("click", selectAnswer);
+    });
+  } else {
+    if (
+      currentQuestionIndex > questions_length - 1 &&
+      currentQuestionIndex < questions_length + vidpovidnist_length
+    ) {
+      document
+        .getElementById("list_abcd-fields")
+        .classList.remove("display-none");
+      document
+        .getElementById("list_num-fields")
+        .classList.remove("display-none");
+      ansSheetBtns.classList.remove("display-none");
+      document
+        .getElementById("answer_sheet_column-5")
+        .classList.remove("display-none");
+      document.getElementById("f1").innerHTML = currentQuestion.f1;
+      document.getElementById("f2").innerHTML = currentQuestion.f2;
+      document.getElementById("f3").innerHTML = currentQuestion.f3;
+      document.getElementById("f4").innerHTML = currentQuestion.f4;
+      document.getElementById("f5").innerHTML = currentQuestion.f5;
+      Array.from(ansSheetGrid).forEach((button) => {
+        const index = button.id[0].charCodeAt(0) - "a".charCodeAt(0); // Calculate the index based on 'a', 'b', 'c', 'd'
+
+        if (index >= 0 && index < 4) {
+          if (test_completed) {
+            if (button.id[1] == currentQuestion.selected[index]) {
+              button.classList.add("incorrect");
+            }
+            if (button.id[1] == currentQuestion.correct[index]) {
+              button.classList.add("correct");
+            }
+          } else {
+            if (button.id[1] == currentQuestion.selected[index]) {
+              button.classList.add("selected");
+            }
+          }
+        }
+      });
+    } else if (
+      currentQuestionIndex > questions_length + vidpovidnist_length - 1 &&
+      currentQuestionIndex <
+        questions_length + vidpovidnist_length + hronology_length
+    ) {
+      document
+        .getElementById("list_abcd-fields")
+        .classList.remove("display-none");
+      document.getElementById("list_num-fields").classList.add("display-none");
+      ansSheetBtns.classList.remove("display-none");
+      document
+        .getElementById("answer_sheet_column-5")
+        .classList.add("display-none");
+      Array.from(ansSheetGrid).forEach((button) => {
+        const index = button.id[0].charCodeAt(0) - "a".charCodeAt(0); // Calculate the index based on 'a', 'b', 'c', 'd'
+
+        if (index >= 0 && index < 4) {
+          if (test_completed) {
+            if (button.id[1] == currentQuestion.selected[index]) {
+              button.classList.add("incorrect");
+            }
+            if (button.id[1] == currentQuestion.correct[index]) {
+              button.classList.add("correct");
+            }
+          } else {
+            if (button.id[1] == currentQuestion.selected[index]) {
+              button.classList.add("selected");
+            }
+          }
+        }
+      });
+    } else if (
+      currentQuestionIndex >
+        questions_length + vidpovidnist_length + hronology_length - 1 &&
+      currentQuestionIndex <
+        questions_length +
+          vidpovidnist_length +
+          hronology_length +
+          mul_ans_length
+    ) {
+      document.getElementById("f1").innerHTML = currentQuestion.f1;
+      document.getElementById("f2").innerHTML = currentQuestion.f2;
+      document.getElementById("f3").innerHTML = currentQuestion.f3;
+      document.getElementById("f4").innerHTML = currentQuestion.f4;
+      document.getElementById("f5").innerHTML = currentQuestion.f5;
+      document.getElementById("f6").innerHTML = currentQuestion.f6;
+      document.getElementById("f7").innerHTML = currentQuestion.f7;
+      numeric_answers.classList.remove("display-none");
+      document
+        .getElementById("list_num-fields")
+        .classList.remove("display-none");
+      document.getElementById("list_abcd-fields").classList.add("display-none");
+      inputAnswerQuestion = true;
+      if (currentQuestion.selected != "") {
+        for (i = 1; i < 4; i++) {
+          let answer_field = document.getElementById("text_input" + i);
+          if (currentQuestion.selected[i - 1] != undefined) {
+            answer_field.value = currentQuestion.selected[i - 1];
+          } else {
+            answer_field.value = "0";
+          }
+        }
+      }
+      if (test_completed) {
+        for (i = 1; i < 4; i++) {
+          let answer_field = document.getElementById("text_input" + i);
+          answer_field.disabled = true;
+          if (currentQuestion.selected != "") {
+            if (
+              currentQuestion.correct.includes(currentQuestion.selected[i - 1])
+            ) {
+              answer_field.classList.add("correct");
+            } else {
+              answer_field.classList.add("incorrect");
+            }
+          }
+        }
+        for (j = 1; j < 8; j++) {
+          for (l = 0; l < 3; l++) {
+            if (currentQuestion.selected[l] == j) {
+              document.getElementById("f" + j).classList.add("incorrect");
+            }
+            if (currentQuestion.correct[l] == j) {
+              document.getElementById("f" + j).classList.add("correct");
+            }
+          }
+        }
+      }
+    }
+    if (currentQuestionIndex == questionCount - 1 && !test_completed) {
+      finishTestButton.classList.remove("display-none");
+    }
+  }
+  Array.from(
+    document.getElementsByClassName("question_answers_list-element-text")
+  ).forEach((field) => {
+    if (field.innerHTML == "" || field.innerHTML == "undefined") {
+      field.parentElement.classList.add("display-none");
+    }
+  });
+  document.getElementById("question_id").innerHTML =
+    "ID#" + currentQuestion.question;
+}
+
+function selectAnswer(e) {
+  if (!test_completed && !testIsPaused) {
+    const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
+    const selectedBtn = e.target;
+    let currentQuestion = displayedQuestion;
+    if (currentQuestionIndex < questions_length) {
+      Array.from(answerButtons.children).forEach((button) => {
+        button.classList.remove("selected");
+      });
+      q_id.classList.remove("incorrect");
+      q_id.classList.remove("correct");
+      selectedBtn.classList.add("selected");
+      const isCorrect = selectedBtn.dataset.correct === "true";
+      if (isCorrect) {
+        q_id.classList.add("correct");
+        currentQuestion.isCorrect = true;
+      } else {
+        q_id.classList.add("incorrect");
+        currentQuestion.isCorrect = false;
+      }
+      q_id.classList.add("answered");
+      currentQuestion.selected = selectedBtn.innerHTML;
+    }
+    if (
+      currentQuestionIndex >= questions_length &&
+      currentQuestionIndex <
+        questions_length +
+          vidpovidnist_length +
+          hronology_length +
+          mul_ans_length
+    ) {
+      let selected_answers = [];
+      Array.from(ansSheetGrid).forEach((button) => {
+        if (button.classList.contains("selected")) {
+          selected_answers.push(button);
+        }
+      });
+      selectedBtn.classList.add("selected");
+      Array.from(selected_answers).forEach((answer) => {
+        if (answer.id[0] == selectedBtn.id[0]) {
+          answer.classList.remove("selected");
+          let temp = selected_answers.splice(
+            selected_answers.indexOf(answer),
+            1
+          );
+        }
+      });
+      selected_answers.push(selectedBtn);
+      let chosen_answers_from_sheet = ["0", "0", "0", "0"];
+
+      Array.from(selected_answers).forEach((button) => {
+        const index = button.id[0].charCodeAt(0) - "a".charCodeAt(0); // Calculate the index based on 'a', 'b', 'c', 'd'
+        if (index >= 0 && index < chosen_answers_from_sheet.length) {
+          chosen_answers_from_sheet[index] = button.id[1];
+        }
+      });
+
+      currentQuestion.selected = chosen_answers_from_sheet.join("");
+      if (chosen_answers_from_sheet == currentQuestion.correct) {
+        q_id.classList.add("correct");
+        currentQuestion.isCorrect = true;
+      } else {
+        q_id.classList.add("incorrect");
+        currentQuestion.isCorrect = false;
+      }
+      q_id.classList.add("answered");
+    }
+    test_questions[currentQuestionIndex] = currentQuestion;
+  }
+}
+
+function saveNumAnswer() {
+  if (inputAnswerQuestion) {
+    let temp_str = "";
+    const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
+    let currentQuestion = displayedQuestion;
+    Array.from(numeric_answers.children).forEach((field) => {
+      if (field.value.length == 1) {
+        temp_str += field.value;
+      } else {
+        temp_str += "0";
+      }
+    });
+    if (temp_str == "000") {
+      temp_str = "";
+    }
+    currentQuestion.selected = temp_str.split("").sort().join("");
+    if (temp_str != "") {
+      if (currentQuestion.correct == currentQuestion.selected) {
+        q_id.classList.add("correct");
+        currentQuestion.isCorrect = true;
+      } else {
+        q_id.classList.add("incorrect");
+        currentQuestion.isCorrect = false;
+      }
+      q_id.classList.add("answered");
+    }
+  }
 }
 Array.from(ansSheetBtns.children).forEach((button) => {
   if (button.classList.contains("sheet-btn")) {

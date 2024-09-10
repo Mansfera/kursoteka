@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="description" content="Курсотека! © Mansfera" />
+
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="style.css" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat"
+      rel="stylesheet"
+    />
+    <script src="/global.js"></script>
+
+    <title>Редактор тестів</title>
+  </head>
+
+  <body>
+    <div class="main_wrapper">
+      
+            <div class="save">
+              <p>Зберегти</p>
+              <div class="btn green-bg" id="save_btn" onclick="saveTestData()">
+                <img src="/assets/save.png" id="save_btn_img" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="app_toolbar_for_questions">
+            <div class="btn tool green-bg" onclick="addQuestion()">+ звичайне</div>
+            <div class="btn tool green-bg" onclick="addVQuestion()">+ відповідність</div>
+            <div class="btn tool green-bg" onclick="addHQuestion()">+ хронологія</div>
+            <div class="btn tool green-bg" onclick="addMAQuestion()">+ декілька відп.</div>
+            <div class="btn tool red-bg" onmousedown="startRemoveAnimation()" onmouseup="stopRemoveAnimation()" ontouchstart="startRemoveAnimation()" ontouchend="stopRemoveAnimation()">
+              - видалити
+              <div class="remove-progress"></div>
+          </div>
+        </div>
+        
+        <textarea class="quiz-element comment_field" placeholder="Коментар" id="comment_field"></textarea>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
