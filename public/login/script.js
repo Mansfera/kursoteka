@@ -4,13 +4,13 @@ console.log(getCookie("auth_key"));
 if (getCookie("auth_key") != null && params.get("noRedirect") == null) {
   window.location = "/";
 }
+const username = document.getElementById("name").value.toString();
+const surname = document.getElementById("surname").value.toString();
+const login = document.getElementById("login").value.toString().toLowerCase();
 
 function register() {
   document.getElementById("status_wrapper").classList.remove("display-none");
-  const login = document.getElementById("login").value.toString().toLowerCase();
   const password = document.getElementById("password").value.toString();
-  const name = document.getElementById("name").value.toString();
-  const surname = document.getElementById("surname").value.toString();
 
   if (
     !login.includes(" ") &&
@@ -20,8 +20,8 @@ function register() {
   ) {
     if (login.length <= 32 && password.length <= 32) {
       if (login.length > 2) {
-        if (name.length >= 2 && surname.length >= 2) {
-          sendRegisterInfo(login, password, name, surname);
+        if (username.length >= 2 && surname.length >= 2) {
+          sendRegisterInfo(login, password, username, surname);
         }
         {
           document.getElementById("status_line").innerHTML =
@@ -69,6 +69,9 @@ function sendRegisterInfo(login, password, name, surname) {
         setCookie("group", data.group, 730);
         setCookie("auth_key", data.auth_key, 730);
         setCookie("coursesOwned", data.coursesOwned, 730);
+        setCookie("login", login);
+        setCookie("name", data.name);
+        setCookie("surname", data.surname);
         window.location = "/";
       }
     })
@@ -158,7 +161,8 @@ function sendLoginInfo(login, password) {
               input.classList.remove("display-none");
             }
           );
-          document.getElementById("form-name").innerHTML = "Необхідна інформація";
+          document.getElementById("form-name").innerHTML =
+            "Необхідна інформація";
 
           document.getElementById("loginBtn").innerHTML = "Увійти";
           document.getElementById("loginBtn").classList.add("display-none");
@@ -171,6 +175,9 @@ function sendLoginInfo(login, password) {
         setCookie("group", data.group, 730);
         setCookie("auth_key", data.auth_key, 730);
         setCookie("coursesOwned", data.coursesOwned, 730);
+        setCookie("login", login);
+        setCookie("name", data.name);
+        setCookie("surname", data.surname);
         window.location = "/";
       }
     })

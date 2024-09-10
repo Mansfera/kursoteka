@@ -1,0 +1,53 @@
+.main_wrapper {
+  background-color: var(--rich-green);
+  height: 100vh;
+}
+.segment-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 500px;
+}
+.input_field {
+  width: 100%;
+  display: flex;
+  background-color: transparent;
+  display: flex;
+  border: none;
+  box-shadow: none;
+  border-bottom: 2px aliceblue solid;
+  padding-block: 1rem;
+  font-size: 1.2rem;
+}
+.button {
+  width: 100%;
+  padding: 1.5rem;
+  font-size: 1.3rem;
+  border-radius: 1.8rem;
+  background-color: aliceblue;
+  text-align: center;
+  cursor: pointer;
+}
+.segment-course_activation {
+  margin-top: auto;
+}
+#activation-code {
+  background-color: transparent;
+  color: aliceblue;
+  padding: 1rem;
+  border: none;
+  border-bottom: 2px aliceblue solid;
+  border-radius: 0;
+  text-align: center;
+  min-width: fit-content;
+  outline: none;
+}
+.segment-logout {
+  margin-bottom: 8vh;
+}
+.logut-btn {
+  border: 2px aliceblue solid;
+  background-color: transparent;
+  color: aliceblue;
+}

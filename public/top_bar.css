@@ -4,6 +4,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  background-color: black;
   z-index: 100;
 }
 .top_bar-wrapper {
@@ -14,7 +15,6 @@
   flex-wrap: nowrap;
   justify-content: center;
   align-items: center;
-  background-color: black;
   padding-inline: 2rem;
   transition: all 0.3s ease-in-out;
 }
@@ -155,4 +155,7 @@
 }
 .designer {
   font-size: 1.25rem;
+}
+.--green_top_bar {
+  background-color: var(--rich-green);
 }

@@ -13,7 +13,7 @@
       media="(max-width: 600px)"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
@@ -23,7 +23,7 @@
     <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
     <meta name="description" content="Курсотека! © Mansfera" />
-    
+
     <link rel="stylesheet" href="/top_bar.css" />
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="style.css" />
@@ -37,8 +37,75 @@
   </head>
   <body>
     <div class="main_wrapper">
-      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
-      <div class="main_wrapper-mobile_menu collapsed" id="mobile_menu-placeholder"></div>
+      <div
+        class="main_wrapper-top_bar --green_top_bar"
+        id="top_bar-placeholder"
+      ></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+      <div class="main_wrapper-segment">
+        <div class="top_bar_spacefiller"></div>
+        <div class="segment-page_title uppercase white_text title_text">
+          Мій профіль
+        </div>
+        <div class="segment-credentials segment-column">
+          <input
+            type="text"
+            maxlength="16"
+            placeholder="Логін"
+            id="login"
+            name="login"
+            class="input_field white_text"
+          />
+          <input
+            type="text"
+            maxlength="16"
+            placeholder="Імʼя"
+            id="name"
+            name="name"
+            class="input_field white_text"
+          />
+          <input
+            type="text"
+            maxlength="16"
+            placeholder="Прізвище"
+            id="surname"
+            name="surname"
+            class="input_field white_text"
+          />
+          <div
+            class="credentials-save button"
+            id="save_user_data"
+            onclick="saveUserData()"
+          >
+            Зберегти
+          </div>
+        </div>
+        <div class="segment-course_activation segment-column">
+          <div class="white_text subtitle_text">Введіть код активації курсу</div>
+          <input
+            class="input_field"
+            type="text"
+            id="activation-code"
+            name="activation-code"
+            maxlength="17"
+            placeholder="XXXXX-XXXXX-XXXXX"
+            required
+          />
+          <div
+            class="button display-none"
+            onclick="redeemCode()"
+            id="course_activation-button"
+          >
+            Активувати код
+          </div>
+        </div>
+        <div class="segment-logout segment-column">
+          <div class="logut-btn button" onclick="logout()">Вийти</div>
+        </div>
+      </div>
     </div>
   </body>
   <script src="script.js"></script>

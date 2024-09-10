@@ -667,6 +667,8 @@ app.post("/api/login", (req, res) => {
             group: user.group,
             auth_key: user.auth_key,
             coursesOwned: user.coursesOwned,
+            name: user.name,
+            surname: user.surname,
           });
         } else {
           res.status(403);
@@ -1049,6 +1051,55 @@ app.post("/api/deletePromoCode", (req, res) => {
         });
       } else {
         res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/changeUserCredentials", (req, res) => {
+  const { auth_key, login, name, surname } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+      let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
+
+      if (user) {
+        if (login != null) {
+          user.login = login;
+        }
+        if (name != null) {
+          user.name = name;
+        }
+        if (surname != null) {
+          user.surname = surname;
+        }
+        res.status(200).send({ message: "✅" });
+        updatedUsers.push(user);
+        fs.writeFile(
+          filePath,
+          JSON.stringify(updatedUsers, null, 2),
+          (writeErr) => {
+            if (writeErr) {
+              console.error("Error writing file:", writeErr);
+              res.status(500).send("Internal Server Error");
+              return;
+            }
+            res.status(200).send("Дані оновлені успішно");
+          }
+        );
+      } else {
+        res.status(404).send("Користувача не знайдено");
       }
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);
