@@ -869,7 +869,7 @@ app.post("/api/generateCode", (req, res) => {
             }
             let _access_time;
             if (access_duration == "") {
-              _access_time = 270 * 24 * 60 * 60 * 1000; // 270 days from now
+              _access_time = 300 * 24 * 60 * 60 * 1000; // 300 days from now
             } else if (+access_duration == 0) {
               _access_time = "never";
             } else {
