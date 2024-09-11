@@ -184,18 +184,106 @@
   object-fit: contain;
 }
 
-.segment-citate-wrapper {
+.segment-fact_split {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  flex-direction: row;
+  height: 100%;
+}
+.fact_split-item {
   width: 100%;
   height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.segment-citate {
-  width: 50%;
-  min-width: 300px;
-  text-align: center;
-  font-family: Caveat;
+.fact_split-item-info_card {
+  max-width: 400px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.info_card-top {
+  border-bottom: 2px aliceblue solid;
+  display: flex;
+  flex-direction: row;
+  padding-bottom: 1rem;
+  padding-inline: 1rem;
+}
+.info_card-top-list_num {
+  margin-left: auto;
+}
+.info_card-middle {
+  display: flex;
+  flex-direction: row;
+  /* width: 100%; */
+  overflow: hidden;
+  position: relative;
+  height: 5rem;
+}
+.info_card-middle-item {
+  background-color: black;
+  position: absolute;
+  min-width: 100%;
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding-inline: 1rem;
+  transition: all 0.5s ease-in-out;
+}
+.info_card-middle-item.move-left {
+  translate: -100%;
+}
+.info_card-middle-item.move-right {
+  translate: 100%;
+}
+.info_card-middle-item-text {
+  font-size: 2.25rem;
+  font-weight: 600;
+}
+.info_card-buttons {
+  display: flex;
+  flex-direction: row;
+  gap: 1.75rem;
+  align-items: center;
+}
+.info_card-buttons-arrow {
+  width: 4rem;
+  height: 4rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  background-color: var(--rich-green);
+  cursor: pointer;
+}
+#arrow_progress_circle {
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 1s linear;
+  background: conic-gradient(white 0deg 61.2deg, transparent 61.2deg 360deg);
+  transition: all 0.5s ease-in-out;
+}
+
+@media screen and (max-width: 576px) {
+  .segment-fact_split {
+    flex-direction: column;
+  }
+  .__fact-card {
+    align-items: flex-end;
+  }
+  .__fact-title {
+    align-items: flex-start;
+  }
 }
 
 .main_wrapper-footer {

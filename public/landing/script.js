@@ -152,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
           const lock = document.getElementById(
             `course_lock_overlay-${course.id}`
           );
-          console.log(lock.classList)
+          console.log(lock.classList);
           if (lock.classList.contains("display-none")) {
             window.location = "/course/?course=" + course.id;
           }
@@ -219,3 +219,106 @@ let startX = 0;
 let startY = 0;
 let endX = 0;
 let endY = 0;
+
+const arrow_rigth = document.getElementById("info_card-arrow-right");
+const arrow_left = document.getElementById("info_card-arrow-left");
+const arrow_progress_circle = document.getElementById("arrow_progress_circle");
+let current_card_index = 1;
+arrow_left.addEventListener("click", () => {
+  let current_rotation = +arrow_progress_circle.dataset.progress || 0;
+  let target_rotation = current_rotation + 60;
+
+  if (current_rotation == 360) {
+    target_rotation = 60;
+  }
+  arrow_progress_circle.dataset.progress = target_rotation;
+  const animateRotation = (start, end, duration) => {
+    const startTime = performance.now();
+
+    const rotate = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+      const currentRotation = start + (end - start) * progress;
+      arrow_progress_circle.style.background = `conic-gradient(white 0deg ${currentRotation}deg, transparent ${currentRotation}deg 360deg)`;
+      if (progress < 1) {
+        requestAnimationFrame(rotate);
+      }
+    };
+
+    requestAnimationFrame(rotate);
+  };
+  animateRotation(current_rotation, target_rotation, 500);
+
+  current_card_index++;
+  if (current_card_index > 6) {
+    current_card_index = 1;
+  }
+  const cards = Array.from(
+    document.querySelector(".info_card-middle").children
+  );
+  cards.forEach((card) => {
+    card.classList.remove("move-left");
+    card.classList.remove("move-right");
+
+    // Get the index of the current card in the `cards` array
+    const card_index = cards.indexOf(card) + 1;
+
+    // Add classes based on the index relative to current_card_index
+    if (card_index < current_card_index) {
+      card.classList.add("move-left");
+    }
+    if (card_index > current_card_index) {
+      card.classList.add("move-right");
+    }
+  });
+});
+arrow_rigth.addEventListener("click", () => {
+  let current_rotation = +arrow_progress_circle.dataset.progress || 0;
+  let target_rotation = current_rotation - 60;
+
+  if (current_rotation == 60) {
+    target_rotation = 360;
+  }
+  arrow_progress_circle.dataset.progress = target_rotation;
+  const animateRotation = (start, end, duration) => {
+    const startTime = performance.now();
+
+    const rotate = (currentTime) => {
+      const elapsedTime = currentTime - startTime;
+      const progress = Math.min(elapsedTime / duration, 1);
+      const currentRotation = start + (end - start) * progress;
+      arrow_progress_circle.style.background = `conic-gradient(white 0deg ${currentRotation}deg, transparent ${currentRotation}deg 360deg)`;
+      if (progress < 1) {
+        requestAnimationFrame(rotate);
+      }
+    };
+
+    requestAnimationFrame(rotate);
+  };
+  animateRotation(current_rotation, target_rotation, 500);
+
+  current_card_index--;
+  if (current_card_index < 1) {
+    current_card_index = 6;
+  }
+
+  const cards = Array.from(
+    document.querySelector(".info_card-middle").children
+  );
+
+  cards.forEach((card) => {
+    card.classList.remove("move-left");
+    card.classList.remove("move-right");
+
+    // Get the index of the current card in the `cards` array
+    const card_index = cards.indexOf(card) + 1;
+
+    // Add classes based on the index relative to current_card_index
+    if (card_index < current_card_index) {
+      card.classList.add("move-left");
+    }
+    if (card_index > current_card_index) {
+      card.classList.add("move-right");
+    }
+  });
+});
