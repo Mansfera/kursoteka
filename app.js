@@ -876,7 +876,7 @@ app.post("/api/generateCode", (req, res) => {
               _access_time = +access_duration * 24 * 60 * 60 * 1000;
             }
             let _start_temas = [];
-            if (start_temas == []) {
+            if (start_temas == [""]) {
               _start_temas.push("all");
             } else {
               _start_temas = start_temas;
