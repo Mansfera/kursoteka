@@ -1,17 +1,36 @@
+const questionNumber = document.getElementById("question_number");
+const topLine = document.getElementById("top_question");
+const middleLines = document.getElementById("middle_lines");
+const bottomLine = document.getElementById("bottom_question");
+const answerButtons = document.getElementById("answer-buttons");
+const finishTestButton = document.getElementById("finishTestButton");
+const block_answers = document.getElementById("block_answers");
+const ansSheetBtns = document.getElementById("ansSheetBtns");
+const ansSheetGrid = document.getElementsByClassName(
+  "answer_sheet-column-square"
+);
+const numeric_answers = document.getElementById("text_fields");
+
 let promises = [];
 
 let questions = [];
 let vidpovidnist_questions = [];
 let hronology_questions = [];
 let mul_ans_questions = [];
+let test_questions = [];
 
-let questionCount;
+let q_len;
+let v_len;
+let h_len;
+let ma_len;
+
 let currentQuestionIndex = 0;
 let currentQuestion;
 const auth_key = getCookie("auth_key");
 const course = params.get("course");
 const block_id = params.get("block");
 const test_id = params.get("test");
+
 async function loadTestDataFromServer() {
   try {
     const response = await fetch(
@@ -30,15 +49,20 @@ loadTestDataFromServer()
   .then((testData) => {
     if (testData) {
       questions = testData.questions;
-      vidpovidnist_questions = testData.vidpovidnistQuestions;
-      hronology_questions = testData.hronologyQuestions;
-      mul_ans_questions = testData.mulAnsQuestions;
-
       q_len = questions.length;
+      vidpovidnist_questions = testData.vidpovidnistQuestions;
       v_len = vidpovidnist_questions.length;
+      hronology_questions = testData.hronologyQuestions;
       h_len = hronology_questions.length;
+      mul_ans_questions = testData.mulAnsQuestions;
       ma_len = mul_ans_questions.length;
-      questionCount = q_len + v_len + h_len + ma_len;
+      test_questions.push(
+        ...questions,
+        ...vidpovidnist_questions,
+        ...hronology_questions,
+        ...mul_ans_questions
+      );
+
       showQuestion();
     } else {
       console.error("Failed to load test data");
@@ -48,20 +72,34 @@ loadTestDataFromServer()
     console.error("Error loading test data:", error);
   });
 
+document.getElementById("year").addEventListener("input", function (e) {
+  let value = parseInt(e.target.value);
+  if (value > 2030) {
+    e.target.value = 2030;
+  }
+});
+const textareas = document.getElementsByClassName("input_fields-item");
+
+Array.from(textareas).forEach((textarea) => {
+  textarea.addEventListener("input", function () {
+    this.style.height = "3rem"; // Reset the height
+    this.style.height = this.scrollHeight + "px"; // Set it to the scroll height
+  });
+});
+Array.from(ansSheetGrid).forEach((button) => {
+  button.addEventListener("click", selectAnswer);
+});
 function resetState() {
-  Array.from(document.querySelectorAll("input")).forEach((field) => {
-    field.value = "";
-  });
-  Array.from(document.querySelectorAll("textarea")).forEach((field) => {
-    field.value = "";
-  });
-  document.getElementById("q_img").classList.add("hidden");
-  document.getElementById("image-loader").classList.remove("hidden");
-  Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
-    (element) => {
-      element.classList.add("blurred");
+  Array.from(document.querySelectorAll(".input_fields-item")).forEach(
+    (field) => {
+      field.value = "";
     }
   );
+  // Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
+  //   (element) => {
+  //     element.classList.add("blurred");
+  //   }
+  // );
   Array.from(document.getElementsByClassName("selected")).forEach((element) => {
     element.classList.remove("selected");
   });
@@ -82,26 +120,18 @@ function checkIfImageExists(blockId, testId, imageId) {
         // Construct the image URL with a cache buster
         const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
-        const questionImageElement = document.getElementById("question_image");
-        if (questionImageElement) {
-          questionImageElement.src = imageUrl;
-          questionImageElement.onload = function () {
-            // document
-            //   .getElementById("image-loader")
-            //   .classList.add("display-none");
+        const q_img = document.getElementById("q_img");
+        if (q_img) {
+          q_img.src = imageUrl;
+          q_img.onload = function () {
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
               element.classList.remove("blurred");
             });
-            document.getElementById("q_img").classList.remove("display-none");
           };
-          questionImageElement.onerror = function () {
-            document.getElementById("question_image").src = "";
-            document.getElementById("q_img").classList.add("display-none");
-            // document
-            //   .getElementById("image-loader")
-            //   .classList.add("display-none");
+          q_img.onerror = function () {
+            q_img.src = "/assets/image-upload.svg";
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
@@ -109,13 +139,11 @@ function checkIfImageExists(blockId, testId, imageId) {
             });
           };
         } else {
-          console.error("Element with ID 'question_image' not found.");
+          console.error("Element with ID 'q_img' not found.");
         }
       } else {
         console.error(`Failed to fetch image. Status: ${xhr.status}`);
-        document.getElementById("question_image").src = "";
-        document.getElementById("q_img").classList.add("display-none");
-        // document.getElementById("image-loader").classList.add("display-none");
+        document.getElementById("q_img").src = "/assets/image-upload.svg";
         Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
           (element) => {
             element.classList.remove("blurred");
@@ -129,8 +157,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
   xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
-    document.getElementById("question_image").src = "";
-    document.getElementById("q_img").classList.add("display-none");
+    document.getElementById("question_image").src = "/assets/image-upload.svg";
     Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
       (element) => {
         element.classList.remove("blurred");
@@ -149,11 +176,8 @@ function checkIfImageExists(blockId, testId, imageId) {
 function showQuestion() {
   resetState();
   let currentQuestion = test_questions[currentQuestionIndex];
-  const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
-  q_id.classList.add("selected");
   displayedQuestion = currentQuestion;
-  let questionNo = currentQuestionIndex + 1;
-  questionNumber.innerHTML = questionNo;
+  document.getElementById("search_bar").value = currentQuestion.question;
   topLine.innerHTML = currentQuestion.top_question;
   if (currentQuestion.middle_rows != null) {
     currentQuestion.middle_rows.forEach((row) => {
@@ -165,12 +189,7 @@ function showQuestion() {
   } else {
     middleLines.innerHTML = "";
   }
-  bottomLine.classList.remove("display-none");
   bottomLine.innerHTML = currentQuestion.bottom_question;
-  if (bottomLine.innerHTML.length < 1) {
-    bottomLine.classList.add("display-none");
-  }
-  // document.getElementById("image-loader").classList.remove("display-none");
   checkIfImageExists(
     block_id,
     currentQuestion.test_id,
@@ -181,7 +200,7 @@ function showQuestion() {
   document.getElementById("cf").innerHTML = currentQuestion.cf;
   document.getElementById("df").innerHTML = currentQuestion.df;
 
-  if (currentQuestionIndex < questions_length) {
+  if (currentQuestionIndex < q_len) {
     document.getElementById("list_num-fields").classList.add("display-none");
     document
       .getElementById("list_abcd-fields")
@@ -197,28 +216,12 @@ function showQuestion() {
       if (answer.correct) {
         button.dataset.correct = answer.correct;
       }
-      if (test_completed) {
-        if (button.innerHTML == currentQuestion.selected) {
-          button.classList.add("incorrect");
-        }
-        if (button.dataset.correct) {
-          button.classList.add("correct");
-        }
-        if (
-          !(
-            button.classList.contains("correct") ||
-            button.classList.contains("incorrect")
-          )
-        ) {
-          button.classList.add("half-visible");
-        }
-      }
       button.addEventListener("click", selectAnswer);
     });
   } else {
     if (
-      currentQuestionIndex > questions_length - 1 &&
-      currentQuestionIndex < questions_length + vidpovidnist_length
+      currentQuestionIndex > q_len - 1 &&
+      currentQuestionIndex < q_len + v_len
     ) {
       document
         .getElementById("list_abcd-fields")
@@ -254,9 +257,8 @@ function showQuestion() {
         }
       });
     } else if (
-      currentQuestionIndex > questions_length + vidpovidnist_length - 1 &&
-      currentQuestionIndex <
-        questions_length + vidpovidnist_length + hronology_length
+      currentQuestionIndex > q_len + v_len - 1 &&
+      currentQuestionIndex < q_len + v_len + h_len
     ) {
       document
         .getElementById("list_abcd-fields")
@@ -285,13 +287,8 @@ function showQuestion() {
         }
       });
     } else if (
-      currentQuestionIndex >
-        questions_length + vidpovidnist_length + hronology_length - 1 &&
-      currentQuestionIndex <
-        questions_length +
-          vidpovidnist_length +
-          hronology_length +
-          mul_ans_length
+      currentQuestionIndex > q_len + v_len + h_len - 1 &&
+      currentQuestionIndex < q_len + v_len + h_len + ma_len
     ) {
       document.getElementById("f1").innerHTML = currentQuestion.f1;
       document.getElementById("f2").innerHTML = currentQuestion.f2;
@@ -341,9 +338,6 @@ function showQuestion() {
           }
         }
       }
-    }
-    if (currentQuestionIndex == questionCount - 1 && !test_completed) {
-      finishTestButton.classList.remove("display-none");
     }
   }
   Array.from(
@@ -740,16 +734,16 @@ function removeQuestion() {
 }
 let progressInterval;
 function startRemoveAnimation() {
-  let progressBar = document.querySelector(".red-bg .remove-progress");
+  let progressBar = document.querySelector(".remove-progress");
   progressBar.style.width = "100%";
   progressInterval = setTimeout(removeQuestion, 500);
 }
-
 function stopRemoveAnimation() {
-  let progressBar = document.querySelector(".red-bg .remove-progress");
+  let progressBar = document.querySelector(".remove-progress");
   progressBar.style.width = "0";
   clearTimeout(progressInterval);
 }
+
 function saveQuestionData() {
   if (
     document.getElementById("year_f").value != "0" ||
@@ -757,7 +751,7 @@ function saveQuestionData() {
   ) {
     currentQuestion.year = +document.getElementById("year_f").value;
   }
-  currentQuestion.top_question = document.getElementById("top_line").value;
+  currentQuestion.top_question = topLine.value;
   currentQuestion.comment = document.getElementById("comment_field").value;
   if (document.getElementById("middle_lines").value.length > 0) {
     currentQuestion.middle_rows = document
@@ -774,8 +768,7 @@ function saveQuestionData() {
   } else {
     currentQuestion.middle_rows = [];
   }
-  currentQuestion.bottom_question =
-    document.getElementById("bottom_line").value;
+  currentQuestion.bottom_question = bottomLine.value;
 
   // answers
 
@@ -835,9 +828,9 @@ function saveQuestionData() {
 }
 
 function nextQuestionArrow() {
-  saveQuestionData();
+  saveNumAnswer();
   currentQuestionIndex++;
-  if (currentQuestionIndex < questionCount) {
+  if (currentQuestionIndex < q_len + v_len + h_len + ma_len) {
     showQuestion();
   } else {
     currentQuestionIndex--;
@@ -847,7 +840,7 @@ document.getElementById("next_arrow").addEventListener("click", () => {
   nextQuestionArrow();
 });
 function previousQuestionArrow() {
-  saveQuestionData();
+  saveNumAnswer();
   currentQuestionIndex--;
   if (currentQuestionIndex >= 0) {
     showQuestion();
@@ -858,16 +851,13 @@ function previousQuestionArrow() {
 document.getElementById("back_arrow").addEventListener("click", () => {
   previousQuestionArrow();
 });
-document.getElementById("question_image").addEventListener("click", () => {
+
+document.getElementById("q_img").addEventListener("click", () => {
   document.getElementById("file_input").click();
 });
-document.getElementById("deleteImg").addEventListener("click", () => {
+document.getElementById("delete_q_img").addEventListener("click", () => {
   fetch(
-    `/deleteImg?login=${encodeURIComponent(
-      getCookie("login")
-    )}&password=${encodeURIComponent(
-      getCookie("password")
-    )}&img_name=${encodeURIComponent(
+    `/deleteImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
       currentQuestion.question
     )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
       currentQuestion.test_id
@@ -906,11 +896,7 @@ document
       formData.append("image", file);
 
       fetch(
-        `/uploadImg?login=${encodeURIComponent(
-          getCookie("login")
-        )}&password=${encodeURIComponent(
-          getCookie("password")
-        )}&img_name=${encodeURIComponent(
+        `/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
           currentQuestion.question
         )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
           currentQuestion.test_id
@@ -938,8 +924,8 @@ document
 function saveTestData() {
   saveQuestionData();
   const data = {
-    login: getCookie("login"),
-    password: getCookie("password"),
+    auth_key: auth_key,
+    course: course,
     blockId: block_id,
     testId: test_id,
     questions: questions.sort((a, b) => {

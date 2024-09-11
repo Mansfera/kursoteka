@@ -1,74 +1,28 @@
-#save_btn {
-  height: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-}
-#save_btn img {
-  height: 100%;
-}
-textarea {
-  resize: none;
-}
-#middle_lines {
-  height: 100px;
-}
-#question_image {
-  border-radius: 0.5rem;
-  overflow: hidden;
-  border: 2px gray dashed;
-}
-#deleteImg {
-  position: absolute;
-  top: 10%;
-  right: 10%;
-  height: 15%;
-}
-.short-field {
-  width: 6rem;
-  height: 2rem;
-  font-size: 1.4rem;
-}
-.app_toolbar_for_questions {
-  margin: 1rem;
+.main_wrapper-operation_tools {
   display: flex;
   flex-direction: row;
-  gap: 0.3rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-inline: 4rem;
+  padding-bottom: 4rem;
 }
-.btn.tool {
-  position: relative;
+.operation_tools-item {
+  min-width: 10rem;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  border: 2px aliceblue dashed;
+  background-color: var(--rich-green);
+  transition: all 0.3s ease-in-out;
+  border-radius: 1rem;
+  text-align: center;
   overflow: hidden;
-  font-size: 1rem;
+  position: relative;
 }
-.red-bg.btn:hover {
-  background: rgb(220, 22, 15);
-  color: snow;
+.operation_tools-item:hover {
+  border: 2px aliceblue solid;
 }
-.question__answer {
-  align-items: center;
-  width: 100%;
-}
-.question__answer-text.bold {
-  width: 10%;
-}
-.question__answer-text {
-  width: 100%;
-}
-.comment_field {
-  width: 100%;
-  font-size: 1.5rem;
-  height: 7rem;
-}
-
-.green-bg {
-  background: rgb(146, 174, 144);
-}
-.yellow-bg {
-  background: rgb(255, 255, 84);
-}
-.red-bg {
-  background: rgb(255, 28, 20);
+#delete_button {
+  background-color: crimson;
 }
 .remove-progress {
   position: absolute;
@@ -76,6 +30,130 @@ textarea {
   left: 0;
   width: 0;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Darker progress bar color */
-  transition: width .5s linear; /* Animation transition for width change */
+  background-color: var(--glass-light); /* Darker progress bar color */
+  transition: width 0.5s linear; /* Animation transition for width change */
+}
+
+.main_wrapper-search_bar {
+  display: flex;
+  flex-direction: row;
+  padding-inline: 4rem;
+  gap: 2rem;
+  align-items: center;
+}
+.search_bar-id {
+  min-width: 15rem;
+  display: flex;
+  flex-direction: row;
+}
+.search_bar-item {
+  max-width: 20rem;
+  align-items: center;
+}
+.id_bg {
+  margin-left: 1rem;
+  border-bottom-left-radius: 0.25rem;
+  border-top-left-radius: 0.25rem;
+  border: none;
+  background-color: aliceblue;
+  padding: 0.5rem;
+  padding-right: 0;
+  font-weight: 600;
+  text-align: end;
+}
+#search_bar {
+  text-align: start;
+  border-bottom-right-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
+  border: none;
+  background-color: aliceblue;
+  width: 4.5rem;
+  padding: 0.5rem;
+  padding-left: 0;
+  font-weight: 600;
+}
+.main_wrapper-input_fields {
+  display: flex;
+  flex-direction: column;
+  padding-inline: 4rem;
+  justify-content: center;
+  gap: 1rem;
+  padding-block: 0.5rem;
+}
+.input_fields-item {
+  padding-block: 0.5rem;
+  padding-inline: 1rem;
+  width: 100%;
+  font-size: 1.3rem;
+  border-radius: 1rem;
+  min-height: 3rem;
+  height: 3rem;
+  resize: none;
+  overflow: hidden;
+}
+.input_fields-spacefiller {
+  min-height: 3rem;
+}
+.input_fields-img {
+  min-height: 200px;
+  max-height: 600px;
+  border-radius: 1rem;
+  border: 2px aliceblue dashed;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+}
+.delete_q_img-wrapper {
+  display: flex;
+  justify-content: flex-end;
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  z-index: 5;
+}
+#delete_q_img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 3rem;
+  background-color: crimson;
+  border: 2px aliceblue solid;
+  cursor: pointer;
+}
+#delete_q_img img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+  filter: invert(1);
+}
+#q_img {
+  min-width: 10rem;
+  width: auto;
+  max-width: 100%;
+  height: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+#year {
+  width: 5.5rem;
+}
+
+@media screen and (max-width: 576px) {
+  .main_wrapper-operation_tools {
+    justify-content: center;
+    padding-inline: 2rem;
+  }
+  .main_wrapper-search_bar {
+    padding-inline: 2rem;
+  }
+  .main_wrapper-input_fields {
+    padding-inline: 2rem;
+  }
 }

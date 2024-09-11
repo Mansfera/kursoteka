@@ -14,7 +14,12 @@
     <meta name="description" content="Курсотека! © Mansfera" />
 
     <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
+
+    <link rel="stylesheet" href="/test/style.css" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -22,34 +27,293 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat"
       rel="stylesheet"
     />
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="/global.js"></script>
-
+    <script src="/top_bar.js"></script>
     <title>Редактор тестів</title>
   </head>
 
   <body>
     <div class="main_wrapper">
-      
-            <div class="save">
-              <p>Зберегти</p>
-              <div class="btn green-bg" id="save_btn" onclick="saveTestData()">
-                <img src="/assets/save.png" id="save_btn_img" />
-              </div>
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+      <div class="top_bar_spacefiller"></div>
+      <div class="main_wrapper-operation_tools">
+        <div
+          class="operation_tools-item white_text"
+          id="save_button"
+          onclick="saveTestData()"
+        >
+          Зберегти тест
+        </div>
+
+        <div class="operation_tools-item white_text" onclick="addQuestion()">
+          + звичайне
+        </div>
+        <div class="operation_tools-item white_text" onclick="addVQuestion()">
+          + відповідність
+        </div>
+        <div class="operation_tools-item white_text" onclick="addHQuestion()">
+          + хронологія
+        </div>
+        <div class="operation_tools-item white_text" onclick="addMAQuestion()">
+          + декілька відп.
+        </div>
+        <div
+          class="operation_tools-item white_text"
+          onmousedown="startRemoveAnimation()"
+          onmouseup="stopRemoveAnimation()"
+          ontouchstart="startRemoveAnimation()"
+          ontouchend="stopRemoveAnimation()"
+          id="delete_button"
+        >
+          - видалити
+          <div class="remove-progress"></div>
+        </div>
+      </div>
+
+      <div class="main_wrapper-search_bar">
+        <div class="search_bar-item search_bar-id">
+          <label for="search_bar" class="white_text">Пошук за</label>
+          <div class="id_bg">ID#</div>
+          <input
+            type="text"
+            maxlength="5"
+            name="search_bar"
+            id="search_bar"
+            placeholder="0"
+          />
+        </div>
+        <div class="search_bar-item nav_bar-navigation_arrows">
+          <div class="navigation_arrows-button back-arrow" id="back_arrow">
+            <img src="/assets/left-arrow.svg" alt="" />
+          </div>
+          <div class="navigation_arrows-button next-arrow" id="next_arrow">
+            <img src="/assets/right-arrow.svg" alt="" />
+          </div>
+        </div>
+      </div>
+
+      <div class="main_wrapper-input_fields">
+        <input
+          name="year"
+          id="year"
+          type="number"
+          class="input_fields-item"
+          placeholder="Рік"
+        />
+        <textarea
+          name="top_question"
+          id="top_question"
+          class="input_fields-item"
+          placeholder="Верхнє питання"
+        ></textarea>
+        <textarea
+          name="middle_lines"
+          id="middle_lines"
+          class="input_fields-item"
+          placeholder="Пряма мова, цитати, тощо"
+        ></textarea>
+        <textarea
+          name="bottom_question"
+          id="bottom_question"
+          class="input_fields-item"
+          placeholder="Питання знизу"
+        ></textarea>
+        <div class="input_fields-spacefiller"></div>
+        <div class="input_fields-img">
+          <div class="delete_q_img-wrapper">
+            <div id="delete_q_img">
+              <img src="/assets/cross.svg" alt="" />
             </div>
           </div>
+          <img id="q_img" src="/assets/image-upload.svg" alt="" />
+          <input
+            type="file"
+            id="file_input"
+            style="display: none"
+            accept="image/*"
+          />
         </div>
-        <div class="app_toolbar_for_questions">
-            <div class="btn tool green-bg" onclick="addQuestion()">+ звичайне</div>
-            <div class="btn tool green-bg" onclick="addVQuestion()">+ відповідність</div>
-            <div class="btn tool green-bg" onclick="addHQuestion()">+ хронологія</div>
-            <div class="btn tool green-bg" onclick="addMAQuestion()">+ декілька відп.</div>
-            <div class="btn tool red-bg" onmousedown="startRemoveAnimation()" onmouseup="stopRemoveAnimation()" ontouchstart="startRemoveAnimation()" ontouchend="stopRemoveAnimation()">
-              - видалити
-              <div class="remove-progress"></div>
+        <div class="input_fields-spacefiller"></div>
+        <div id="list_abcd-fields">
+          <textarea
+            name="answer-a"
+            id="af"
+            class="input_fields-item answer-abcd"
+            placeholder="Варіант А"
+          ></textarea>
+          <textarea
+            name="answer-b"
+            id="bf"
+            class="input_fields-item answer-abcd"
+            placeholder="Варіант Б"
+          ></textarea>
+          <textarea
+            name="answer-c"
+            id="cf"
+            class="input_fields-item answer-abcd"
+            placeholder="Варіант В"
+          ></textarea>
+          <textarea
+            name="answer-d"
+            id="df"
+            class="input_fields-item answer-abcd"
+            placeholder="Варіант Г"
+          ></textarea>
+        </div>
+        <div class="input_fields-spacefiller"></div>
+        <div id="list_num-fields">
+          <textarea
+            name="answer-1"
+            id="f1"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 1"
+          ></textarea>
+          <textarea
+            name="answer-2"
+            id="f2"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 2"
+          ></textarea>
+          <textarea
+            name="answer-3"
+            id="f3"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 3"
+          ></textarea>
+          <textarea
+            name="answer-4"
+            id="f4"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 4"
+          ></textarea>
+          <textarea
+            name="answer-5"
+            id="f5"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 5"
+          ></textarea>
+          <textarea
+            name="answer-6"
+            id="f6"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 6"
+          ></textarea>
+          <textarea
+            name="answer-7"
+            id="f7"
+            class="input_fields-item answer-num"
+            placeholder="Варіант 7"
+          ></textarea>
+          <div class="input_fields-spacefiller"></div>
+          <textarea
+            name="comment"
+            id="comment"
+            class="input_fields-item comment"
+            placeholder="Коментар"
+          ></textarea>
+        </div>
+      </div>
+
+      <div class="main_wrapper-answer_selection_methdods-wrapper">
+        <div class="main_wrapper-answer_selection_methdods __can_be_blurred">
+          <div
+            class="answer_selection_methdods-abcd_answer_buttons"
+            id="answer-buttons"
+          >
+            <div class="abcd_button">А</div>
+            <div class="abcd_button selected">Б</div>
+            <div class="abcd_button">В</div>
+            <div class="abcd_button">Г</div>
+          </div>
+          <div class="answer_selection_methdods-answer_sheet" id="ansSheetBtns">
+            <div class="answer_sheet-column" id="answer_sheet_column-abcd">
+              <div class="answer_sheet-column-name"></div>
+              <div class="answer_sheet-column-name">А</div>
+              <div class="answer_sheet-column-name">Б</div>
+              <div class="answer_sheet-column-name">В</div>
+              <div class="answer_sheet-column-name">Г</div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-1">
+              <div class="answer_sheet-column-name">1</div>
+              <div class="answer_sheet-column-square selected" id="a1"></div>
+              <div class="answer_sheet-column-square" id="b1"></div>
+              <div class="answer_sheet-column-square" id="c1"></div>
+              <div class="answer_sheet-column-square" id="d1"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-2">
+              <div class="answer_sheet-column-name">2</div>
+              <div class="answer_sheet-column-square" id="a2"></div>
+              <div class="answer_sheet-column-square selected" id="b2"></div>
+              <div class="answer_sheet-column-square" id="c2"></div>
+              <div class="answer_sheet-column-square" id="d2"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-3">
+              <div class="answer_sheet-column-name">3</div>
+              <div class="answer_sheet-column-square" id="a3"></div>
+              <div class="answer_sheet-column-square" id="b3"></div>
+              <div class="answer_sheet-column-square selected" id="c3"></div>
+              <div class="answer_sheet-column-square" id="d3"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-4">
+              <div class="answer_sheet-column-name">4</div>
+              <div class="answer_sheet-column-square" id="a4"></div>
+              <div class="answer_sheet-column-square" id="b4"></div>
+              <div class="answer_sheet-column-square" id="c4"></div>
+              <div class="answer_sheet-column-square selected" id="d4"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-5">
+              <div class="answer_sheet-column-name">5</div>
+              <div class="answer_sheet-column-square" id="a5"></div>
+              <div class="answer_sheet-column-square" id="b5"></div>
+              <div class="answer_sheet-column-square" id="c5"></div>
+              <div class="answer_sheet-column-square" id="d5"></div>
+            </div>
+          </div>
+          <div
+            class="answer_selection_methdods-answer_text_fields"
+            id="text_fields"
+          >
+            <input
+              class="text_input"
+              id="text_input1"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input2"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input3"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
           </div>
         </div>
-        
-        <textarea class="quiz-element comment_field" placeholder="Коментар" id="comment_field"></textarea>
+        <div class="select_answers_filler"></div>
       </div>
     </div>
   </body>
