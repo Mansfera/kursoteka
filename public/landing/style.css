@@ -10,6 +10,7 @@
   align-items: last baseline;
   justify-content: flex-start;
   margin-top: 2rem;
+  max-height: 20vh;
 }
 .top_screen_title-ukrainian {
   width: 80%;
@@ -285,6 +286,15 @@
     align-items: flex-start;
   }
 }
+
+.segment-mobile_pc_split.__tag-pc {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 4rem;
+}
+
 
 .main_wrapper-footer {
   padding: 3rem;
