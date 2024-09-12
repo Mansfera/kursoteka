@@ -27,7 +27,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: aliceblue;
   width: 100%;
   min-height: 20%;
   height: fit-content;
@@ -45,6 +44,11 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+@media screen and (max-height: 1080px) {
+  .player {
+    width: 85%;
+  }
 }
 #player-iframe {
   position: absolute;
