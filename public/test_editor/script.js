@@ -160,6 +160,9 @@ function removeFromArray(array, element) {
 let xhr_q_img = new XMLHttpRequest();
 function checkIfImageExists(blockId, testId, imageId) {
   xhr_q_img.abort();
+  const q_img = document.getElementById("q_img");
+  q_img.src = "/assets/three-dots-loader.svg";
+
   xhr_q_img = new XMLHttpRequest();
 
   xhr_q_img.onreadystatechange = function () {
@@ -168,9 +171,7 @@ function checkIfImageExists(blockId, testId, imageId) {
         // Construct the image URL with a cache buster
         const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
-        const q_img = document.getElementById("q_img");
         if (q_img) {
-          q_img.src = "/assets/three-dots-loader.svg";
           const tempImage = new Image(); // Create a temporary image element
 
           tempImage.src = imageUrl; // Set the source of the temporary image
@@ -203,7 +204,6 @@ function checkIfImageExists(blockId, testId, imageId) {
           console.error("Element with ID 'q_img' not found.");
         }
       } else {
-        console.error(`Failed to fetch image. Status: ${xhr_q_img.status}`);
         document.getElementById("q_img").src = "/assets/image-upload.svg";
         Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
           (element) => {
