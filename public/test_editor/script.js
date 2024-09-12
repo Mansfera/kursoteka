@@ -90,6 +90,7 @@ Array.from(textareas).forEach((textarea) => {
 Array.from(ansSheetGrid).forEach((button) => {
   button.addEventListener("click", selectAnswer);
 });
+
 function resetState() {
   comment.value = "";
   year.value = "";
@@ -97,7 +98,6 @@ function resetState() {
   middleLines.value = "";
   bottomLine.value = "";
   ansSheetBtns.classList.add("display-none");
-  xhr_q_img.abort();
   document.getElementById("q_img").src = "/assets/image-upload.svg";
   if (currentQuestionIndex == 0) {
     document.getElementById("back_arrow").classList.add("invisible");
@@ -157,9 +157,11 @@ function removeFromArray(array, element) {
     array.splice(index, 1);
   }
 }
-let xhr_q_img;
+let xhr_q_img = new XMLHttpRequest();
 function checkIfImageExists(blockId, testId, imageId) {
+  xhr_q_img.abort();
   xhr_q_img = new XMLHttpRequest();
+
   xhr_q_img.onreadystatechange = function () {
     if (xhr_q_img.readyState === XMLHttpRequest.DONE) {
       if (xhr_q_img.status === 200) {
