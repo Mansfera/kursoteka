@@ -209,7 +209,7 @@ function showQuestion() {
       const button = document.createElement("div");
       button.innerHTML = answer.text;
       button.classList.add("abcd_button");
-      if (answer.text == currentQuestion.selected && !test_completed) {
+      if (answer.text == currentQuestion.selected) {
         button.classList.add("selected");
       }
       answerButtons.appendChild(button);

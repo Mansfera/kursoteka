@@ -195,6 +195,9 @@ document
       .replace(" ", "")
       .split(",")
       .map((item) => item.trim());
+    if (start_temas == "") {
+      start_temas = "all";
+    }
 
     requestCode(expire_date, access_duration, start_temas);
   });
