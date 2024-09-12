@@ -213,6 +213,7 @@
   flex-direction: row;
   padding-bottom: 1rem;
   padding-inline: 1rem;
+  gap: 1rem;
 }
 .info_card-top-list_num {
   margin-left: auto;
