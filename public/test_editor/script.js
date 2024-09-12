@@ -97,6 +97,7 @@ function resetState() {
   middleLines.value = "";
   bottomLine.value = "";
   ansSheetBtns.classList.add("display-none");
+  document.getElementById("q_img").src = "/assets/image-upload.svg"
   if (currentQuestionIndex == 0) {
     document.getElementById("back_arrow").classList.add("invisible");
   } else {
