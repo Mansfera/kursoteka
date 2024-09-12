@@ -237,6 +237,9 @@ search.addEventListener("input", function (e) {
   searchById(e.target.value);
 });
 function searchById(id) {
+  xhr_q_img.abort();
+  document.getElementById("q_img").src = "/assets/three-dots-loader.svg";
+
   const look_question = test_questions.find((test) => test.question === id);
   if (look_question) {
     currentQuestionIndex = test_questions.indexOf(look_question);
