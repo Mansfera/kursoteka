@@ -168,20 +168,21 @@ function checkIfImageExists(blockId, testId, imageId) {
   xhr_q_img.onreadystatechange = function () {
     if (xhr_q_img.readyState === XMLHttpRequest.DONE) {
       if (xhr_q_img.status === 200) {
-        // Construct the image URL with a cache buster
         const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
         if (q_img) {
-          const tempImage = new Image(); // Create a temporary image element
+          const tempImage = new Image();
+          tempImage.src = imageUrl;
 
-          tempImage.src = imageUrl; // Set the source of the temporary image
+          const startSearchValue = document.getElementById("search_bar").value;
 
-          // When the image loads successfully
           tempImage.onload = function () {
-            // Replace the loader with the actual image
-            q_img.src = imageUrl;
+            if (
+              startSearchValue == document.getElementById("search_bar").value
+            ) {
+              q_img.src = imageUrl;
+            }
 
-            // Remove the blurred effect from all elements with the specified class
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
@@ -189,11 +190,9 @@ function checkIfImageExists(blockId, testId, imageId) {
             });
           };
 
-          // If the image fails to load, use a fallback image
           tempImage.onerror = function () {
             q_img.src = "/assets/image-upload.svg";
 
-            // Remove the blurred effect in case of error too
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
