@@ -98,32 +98,33 @@
       </div>
 
       <div class="main_wrapper-input_fields">
-        <input
-          name="year"
-          id="year"
-          type="number"
-          class="input_fields-item"
-          placeholder="Рік"
-        />
-        <textarea
-          name="top_question"
-          id="top_question"
-          class="input_fields-item"
-          placeholder="Верхнє питання"
-        ></textarea>
-        <textarea
-          name="middle_lines"
-          id="middle_lines"
-          class="input_fields-item"
-          placeholder="Пряма мова, цитати, тощо"
-        ></textarea>
-        <textarea
-          name="bottom_question"
-          id="bottom_question"
-          class="input_fields-item"
-          placeholder="Питання знизу"
-        ></textarea>
-        <div class="input_fields-spacefiller"></div>
+        <div class="input_fields-questions input_fields-field_list">
+          <input
+            name="year"
+            id="year"
+            type="number"
+            class="input_fields-item"
+            placeholder="Рік"
+          />
+          <textarea
+            name="top_question"
+            id="top_question"
+            class="input_fields-item"
+            placeholder="Верхнє питання"
+          ></textarea>
+          <textarea
+            name="middle_lines"
+            id="middle_lines"
+            class="input_fields-item"
+            placeholder="Пряма мова, цитати, тощо"
+          ></textarea>
+          <textarea
+            name="bottom_question"
+            id="bottom_question"
+            class="input_fields-item"
+            placeholder="Питання знизу"
+          ></textarea>
+        </div>
         <div class="input_fields-img">
           <div class="delete_q_img-wrapper">
             <div id="delete_q_img">
@@ -138,8 +139,7 @@
             accept="image/*"
           />
         </div>
-        <div class="input_fields-spacefiller"></div>
-        <div id="list_abcd-fields">
+        <div id="list_abcd-fields" class="input_fields-field_list">
           <textarea
             name="answer-a"
             id="af"
@@ -165,8 +165,7 @@
             placeholder="Варіант Г"
           ></textarea>
         </div>
-        <div class="input_fields-spacefiller"></div>
-        <div id="list_num-fields">
+        <div id="list_num-fields" class="input_fields-field_list">
           <textarea
             name="answer-1"
             id="f1"
@@ -313,7 +312,6 @@
             />
           </div>
         </div>
-        <div class="select_answers_filler"></div>
       </div>
     </div>
   </body>

@@ -133,6 +133,8 @@ app.post("/saveTest", (req, res) => {
     mul_ans_questions,
   } = req.body;
 
+  const filePath = path.join(__dirname, "users.json");
+
   fs.readFile(filePath, "utf8", async (err, data) => {
     if (err) {
       console.error("Error reading file:", err);
@@ -146,10 +148,10 @@ app.post("/saveTest", (req, res) => {
       if (user) {
         if (user.coursesOwned.includes(courseName)) {
           // Define paths for JSON files
-          const questionPath = `courseData/${course.id}/block${blockId}/test${testId}/questions.json`;
-          const vidpovidnistPath = `courseData/${course.id}/block${blockId}/test${testId}/vidpovidnist_questions.json`;
-          const hronologyPath = `courseData/${course.id}/block${blockId}/test${testId}/hronology_questions.json`;
-          const mulAnsPath = `courseData/${course.id}/block${blockId}/test${testId}/mul_ans_questions.json`;
+          const questionPath = `courseData/${courseName}/block${blockId}/test${testId}/questions.json`;
+          const vidpovidnistPath = `courseData/${courseName}/block${blockId}/test${testId}/vidpovidnist_questions.json`;
+          const hronologyPath = `courseData/${courseName}/block${blockId}/test${testId}/hronology_questions.json`;
+          const mulAnsPath = `courseData/${courseName}/block${blockId}/test${testId}/mul_ans_questions.json`;
 
           // Write data to JSON files
           fs.writeFile(questionPath, JSON.stringify(questions), (err) => {

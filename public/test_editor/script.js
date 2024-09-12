@@ -120,6 +120,8 @@ function resetState() {
   ).forEach((field) => {
     field.classList.remove("display-none");
   });
+  document.getElementById("f6").classList.remove("display-none");
+  document.getElementById("f7").classList.remove("display-none");
   Array.from(ansSheetGrid).forEach((button) => {
     if (button.classList.contains("selected")) {
       button.classList.remove("selected");
@@ -295,6 +297,8 @@ function showQuestion() {
       document
         .getElementById("answer_sheet_column-5")
         .classList.remove("display-none");
+      document.getElementById("f6").classList.add("display-none");
+      document.getElementById("f7").classList.add("display-none");
       document.getElementById("f1").value = currentQuestion.f1;
       document.getElementById("f2").value = currentQuestion.f2;
       document.getElementById("f3").value = currentQuestion.f3;
@@ -305,7 +309,7 @@ function showQuestion() {
 
         if (index >= 0 && index < 4) {
           if (button.id[1] == currentQuestion.correct[index]) {
-            button.classList.add("correct");
+            button.classList.add("selected");
           }
         }
       });
@@ -326,7 +330,7 @@ function showQuestion() {
 
         if (index >= 0 && index < 4) {
           if (button.id[1] == currentQuestion.correct[index]) {
-            button.classList.add("correct");
+            button.classList.add("selected");
           }
         }
       });
@@ -422,34 +426,12 @@ function selectAnswer(e) {
   test_questions[currentQuestionIndex] = currentQuestion;
 }
 
-function saveNumAnswer() {
-  if (inputAnswerQuestion) {
-    let temp_str = "";
-    const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
-    let currentQuestion = displayedQuestion;
-    Array.from(numeric_answers.children).forEach((field) => {
-      if (field.value.length == 1) {
-        temp_str += field.value;
-      } else {
-        temp_str += "0";
-      }
-    });
-    if (temp_str == "000") {
-      temp_str = "";
-    }
-    currentQuestion.selected = temp_str.split("").sort().join("");
-    if (temp_str != "") {
-      if (currentQuestion.correct == currentQuestion.selected) {
-        q_id.classList.add("correct");
-        currentQuestion.isCorrect = true;
-      } else {
-        q_id.classList.add("incorrect");
-        currentQuestion.isCorrect = false;
-      }
-      q_id.classList.add("answered");
-    }
-  }
-}
+Array.from(document.querySelectorAll(".text_input")).forEach((field) => {
+  field.addEventListener("input", function () {
+    saveQuestionData();
+  });
+});
+
 Array.from(ansSheetBtns.children).forEach((button) => {
   if (button.classList.contains("sheet-btn")) {
     button.addEventListener("click", selectAnswer);
@@ -460,101 +442,16 @@ Array.from(document.getElementById("answer-buttons").children).forEach(
     button.addEventListener("click", selectAnswer);
   }
 );
-function selectAnswer(e) {
-  const selectedBtn = e.target;
-  if (currentQuestionIndex < q_len) {
-    Array.from(document.getElementById("answer-buttons").children).forEach(
-      (button) => {
-        button.classList.remove("selected");
-        Array.from(currentQuestion.answers).forEach((answer) => {
-          if (answer.text == button.innerHTML) {
-            answer.correct = false;
-          }
-        });
-      }
-    );
-    selectedBtn.classList.add("selected");
-    Array.from(currentQuestion.answers).forEach((answer) => {
-      if (answer.text == selectedBtn.innerHTML) {
-        answer.correct = true;
-      }
-    });
-    questions[currentQuestionIndex] = currentQuestion;
-  } else if (currentQuestionIndex < q_len + v_len + h_len) {
-    chosen_answers_from_sheet = "";
-    selectedBtn.classList.add("selected");
 
-    let row1selected = [];
-    let row2selected = [];
-    let row3selected = [];
-    let row4selected = [];
-
-    Array.from(ansSheetBtns.children).forEach((button) => {
-      if (button.id.startsWith("a") && button.classList.contains("selected")) {
-        row1selected.push(button);
-      } else if (
-        button.id.startsWith("b") &&
-        button.classList.contains("selected")
-      ) {
-        row2selected.push(button);
-      } else if (
-        button.id.startsWith("c") &&
-        button.classList.contains("selected")
-      ) {
-        row3selected.push(button);
-      } else if (
-        button.id.startsWith("d") &&
-        button.classList.contains("selected")
-      ) {
-        row4selected.push(button);
-      }
-    });
-    if (row1selected.length > 1) {
-      row1selected.forEach((rowBtn) => {
-        if (rowBtn != selectedBtn) {
-          rowBtn.classList.remove("selected");
-          removeFromArray(row1selected, rowBtn);
-        }
-      });
-    }
-    if (row2selected.length > 1) {
-      row2selected.forEach((rowBtn) => {
-        if (rowBtn != selectedBtn) {
-          rowBtn.classList.remove("selected");
-          removeFromArray(row2selected, rowBtn);
-        }
-      });
-    }
-    if (row3selected.length > 1) {
-      row3selected.forEach((rowBtn) => {
-        if (rowBtn != selectedBtn) {
-          rowBtn.classList.remove("selected");
-          removeFromArray(row3selected, rowBtn);
-        }
-      });
-    }
-    if (row4selected.length > 1) {
-      row4selected.forEach((rowBtn) => {
-        if (rowBtn != selectedBtn) {
-          rowBtn.classList.remove("selected");
-          removeFromArray(row4selected, rowBtn);
-        }
-      });
-    }
-
-    Array.from(ansSheetBtns.children).forEach((button) => {
-      if (button.classList.contains("selected")) {
-        chosen_answers_from_sheet += button.innerHTML;
-      }
-    });
-    currentQuestion.correct = chosen_answers_from_sheet;
-    if (currentQuestionIndex < q_len + v_len) {
-      vidpovidnist_questions[currentQuestionIndex - q_len] = currentQuestion;
-    } else if (currentQuestionIndex < q_len + v_len + h_len) {
-      hronology_questions[currentQuestionIndex - q_len - v_len] =
-        currentQuestion;
-    }
-  }
+function addNewQuestion(q_id) {
+  test_questions = [];
+  test_questions.push(
+    ...questions,
+    ...vidpovidnist_questions,
+    ...hronology_questions,
+    ...mul_ans_questions
+  );
+  searchById(q_id);
 }
 
 function addQuestion() {
@@ -601,8 +498,7 @@ function addQuestion() {
   };
   questions.push(new_q);
   q_len = questions.length;
-  currentQuestionIndex = q_len - 1;
-  showQuestion();
+  addNewQuestion(q_id.toString());
 }
 function addVQuestion() {
   currentQuestionIndex = q_len + v_len;
@@ -639,8 +535,7 @@ function addVQuestion() {
   };
   vidpovidnist_questions.push(new_q);
   v_len = vidpovidnist_questions.length;
-  currentQuestionIndex = q_len + v_len - 1;
-  showQuestion();
+  addNewQuestion("1-" + q_id.toString());
 }
 function addHQuestion() {
   let q_id = 1;
@@ -671,8 +566,7 @@ function addHQuestion() {
   };
   hronology_questions.push(new_q);
   h_len = hronology_questions.length;
-  currentQuestionIndex = q_len + v_len + h_len - 1;
-  showQuestion();
+  addNewQuestion("2-" + q_id.toString());
 }
 function addMAQuestion() {
   let q_id = 1;
@@ -706,8 +600,7 @@ function addMAQuestion() {
   };
   mul_ans_questions.push(new_q);
   ma_len = mul_ans_questions.length;
-  currentQuestionIndex = q_len + v_len + h_len + ma_len - 1;
-  showQuestion();
+  addNewQuestion("3-" + q_id.toString());
 }
 function removeQuestion() {
   if (currentQuestionIndex < q_len) {
@@ -730,6 +623,13 @@ function removeQuestion() {
   if (currentQuestionIndex < 0) {
     currentQuestionIndex++;
   }
+  test_questions = [];
+  test_questions.push(
+    ...questions,
+    ...vidpovidnist_questions,
+    ...hronology_questions,
+    ...mul_ans_questions
+  );
   showQuestion();
 }
 let progressInterval;
@@ -823,7 +723,6 @@ function saveQuestionData() {
 }
 
 function nextQuestionArrow() {
-  saveNumAnswer();
   currentQuestionIndex++;
   if (currentQuestionIndex < q_len + v_len + h_len + ma_len) {
     showQuestion();
@@ -835,7 +734,6 @@ document.getElementById("next_arrow").addEventListener("click", () => {
   nextQuestionArrow();
 });
 function previousQuestionArrow() {
-  saveNumAnswer();
   currentQuestionIndex--;
   if (currentQuestionIndex >= 0) {
     showQuestion();
@@ -915,12 +813,17 @@ document
         });
     }
   });
+Array.from(document.querySelectorAll(".input_fields-item")).forEach((field) => {
+  field.addEventListener("input", function () {
+    saveQuestionData();
+  });
+});
 
 function saveTestData() {
-  saveQuestionData();
+  // saveQuestionData();
   const data = {
     auth_key: auth_key,
-    course: course,
+    courseName: course,
     blockId: block_id,
     testId: test_id,
     questions: questions.sort((a, b) => {
@@ -987,17 +890,17 @@ function saveTestData() {
     .then((response) => {
       switch (response.status) {
         case 200:
-          document.getElementById("save_btn_img").src =
-            "/assets/green-checkbox.png";
+          document.getElementById("save_button").innerHTML = "Збережено ✅";
           break;
         case 403:
-          document.getElementById("save_btn_img").src = "/assets/red-cross.png";
+          document.getElementById("save_button").innerHTML = "Помилка 403 ❌";
           break;
         default:
-        // Handle other response statuses here
+          document.getElementById("save_button").innerHTML = "Помилка ❌";
+          break;
       }
       setTimeout(() => {
-        document.getElementById("save_btn_img").src = "/assets/save.png";
+        document.getElementById("save_button").innerHTML = "Зберегти тест";
       }, 2000);
       response.json();
     })

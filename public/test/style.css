@@ -155,6 +155,7 @@
 .main_wrapper-answer_selection_methdods {
   display: flex;
   flex-direction: column;
+  min-width: 300px;
   width: 40%;
   max-width: 450px;
   margin-bottom: 2rem;

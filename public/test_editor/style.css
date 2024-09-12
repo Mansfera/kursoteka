@@ -77,8 +77,14 @@
   flex-direction: column;
   padding-inline: 4rem;
   justify-content: center;
-  gap: 1rem;
+  gap: 3rem;
   padding-block: 0.5rem;
+}
+.input_fields-field_list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0.5rem;
 }
 .input_fields-item {
   padding-block: 0.5rem;
@@ -90,9 +96,6 @@
   height: 3rem;
   resize: none;
   overflow: hidden;
-}
-.input_fields-spacefiller {
-  min-height: 3rem;
 }
 .input_fields-img {
   min-height: 200px;
@@ -144,6 +147,9 @@
 #year {
   width: 5.5rem;
 }
+.main_wrapper-answer_selection_methdods-wrapper {
+  padding-inline: 4rem;
+}
 
 @media screen and (max-width: 576px) {
   .main_wrapper-operation_tools {
@@ -154,6 +160,9 @@
     padding-inline: 2rem;
   }
   .main_wrapper-input_fields {
+    padding-inline: 2rem;
+  }
+  .main_wrapper-answer_selection_methdods-wrapper {
     padding-inline: 2rem;
   }
 }
