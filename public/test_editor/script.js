@@ -97,7 +97,7 @@ function resetState() {
   middleLines.value = "";
   bottomLine.value = "";
   ansSheetBtns.classList.add("display-none");
-  document.getElementById("q_img").src = "/assets/image-upload.svg"
+  document.getElementById("q_img").src = "/assets/image-upload.svg";
   if (currentQuestionIndex == 0) {
     document.getElementById("back_arrow").classList.add("invisible");
   } else {
@@ -164,16 +164,29 @@ function checkIfImageExists(blockId, testId, imageId) {
 
         const q_img = document.getElementById("q_img");
         if (q_img) {
-          q_img.src = imageUrl;
-          q_img.onload = function () {
+          q_img.src = "/assets/three-dots-loader.svg";
+          const tempImage = new Image(); // Create a temporary image element
+
+          tempImage.src = imageUrl; // Set the source of the temporary image
+
+          // When the image loads successfully
+          tempImage.onload = function () {
+            // Replace the loader with the actual image
+            q_img.src = imageUrl;
+
+            // Remove the blurred effect from all elements with the specified class
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
               element.classList.remove("blurred");
             });
           };
-          q_img.onerror = function () {
+
+          // If the image fails to load, use a fallback image
+          tempImage.onerror = function () {
             q_img.src = "/assets/image-upload.svg";
+
+            // Remove the blurred effect in case of error too
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
