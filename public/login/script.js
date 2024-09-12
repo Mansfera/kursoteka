@@ -70,8 +70,8 @@ function sendRegisterInfo(login, password, name, surname) {
         setCookie("auth_key", data.auth_key, 730);
         setCookie("coursesOwned", data.coursesOwned, 730);
         setCookie("login", login);
-        setCookie("name", data.name);
-        setCookie("surname", data.surname);
+        setCookie("name", name);
+        setCookie("surname", surname);
         window.location = "/";
       }
     })
