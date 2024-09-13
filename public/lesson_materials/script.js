@@ -4,6 +4,17 @@ const block = params.get("block");
 const tema = params.get("tema");
 const scrollTo = params.get("scroll_to");
 
+if (scrollTo) {
+  const targetElement = document.querySelector(`.segment-${scrollTo}`);
+
+  if (targetElement) {
+    targetElement.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start' // Scroll to the top of the element
+    });
+  }
+}
+
 async function getPlaylist() {
   const url = `/getPlaylist?auth_key=${encodeURIComponent(
     auth_key

@@ -52,12 +52,12 @@ function openFinalTest(course, block, first_test_id, last_test_id) {
 
 function openMaterials(course, block, tema) {
   window.open(
-    `/lesson_materials/?scroll_to=materials&course=${course}&block=${block}&tema=${tema}`
+    `/lesson_materials/?course=${course}&block=${block}&tema=${tema}&scroll_to=conspects`
   );
 }
 function openVideo(course, block, tema) {
   window.open(
-    `/lesson_materials/?scroll_to=video&course=${course}&block=${block}&tema=${tema}`
+    `/lesson_materials/?course=${course}&block=${block}&tema=${tema}`
   );
 }
 
