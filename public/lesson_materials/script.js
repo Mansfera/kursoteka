@@ -54,6 +54,67 @@ getPlaylist().then((data) => {
   }
 });
 
+async function getConspect(conspectId) {
+  const url = `/getConspect?auth_key=${encodeURIComponent(
+    auth_key
+  )}&course=${encodeURIComponent(course)}&blockId=${encodeURIComponent(
+    block
+  )}&testId=${encodeURIComponent(tema)}&conspectId=${encodeURIComponent(
+    conspectId
+  )}`;
+
+  const response = await fetch(url, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/pdf",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Network response was not ok " + response.statusText);
+  }
+
+  return await response.json();
+}
+async function getConspectList() {
+  const response = await fetch("/api/getUserCourses", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ auth_key, specific_course: course }),
+  });
+  if (!response.ok) {
+    throw new Error("Network response was not ok " + response.statusText);
+  }
+
+  return await response.json();
+}
+getConspectList().then((data) => {
+  const conspects = document.querySelector(".segment-conspects");
+
+  if (data.courses.length > 0) {
+    data.courses.forEach((course) => {
+      Array.from(course.blocks).forEach((blockElement) => {
+        if (blockElement.id == block) {
+          Array.from(blockElement.tests).forEach((testElement) => {
+            if (testElement.id == tema) {
+              Array.from(testElement.conspects).forEach((conspect) => {
+                const conspectCard = document.createElement("div");
+                conspectCard.className = "conspects-item-wrapper";
+                conspectCard.innerHTML = `<div class="conspects-item white_text" id="conspect-${conspect.id}">
+                    ${conspect.name}
+                  </div>`;
+                conspects.appendChild(conspectCard);
+              });
+            }
+          });
+        }
+      });
+    });
+  }
+});
+
 function findBlockAndTest(courseData, blockId, temaId) {
   const block = courseData.blocks.find((b) => b.id === blockId);
 

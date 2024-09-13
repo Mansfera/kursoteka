@@ -267,6 +267,50 @@ app.get("/getPlaylist", async (req, res) => {
     }
   });
 });
+app.get("/getConspect", (req, res) => {
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const conspectId = req.query.conspectId;
+  const auth_key = req.query.auth_key;
+
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", async (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+      if (user) {
+        const course = findCourse(users, user.auth_key, courseName);
+
+        if (course != null && !course.restricted) {
+          const filePathImg = path.join(
+            __dirname,
+            `courseData/${course.id}/block${blockId}/test${testId}/${conspectId}.pdf`
+          );
+
+          fs.readFile(filePathImg, (err, data) => {
+            if (err) {
+              res.status(404).send("PDF not found");
+            } else {
+              res.writeHead(200, { "Content-Type": "application/pdf" });
+              res.end(data);
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error loading test data:", error);
+      res.status(500).send("Error loading test data");
+    }
+  });
+});
 app.get("/getImage", (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
