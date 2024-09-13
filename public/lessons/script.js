@@ -112,7 +112,7 @@ function fetchAndDisplayUserCourses() {
               const testCard = document.createElement("div");
               testCard.className = "lessons-card_wrapper";
               testCard.innerHTML = `
-                <div class="lessons-card" id="lesson_card_${test.id}" onclick="openVideo('${course.id}', '${block.id}', '${test.id}')>
+                <div class="lessons-card" id="lesson_card_${test.id}">
                   <div class="lesson-card-top_buttons">
                     <div class="lessons-card-materials circle_button" onclick="openMaterials('${course.id}', '${block.id}', '${test.id}')">
                       <img src="/assets/attachment.svg" alt="" />
