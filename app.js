@@ -1130,7 +1130,6 @@ app.post("/api/changeUserCredentials", (req, res) => {
         if (surname != null) {
           user.surname = surname;
         }
-        res.status(200).send({ message: "✅" });
         updatedUsers.push(user);
         fs.writeFile(
           filePath,
@@ -1140,8 +1139,9 @@ app.post("/api/changeUserCredentials", (req, res) => {
               console.error("Error writing file:", writeErr);
               res.status(500).send("Internal Server Error");
               return;
+            } else {
+              res.status(200).send({ message: "✅" });
             }
-            res.status(200).send("Дані оновлені успішно");
           }
         );
       } else {
