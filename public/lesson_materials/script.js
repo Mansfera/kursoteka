@@ -42,7 +42,6 @@ getPlaylist().then((data) => {
       .then((data) => {
         if (data.courses[0]) {
           const info = findBlockAndTest(data.courses[0], block, tema);
-          console.log(info);
           if (info) {
             // document.getElementById("block_name").innerHTML = info.block.name;
             document.getElementById("tema_name").innerHTML = info.tema.name;
@@ -73,9 +72,14 @@ async function getConspect(conspectId) {
   if (!response.ok) {
     throw new Error("Network response was not ok " + response.statusText);
   }
+  const pdfBlob = await response.blob();
 
-  return await response.json();
+  const pdfUrl = URL.createObjectURL(pdfBlob);
+  window.open(pdfUrl);
+
+  return pdfBlob;
 }
+
 async function getConspectList() {
   const response = await fetch("/api/getUserCourses", {
     method: "POST",
@@ -102,10 +106,16 @@ getConspectList().then((data) => {
               Array.from(testElement.conspects).forEach((conspect) => {
                 const conspectCard = document.createElement("div");
                 conspectCard.className = "conspects-item-wrapper";
-                conspectCard.innerHTML = `<div class="conspects-item white_text" id="conspect-${conspect.id}">
-                    ${conspect.name}
-                  </div>`;
+                conspectCard.innerHTML = `
+                <div class="conspects-item-dot white_text">●</div>
+                <div class="conspects-item white_text" id="conspect-${conspect.id}">
+                  ${conspect.name}
+                </div>
+                  `;
                 conspects.appendChild(conspectCard);
+                conspectCard.addEventListener("click", () => {
+                  getConspect(conspect.id);
+                });
               });
             }
           });
