@@ -360,8 +360,8 @@ function showQuestion() {
       if (currentQuestion.selected != "") {
         for (i = 1; i < 4; i++) {
           let answer_field = document.getElementById("text_input" + i);
-          if (currentQuestion.selected[i - 1] != undefined) {
-            answer_field.value = currentQuestion.selected[i - 1];
+          if (currentQuestion.correct[i - 1] != undefined) {
+            answer_field.value = currentQuestion.correct[i - 1];
           } else {
             answer_field.value = "0";
           }
