@@ -1,4 +1,4 @@
-function fetchAndDisplayUserCourses() {
+function getCourseInfo() {
   let auth_key = getCookie("auth_key");
   fetch("/api/getUserCourses", {
     method: "POST",
@@ -55,9 +55,12 @@ function fetchAndDisplayUserCourses() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
+document.addEventListener("DOMContentLoaded", getCourseInfo);
 document.addEventListener("DOMContentLoaded", function () {
   var codeInput = document.getElementById("activation-code");
+  if (params.get("showActivatoinCode") != null) {
+    codeInput.classList.toggle("display-none");
+  }
 
   function formatCode(value) {
     // Remove any non-alphanumeric characters
@@ -143,7 +146,7 @@ function redeemCode() {
 
         document.getElementById("course_list").innerHTML = "";
         document.getElementById("activation-code").value = "";
-        fetchAndDisplayUserCourses();
+        getCourseInfo();
         // Change the button text back to "Активувати код" after 5 seconds
         setTimeout(() => {
           button.textContent = "Активувати код";

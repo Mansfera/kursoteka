@@ -73,22 +73,36 @@ async function getConspect(conspectId) {
     conspectId
   )}`;
 
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/pdf",
-    },
-  });
+  try {
+    const response = await fetch(url, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/pdf",
+      },
+    });
 
-  if (!response.ok) {
-    throw new Error("Network response was not ok " + response.statusText);
+    if (!response.ok) {
+      throw new Error("Network response was not ok " + response.statusText);
+    }
+
+    const pdfBlob = await response.blob();
+    const pdfUrl = URL.createObjectURL(pdfBlob);
+
+    // Try opening the PDF in the browser
+    const opened = window.open(pdfUrl);
+
+    // If the PDF can't be opened in the browser, trigger a download
+    if (!opened || opened.closed || typeof opened.closed == 'undefined') {
+      const a = document.createElement("a");
+      a.href = pdfUrl;
+      a.download = `conspect-${conspectId}.pdf`; // Filename for the download
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }
+  } catch (error) {
+    console.error("Failed to fetch the PDF: ", error);
   }
-  const pdfBlob = await response.blob();
-
-  const pdfUrl = URL.createObjectURL(pdfBlob);
-  window.open(pdfUrl);
-
-  return pdfBlob;
 }
 
 async function getConspectList() {

@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 const current_course = params.get("course");
 
-function fetchAndDisplayUserCourses() {
+function getCourseInfo() {
   fetch("/api/marketplace/getCourseInfo", {
     method: "POST",
     headers: {
@@ -81,7 +81,7 @@ function fetchAndDisplayUserCourses() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
+document.addEventListener("DOMContentLoaded", getCourseInfo);
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById(
     "about_course-horizontal"
@@ -102,3 +102,122 @@ document.addEventListener("DOMContentLoaded", function () {
     "segment-half_screen_picture"
   ).style.backgroundImage = `url('/api/marketplace/getCourseImage?course=${current_course}&image_name=about_teacher_bg')`;
 });
+document.getElementByI("start_course").addEventListener("click", () => {
+  if (g_auth_key) {
+    fetch("/api/getUserCourses", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ g_auth_key }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          if (data.courses.find((crs) => crs.id == current_course)) {
+            window.location = `/lessons/?id=${current_course}`;
+          }
+        } else {
+          window.location = `/my_courses/?showActivatoinCode=1`
+        }
+      });
+  }
+});
+document.addEventListener("DOMContentLoaded", function () {
+  var codeInput = document.getElementById("activation-code");
+
+  function formatCode(value) {
+    // Remove any non-alphanumeric characters
+    value = value.replace(/[^a-zA-Z0-9]/g, "");
+
+    // Convert to uppercase
+    value = value.toUpperCase();
+
+    // Add hyphens
+    var formattedValue = "";
+    for (var i = 0; i < value.length; i++) {
+      if (i > 0 && i % 5 === 0 && i < 15) {
+        formattedValue += "-";
+      }
+      formattedValue += value[i];
+    }
+
+    return formattedValue;
+  }
+
+  codeInput.addEventListener("input", function (e) {
+    var cursorPosition = e.target.selectionStart;
+    var oldLength = e.target.value.length;
+
+    e.target.value = formatCode(e.target.value);
+
+    var newLength = e.target.value.length;
+    cursorPosition += newLength - oldLength;
+
+    // Adjust cursor position if a hyphen was added or removed
+    if (cursorPosition > 5 && e.target.value[5] === "-") cursorPosition++;
+    if (cursorPosition > 11 && e.target.value[11] === "-") cursorPosition++;
+
+    e.target.setSelectionRange(cursorPosition, cursorPosition);
+
+    if (e.target.value.length > 16) {
+      document
+        .getElementById("course_activation-button")
+        .classList.remove("display-none");
+    }
+  });
+
+  codeInput.addEventListener("paste", function (e) {
+    e.preventDefault();
+    var pastedText = (e.clipboardData || window.clipboardData).getData("text");
+    e.target.value = formatCode(pastedText);
+    if (e.target.value.length > 16) {
+      document
+        .getElementById("course_activation-button")
+        .classList.remove("display-none");
+    }
+  });
+});
+
+function redeemCode() {
+  // Get the value from the input field with id "activation-code"
+  const activationCode = document.getElementById("activation-code").value;
+
+  // Get the auth_key from cookies
+  const authKey = getCookie("auth_key");
+
+  // Prepare the data to be sent in the POST request
+  const data = {
+    auth_key: authKey,
+    code: activationCode,
+  };
+
+  // Send a POST request to /api/activateCode
+  fetch("/api/activateCode", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((json) => {
+      // Check if the response has a "message"
+      if (json.message) {
+        const button = document.getElementById("course_activation-button");
+        // Set the button text to the response message
+        button.textContent = json.message;
+
+        document.getElementById("course_list").innerHTML = "";
+        document.getElementById("activation-code").value = "";
+        getCourseInfo();
+        // Change the button text back to "Активувати код" after 5 seconds
+        setTimeout(() => {
+          button.textContent = "Активувати код";
+        }, 5000);
+      }
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
