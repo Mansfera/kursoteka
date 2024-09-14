@@ -499,6 +499,7 @@ app.post("/sendTestResult", async (req, res) => {
     // Update allowed tests logic
     if (!course.data.allowed_tests.includes("all")) {
       // Reading course data
+      const coursesFilePath = path.join(__dirname, "courses.json");
       const courseData = await fs_promise.readFile(coursesFilePath, "utf8");
       const courses = JSON.parse(courseData);
       const course_obj = courses.find((crs) => crs.id === courseName);
