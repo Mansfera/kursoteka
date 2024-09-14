@@ -156,6 +156,8 @@ function sendLoginInfo(login, password) {
             .classList.remove("display-none");
           document.getElementById("status_line").innerHTML =
             "Користувача не знайдено, бажаєте зареєструватися?";
+          document.getElementById("password").value = "";
+          document.getElementById("password").ariaAutoComplete = "new-password";
           Array.from(document.getElementsByClassName("register_input")).forEach(
             (input) => {
               input.classList.remove("display-none");
