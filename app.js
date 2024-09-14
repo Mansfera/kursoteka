@@ -583,9 +583,9 @@ app.post("/sendTestResult", async (req, res) => {
 
           course_obj.blocks.some((block_obj) => {
             if (block_obj.id == block) {
-              next_tema_is_in_block = block_obj.tests.find((test_obj) => {
-                test_obj.id == next_tema_id;
-              });
+              next_tema_is_in_block = block_obj.tests.find(
+                (test_obj) => test_obj.id == next_tema_id
+              );
             }
           });
           if (averageScore >= 60 && next_tema_is_in_block) {
