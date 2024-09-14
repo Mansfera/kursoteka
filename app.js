@@ -512,7 +512,9 @@ app.post("/sendTestResult", async (req, res) => {
         });
       });
       const next_tema_id =
-        temas_id_list.indexOf(temas_id_list.find((lt) => lt == test)) + 1;
+        temas_id_list[
+          temas_id_list.indexOf(temas_id_list.find((lt) => lt == test)) + 1
+        ];
 
       switch (test_type) {
         case "short": {
@@ -543,9 +545,9 @@ app.post("/sendTestResult", async (req, res) => {
 
           course_obj.blocks.some((block_obj) => {
             if (block_obj.id == block) {
-              next_tema_is_in_block = block_obj.tests.find((test_obj) => {
-                test_obj.id == next_tema_id;
-              });
+              next_tema_is_in_block = block_obj.tests.find(
+                (test_obj) => test_obj.id == next_tema_id
+              );
             }
           });
           if (averageScore >= 70 && next_tema_is_in_block) {
@@ -577,7 +579,16 @@ app.post("/sendTestResult", async (req, res) => {
             lastTests.reduce((sum, item) => sum + item.score, 0) /
             lastTests.length;
 
-          if (averageScore >= 60) {
+          let next_tema_is_in_block = false;
+
+          course_obj.blocks.some((block_obj) => {
+            if (block_obj.id == block) {
+              next_tema_is_in_block = block_obj.tests.find((test_obj) => {
+                test_obj.id == next_tema_id;
+              });
+            }
+          });
+          if (averageScore >= 60 && next_tema_is_in_block) {
             course.data.allowed_tests.push(next_tema_id);
           }
           break;
