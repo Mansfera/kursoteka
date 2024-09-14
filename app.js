@@ -512,7 +512,7 @@ app.post("/sendTestResult", async (req, res) => {
         });
       });
       const next_tema_id =
-        temas_id_list.indexOf(temas_id_list.find((lt) => lt == tema)) + 1;
+        temas_id_list.indexOf(temas_id_list.find((lt) => lt == test)) + 1;
 
       switch (test_type) {
         case "short": {
