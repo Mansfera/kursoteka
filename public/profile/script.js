@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("login").placeholder = getCookie("login");
-  document.getElementById("name").placeholder = getCookie("name");
-  document.getElementById("surname").placeholder = getCookie("surname");
+  document.getElementById("login").value = getCookie("login");
+  document.getElementById("name").value = getCookie("name");
+  document.getElementById("surname").value = getCookie("surname");
   var codeInput = document.getElementById("activation-code");
 
   function formatCode(value) {

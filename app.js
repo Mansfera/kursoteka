@@ -156,7 +156,6 @@ app.post("/saveTest", (req, res) => {
           // Write data to JSON files
           fs.writeFile(questionPath, JSON.stringify(questions), (err) => {
             if (err) throw err;
-            // console.log(`Questions data ${blockId}.${testId} has been saved!`);
           });
 
           fs.writeFile(
@@ -164,10 +163,6 @@ app.post("/saveTest", (req, res) => {
             JSON.stringify(vidpovidnist_questions),
             (err) => {
               if (err) throw err;
-              console
-                .log
-                // `Vidpovidnist questions data ${blockId}.${testId} has been saved!`
-                ();
             }
           );
 
@@ -176,22 +171,13 @@ app.post("/saveTest", (req, res) => {
             JSON.stringify(hronology_questions),
             (err) => {
               if (err) throw err;
-              console
-                .log
-                // `Hronology questions data ${blockId}.${testId} has been saved!`
-                ();
             }
           );
 
           fs.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions), (err) => {
             if (err) throw err;
-            console
-              .log
-              // `Multiple answer questions ${blockId}.${testId} data has been saved!`
-              ();
           });
 
-          // Send response if needed
           res.status(200).json({});
         } else {
           res.status(403).send("No access");
@@ -355,118 +341,133 @@ app.get("/getImage", (req, res) => {
     }
   });
 });
+const fs_promise = require("fs").promises;
 app.get("/loadTestData", async (req, res) => {
   const auth_key = req.query.auth_key;
   const filePath = path.join(__dirname, "users.json");
+  const coursesFilePath = path.join(__dirname, "courses.json");
 
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    // Reading user data
+    const userData = await fs_promise.readFile(filePath, "utf8");
+    const users = JSON.parse(userData);
+    const user = users.find((user) => user.auth_key === auth_key);
+
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        async function fetchData() {
-          const courseName = req.query.course;
-          const block = +req.query.block;
-          const firstTest = +req.query.firstTest;
-          const lastTest = +req.query.lastTest;
+    async function fetchData() {
+      const courseName = req.query.course;
+      const block = req.query.block;
+      const firstTest = req.query.firstTest;
+      const lastTest = req.query.lastTest;
 
-          const questions = [];
-          const vidpovidnistQuestions = [];
-          const hronologyQuestions = [];
-          const mulAnsQuestions = [];
-          const course = findCourse(users, user.auth_key, courseName);
-          if (course.restricted) {
-            return false;
-          }
-          if (!course.data.allowed_tests.includes("all")) {
-            let found_non_allowedTest = false;
-            for (let j = firstTest; j <= lastTest; j++) {
-              if (!course.data.allowed_tests.includes(j)) {
-                found_non_allowedTest = true;
-                break;
-              }
-            }
-            if (found_non_allowedTest) {
-              return false;
-            }
-          }
+      const questions = [];
+      const vidpovidnistQuestions = [];
+      const hronologyQuestions = [];
+      const mulAnsQuestions = [];
+      const course = findCourse(users, user.auth_key, courseName);
 
-          for (let i = firstTest; i <= lastTest; i++) {
-            let testQuestions = [];
-            let testVidpovidnistQuestions = [];
-            let testHronologyQuestions = [];
-            let testMulAnsQuestions = [];
-
-            await Promise.all([
-              readJsonFile(
-                `courseData/${course.id}/block${block}/test${i}/questions.json`
-              ).then((data) => {
-                if (data)
-                  testQuestions = data.sort((p1, p2) =>
-                    p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-                  );
-              }),
-              readJsonFile(
-                `courseData/${course.id}/block${block}/test${i}/vidpovidnist_questions.json`
-              ).then((data) => {
-                if (data) testVidpovidnistQuestions = data;
-              }),
-              readJsonFile(
-                `courseData/${course.id}/block${block}/test${i}/hronology_questions.json`
-              ).then((data) => {
-                if (data) testHronologyQuestions = data;
-              }),
-              readJsonFile(
-                `courseData/${course.id}/block${block}/test${i}/mul_ans_questions.json`
-              ).then((data) => {
-                if (data)
-                  testMulAnsQuestions = data.sort((p1, p2) =>
-                    p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-                  );
-              }),
-            ]);
-
-            questions.push(...testQuestions);
-            vidpovidnistQuestions.push(...testVidpovidnistQuestions);
-            hronologyQuestions.push(...testHronologyQuestions);
-            mulAnsQuestions.push(...testMulAnsQuestions);
-          }
-
-          const testData = {
-            questions,
-            vidpovidnistQuestions,
-            hronologyQuestions,
-            mulAnsQuestions,
-          };
-          return testData;
-        }
-
-        try {
-          const testData = await fetchData();
-          if (testData != false) {
-            res.json(testData);
-          } else {
-            res.status(403).send("Found non-allowed test");
-          }
-        } catch (error) {
-          console.error("Error loading test data:", error);
-          res.status(500).send("Error loading test data");
-        }
-      } else {
-        res.status(404).send();
+      if (course.restricted) {
+        return false;
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
+
+      if (
+        !course.data.allowed_tests.includes("all") &&
+        !course.data.allowed_tests.includes(lastTest)
+      ) {
+        return false;
+      }
+
+      let temas_id_list = [];
+      // Reading course data
+      const courseData = await fs_promise.readFile(coursesFilePath, "utf8");
+      const courses = JSON.parse(courseData);
+      const course_obj = courses.find((crs) => crs.id === courseName);
+
+      let first_tema_found = false;
+      let last_tema_found = false;
+
+      // Process tests and collect IDs
+      course_obj.blocks.some((block_obj) => {
+        return block_obj.tests.some((test_obj) => {
+          if (test_obj.id == firstTest) {
+            first_tema_found = true;
+          }
+          if (first_tema_found && !last_tema_found) {
+            temas_id_list.push(test_obj.id);
+          }
+          if (test_obj.id == lastTest) {
+            last_tema_found = true;
+          }
+        });
+      });
+
+      // Loop through test IDs and load questions
+      for (const id of Array.from(temas_id_list)) {
+        let testQuestions = [];
+        let testVidpovidnistQuestions = [];
+        let testHronologyQuestions = [];
+        let testMulAnsQuestions = [];
+
+        await Promise.all([
+          readJsonFile(
+            `courseData/${course.id}/block${block}/test${id}/questions.json`
+          ).then((data) => {
+            if (data)
+              testQuestions = data.sort((p1, p2) =>
+                p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+              );
+          }),
+          readJsonFile(
+            `courseData/${course.id}/block${block}/test${id}/vidpovidnist_questions.json`
+          ).then((data) => {
+            if (data) testVidpovidnistQuestions = data;
+          }),
+          readJsonFile(
+            `courseData/${course.id}/block${block}/test${id}/hronology_questions.json`
+          ).then((data) => {
+            if (data) testHronologyQuestions = data;
+          }),
+          readJsonFile(
+            `courseData/${course.id}/block${block}/test${id}/mul_ans_questions.json`
+          ).then((data) => {
+            if (data)
+              testMulAnsQuestions = data.sort((p1, p2) =>
+                p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+              );
+          }),
+        ]);
+
+        questions.push(...testQuestions);
+        vidpovidnistQuestions.push(...testVidpovidnistQuestions);
+        hronologyQuestions.push(...testHronologyQuestions);
+        mulAnsQuestions.push(...testMulAnsQuestions);
+      }
+
+      const testData = {
+        questions,
+        vidpovidnistQuestions,
+        hronologyQuestions,
+        mulAnsQuestions,
+      };
+      return testData;
     }
-  });
+
+    // Fetch test data and send the response
+    const testData = await fetchData();
+    if (testData !== false) {
+      res.json(testData);
+    } else {
+      res.status(403).send("Found non-allowed test");
+    }
+  } catch (error) {
+    console.error("Error loading test data:", error);
+    res.status(500).send("Error loading test data");
+  }
 });
+
 app.post("/sendTestResult", (req, res) => {
   const { auth_key, date, time, courseName, test_type, block, test, score } =
     req.body;
@@ -680,6 +681,9 @@ app.post("/api/register", (req, res) => {
           res.json({
             group: newUser.group,
             auth_key: newUser.auth_key,
+            coursesOwned: newUser.coursesOwned,
+            name: newUser.name,
+            surname: newUser.surname,
           });
         } else {
           res.status(403);
@@ -723,6 +727,35 @@ app.post("/api/login", (req, res) => {
       } else {
         res.status(404);
         res.json({});
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/getUserDetails", (req, res) => {
+  const { g_auth_key } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === g_auth_key);
+      if (user) {
+        res.status(200).send({
+          username: user.login,
+          name: user.name,
+          surname: user.surname,
+        });
+      } else {
+        res.status(404).send("User not found");
       }
     } catch (parseErr) {
       console.error("Error parsing JSON:", parseErr);

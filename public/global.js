@@ -37,6 +37,38 @@ function logout() {
   window.location = "/login";
   clearCookies();
 }
-document.addEventListener('contextmenu', function(e) {
+document.addEventListener("contextmenu", function (e) {
   e.preventDefault();
 });
+
+const g_auth_key = getCookie("auth_key");
+fetch("/api/getUserDetails", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json",
+  },
+  body: JSON.stringify({
+    g_auth_key,
+  }),
+})
+  .then((response) => {
+    switch (response.status) {
+      case 200: {
+        return response.json();
+      }
+      case 404: {
+        if (g_auth_key != null) {
+          logout();
+        }
+        break;
+      }
+    }
+  })
+  .then((data) => {
+    setCookie("login", data.username);
+    setCookie("name", data.name);
+    setCookie("surname", data.surname);
+  })
+  .catch((error) => {
+    console.log(error.message);
+  });

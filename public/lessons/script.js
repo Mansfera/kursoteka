@@ -94,7 +94,7 @@ function fetchAndDisplayUserCourses() {
               <div class="material_list-lessons display-none" id="lessons_block-${
                 block.id
               }"></div>
-              <div class="material_list-final_test display-none" id="final_test-${
+              <div class="material_list-final_test display-none restricted" id="final_test-${
                 block.id
               }">
                 <div class="final_test-button" onclick="openFinalTest('${
@@ -105,6 +105,15 @@ function fetchAndDisplayUserCourses() {
               </div>
             `;
             material_list.appendChild(blockCard);
+            if (
+              data.allowed_tests.includes(
+                block.tests[block.tests.length - 1].id
+              )
+            ) {
+              document
+                .getElementById(`final_test-${block.id}`)
+                .classList.remove("restricted");
+            }
             const block_tests = document.getElementById(
               `lessons_block-${block.id}`
             );
@@ -193,5 +202,5 @@ function fetchAndDisplayUserCourses() {
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
 function openTestEditor(course, block, test) {
-  window.open(`/test_editor?course=${course}&block=${block}&test=${test}`)
+  window.open(`/test_editor?course=${course}&block=${block}&test=${test}`);
 }

@@ -20,8 +20,8 @@ var course = params.get("course");
 var auth_key = getCookie("auth_key");
 
 let test_name;
-let first_test_id = +params.get("first_test_id");
-let last_test_id = +params.get("last_test_id");
+let first_test_id = params.get("first_test_id");
+let last_test_id = params.get("last_test_id");
 let questions = [];
 let vidpovidnist_questions = [];
 let hronology_questions = [];
