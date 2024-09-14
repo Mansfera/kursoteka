@@ -878,8 +878,7 @@ function selectAnswer(e) {
       currentQuestionIndex <
         questions_length +
           vidpovidnist_length +
-          hronology_length +
-          mul_ans_length
+          hronology_length
     ) {
       let selected_answers = [];
       Array.from(ansSheetGrid).forEach((button) => {
@@ -891,10 +890,6 @@ function selectAnswer(e) {
       Array.from(selected_answers).forEach((answer) => {
         if (answer.id[0] == selectedBtn.id[0]) {
           answer.classList.remove("selected");
-          let temp = selected_answers.splice(
-            selected_answers.indexOf(answer),
-            1
-          );
         }
       });
       selected_answers.push(selectedBtn);
@@ -908,7 +903,7 @@ function selectAnswer(e) {
       });
 
       currentQuestion.selected = chosen_answers_from_sheet.join("");
-      if (chosen_answers_from_sheet == currentQuestion.correct) {
+      if (currentQuestion.selected == currentQuestion.correct) {
         q_id.classList.add("correct");
         currentQuestion.isCorrect = true;
       } else {
@@ -917,6 +912,7 @@ function selectAnswer(e) {
       }
       q_id.classList.add("answered");
     }
+    displayedQuestion = currentQuestion;
     test_questions[currentQuestionIndex] = currentQuestion;
   }
 }
@@ -945,7 +941,9 @@ function saveNumAnswer() {
         q_id.classList.add("incorrect");
         currentQuestion.isCorrect = false;
       }
-      q_id.classList.add("answered");
+      if (!test_completed) {
+        q_id.classList.add("answered");
+      }
     }
   }
 }
