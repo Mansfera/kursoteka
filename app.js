@@ -467,156 +467,156 @@ app.get("/loadTestData", async (req, res) => {
     res.status(500).send("Error loading test data");
   }
 });
-
-app.post("/sendTestResult", (req, res) => {
+app.post("/sendTestResult", async (req, res) => {
   const { auth_key, date, time, courseName, test_type, block, test, score } =
     req.body;
   const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    // Read the users file
+    const data = await fs_promise.readFile(filePath, "utf8");
+    const users = JSON.parse(data);
+    const user = users.find((user) => user.auth_key === auth_key);
+
+    if (!user) {
+      return res.status(404).send("Ви не є користувачем курсотеки!");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
+    const course = findCourse(users, user.auth_key, courseName);
+    const changedUser = users.find((user) => user.auth_key === auth_key);
+    let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
 
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
-        const changedUser = users.find((user) => user.auth_key === auth_key);
-        let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
-        let new_test = {
-          date: date,
-          time: time,
-          test_type: test_type,
-          block: block,
-          test: test,
-          score: score,
-        };
-        course.data.completed_tests.push(new_test);
-        if (!course.data.allowed_tests.includes("all")) {
-          switch (test_type) {
-            case "short": {
-              if (course.data.allowed_tests.includes(`${test + 1}`)) {
-                break;
-              }
-              const filteredTests = course.data.completed_tests.filter(
-                (item) => {
-                  item.test === test && item.test_type == test_type;
-                }
-              );
-              if (filteredTests.length < 3) {
-                break;
-              }
-              const filteredAndSortedTests = filteredTests
-                .filter(
-                  (item) =>
-                    Date.now() - new Date(item.date).getTime() <=
-                    3 * 24 * 60 * 60 * 1000
-                )
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
+    let new_test = {
+      date: date,
+      time: time,
+      test_type: test_type,
+      block: block,
+      test: test,
+      score: score,
+    };
+    course.data.completed_tests.push(new_test);
 
-              if (filteredAndSortedTests.length < 3) {
-                break;
-              }
-              const lastTests = filteredAndSortedTests.slice(0, 5);
-              const averageScore =
-                lastTests.reduce((sum, item) => sum + item.score, 0) /
-                lastTests.length;
+    // Update allowed tests logic
+    if (!course.data.allowed_tests.includes("all")) {
+      // Reading course data
+      const courseData = await fs_promise.readFile(coursesFilePath, "utf8");
+      const courses = JSON.parse(courseData);
+      const course_obj = courses.find((crs) => crs.id === courseName);
 
-              if (averageScore < 70) {
-                break;
-              }
-              course.data.allowed_tests.push(`${test + 1}`);
-              break;
-            }
-            case "full": {
-              if (course.data.allowed_tests.includes(`${test + 1}`)) {
-                break;
-              }
-              const filteredTests = course.data.completed_tests.filter(
-                (item) => {
-                  item.test === test && item.test_type == test_type;
-                }
-              );
-              if (filteredTests.length == 0) {
-                break;
-              }
-              const filteredAndSortedTests = filteredTests
-                .filter(
-                  (item) =>
-                    Date.now() - new Date(item.date).getTime() <=
-                    3 * 24 * 60 * 60 * 1000
-                )
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
+      // Process tests and collect IDs
+      let temas_id_list = [];
+      course_obj.blocks.some((block_obj) => {
+        return block_obj.tests.some((test_obj) => {
+          temas_id_list.push(test_obj.id);
+        });
+      });
+      const next_tema_id =
+        temas_id_list.indexOf(temas_id_list.find((lt) => lt == tema)) + 1;
 
-              if (filteredAndSortedTests.length == 0) {
-                break;
-              }
-              const lastTests = filteredAndSortedTests.slice(0, 2);
-              const averageScore =
-                lastTests.reduce((sum, item) => sum + item.score, 0) /
-                lastTests.length;
-
-              if (averageScore < 60) {
-                break;
-              }
-              course.data.allowed_tests.push(`${test + 1}`);
-              break;
-            }
-            case "final": {
-              if (course.data.allowed_tests.includes(`${test + 1}`)) {
-                break;
-              }
-              const filteredTests = course.data.completed_tests.filter(
-                (item) => item.test === test
-              );
-              if (filteredTests.length == 0) {
-                break;
-              }
-              const filteredAndSortedTests = filteredTests
-                .filter(
-                  (item) =>
-                    Date.now() - new Date(item.date).getTime() <=
-                    3 * 24 * 60 * 60 * 1000
-                )
-                .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-              const lastTest =
-                filteredAndSortedTests[filteredAndSortedTests.length - 1];
-
-              if (lastTest.score < 70) {
-                break;
-              }
-              course.data.allowed_tests.push(`${test + 1}`);
-              break;
-            }
+      switch (test_type) {
+        case "short": {
+          if (course.data.allowed_tests.includes(next_tema_id)) {
+            break;
           }
+          const filteredTests = course.data.completed_tests.filter(
+            (item) => item.test === test && item.test_type == test_type
+          );
+          if (filteredTests.length < 3) break;
+
+          const filteredAndSortedTests = filteredTests
+            .filter(
+              (item) =>
+                Date.now() - new Date(item.date).getTime() <=
+                3 * 24 * 60 * 60 * 1000
+            )
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          if (filteredAndSortedTests.length < 3) break;
+
+          const lastTests = filteredAndSortedTests.slice(0, 5);
+          const averageScore =
+            lastTests.reduce((sum, item) => sum + item.score, 0) /
+            lastTests.length;
+
+          let next_tema_is_in_block = false;
+
+          course_obj.blocks.some((block_obj) => {
+            if (block_obj.id == block) {
+              next_tema_is_in_block = block_obj.tests.find((test_obj) => {
+                test_obj.id == next_tema_id;
+              });
+            }
+          });
+          if (averageScore >= 70 && next_tema_is_in_block) {
+            course.data.allowed_tests.push(next_tema_id);
+          }
+          break;
         }
-        updatedUsers.push(changedUser);
-        fs.writeFile(
-          filePath,
-          JSON.stringify(updatedUsers, null, 2),
-          (writeErr) => {
-            if (writeErr) {
-              console.error("Error writing file:", writeErr);
-              res.status(500).send("Internal Server Error");
-              return;
-            }
-            res.status(200).send("Sent successful");
+        case "full": {
+          if (course.data.allowed_tests.includes(next_tema_id)) {
+            break;
           }
-        );
-      } else {
-        res.status(404).send("Ви не є користувачем курсотеки!");
+          const filteredTests = course.data.completed_tests.filter(
+            (item) => item.test === test && item.test_type == test_type
+          );
+          if (filteredTests.length === 0) break;
+
+          const filteredAndSortedTests = filteredTests
+            .filter(
+              (item) =>
+                Date.now() - new Date(item.date).getTime() <=
+                3 * 24 * 60 * 60 * 1000
+            )
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          if (filteredAndSortedTests.length === 0) break;
+
+          const lastTests = filteredAndSortedTests.slice(0, 2);
+          const averageScore =
+            lastTests.reduce((sum, item) => sum + item.score, 0) /
+            lastTests.length;
+
+          if (averageScore >= 60) {
+            course.data.allowed_tests.push(next_tema_id);
+          }
+          break;
+        }
+        case "final": {
+          if (course.data.allowed_tests.includes(next_tema_id)) {
+            break;
+          }
+          const filteredTests = course.data.completed_tests.filter(
+            (item) => item.test === test
+          );
+          if (filteredTests.length === 0) break;
+
+          const filteredAndSortedTests = filteredTests
+            .filter(
+              (item) =>
+                Date.now() - new Date(item.date).getTime() <=
+                3 * 24 * 60 * 60 * 1000
+            )
+            .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+          const lastTest =
+            filteredAndSortedTests[filteredAndSortedTests.length - 1];
+          if (lastTest && lastTest.score >= 70) {
+            course.data.allowed_tests.push(next_tema_id);
+          }
+          break;
+        }
       }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
     }
-  });
+
+    updatedUsers.push(changedUser);
+
+    // Write the updated users back to the file
+    await fs_promise.writeFile(filePath, JSON.stringify(updatedUsers, null, 2));
+    res.status(200).send("Sent successful");
+  } catch (err) {
+    console.error("Error handling test result:", err);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 function readJsonFile(filePath) {
