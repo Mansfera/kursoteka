@@ -142,11 +142,16 @@ function getUsers() {
             </div>
           </div>
           `;
-          const stats = document.getElementById(`action_buttons-stats-${login}`);
+          student_list.appendChild(wrapper);
+          console.log("1");
+          const stats = document.getElementById(
+            `action_buttons-stats-${login}`
+          );
 
           stats.addEventListener("click", function () {
             window.location.href = `/stats/?user=${login}&id=${course.id}`;
           });
+          console.log("2");
 
           const accessElement = document.getElementById(
             `action_buttons-course_access-${login}`
@@ -154,6 +159,7 @@ function getUsers() {
           const switchElement = document.getElementById(
             `course_access-switch-${login}`
           );
+          console.log("3");
 
           accessElement.addEventListener("click", function () {
             switchElement.classList.toggle("switch-active");
@@ -180,8 +186,7 @@ function getUsers() {
                 switchElement.classList.toggle("switch-active");
               });
           });
-
-          student_list.appendChild(wrapper);
+          console.log("4");
         }
       });
     })
