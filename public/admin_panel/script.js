@@ -142,7 +142,7 @@ function getUsers() {
             </div>
           </div>
           `;
-          const stats = wrapper.querySelector(`#action_buttons-stats-${login}`);
+          const stats = document.getElementById(`action_buttons-stats-${login}`);
 
           stats.addEventListener("click", function () {
             window.location.href = `/stats/?user=${login}&id=${course.id}`;
