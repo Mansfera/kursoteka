@@ -107,6 +107,17 @@
   width: 100%;
   background-color: aliceblue;
 }
+.promocodes-creation-list {
+  font-size: 1.2rem;
+  padding: 1rem;
+  background-color: transparent;
+  border: none;
+  border-bottom: 2px aliceblue solid;
+  border-radius: 0;
+  color: aliceblue;
+  cursor: pointer;
+  width: 100%;
+}
 .promocodes-creation-generate_button {
   display: flex;
   justify-content: center;

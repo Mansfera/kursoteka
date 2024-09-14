@@ -1,6 +1,7 @@
 const auth_key = getCookie("auth_key");
 let selected_course = "";
 current_page = 1;
+let courseData;
 
 document.addEventListener("DOMContentLoaded", function () {
   const courseSelector = document.getElementById("course_selector-list");
@@ -14,6 +15,7 @@ document.addEventListener("DOMContentLoaded", function () {
   })
     .then((response) => response.json())
     .then((data) => {
+      courseData = data;
       data.courses.forEach((course) => {
         const option = document.createElement("option");
         option.value = course.id;
@@ -28,11 +30,27 @@ document.addEventListener("DOMContentLoaded", function () {
   courseSelector.addEventListener("change", function () {
     selected_course = this.value;
     if (selected_course != "") {
+      const course = courseData.courses.find(
+        (crs) => crs.id == selected_course
+      );
+      Array.from(course.blocks).forEach((block_obj) => {
+        Array.from(block_obj.tests).forEach((test_obj) => {
+          const option = document.createElement("option");
+          option.value = test_obj.id;
+          if (test_obj.name != "") {
+            option.textContent = `Тема №${test_obj.id}: ${test_obj.name}`;
+          } else {
+            option.textContent = `Тема №${test_obj.id}`;
+          }
+          document.getElementById("promocode-start_temas").appendChild(option);
+        });
+      });
       document.getElementById(
         "main_wrapper"
       ).style.backgroundImage = `url('/api/getCoverImage?course=${selected_course}&auth_key=${auth_key}&image_name=admin_panel')`;
       getUsers();
       document.getElementById("existing_promocodes").innerHTML = "";
+
       fetch("/api/getPromoCodes", {
         method: "POST",
         headers: {
@@ -100,6 +118,9 @@ function getUsers() {
           let username = login;
           if (user.name != "") {
             username = user.name;
+          }
+          if (user.surname != "") {
+            username += " " + user.surname;
           }
           let hasAccess = !user.courses[0].restricted;
           const wrapper = document.createElement("div");
@@ -190,16 +211,30 @@ document
   .addEventListener("click", function () {
     const access_duration = document.getElementById("promocode-duration").value;
     const expire_date = document.getElementById("promocode-expire_date").value;
-    var start_temas = document.getElementById("promocode-start_temas").value;
-    start_temas = start_temas
-      .replace(" ", "")
-      .split(",")
-      .map((item) => item.trim());
-    if (start_temas == "") {
-      start_temas = "all";
+    var start_tema = document.getElementById("promocode-start_temas").value;
+    var start_temas_list = [];
+
+    if (start_tema !== "all") {
+      const course = courseData.courses.find(
+        (crs) => crs.id == selected_course
+      );
+
+      course.blocks.some((block_obj) => {
+        return block_obj.tests.some((test_obj) => {
+          if (test_obj.id != start_tema) {
+            start_temas_list.push(test_obj.id);
+            return false;
+          } else {
+            return true;
+          }
+        });
+      });
+      start_temas_list.push(start_tema);
+    } else {
+      start_temas_list.push(start_tema);
     }
 
-    requestCode(expire_date, access_duration, start_temas);
+    requestCode(expire_date, access_duration, start_temas_list);
   });
 function requestCode(expire_date, access_duration, start_temas) {
   fetch("/api/generateCode", {

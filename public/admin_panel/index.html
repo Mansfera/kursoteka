@@ -2,7 +2,6 @@
 <html lang="uk">
   <head>
     <meta charset="UTF-8" />
-    <meta name="Mansfera's history tests" />
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
@@ -85,13 +84,13 @@
               <label for="start_temas" class="promocodes-creation-label"
                 >Оберіть початкову тему</label
               >
-              <input
-                type="text"
+              <select
                 name="start_temas"
-                class="promocodes-creation-field"
-                placeholder="1, 2..."
+                class="promocodes-creation-list"
                 id="promocode-start_temas"
-              />
+              >
+                <option value="all">Всі теми</option>
+              </select>
             </form>
             <div
               class="promocodes-creation-generate_button"
