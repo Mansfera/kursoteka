@@ -357,7 +357,7 @@ function showQuestion() {
         .classList.remove("display-none");
       document.getElementById("list_abcd-fields").classList.add("display-none");
       inputAnswerQuestion = true;
-      if (currentQuestion.selected != "") {
+      if (currentQuestion.correct != "") {
         for (i = 1; i < 4; i++) {
           let answer_field = document.getElementById("text_input" + i);
           if (currentQuestion.correct[i - 1] != undefined) {
