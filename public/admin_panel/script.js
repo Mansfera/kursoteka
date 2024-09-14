@@ -148,11 +148,11 @@ function getUsers() {
             window.location.href = `/stats/?user=${login}&id=${course.id}`;
           });
 
-          const accessElement = wrapper.querySelector(
-            `#action_buttons-course_access-${login}`
+          const accessElement = wrapper.getElementById(
+            `action_buttons-course_access-${login}`
           );
-          const switchElement = wrapper.querySelector(
-            `#course_access-switch-${login}`
+          const switchElement = wrapper.getElementById(
+            `course_access-switch-${login}`
           );
 
           accessElement.addEventListener("click", function () {
