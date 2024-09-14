@@ -87,7 +87,7 @@ function login_func() {
   const login = document.getElementById("login").value.toString().toLowerCase();
   const password = document.getElementById("password").value.toString();
 
-  if (password.length == 0 && login.length > 2) {
+  if (login.length > 2) {
     Array.from(form_fields.children).forEach((half) => {
       half.classList.add("move");
       document.getElementById("form-name").innerHTML = "Ще трішки";
