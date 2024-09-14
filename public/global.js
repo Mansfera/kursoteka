@@ -65,9 +65,11 @@ fetch("/api/getUserDetails", {
     }
   })
   .then((data) => {
-    setCookie("login", data.username);
-    setCookie("name", data.name);
-    setCookie("surname", data.surname);
+    if (data) {
+      setCookie("login", data.username);
+      setCookie("name", data.name);
+      setCookie("surname", data.surname);
+    }
   })
   .catch((error) => {
     console.log(error.message);
