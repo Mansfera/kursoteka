@@ -148,10 +148,10 @@ function getUsers() {
             window.location.href = `/stats/?user=${login}&id=${course.id}`;
           });
 
-          const accessElement = wrapper.getElementById(
+          const accessElement = document.getElementById(
             `action_buttons-course_access-${login}`
           );
-          const switchElement = wrapper.getElementById(
+          const switchElement = document.getElementById(
             `course_access-switch-${login}`
           );
 
