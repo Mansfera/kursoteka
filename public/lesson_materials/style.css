@@ -2,14 +2,24 @@
   position: relative;
   justify-content: center;
 }
-.segment-material_name {
-  position: absolute;
+.main_wrapper-material_name {
+  position: fixed;
   top: 0;
+  left: 0;
+  width: 100vw;
   padding-block: 2rem;
+  padding-inline: 4rem;
   display: flex;
   flex-direction: row;
   gap: 2rem;
   align-items: center;
+  z-index: 100;
+  background-color: black;
+}
+@media screen and (max-width:576px) {
+  .main_wrapper-material_name {
+    padding-inline: 2rem;
+  }
 }
 #close_window {
   height: 50%;
