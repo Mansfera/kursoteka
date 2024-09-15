@@ -421,7 +421,7 @@ input {
   left: 0;
   bottom: 0;
   width: 100%;
-  height: calc(100% - 8vh);
+  height: 92vh;
   display: flex;
   justify-content: center;
   align-items: center;
