@@ -98,7 +98,7 @@
             "conspects": [
               {
                 "name": "Дати подій",
-                "id": "conspect-dates-1"
+                "id": "conspect-dates"
               },
               {
                 "name": "Перелік подій (частина 1)",
@@ -124,7 +124,7 @@
             "conspects": [
               {
                 "name": "Дати подій",
-                "id": "conspect-dates-1"
+                "id": "conspect-dates"
               },
               {
                 "name": "Перелік подій (частина 1)",
