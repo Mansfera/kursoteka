@@ -108,7 +108,8 @@ function fetchAndDisplayUserCourses() {
             if (
               data.allowed_tests.includes(
                 block.tests[block.tests.length - 1].id
-              )
+              ) ||
+              data.allowed_tests.includes("all")
             ) {
               document
                 .getElementById(`final_test-${block.id}`)
