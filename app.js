@@ -511,10 +511,14 @@ app.post("/sendTestResult", async (req, res) => {
           temas_id_list.push(test_obj.id);
         });
       });
+      let next_tema_is_in_block = false;
       const next_tema_id =
         temas_id_list[
           temas_id_list.indexOf(temas_id_list.find((lt) => lt == test)) + 1
         ];
+
+      let short_test_check = false;
+      let full_test_check = false;
 
       switch (test_type) {
         case "short": {
@@ -541,8 +545,6 @@ app.post("/sendTestResult", async (req, res) => {
             lastTests.reduce((sum, item) => sum + item.score, 0) /
             lastTests.length;
 
-          let next_tema_is_in_block = false;
-
           course_obj.blocks.some((block_obj) => {
             if (block_obj.id == block) {
               next_tema_is_in_block = block_obj.tests.find(
@@ -551,7 +553,7 @@ app.post("/sendTestResult", async (req, res) => {
             }
           });
           if (averageScore >= 70 && next_tema_is_in_block) {
-            course.data.allowed_tests.push(next_tema_id);
+            short_test_check = true;
           }
           break;
         }
@@ -579,8 +581,6 @@ app.post("/sendTestResult", async (req, res) => {
             lastTests.reduce((sum, item) => sum + item.score, 0) /
             lastTests.length;
 
-          let next_tema_is_in_block = false;
-
           course_obj.blocks.some((block_obj) => {
             if (block_obj.id == block) {
               next_tema_is_in_block = block_obj.tests.find(
@@ -589,7 +589,7 @@ app.post("/sendTestResult", async (req, res) => {
             }
           });
           if (averageScore >= 60 && next_tema_is_in_block) {
-            course.data.allowed_tests.push(next_tema_id);
+            full_test_check = true;
           }
           break;
         }
@@ -617,6 +617,9 @@ app.post("/sendTestResult", async (req, res) => {
           }
           break;
         }
+      }
+      if (short_test_check && full_test_check) {
+        course.data.allowed_tests.push(next_tema_id);
       }
     }
 
