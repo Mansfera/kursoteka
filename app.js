@@ -23,6 +23,7 @@ app.post("/uploadImg", upload.single("image"), (req, res) => {
   const imgName = req.query.img_name;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
+  const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", async (err, data) => {
     if (err) {
@@ -42,17 +43,27 @@ app.post("/uploadImg", upload.single("image"), (req, res) => {
 
           // Define the new filename
           const newFileName = `${imgName}.png`;
-          const filePath = path.join(
+          const dirPath = path.join(
             __dirname,
-            `courseData/${courseName}/block${blockId}/test${testId}/images/`,
-            newFileName
+            `courseData/${courseName}/block${blockId}/test${testId}/images/`
           );
+
+          const filePath = path.join(dirPath, newFileName);
+
+          // Check if the directory exists
+          if (!fs.existsSync(dirPath)) {
+            console.log("Directory does not exist:", dirPath);
+            // Optionally, create the directory if it doesn't exist
+            fs.mkdirSync(dirPath, { recursive: true });
+            console.log("Directory created:", dirPath);
+          }
 
           // Convert the uploaded image to PNG and save it with the new filename
           sharp(req.file.buffer)
             .png()
             .toFile(filePath, (err, info) => {
               if (err) {
+                console.log(err);
                 return res
                   .status(500)
                   .json({ error: "Error processing image" });
@@ -78,6 +89,7 @@ app.post("/deleteImg", (req, res) => {
   const imgName = req.query.img_name;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
+  const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", async (err, data) => {
     if (err) {

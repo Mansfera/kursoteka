@@ -609,6 +609,7 @@ function addMAQuestion() {
   addNewQuestion("3-" + q_id.toString());
 }
 function removeQuestion() {
+  deleteImg();
   if (currentQuestionIndex < q_len) {
     questions.splice(questions.indexOf(currentQuestion), 1);
     q_len = questions.length;
@@ -637,6 +638,30 @@ function removeQuestion() {
     ...mul_ans_questions
   );
   showQuestion();
+}
+function deleteImg() {
+  fetch(
+    `/deleteImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
+      currentQuestion.question
+    )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
+      currentQuestion.test_id
+    )}`,
+    {
+      method: "POST",
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      checkIfImageExists(
+        block_id,
+        currentQuestion.test_id,
+        currentQuestion.question
+      );
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
 }
 let progressInterval;
 function startRemoveAnimation() {
@@ -755,28 +780,7 @@ document.getElementById("q_img").addEventListener("click", () => {
   document.getElementById("file_input").click();
 });
 document.getElementById("delete_q_img").addEventListener("click", () => {
-  fetch(
-    `/deleteImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
-      currentQuestion.question
-    )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
-      currentQuestion.test_id
-    )}`,
-    {
-      method: "POST",
-    }
-  )
-    .then((response) => response.json())
-    .then((data) => {
-      console.log("Success:", data);
-      checkIfImageExists(
-        block_id,
-        currentQuestion.test_id,
-        currentQuestion.question
-      );
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  deleteImg();
 });
 document
   .getElementById("file_input")
@@ -818,6 +822,7 @@ document
           console.error("Error:", error);
         });
     }
+    document.getElementById("file_input").value = null;
   });
 Array.from(document.querySelectorAll(".input_fields-item")).forEach((field) => {
   field.addEventListener("input", function () {
