@@ -164,6 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
         }
       });
       swipeInterval = setInterval(swipeLeftGallery, 3000);
+      rotateInfoCard_left();
+      rotateInfoCard_interval = setInterval(rotateInfoCard_left, 3000);
 
       const galleryElement = document.getElementById("course_gallery");
 
@@ -225,12 +227,20 @@ const arrow_left = document.getElementById("info_card-arrow-left");
 const arrow_progress_circle = document.getElementById("arrow_progress_circle");
 let current_card_index = 1;
 arrow_left.addEventListener("click", () => {
-  let current_rotation = +arrow_progress_circle.dataset.progress || 0;
-  let target_rotation = current_rotation + 60;
-
-  if (current_rotation == 360) {
-    target_rotation = 60;
+  resetInfoCardRotate();
+  rotateInfoCard_left();
+});
+function rotateInfoCard_left() {
+  const info_card_num = document.getElementById("info_card-num");
+  let data_info_card_num = info_card_num.dataset.info_card_num;
+  if (data_info_card_num == 6) {
+    data_info_card_num = 0;
   }
+  data_info_card_num++;
+  info_card_num.dataset.info_card_num = data_info_card_num;
+  info_card_num.innerHTML = `0${data_info_card_num} / 06`;
+  let current_rotation = 0;
+  let target_rotation = 360;
   arrow_progress_circle.dataset.progress = target_rotation;
   const animateRotation = (start, end, duration) => {
     const startTime = performance.now();
@@ -247,7 +257,7 @@ arrow_left.addEventListener("click", () => {
 
     requestAnimationFrame(rotate);
   };
-  animateRotation(current_rotation, target_rotation, 500);
+  animateRotation(current_rotation, target_rotation, 3000);
 
   current_card_index++;
   if (current_card_index > 6) {
@@ -271,14 +281,22 @@ arrow_left.addEventListener("click", () => {
       card.classList.add("move-right");
     }
   });
-});
+}
 arrow_rigth.addEventListener("click", () => {
-  let current_rotation = +arrow_progress_circle.dataset.progress || 0;
-  let target_rotation = current_rotation - 60;
-
-  if (current_rotation == 60) {
-    target_rotation = 360;
+  resetInfoCardRotate();
+  rotateInfoCard_right();
+});
+function rotateInfoCard_right() {
+  const info_card_num = document.getElementById("info_card-num");
+  let data_info_card_num = info_card_num.dataset.info_card_num;
+  if (data_info_card_num == 1) {
+    data_info_card_num = 7;
   }
+  data_info_card_num--;
+  info_card_num.dataset.info_card_num = data_info_card_num;
+  info_card_num.innerHTML = `0${data_info_card_num} / 06`;
+  let current_rotation = 360;
+  let target_rotation = 0;
   arrow_progress_circle.dataset.progress = target_rotation;
   const animateRotation = (start, end, duration) => {
     const startTime = performance.now();
@@ -295,7 +313,7 @@ arrow_rigth.addEventListener("click", () => {
 
     requestAnimationFrame(rotate);
   };
-  animateRotation(current_rotation, target_rotation, 500);
+  animateRotation(current_rotation, target_rotation, 3000);
 
   current_card_index--;
   if (current_card_index < 1) {
@@ -321,4 +339,9 @@ arrow_rigth.addEventListener("click", () => {
       card.classList.add("move-right");
     }
   });
-});
+}
+let rotateInfoCard_interval;
+function resetInfoCardRotate() {
+  clearInterval(rotateInfoCard_interval);
+  rotateInfoCard_interval = setInterval(rotateInfoCard_left, 3000);
+}

@@ -50,10 +50,25 @@
   font-weight: 400;
 }
 
+.height-auto {
+  height: auto;
+}
+
+@media screen and (max-width: 576px) {
+  .mobile-height_auto {
+    height: auto;
+  }
+}
+@media screen and (min-width: 576px) {
+  .pc-height_auto {
+    height: auto;
+  }
+}
 .display-none {
   display: none;
   width: 0;
   height: 0;
+  overflow: hidden;
 }
 .invisible {
   opacity: 0;
