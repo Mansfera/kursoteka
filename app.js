@@ -543,11 +543,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length < 3) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           if (filteredAndSortedTests.length < 3) break;
@@ -579,11 +579,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length === 0) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           if (filteredAndSortedTests.length === 0) break;
@@ -615,11 +615,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length === 0) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           const lastTest =
