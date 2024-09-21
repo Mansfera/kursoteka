@@ -1304,8 +1304,8 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
     }
   });
 });
-app.post("/api/changeUserData", (req, res) => {
-  const { auth_key, courseName, username, expire_date, allowed_tests } =
+app.post("/api/changeUserAllowedCourse", (req, res) => {
+  const { auth_key, courseName, username, allowed_tests } =
     req.body;
   const filePath = path.join(__dirname, "users.json");
 
@@ -1325,7 +1325,6 @@ app.post("/api/changeUserData", (req, res) => {
           const changedUser = users.find((user) => user.login === username);
           let updatedUsers = users.filter((user) => user.login !== username);
           const course = findCourse(users, changedUser.auth_key, courseName);
-          course.data.expire_date = expire_date;
           course.data.allowed_tests = allowed_tests;
           updatedUsers.push(changedUser);
           fs.writeFile(
