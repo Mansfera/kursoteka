@@ -237,7 +237,7 @@ function getUsers() {
           });
 
           // Set the last allowed test as the selected value
-          const allowed_tests = user.courses[0].allowed_tests; // Get the list of allowed tests
+          const allowed_tests = user.courses[0].data.allowed_tests; // Get the list of allowed tests
           const last_allowed_test = allowed_tests[allowed_tests.length - 1]; // Get the last one
           user_max_tema.value = last_allowed_test; // Set the value directly to the last allowed test ID
 
