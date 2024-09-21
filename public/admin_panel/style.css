@@ -224,7 +224,7 @@
 }
 .student_list-user_wrapper {
   width: 100%;
-  max-width: 20rem;
+  max-width: 30rem;
   height: 10rem;
 }
 .student_list-user {
@@ -289,4 +289,9 @@
   height: 1rem;
   border-radius: 1rem;
   transition: all 0.3s ease-in-out;
+}
+.action_buttons-course_selector select {
+  border: none;
+  background-color: transparent;
+  width: 100%;
 }

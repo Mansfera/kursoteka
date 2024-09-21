@@ -71,3 +71,6 @@ select:focus {
 .global_svg {
   stroke-width: 3;
 }
+option {
+  color: black;
+}

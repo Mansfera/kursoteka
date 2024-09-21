@@ -16,7 +16,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .then((response) => response.json())
     .then((data) => {
       courseData = data;
-      data.courses.forEach((course) => {
+      courseData.courses.forEach((course) => {
         const option = document.createElement("option");
         option.value = course.id;
         option.textContent = course.name;
@@ -91,6 +91,32 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
+async function changeUserAllowedCourse(username, allowed_tests) {
+  try {
+    const response = await fetch("/api/changeUserAllowedCourse", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        auth_key,
+        courseName: selected_course,
+        username: username,
+        allowed_tests: allowed_tests,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Failed to change allowed course for user");
+    }
+
+    const result = await response.json(); // Parse the JSON response
+    return result;
+  } catch (error) {
+    console.error("Error:", error);
+    return null;
+  }
+}
 function getUsers() {
   fetch("/api/getUsers", {
     method: "POST",
@@ -139,6 +165,11 @@ function getUsers() {
                   <div class="course_access-switch-circle"></div>
                 </div>
               </div>
+              <div class="action_buttons-item action_buttons-course_selector">
+                <select id="action_buttons-course_selector-${login}">
+                  <option value="all">Всі теми</option>
+                </select>
+              </div>
             </div>
           </div>
           `;
@@ -181,6 +212,66 @@ function getUsers() {
               .catch((error) => {
                 console.error("Error changing access:", error);
                 switchElement.classList.toggle("switch-active");
+              });
+          });
+
+          const course = courseData.courses.find(
+            (crs) => crs.id == selected_course
+          );
+          const user_max_tema = document.getElementById(
+            `action_buttons-course_selector-${login}`
+          );
+
+          // Populate the select element with test options
+          Array.from(course.blocks).forEach((block_obj) => {
+            Array.from(block_obj.tests).forEach((test_obj) => {
+              const option = document.createElement("option");
+              option.value = test_obj.id;
+              if (test_obj.name !== "") {
+                option.textContent = `Тема №${test_obj.id}: ${test_obj.name}`;
+              } else {
+                option.textContent = `Тема №${test_obj.id}`;
+              }
+              user_max_tema.appendChild(option);
+            });
+          });
+
+          // Set the last allowed test as the selected value
+          const allowed_tests = user.courses[0].allowed_tests; // Get the list of allowed tests
+          const last_allowed_test = allowed_tests[allowed_tests.length - 1]; // Get the last one
+          user_max_tema.value = last_allowed_test; // Set the value directly to the last allowed test ID
+
+          user_max_tema.addEventListener("change", function () {
+            var start_tema = user_max_tema.value;
+            var start_temas_list = [];
+
+            if (start_tema !== "all") {
+              const course = courseData.courses.find(
+                (crs) => crs.id == selected_course
+              );
+
+              course.blocks.some((block_obj) => {
+                return block_obj.tests.some((test_obj) => {
+                  if (test_obj.id != start_tema) {
+                    start_temas_list.push(test_obj.id);
+                    return false;
+                  } else {
+                    return true;
+                  }
+                });
+              });
+              start_temas_list.push(start_tema);
+            } else {
+              start_temas_list.push(start_tema);
+            }
+            changeUserAllowedCourse(login, start_temas_list)
+              .then((result) => {
+                if (result) {
+                  console.log("Success:", result);
+                }
+              })
+              .catch((error) => {
+                console.error("Failed to change allowed course:", error);
               });
           });
         }

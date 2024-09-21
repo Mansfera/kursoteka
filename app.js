@@ -543,11 +543,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length < 3) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           if (filteredAndSortedTests.length < 3) break;
@@ -579,11 +579,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length === 0) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           if (filteredAndSortedTests.length === 0) break;
@@ -615,11 +615,11 @@ app.post("/sendTestResult", async (req, res) => {
           if (filteredTests.length === 0) break;
 
           const filteredAndSortedTests = filteredTests
-            .filter(
-              (item) =>
-                Date.now() - new Date(item.date).getTime() <=
-                3 * 24 * 60 * 60 * 1000
-            )
+            // .filter(
+            //   (item) =>
+            //     Date.now() - new Date(item.date).getTime() <=
+            //     3 * 24 * 60 * 60 * 1000
+            // )
             .sort((a, b) => new Date(b.date) - new Date(a.date));
 
           const lastTest =
@@ -1304,8 +1304,8 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
     }
   });
 });
-app.post("/api/changeUserData", (req, res) => {
-  const { auth_key, courseName, username, expire_date, allowed_tests } =
+app.post("/api/changeUserAllowedCourse", (req, res) => {
+  const { auth_key, courseName, username, allowed_tests } =
     req.body;
   const filePath = path.join(__dirname, "users.json");
 
@@ -1325,7 +1325,6 @@ app.post("/api/changeUserData", (req, res) => {
           const changedUser = users.find((user) => user.login === username);
           let updatedUsers = users.filter((user) => user.login !== username);
           const course = findCourse(users, changedUser.auth_key, courseName);
-          course.data.expire_date = expire_date;
           course.data.allowed_tests = allowed_tests;
           updatedUsers.push(changedUser);
           fs.writeFile(
