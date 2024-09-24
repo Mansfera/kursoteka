@@ -480,8 +480,20 @@ app.get("/loadTestData", async (req, res) => {
   }
 });
 app.post("/sendTestResult", async (req, res) => {
-  const { auth_key, date, time, courseName, test_type, block, test, score } =
-    req.body;
+  const {
+    auth_key,
+    date,
+    time,
+    courseName,
+    test_type,
+    block,
+    test,
+    score,
+    abcd_questions_accuracy,
+    hronology_questions_accuracy,
+    vidpovidnist_questions_accuracy,
+    mul_ans_questions_accuracy,
+  } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   try {
@@ -499,12 +511,16 @@ app.post("/sendTestResult", async (req, res) => {
     let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
 
     let new_test = {
-      date: date,
-      time: time,
-      test_type: test_type,
-      block: block,
-      test: test,
-      score: score,
+      date,
+      time,
+      test_type,
+      block,
+      test,
+      score,
+      abcd_questions_accuracy,
+      hronology_questions_accuracy,
+      vidpovidnist_questions_accuracy,
+      mul_ans_questions_accuracy,
     };
     course.data.completed_tests.push(new_test);
 
@@ -533,16 +549,18 @@ app.post("/sendTestResult", async (req, res) => {
       let full_test_check = false;
 
       switch (test_type) {
-        case "short": {
+        case "short":
+        case "full": {
+          //short
           if (course.data.allowed_tests.includes(next_tema_id)) {
             break;
           }
-          const filteredTests = course.data.completed_tests.filter(
-            (item) => item.test === test && item.test_type == test_type
+          let filteredTests = course.data.completed_tests.filter(
+            (item) => item.test === test && item.test_type == "short"
           );
           if (filteredTests.length < 3) break;
 
-          const filteredAndSortedTests = filteredTests
+          let filteredAndSortedTests = filteredTests
             // .filter(
             //   (item) =>
             //     Date.now() - new Date(item.date).getTime() <=
@@ -552,8 +570,8 @@ app.post("/sendTestResult", async (req, res) => {
 
           if (filteredAndSortedTests.length < 3) break;
 
-          const lastTests = filteredAndSortedTests.slice(0, 5);
-          const averageScore =
+          let lastTests = filteredAndSortedTests.slice(0, 3);
+          let averageScore =
             lastTests.reduce((sum, item) => sum + item.score, 0) /
             lastTests.length;
 
@@ -567,18 +585,14 @@ app.post("/sendTestResult", async (req, res) => {
           if (averageScore >= 70 && next_tema_is_in_block) {
             short_test_check = true;
           }
-          break;
-        }
-        case "full": {
-          if (course.data.allowed_tests.includes(next_tema_id)) {
-            break;
-          }
-          const filteredTests = course.data.completed_tests.filter(
-            (item) => item.test === test && item.test_type == test_type
+
+          //full
+          filteredTests = course.data.completed_tests.filter(
+            (item) => item.test === test && item.test_type == "full"
           );
           if (filteredTests.length === 0) break;
 
-          const filteredAndSortedTests = filteredTests
+          filteredAndSortedTests = filteredTests
             // .filter(
             //   (item) =>
             //     Date.now() - new Date(item.date).getTime() <=
@@ -588,8 +602,8 @@ app.post("/sendTestResult", async (req, res) => {
 
           if (filteredAndSortedTests.length === 0) break;
 
-          const lastTests = filteredAndSortedTests.slice(0, 2);
-          const averageScore =
+          lastTests = filteredAndSortedTests.slice(0, 1);
+          averageScore =
             lastTests.reduce((sum, item) => sum + item.score, 0) /
             lastTests.length;
 
@@ -602,6 +616,9 @@ app.post("/sendTestResult", async (req, res) => {
           });
           if (averageScore >= 60 && next_tema_is_in_block) {
             full_test_check = true;
+          }
+          if (short_test_check && full_test_check) {
+            course.data.allowed_tests.push(next_tema_id);
           }
           break;
         }
@@ -629,9 +646,6 @@ app.post("/sendTestResult", async (req, res) => {
           }
           break;
         }
-      }
-      if (short_test_check && full_test_check) {
-        course.data.allowed_tests.push(next_tema_id);
       }
     }
 
@@ -762,7 +776,7 @@ app.post("/api/login", (req, res) => {
   });
 });
 app.post("/api/getUserDetails", (req, res) => {
-  const { g_auth_key } = req.body;
+  const { auth_key } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {
@@ -774,7 +788,7 @@ app.post("/api/getUserDetails", (req, res) => {
 
     try {
       const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === g_auth_key);
+      const user = users.find((user) => user.auth_key === auth_key);
       if (user) {
         res.status(200).send({
           username: user.login,
@@ -789,6 +803,103 @@ app.post("/api/getUserDetails", (req, res) => {
       res.status(500).send("Internal Server Error");
     }
   });
+});
+app.post("/api/changeUserCredentials", (req, res) => {
+  const { auth_key, login, name, surname } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+      let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
+
+      if (user) {
+        if (login != null) {
+          user.login = login;
+        }
+        if (name != null) {
+          user.name = name;
+        }
+        if (surname != null) {
+          user.surname = surname;
+        }
+        updatedUsers.push(user);
+        fs.writeFile(
+          filePath,
+          JSON.stringify(updatedUsers, null, 2),
+          (writeErr) => {
+            if (writeErr) {
+              console.error("Error writing file:", writeErr);
+              res.status(500).send("Internal Server Error");
+              return;
+            } else {
+              res.status(200).send({ message: "✅" });
+            }
+          }
+        );
+      } else {
+        res.status(404).send("Користувача не знайдено");
+      }
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).send("Internal Server Error");
+    }
+  });
+});
+app.post("/api/getUserStats", async (req, res) => {
+  const { auth_key, courseName, start_date, end_date, login } = req.body;
+  const filePath = path.join(__dirname, "users.json");
+
+  try {
+    const userData = await fs_promise.readFile(filePath, "utf8");
+    const users = JSON.parse(userData);
+    const user = users.find((user) => user.auth_key === auth_key);
+    if (!user) {
+      res.status(404).send("User not found");
+      return;
+    }
+    let student_auth_key;
+    if (user.coursesOwned.includes(courseName) && login != null) {
+      const student = users.find((student) => student.login === login);
+      if (!student) {
+        res.status(404).send("Student not found");
+        return;
+      }
+      student_auth_key = student.auth_key;
+    } else {
+      student_auth_key = auth_key;
+    }
+
+    const student_course = findCourse(users, student_auth_key, courseName);
+    if (student_course) {
+      if (start_date != null && end_date != null) {
+        res.status(200).send({
+          completed_tests: student_course.data.completed_tests.filter(
+            (test) => test.date > start_date && test.date < end_date
+          ),
+        });
+      } else {
+        const userData = {
+          join_date: student_course.data.join_date,
+          expire_date: student_course.data.expire_date,
+        };
+        res.status(200).send(userData);
+      }
+    } else {
+      res.status(404).send("Course not found");
+      return;
+    }
+  } catch (error) {
+    console.error("Error loading test data:", error);
+    res.status(500).send("Error loading test data");
+  }
 });
 
 function getUsersWithSpecificCourse(users, courseName) {
@@ -1164,55 +1275,6 @@ app.post("/api/deletePromoCode", (req, res) => {
     }
   });
 });
-app.post("/api/changeUserCredentials", (req, res) => {
-  const { auth_key, login, name, surname } = req.body;
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
-    }
-
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
-
-      if (user) {
-        if (login != null) {
-          user.login = login;
-        }
-        if (name != null) {
-          user.name = name;
-        }
-        if (surname != null) {
-          user.surname = surname;
-        }
-        updatedUsers.push(user);
-        fs.writeFile(
-          filePath,
-          JSON.stringify(updatedUsers, null, 2),
-          (writeErr) => {
-            if (writeErr) {
-              console.error("Error writing file:", writeErr);
-              res.status(500).send("Internal Server Error");
-              return;
-            } else {
-              res.status(200).send({ message: "✅" });
-            }
-          }
-        );
-      } else {
-        res.status(404).send("Користувача не знайдено");
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
-    }
-  });
-});
 
 app.post("/api/getUsers", (req, res) => {
   const { auth_key, courseName } = req.body;
@@ -1305,8 +1367,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
   });
 });
 app.post("/api/changeUserAllowedCourse", (req, res) => {
-  const { auth_key, courseName, username, allowed_tests } =
-    req.body;
+  const { auth_key, courseName, username, allowed_tests } = req.body;
   const filePath = path.join(__dirname, "users.json");
 
   fs.readFile(filePath, "utf8", (err, data) => {

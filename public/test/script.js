@@ -17,7 +17,6 @@ var test_id = params.get("id");
 var block_id = params.get("block");
 var test_type = params.get("test_type");
 var course = params.get("course");
-var auth_key = getCookie("auth_key");
 
 let test_name;
 let first_test_id = params.get("first_test_id");
@@ -108,6 +107,20 @@ function startShortTest() {
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
+
+  questions.forEach((q) => {
+    q.q_type = "abcd";
+  });
+  vidpovidnist_questions.forEach((q) => {
+    q.q_type = "vidp";
+  });
+  hronology_questions.forEach((q) => {
+    q.q_type = "hron";
+  });
+  mul_ans_questions.forEach((q) => {
+    q.q_type = "mul_ans";
+  });
+
   for (let i = 0; i < questionCount; i++) {
     let currentQuestion;
     if (i < 12) {
@@ -173,6 +186,20 @@ function startFinalTest() {
   let temp_vidpovidnist = [];
   let temp_hronology = [];
   let temp_mul_ans = [];
+
+  questions.forEach((q) => {
+    q.q_type = "abcd";
+  });
+  vidpovidnist_questions.forEach((q) => {
+    q.q_type = "vidp";
+  });
+  hronology_questions.forEach((q) => {
+    q.q_type = "hron";
+  });
+  mul_ans_questions.forEach((q) => {
+    q.q_type = "mul_ans";
+  });
+
   for (let i = 0; i < questionCount; i++) {
     let currentQuestion;
     if (i < (last_test_id - first_test_id) * 3) {
@@ -258,6 +285,20 @@ function startFullTest() {
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
+
+  questions.forEach((q) => {
+    q.q_type = "abcd";
+  });
+  vidpovidnist_questions.forEach((q) => {
+    q.q_type = "vidp";
+  });
+  hronology_questions.forEach((q) => {
+    q.q_type = "hron";
+  });
+  mul_ans_questions.forEach((q) => {
+    q.q_type = "mul_ans";
+  });
+
   let temp_1 = [];
   test_questions = temp_1
     .concat(
@@ -434,15 +475,70 @@ function sendTestResult() {
   } else {
     _test_id = test_id;
   }
+  let test_abcd_q = [];
+  let test_hron_q = [];
+  let test_vidp_q = [];
+  let test_mul_ans_q = [];
+  Array.from(test_questions).forEach((q) => {
+    switch (q.q_type) {
+      case "abcd": {
+        test_abcd_q.push(q);
+        break;
+      }
+      case "hron": {
+        test_hron_q.push(q);
+        break;
+      }
+      case "vidp": {
+        test_vidp_q.push(q);
+        break;
+      }
+      case "mul_ans": {
+        test_mul_ans_q.push(q);
+        break;
+      }
+    }
+  });
+  let temp_abcd_questions_accuracy = 0;
+  let temp_hronology_questions_accuracy = 0;
+  let temp_vidpovidnist_questions_accuracy = 0;
+  let temp_mul_ans_questions_accuracy = 0;
+
+  test_abcd_q.forEach((q) => {
+    if (q.isCorrect) {
+      temp_abcd_questions_accuracy++;
+    }
+  });
+  test_hron_q.forEach((q) => {
+    temp_hronology_questions_accuracy += q.correct_percentage;
+  });
+  test_vidp_q.forEach((q) => {
+    temp_vidpovidnist_questions_accuracy += q.correct_percentage;
+  });
+  test_mul_ans_q.forEach((q) => {
+    temp_mul_ans_questions_accuracy += q.correct_percentage;
+  });
   let testData = {
     date: Date.now(),
     time: startingMinutes * 60 - time,
-    test_type: test_type,
+    test_type,
     block: block_id,
     test: _test_id,
     score: Math.ceil(score),
-    auth_key: auth_key,
+    auth_key,
     courseName: course,
+    abcd_questions_accuracy: Math.ceil(
+      (temp_abcd_questions_accuracy * 100) / test_abcd_q.length
+    ),
+    hronology_questions_accuracy: Math.ceil(
+      temp_hronology_questions_accuracy / test_hron_q.length
+    ),
+    vidpovidnist_questions_accuracy: Math.ceil(
+      temp_vidpovidnist_questions_accuracy / test_vidp_q.length
+    ),
+    mul_ans_questions_accuracy: Math.ceil(
+      temp_mul_ans_questions_accuracy / test_mul_ans_q.length
+    ),
   };
   fetch("/sendTestResult", {
     method: "POST",
@@ -855,6 +951,7 @@ function selectAnswer(e) {
     const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
     const selectedBtn = e.target;
     let currentQuestion = displayedQuestion;
+
     if (currentQuestionIndex < questions_length) {
       Array.from(answerButtons.children).forEach((button) => {
         button.classList.remove("selected");
@@ -876,9 +973,7 @@ function selectAnswer(e) {
     if (
       currentQuestionIndex >= questions_length &&
       currentQuestionIndex <
-        questions_length +
-          vidpovidnist_length +
-          hronology_length
+        questions_length + vidpovidnist_length + hronology_length
     ) {
       let selected_answers = [];
       Array.from(ansSheetGrid).forEach((button) => {
@@ -890,15 +985,22 @@ function selectAnswer(e) {
       Array.from(selected_answers).forEach((answer) => {
         if (answer.id[0] == selectedBtn.id[0]) {
           answer.classList.remove("selected");
+          selected_answers.splice(selected_answers.indexOf(answer), 1);
         }
       });
       selected_answers.push(selectedBtn);
       let chosen_answers_from_sheet = ["0", "0", "0", "0"];
 
+      currentQuestion.correct_percentage = 0;
       Array.from(selected_answers).forEach((button) => {
         const index = button.id[0].charCodeAt(0) - "a".charCodeAt(0); // Calculate the index based on 'a', 'b', 'c', 'd'
         if (index >= 0 && index < chosen_answers_from_sheet.length) {
           chosen_answers_from_sheet[index] = button.id[1];
+          if (
+            chosen_answers_from_sheet[index] == currentQuestion.correct[index]
+          ) {
+            currentQuestion.correct_percentage += 25;
+          }
         }
       });
 
@@ -934,6 +1036,12 @@ function saveNumAnswer() {
     }
     currentQuestion.selected = temp_str.split("").sort().join("");
     if (temp_str != "") {
+      currentQuestion.correct_percentage = 1;
+      for (let i = 0; i < 3; i++) {
+        if (currentQuestion.correct.includes(currentQuestion.selected[i])) {
+          currentQuestion.correct_percentage += 33;
+        }
+      }
       if (currentQuestion.correct == currentQuestion.selected) {
         q_id.classList.add("correct");
         currentQuestion.isCorrect = true;
@@ -947,6 +1055,11 @@ function saveNumAnswer() {
     }
   }
 }
+Array.from(numeric_answers.children).forEach((field) => {
+  field.addEventListener("input", function () {
+    saveNumAnswer();
+  });
+});
 function handleNextButton() {
   if (!test_completed) {
     if (currentQuestionIndex < questionCount) {

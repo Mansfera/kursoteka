@@ -1,0 +1,114 @@
+.main_wrapper-top_screen_page_name {
+  background-color: var(--rich-green);
+  width: 100%;
+  height: 25vh;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: relative;
+}
+.top_screen_page_name-date_pickers {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.date_picker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+.date_picker label {
+  width: 2rem;
+  text-align: end;
+  margin-right: 0.5rem;
+}
+.date_picker input {
+  background-color: black;
+  border-radius: 2rem;
+  border: none;
+  padding-block: 0.25rem;
+  padding-inline: 1rem;
+}
+
+.date_picker input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  background-image: url("/assets/calendar.svg");
+}
+
+.date_picker input::-moz-focus-inner {
+  cursor: pointer;
+  background-image: url("/assets/calendar.svg");
+}
+
+.date_picker input::-ms-clear {
+  cursor: pointer;
+  background-image: url("/assets/calendar.svg");
+}
+
+.main_wrapper-general_stats {
+  width: 100%;
+  padding-block: 2rem;
+  display: flex;
+  flex-direction: column;
+}
+.general_stats-collection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  padding-inline: 4rem;
+  padding-block: 1rem;
+}
+.stat_item {
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (min-width: 965px) {
+  .general_stats-collection.flex-start {
+    justify-content: flex-start;
+  }
+  .general_stats-collection.flex-end {
+    justify-content: flex-end;
+  }
+  .stat_item {
+    min-width: 10rem;
+    width: fit-content;
+    max-width: 25%;
+    padding: 1.5rem;
+    border-radius: 1rem;
+    background-color: rgb(16, 16, 16);
+    height: 12rem;
+  }
+  .stat_info {
+    margin-top: auto;
+    font-size: 2.5rem;
+    font-weight: 500;
+  }
+  .stat_name {
+    color: aliceblue;
+  }
+}
+@media screen and (max-width: 965px) {
+  .general_stats-collection {
+    flex-direction: column;
+    padding-inline: 2rem;
+    border-bottom: aliceblue 1px dashed;
+  }
+  .stat_item {
+    width: 100%;
+    flex-direction: column-reverse;
+  }
+  .stat_name {
+    color: rgb(157, 157, 157);
+  }
+  .stat_info {
+    font-size: 2rem;
+    font-weight: 450;
+  }
+}

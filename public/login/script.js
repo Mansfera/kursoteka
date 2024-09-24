@@ -1,7 +1,6 @@
 var queryString = window.location.search;
 var params = new URLSearchParams(queryString);
-console.log(getCookie("auth_key"));
-if (getCookie("auth_key") != null && params.get("noRedirect") == null) {
+if (auth_key != null && params.get("noRedirect") == null) {
   window.location = "/";
 }
 

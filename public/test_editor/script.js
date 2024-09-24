@@ -27,7 +27,6 @@ let ma_len;
 
 let currentQuestionIndex = 0;
 let currentQuestion;
-const auth_key = getCookie("auth_key");
 const course = params.get("course");
 const block_id = params.get("block");
 const test_id = params.get("test");

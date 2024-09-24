@@ -184,11 +184,10 @@ function redeemCode() {
   const activationCode = document.getElementById("activation-code").value;
 
   // Get the auth_key from cookies
-  const authKey = getCookie("auth_key");
 
   // Prepare the data to be sent in the POST request
   const data = {
-    auth_key: authKey,
+    auth_key,
     code: activationCode,
   };
 

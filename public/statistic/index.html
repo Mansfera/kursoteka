@@ -13,7 +13,7 @@
       media="(max-width: 600px)"
     />
     <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes" />
     <meta
       name="apple-mobile-web-app-status-bar-style"
       content="black-translucent"
@@ -38,8 +38,97 @@
   <body>
     <div class="main_wrapper">
       <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
-      <div class="main_wrapper-mobile_menu collapsed" id="mobile_menu-placeholder"></div>
-      .
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+      <div class="top_bar_spacefiller"></div>
+      <div class="main_wrapper-top_screen_page_name">
+        <div class="top_screen_page_name-title title_text white_text uppercase">
+          Статистика
+        </div>
+        <div
+          class="top_screen_page_name-course_name gray_text"
+          id="course_name"
+        >
+          Назва курсу
+        </div>
+        <div class="top_screen_page_name-date_pickers">
+          <div class="date_picker">
+            <label class="white_text" for="start-date">З</label>
+            <input
+              class="white_text"
+              type="date"
+              name="start-date"
+              id="date_picker-start"
+            />
+          </div>
+          <div class="date_picker">
+            <label class="white_text" for="end-date">По</label>
+            <input
+              class="white_text"
+              type="date"
+              name="end-date"
+              id="date_picker-end"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="main_wrapper-general_stats">
+        <div class="general_stats-collection flex-start">
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Загалом тестів пройдено</div>
+            <div class="stat_info white_text" id="total-tests_completed">0</div>
+          </div>
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Тренувальних тестів пройдено</div>
+            <div class="stat_info white_text" id="total-short-tests_completed">
+              0
+            </div>
+          </div>
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Розширених тестів пройдено</div>
+            <div class="stat_info white_text" id="total-full-tests_completed">
+              0
+            </div>
+          </div>
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Підсумкових тестів пройдено</div>
+            <div class="stat_info white_text" id="total-final-tests_completed">
+              0
+            </div>
+          </div>
+        </div>
+        <div class="general_stats-collection flex-end">
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Ти добре справляєшся з</div>
+            <div class="stat_info white_text" id="total-good_at">
+              Тип питання
+            </div>
+          </div>
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Тобі варто звернути увагу на</div>
+            <div class="stat_info white_text" id="total-bad_at">
+              Тип питання
+            </div>
+          </div>
+        </div>
+        <!-- <div class="general_stats-collection flex-start">
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Ти добре справляєшся з темою</div>
+            <div class="stat_info white_text" id="total-best_tema">
+              Назва теми
+            </div>
+          </div>
+          <div class="general_stats-collection-item stat_item">
+            <div class="stat_name">Тобі варто звернути увагу на цю тему</div>
+            <div class="stat_info white_text" id="total-worst_tema">
+              Назва теми
+            </div>
+          </div>
+        </div> -->
+      </div>
+      <div class="main_wrapper-blocks" id="block_list"></div>
     </div>
   </body>
   <script src="script.js"></script>

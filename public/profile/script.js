@@ -56,12 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 });
-const authKey = getCookie("auth_key");
 
 function redeemCode() {
   const activationCode = document.getElementById("activation-code").value;
   const data = {
-    auth_key: authKey,
+    auth_key,
     code: activationCode,
   };
 
@@ -106,7 +105,7 @@ function saveUserData() {
   }
 
   const data = {
-    auth_key: authKey,
+    auth_key,
     login: _login,
     name: _name,
     surname: _surname,

@@ -1,4 +1,3 @@
-const auth_key = getCookie("auth_key");
 const course = params.get("course");
 const block = params.get("block");
 const tema = params.get("tema");

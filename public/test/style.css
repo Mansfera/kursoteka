@@ -165,7 +165,8 @@
   .main_wrapper-answer_selection_methdods {
     width: 100%;
   }
-  .question_text_rows-top_line, .question_text_rows-bottom_line {
+  .question_text_rows-top_line,
+  .question_text_rows-bottom_line {
     font-size: 1.8rem;
   }
   .question_answers_list-element-text {
@@ -436,10 +437,17 @@ input {
 }
 
 .incorrect {
-  background: var(--light-red);
+  background-color: var(--light-red);
+}
+.half_correct {
+  background-color: khaki;
+}
+.true_correct {
+  background-color: lightgreen;
+  border-color: var(--rich-green);
 }
 .correct {
-  background: var(--rich-green);
+  background-color: var(--rich-green);
 }
 .answered {
   background-color: teal;

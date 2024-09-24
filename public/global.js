@@ -38,17 +38,19 @@ function logout() {
   clearCookies();
 }
 document.addEventListener("contextmenu", function (e) {
-  e.preventDefault();
+  if (!getCookie("allowContextmenu")) {
+    e.preventDefault();
+  }
 });
 
-const g_auth_key = getCookie("auth_key");
+const auth_key = getCookie("auth_key");
 fetch("/api/getUserDetails", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",
   },
   body: JSON.stringify({
-    g_auth_key,
+    auth_key,
   }),
 })
   .then((response) => {
@@ -57,7 +59,7 @@ fetch("/api/getUserDetails", {
         return response.json();
       }
       case 404: {
-        if (g_auth_key != null) {
+        if (auth_key != null) {
           logout();
         }
         break;

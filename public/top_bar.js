@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
   $(function () {
     $("#top_bar-placeholder").load("/top_bar.html", function () {
       // This code runs after the top_bar is fully loaded
-      if (getCookie("auth_key") != null) {
+      if (auth_key != null) {
         document.getElementById("login").classList.add("display-none");
         document.getElementById("profile").classList.remove("display-none");
         document.getElementById("my_courses").classList.remove("display-none");
@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (window.matchMedia("(max-width: 965px)").matches) {
         $(function () {
           $("#mobile_menu-placeholder").load("/mobile_menu.html", function () {
-            if (getCookie("auth_key") != null) {
+            if (auth_key != null) {
               document
                 .getElementById("mobile_menu-list-login")
                 .classList.add("display-none");
