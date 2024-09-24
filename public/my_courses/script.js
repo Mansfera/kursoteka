@@ -1,5 +1,4 @@
 function getCourseInfo() {
-  let auth_key = getCookie("auth_key");
   fetch("/api/getUserCourses", {
     method: "POST",
     headers: {
@@ -21,6 +20,7 @@ function getCourseInfo() {
                 <div
                   class="card-course_stats top_button card-blob"
                   id="course_stats-${course.id}"
+                  onclick="openStats('${course.id}')"
                 >
                   <img src="/assets/stats.svg" alt="" />
                 </div>
@@ -36,9 +36,12 @@ function getCourseInfo() {
           `;
           const courseCardElement = courseCard.querySelector(".courses-card");
           courseCardElement.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&auth_key=${auth_key}')`;
-          courseCardElement.addEventListener("click", function () {
-            window.location.href = `/lessons/?id=${course.id}`;
+          courseCardElement.addEventListener("click", function (e) {
+            if (e.target != courseCard.querySelector(".card-course_stats")) {
+              window.location.href = `/lessons/?id=${course.id}`;
+            }
           });
+
           courseListElement.appendChild(courseCard);
         });
       } else {
@@ -55,6 +58,9 @@ function getCourseInfo() {
     });
 }
 
+function openStats(course) {
+  window.location.href = `/statistic/?id=${course}`;
+}
 document.addEventListener("DOMContentLoaded", getCourseInfo);
 document.addEventListener("DOMContentLoaded", function () {
   var codeInput = document.getElementById("activation-code");
@@ -120,11 +126,10 @@ function redeemCode() {
   const activationCode = document.getElementById("activation-code").value;
 
   // Get the auth_key from cookies
-  const authKey = getCookie("auth_key");
 
   // Prepare the data to be sent in the POST request
   const data = {
-    auth_key: authKey,
+    auth_key,
     code: activationCode,
   };
 

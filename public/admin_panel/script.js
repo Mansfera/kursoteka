@@ -1,4 +1,3 @@
-const auth_key = getCookie("auth_key");
 let selected_course = "";
 current_page = 1;
 let courseData;
@@ -179,7 +178,7 @@ function getUsers() {
           );
 
           stats.addEventListener("click", function () {
-            window.location.href = `/stats/?user=${login}&id=${course.id}`;
+            window.location.href = `/statistic/?user=${login}&id=${course.id}`;
           });
 
           const accessElement = document.getElementById(

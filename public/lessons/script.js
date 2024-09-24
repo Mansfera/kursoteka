@@ -62,7 +62,6 @@ function openVideo(course, block, tema) {
 }
 
 function fetchAndDisplayUserCourses() {
-  let auth_key = getCookie("auth_key");
   fetch("/api/getUserCourses", {
     method: "POST",
     headers: {

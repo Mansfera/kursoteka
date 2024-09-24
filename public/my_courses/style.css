@@ -88,6 +88,7 @@
   width: 100%;
   height: 3rem;
   gap: 1rem;
+  z-index: 2;
 }
 .card-blob {
   height: 100%;
