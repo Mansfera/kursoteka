@@ -436,18 +436,15 @@ input {
   object-fit: contain;
 }
 
-.incorrect {
-  background-color: var(--light-red);
-}
-.half_correct {
+.yellow-selected {
   background-color: khaki;
+  color: black;
 }
-.true_correct {
-  background-color: lightgreen;
-  border-color: var(--rich-green);
+.incorrect {
+  background-color: rgb(234, 62, 51);
 }
 .correct {
-  background-color: var(--rich-green);
+  background-color: rgb(83, 181, 54);
 }
 .answered {
   background-color: teal;

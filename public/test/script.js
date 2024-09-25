@@ -624,18 +624,21 @@ function resetState() {
   Array.from(ansSheetGrid).forEach((button) => {
     button.classList.remove("incorrect");
     button.classList.remove("correct");
+    button.classList.remove("yellow-selected");
   });
   Array.from(
     document.getElementsByClassName("question_answers_list-element-text")
   ).forEach((field) => {
     field.classList.remove("incorrect");
     field.classList.remove("correct");
+    field.classList.remove("yellow-selected");
   });
   for (i = 1; i < 4; i++) {
     let answer_field = document.getElementById("text_input" + i);
     answer_field.value = "";
     answer_field.classList.remove("correct");
     answer_field.classList.remove("incorrect");
+    answer_field.classList.remove("yellow-selected");
     answer_field.disabled = false;
   }
   chosen_answers_from_sheet = "XXXX";
@@ -830,10 +833,14 @@ function showQuestion() {
         if (index >= 0 && index < 4) {
           if (test_completed) {
             if (button.id[1] == currentQuestion.selected[index]) {
-              button.classList.add("incorrect");
+              button.classList.add("yellow-selected");
             }
             if (button.id[1] == currentQuestion.correct[index]) {
               button.classList.add("correct");
+            } else {
+              if (button.id[1] == currentQuestion.selected[index]) {
+                button.classList.add("incorrect");
+              }
             }
           } else {
             if (button.id[1] == currentQuestion.selected[index]) {
@@ -860,11 +867,16 @@ function showQuestion() {
 
         if (index >= 0 && index < 4) {
           if (test_completed) {
-            if (button.id[1] == currentQuestion.selected[index]) {
-              button.classList.add("incorrect");
-            }
             if (button.id[1] == currentQuestion.correct[index]) {
-              button.classList.add("correct");
+              if (button.id[1] == currentQuestion.selected[index]) {
+                button.classList.add("yellow-selected");
+              } else {
+                button.classList.add("correct");
+              }
+            } else {
+              if (button.id[1] == currentQuestion.selected[index]) {
+                button.classList.add("incorrect");
+              }
             }
           } else {
             if (button.id[1] == currentQuestion.selected[index]) {
@@ -920,12 +932,15 @@ function showQuestion() {
           }
         }
         for (j = 1; j < 8; j++) {
-          for (l = 0; l < 3; l++) {
-            if (currentQuestion.selected[l] == j) {
-              document.getElementById("f" + j).classList.add("incorrect");
-            }
-            if (currentQuestion.correct[l] == j) {
+          if (currentQuestion.correct.includes(j)) {
+            if (!currentQuestion.selected.includes(j)) {
               document.getElementById("f" + j).classList.add("correct");
+            } else {
+              document.getElementById("f" + j).classList.add("yellow-selected");
+            }
+          } else {
+            if (currentQuestion.selected.includes(j)) {
+              document.getElementById("f" + j).classList.add("incorrect");
             }
           }
         }
