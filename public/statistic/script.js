@@ -18,7 +18,7 @@ async function getUserStats() {
     end_date = null;
 
   if (userDataReceived) {
-    start_date = new Date(start_date_picker.value).getTime();
+    start_date = new Date(start_date_picker.value).getTime() - 24 * 60 * 60 * 1000;
     end_date = new Date(end_date_picker.value).getTime() + 24 * 60 * 60 * 1000;
   }
 
@@ -85,7 +85,8 @@ async function getUserStats() {
   }
 }
 getUserStats();
-
+start_date_picker.addEventListener("change", () => getUserStats());
+end_date_picker.addEventListener("change", () => getUserStats());
 function getTestStatistics(stat_type, blockValue, testValue) {
   // Function to convert time in seconds to hh:mm:ss format
   function formatTime(seconds) {
