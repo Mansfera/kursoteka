@@ -11,11 +11,10 @@ function getCourseInfo() {
       const courseListElement = document.getElementById("course_list");
       if (data.courses.length > 0) {
         data.courses.forEach((course) => {
-          console.log(course);
           const courseCard = document.createElement("div");
           courseCard.className = "courses-card-wrapper";
           courseCard.innerHTML = `
-            <div class="courses-card" id="course_card-${course.id}">
+            <div class="courses-card" id="course_card-${course.id}" onclick="openCourse('${course.id}')">
               <div class="card-top_buttons">
                 <div
                   class="card-course_stats top_button card-blob"
@@ -36,11 +35,6 @@ function getCourseInfo() {
           `;
           const courseCardElement = courseCard.querySelector(".courses-card");
           courseCardElement.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&auth_key=${auth_key}')`;
-          courseCardElement.addEventListener("click", function (e) {
-            if (e.target != courseCard.querySelector(".card-course_stats")) {
-              window.location.href = `/lessons/?id=${course.id}`;
-            }
-          });
 
           courseListElement.appendChild(courseCard);
         });
@@ -60,6 +54,11 @@ function getCourseInfo() {
 
 function openStats(course) {
   window.location.href = `/statistic/?id=${course}`;
+}
+function openCourse(course) {
+  setTimeout(() => {
+    window.location.href = `/lessons/?id=${course}`;
+  }, 100);
 }
 document.addEventListener("DOMContentLoaded", getCourseInfo);
 document.addEventListener("DOMContentLoaded", function () {
