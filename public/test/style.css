@@ -300,9 +300,8 @@
   cursor: pointer;
 }
 .nav_bar-finish_test {
-  border: 2px rgb(255, 64, 64) solid;
-  background-color: rgb(255, 130, 130);
-  color: black;
+  background-color: var(--rich-green);
+  color: aliceblue;
 }
 .nav_bar-finish_test:hover {
   color: aliceblue;
