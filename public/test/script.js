@@ -832,11 +832,12 @@ function showQuestion() {
 
         if (index >= 0 && index < 4) {
           if (test_completed) {
-            if (button.id[1] == currentQuestion.selected[index]) {
-              button.classList.add("yellow-selected");
-            }
             if (button.id[1] == currentQuestion.correct[index]) {
-              button.classList.add("correct");
+              if (button.id[1] == currentQuestion.selected[index]) {
+                button.classList.add("yellow-selected");
+              } else {
+                button.classList.add("correct");
+              }
             } else {
               if (button.id[1] == currentQuestion.selected[index]) {
                 button.classList.add("incorrect");
