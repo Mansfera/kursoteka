@@ -18,7 +18,8 @@ async function getUserStats() {
     end_date = null;
 
   if (userDataReceived) {
-    start_date = new Date(start_date_picker.value).getTime() - 24 * 60 * 60 * 1000;
+    start_date =
+      new Date(start_date_picker.value).getTime() - 24 * 60 * 60 * 1000;
     end_date = new Date(end_date_picker.value).getTime() + 24 * 60 * 60 * 1000;
   }
 
@@ -108,23 +109,23 @@ function getTestStatistics(stat_type, blockValue, testValue) {
 
     Array.from(tests).forEach((t) => {
       if (t.abcd_questions_accuracy == null) {
-        t.abcd_questions_accuracy = 
-        // Math.random() * (t.score - 100) + 
-        t.score;
+        t.abcd_questions_accuracy =
+          // Math.random() * (t.score - 100) +
+          t.score;
       }
       if (t.hronology_questions_accuracy == null) {
         t.hronology_questions_accuracy =
-          // Math.random() * (t.score - 100) + 
+          // Math.random() * (t.score - 100) +
           t.score;
       }
       if (t.vidpovidnist_questions_accuracy == null) {
         t.vidpovidnist_questions_accuracy =
-          // Math.random() * (t.score - 100) + 
+          // Math.random() * (t.score - 100) +
           t.score;
       }
       if (t.mul_ans_questions_accuracy == null) {
         t.mul_ans_questions_accuracy =
-          // Math.random() * (t.score - 100) + 
+          // Math.random() * (t.score - 100) +
           t.score;
       }
     });
@@ -157,6 +158,9 @@ function getTestStatistics(stat_type, blockValue, testValue) {
 
   // Helper function to find the best and worst accuracy type
   function findBestAndWorst(accuracies) {
+    if (!accuracies) {
+      return null;
+    }
     const entries = Object.entries(accuracies);
     const best = entries.reduce((best, current) =>
       current[1] > best[1] ? current : best
@@ -193,7 +197,6 @@ function getTestStatistics(stat_type, blockValue, testValue) {
 
       // Calculate average accuracy for all types
       const averageAccuracy = calculateAverageAccuracy(completed_tests);
-      console.log(averageAccuracy);
 
       // Find best and worst accuracy types
       const { bestType, bestValue, worstType, worstValue } =
@@ -353,12 +356,18 @@ function fillData() {
 
     // Await the async getTestStatistics call to resolve
     const blockStats = getTestStatistics("block", blockData.id);
-    const blockBestTema = blockData.tests.find(
+    let blockBestTema = blockData.tests.find(
       (t) => t.id == blockStats?.bestTema?.test
     );
-    const blockWorstTema = blockData.tests.find(
+    let blockWorstTema = blockData.tests.find(
       (t) => t.id == blockStats?.worstTema?.test
     );
+    if (blockBestTema == null) {
+      blockBestTema = { name: "Недостатньо даних" };
+    }
+    if (blockWorstTema == null) {
+      blockWorstTema = { name: "Недостатньо даних" };
+    }
     // Set the inner HTML for the block
     blockItem.innerHTML = `
       <div class="block-name" onclick="showBlock(${blockData.id})">

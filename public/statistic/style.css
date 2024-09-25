@@ -83,7 +83,8 @@
     padding: 1.5rem;
     border-radius: 1rem;
     background-color: rgb(16, 16, 16);
-    height: 12rem;
+    min-height: 12rem;
+    height: fit-content;
   }
   .stat_info {
     margin-top: auto;
@@ -92,6 +93,9 @@
   }
   .stat_name {
     color: aliceblue;
+  }
+  .block-info, .tema-info {
+    flex-direction: row;
   }
 }
 @media screen and (max-width: 965px) {
@@ -110,6 +114,9 @@
   .stat_info {
     font-size: 2rem;
     font-weight: 450;
+  }
+  .block-info, .tema-info {
+    flex-direction: column;
   }
 }
 .active-dropdown {
@@ -134,10 +141,20 @@
   gap: 1rem;
   padding: 0.5rem;
   border-bottom: 2px aliceblue solid;
+  cursor: pointer;
 }
-.block-info {
+.tema-name {
+  border-style: dashed;
+}
+.tema-item {
+  padding-inline: 1rem;
+}
+.block-name-text:hover,
+.tema-name-text:hover {
+  text-decoration: underline;
+}
+.block-info, .tema-info {
   display: flex;
-  flex-direction: column;
   gap: 1rem;
   padding-block: 1rem;
 }
