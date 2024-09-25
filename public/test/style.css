@@ -301,11 +301,8 @@
 }
 .nav_bar-finish_test {
   background-color: var(--rich-green);
+  border-color: var(--rich-green);
   color: aliceblue;
-}
-.nav_bar-finish_test:hover {
-  color: aliceblue;
-  background-color: rgb(175, 27, 27);
 }
 .nav_bar-navigation_arrows {
   display: flex;
