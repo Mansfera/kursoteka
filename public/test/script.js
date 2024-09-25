@@ -927,6 +927,7 @@ function showQuestion() {
               currentQuestion.correct.includes(currentQuestion.selected[i - 1])
             ) {
               answer_field.classList.add("yellow-selected");
+              answer_field.classList.add("noImg");
             } else {
               answer_field.classList.add("incorrect");
             }
