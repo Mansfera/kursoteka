@@ -18,7 +18,7 @@ async function getUserStats() {
     end_date = null;
 
   if (userDataReceived) {
-    start_date = new Date(start_date_picker.value).getTime();
+    start_date = new Date(start_date_picker.value).getTime() - 24 * 60 * 60 * 1000;
     end_date = new Date(end_date_picker.value).getTime() + 24 * 60 * 60 * 1000;
   }
 
