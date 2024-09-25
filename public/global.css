@@ -63,7 +63,7 @@ select:focus {
   --gamburger-breakpoint: 965px;
   /* colors */
   --rich-green: rgb(49, 83, 67);
-  --rich-red: rgb(144, 12, 63);
+  --rich-red: rgb(144, 12, 12);
   --light-red: rgb(255 114 114);
   --glass-light: rgba(0, 0, 0, 0.35);
   --glass-strong: rgba(0, 0, 0, 0.65);
