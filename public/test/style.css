@@ -435,7 +435,6 @@ input {
 .yellow-selected {
   background-color: khaki;
   color: black;
-  border-color: rgb(83, 181, 54);
   border-width: 3px;
   background-position: center;
   background-repeat: no-repeat;
@@ -444,7 +443,7 @@ input {
   background-color: var(--rich-red);
 }
 .correct {
-  background-color: rgb(83, 181, 54);
+  background-color: rgb(70, 120, 50);
 }
 .answered {
   background-color: teal;

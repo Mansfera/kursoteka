@@ -925,7 +925,7 @@ function showQuestion() {
             if (
               currentQuestion.correct.includes(currentQuestion.selected[i - 1])
             ) {
-              answer_field.classList.add("correct");
+              answer_field.classList.add("yellow-selected");
             } else {
               answer_field.classList.add("incorrect");
             }
