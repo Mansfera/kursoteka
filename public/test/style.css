@@ -444,7 +444,7 @@ input {
   background-repeat: no-repeat;
 }
 .incorrect {
-  background-color: rgb(234, 62, 51);
+  background-color: var(--rich-red);
 }
 .correct {
   background-color: rgb(83, 181, 54);
