@@ -441,7 +441,6 @@ input {
   color: black;
   border-color: rgb(83, 181, 54);
   border-width: 3px;
-  background-image: url("/assets/check.svg");
   background-position: center;
   background-repeat: no-repeat;
 }
