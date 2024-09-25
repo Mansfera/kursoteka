@@ -194,10 +194,25 @@ function getTestStatistics(stat_type, blockValue, testValue) {
         blockTests.length ? blockScoreSum / blockTests.length : 0
       );
 
-      // Best test score for the block
-      const bestScore = blockTests.length
-        ? Math.max(...blockTests.map((t) => t.score))
-        : 0;
+      const testGroups = {};
+      blockTests.forEach((test) => {
+        if (!testGroups[test.test]) {
+          testGroups[test.test] = [];
+        }
+        testGroups[test.test].push(test.score);
+      });
+
+      const averageScores = Object.entries(testGroups).map(([test, scores]) => {
+        const averageScore =
+          scores.reduce((sum, score) => sum + score, 0) / scores.length;
+        return { test, averageScore };
+      });
+      const worstTema = averageScores.reduce((worst, current) =>
+        current.averageScore < worst.averageScore ? current : worst
+      );
+      const bestTema = averageScores.reduce((best, current) =>
+        current.averageScore > best.averageScore ? current : best
+      );
 
       // Calculate average accuracy for all types
       const averageAccuracy = calculateAverageAccuracy(blockTests);
@@ -209,7 +224,8 @@ function getTestStatistics(stat_type, blockValue, testValue) {
       return {
         blockTests,
         averageBlockScore,
-        bestScore,
+        worstTema,
+        bestTema,
         averageAccuracy,
         bestAccuracy: { type: bestType, value: bestValue },
         worstAccuracy: { type: worstType, value: worstValue },
@@ -222,9 +238,26 @@ function getTestStatistics(stat_type, blockValue, testValue) {
         ? testScoreSum / temaTests.length
         : 0;
 
-      const totalTestTime = temaTests.reduce((sum, t) => sum + t.time, 0);
-      const averageTestTime = formatTime(
-        Math.ceil(temaTests.length ? totalTestTime / temaTests.length : 0)
+      const temaShortTests = temaTests.filter((t) => t.test_type == "short");
+      const temaFullTests = temaTests.filter((t) => t.test_type == "full");
+
+      const totalShortTestTime = temaShortTests.reduce(
+        (sum, t) => sum + t.time,
+        0
+      );
+      const totalFullTestTime = temaFullTests.reduce(
+        (sum, t) => sum + t.time,
+        0
+      );
+      const averageShortTestTime = formatTime(
+        Math.ceil(
+          temaShortTests.length ? totalShortTestTime / temaTests.length : 0
+        )
+      );
+      const averageFullTestTime = formatTime(
+        Math.ceil(
+          temaFullTests.length ? totalFullTestTime / temaTests.length : 0
+        )
       );
 
       // Best test score for the test
@@ -242,7 +275,8 @@ function getTestStatistics(stat_type, blockValue, testValue) {
       return {
         temaTests,
         averageTestScore,
-        averageTestTime,
+        averageShortTestTime,
+        averageFullTestTime,
         bestScore,
         averageAccuracy,
         bestAccuracy: { type: bestType, value: bestValue },
@@ -251,7 +285,7 @@ function getTestStatistics(stat_type, blockValue, testValue) {
     }
   }
 }
-
+let tempDebugData;
 function fillData() {
   document.getElementById("course_name").innerHTML = courseData.name;
 
@@ -286,94 +320,144 @@ function fillData() {
   document.getElementById("total-bad_at").innerHTML = `${formatAccuracyTypeName(
     totalStats.worstAccuracy.type
   )} (${totalStats.worstAccuracy.value}%)`;
-  Array.from(courseData.blocks).forEach((blockData) => {
+  Array.from(courseData.blocks).forEach(async (blockData) => {
     // Create a new div element
     const blockItem = document.createElement("div");
     blockItem.classList.add("block_list-item");
     blockItem.id = `block-${blockData.id}`;
+
+    // Await the async getTestStatistics call to resolve
     const blockStats = getTestStatistics("block", blockData.id);
-    console.log(blockStats);
+    const blockBestTema = blockData.tests.find(
+      (t) => t.id == blockStats?.bestTema?.test
+    );
+    const blockWorstTema = blockData.tests.find(
+      (t) => t.id == blockStats?.worstTema?.test
+    );
     // Set the inner HTML for the block
     blockItem.innerHTML = `
-        <div class="block-name">
-          <div class="block-name-number white_text">0${blockData.id}</div>
-          <div class="block-name-text white_text title_text">
-            ${blockData.name}
-          </div>
-          <img src="/assets/dropdown.svg" id="dropdown-${blockData.id}" />
+      <div class="block-name" onclick="showBlock(${blockData.id})">
+        <div class="block-name-number white_text">0${blockData.id}</div>
+        <div class="block-name-text white_text title_text">
+          ${blockData.name}
         </div>
-        <div class="block-info" id="block_info-${blockData.id}">
-          <div class="block-info-item stat_item">
-            <div class="stat_name">Тестів пройдено</div>
-            <div
-              class="stat_info white_text"
-              id="block-${blockData.id}-test_completed"
-            >
-              ${blockStats || 0}
-            </div>
-          </div>
-          <div class="block-info-item stat_item">
-            <div class="stat_name">Тобі найкраще дається ця тема</div>
-            <div
-              class="stat_info white_text"
-              id="block-${blockData.id}-best_tema"
-            >
-              ${blockData.best_tema || "N/A"}
-            </div>
-          </div>
-          <div class="block-info-item stat_item">
-            <div class="stat_name">Тобі варто попрацювати над цією темою</div>
-            <div
-              class="stat_info white_text"
-              id="block-${blockData.id}-worst_tema"
-            >
-              ${blockData.worst_tema || "N/A"}
-            </div>
+        <img class="dropdown" src="/assets/dropdown.svg" id="dropdown-${
+          blockData.id
+        }" />
+      </div>
+      <div class="block-info display-none" id="block_info-${blockData.id}">
+        <div class="block-info-item stat_item">
+          <div class="stat_name">Тестів пройдено</div>
+          <div
+            class="stat_info white_text"
+            id="block-${blockData.id}-test_completed"
+          >
+            ${blockStats?.blockTests?.length || 0}
           </div>
         </div>
-        <div class="block-temas" id="block-${blockData.id}-temas"></div>
-      `;
-
+        <div class="block-info-item stat_item">
+          <div class="stat_name">Тобі найкраще дається ця тема</div>
+          <div
+            class="stat_info white_text"
+            id="block-${blockData.id}-best_tema"
+          >
+            ${blockBestTema.name || "N/A"}
+          </div>
+        </div>
+        <div class="block-info-item stat_item">
+          <div class="stat_name">Тобі варто попрацювати над цією темою</div>
+          <div
+            class="stat_info white_text"
+            id="block-${blockData.id}-worst_tema"
+          >
+            ${blockWorstTema.name || "N/A"}
+          </div>
+        </div>
+      </div>
+      <div class="block-temas display-none" id="block-${
+        blockData.id
+      }-temas"></div>
+    `;
     // Append the newly created block item to the block_list element
     document.getElementById("block_list").appendChild(blockItem);
+
+    Array.from(blockData.tests).forEach(async (temaData) => {
+      const temaItem = document.createElement("div");
+      temaItem.classList.add("tema-item");
+      temaItem.id = `tema-${temaData.id}`;
+      const temaStats = getTestStatistics("tema", blockData.id, temaData.id);
+      // Set the inner HTML for the tema item
+      temaItem.innerHTML = `
+    <div class="tema-name" onclick="showTema(${temaData.id})">
+      <div class="tema-name-number white_text">Тема №${temaData.id}</div>
+      <div class="tema-name-text white_text title_text">${
+        temaData.name || ""
+      }</div>
+      <img class="dropdown" src="/assets/dropdown.svg" id="dropdown-tema-${
+        temaData.id
+      }" />
+    </div>
+    <div class="tema-info display-none" id="tema_info-${temaData.id}">
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">Середня оцінка</div>
+        <div class="stat_info white_text" id="tema-${
+          temaData.id
+        }-average_grade">
+          ${temaStats.averageTestScore}
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">Середній час проходження тренувальних тестів</div>
+        <div class="stat_info white_text" id="tema-${
+          temaData.id
+        }-average_time_short">
+          ${temaStats.averageShortTestTime}
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">Середній час проходження розширених тестів</div>
+        <div class="stat_info white_text" id="tema-${
+          temaData.id
+        }-average_time_full">
+          ${temaStats.averageFullTestTime}
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">Ти добре справляєшся з</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
+          ${formatAccuracyTypeName(temaStats.bestAccuracy.type)} (${
+        temaStats.bestAccuracy.value
+      }%)
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">Тобі варто звернути увагу на</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-bad_at">
+          ${formatAccuracyTypeName(temaStats.worstAccuracy.type)} (${
+        temaStats.worstAccuracy.value
+      }%)
+        </div>
+      </div>
+    </div>
+  `;
+      // Append the newly created tema item to the correct block element
+      const blockTemasElement = document.getElementById(
+        `block-${blockData.id}-temas`
+      );
+
+      blockTemasElement.appendChild(temaItem);
+    });
   });
 }
 
-// const temaData = `
-// <div class="tema-item" id="tema-${temaData.id}">
-//   <div class="tema-name">
-//     <div class="tema-name-number white_text">Тема №${temaData.id}</div>
-//     <div class="tema-name-text white_text title_text">${temaData.name}</div>
-//     <img src="/assets/dropdown.svg" id="dropdown-${temaData.id}" />
-//   </div>
-//   <div class="tema-info" id="tema_info-${temaData.id}">
-//     <div class="tema-info-item stat_item">
-//       <div class="stat_name">Середня оцінка</div>
-//       <div
-//         class="stat_info white_text"
-//         id="tema-${temaData.id}-test_completed"
-//       >
-//         ${average_grade}
-//       </div>
-//     </div>
-//     <div class="tema-info-item stat_item">
-//       <div class="stat_name">Середній час проходження тренувальних тестів</div>
-//       <div
-//         class="stat_info white_text"
-//         id="block-${temaData.id}-test_completed"
-//       >
-//         ${average_time_short}
-//       </div>
-//     </div>
-//     <div class="tema-info-item stat_item">
-//       <div class="stat_name">Середній час проходження розширених тестів</div>
-//       <div
-//         class="stat_info white_text"
-//         id="tema-${temaData.id}-test_completed"
-//       >
-//         ${average_time_full}
-//       </div>
-//     </div>
-//   </div>
-// </div>
-// `;
+function showBlock(id) {
+  document.getElementById(`dropdown-${id}`).classList.toggle("active-dropdown");
+  document.getElementById(`block_info-${id}`).classList.toggle("display-none");
+  document.getElementById(`block-${id}-temas`).classList.toggle("display-none");
+}
+function showTema(id) {
+  document
+    .getElementById(`dropdown-tema-${id}`)
+    .classList.toggle("active-dropdown");
+  document.getElementById(`tema_info-${id}`).classList.toggle("display-none");
+}
