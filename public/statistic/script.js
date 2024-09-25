@@ -85,7 +85,8 @@ async function getUserStats() {
   }
 }
 getUserStats();
-
+start_date_picker.addEventListener("change", () => getUserStats());
+end_date_picker.addEventListener("change", () => getUserStats());
 function getTestStatistics(stat_type, blockValue, testValue) {
   // Function to convert time in seconds to hh:mm:ss format
   function formatTime(seconds) {
