@@ -320,7 +320,7 @@ function fillData() {
   function formatAccuracyTypeName(type) {
     switch (type) {
       case "abcd":
-        return "Питання з одною відповіддю";
+        return "Питання з одною правильною відповіддю";
       case "hronology":
         return "Питання на хронологію";
       case "vidpovidnist":
