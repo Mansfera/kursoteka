@@ -438,12 +438,18 @@ input {
   border-width: 3px;
   background-position: center;
   background-repeat: no-repeat;
+  background-image: url("/assets/check.svg");
+}
+.yellow-selected.noImg {
+  background-image: none;
 }
 .incorrect {
   background-color: var(--rich-red);
+  background-image: none;
 }
 .correct {
   background-color: rgb(83, 181, 54);
+  background-image: none;
 }
 .answered {
   background-color: teal;
