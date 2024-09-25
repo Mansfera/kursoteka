@@ -443,7 +443,7 @@ input {
   background-color: var(--rich-red);
 }
 .correct {
-  background-color: rgb(70, 120, 50);
+  background-color: rgb(83, 181, 54);
 }
 .answered {
   background-color: teal;
