@@ -105,6 +105,29 @@ function getTestStatistics(stat_type, blockValue, testValue) {
   function calculateAverageAccuracy(tests) {
     if (!tests.length) return null;
 
+    Array.from(tests).forEach((t) => {
+      if (t.abcd_questions_accuracy == null) {
+        t.abcd_questions_accuracy = 
+        // Math.random() * (t.score - 100) + 
+        t.score;
+      }
+      if (t.hronology_questions_accuracy == null) {
+        t.hronology_questions_accuracy =
+          // Math.random() * (t.score - 100) + 
+          t.score;
+      }
+      if (t.vidpovidnist_questions_accuracy == null) {
+        t.vidpovidnist_questions_accuracy =
+          // Math.random() * (t.score - 100) + 
+          t.score;
+      }
+      if (t.mul_ans_questions_accuracy == null) {
+        t.mul_ans_questions_accuracy =
+          // Math.random() * (t.score - 100) + 
+          t.score;
+      }
+    });
+
     const abcdSum = tests.reduce(
       (sum, t) => sum + t.abcd_questions_accuracy,
       0
@@ -169,6 +192,7 @@ function getTestStatistics(stat_type, blockValue, testValue) {
 
       // Calculate average accuracy for all types
       const averageAccuracy = calculateAverageAccuracy(completed_tests);
+      console.log(averageAccuracy);
 
       // Find best and worst accuracy types
       const { bestType, bestValue, worstType, worstValue } =
@@ -403,7 +427,7 @@ function fillData() {
         <div class="stat_info white_text" id="tema-${
           temaData.id
         }-average_grade">
-          ${temaStats.averageTestScore}
+          ${Math.ceil(temaStats.averageTestScore)}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
