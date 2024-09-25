@@ -938,6 +938,7 @@ function showQuestion() {
               document.getElementById("f" + j).classList.add("correct");
             } else {
               document.getElementById("f" + j).classList.add("yellow-selected");
+              document.getElementById("f" + j).classList.add("noImg");
             }
           } else {
             if (currentQuestion.selected.includes(j)) {
