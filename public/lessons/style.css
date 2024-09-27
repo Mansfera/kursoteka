@@ -38,7 +38,7 @@
   cursor: pointer;
 }
 .material_list-element-text:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .material_list-element-info img {
   height: 100%;
