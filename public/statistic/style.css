@@ -151,7 +151,7 @@
 }
 .block-name-text:hover,
 .tema-name-text:hover {
-  text-decoration: underline;
+  /* text-decoration: underline; */
 }
 .block-info, .tema-info {
   display: flex;

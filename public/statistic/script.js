@@ -320,13 +320,13 @@ function fillData() {
   function formatAccuracyTypeName(type) {
     switch (type) {
       case "abcd":
-        return "Питання з одною правильною відповіддю";
-      case "hronology":
-        return "Питання на хронологію";
+        return "Питання з вибором однієї правильної відповідді";
       case "vidpovidnist":
-        return "Питання на відповідність";
+        return "Питання на встановлення відповідності";
+      case "hronology":
+        return "Питання на встановлення правильної послідовності";
       case "mul_ans":
-        return "Питання з декількома відповідями";
+        return "Питання з вибором трьох правильних відповідей";
     }
   }
 
@@ -340,14 +340,43 @@ function fillData() {
   document.getElementById("total-final-tests_completed").innerHTML =
     totalStats.totalFinalTests;
 
-  document.getElementById(
-    "total-good_at"
-  ).innerHTML = `${formatAccuracyTypeName(totalStats.bestAccuracy.type)} (${
-    totalStats.bestAccuracy.value
-  }%)`;
-  document.getElementById("total-bad_at").innerHTML = `${formatAccuracyTypeName(
-    totalStats.worstAccuracy.type
-  )} (${totalStats.worstAccuracy.value}%)`;
+  document.getElementById("general_stats").innerHTML = `
+    <div class="general_stats-collection-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("abcd") ||
+          "Питання з одною правильною відповіддю"
+        }</div>
+        <div class="stat_info white_text">
+           ${totalStats.averageAccuracy.abcd}%
+        </div>
+      </div>
+      <div class="general_stats-collection-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("vidpovidnist") || "Питання на відповідність"
+        }</div>
+        <div class="stat_info white_text">
+           ${totalStats.averageAccuracy.vidpovidnist}%
+        </div>
+      </div>
+      <div class="general_stats-collection-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("hronology") || "Питання на хронологію"
+        }</div>
+        <div class="stat_info white_text">
+           ${totalStats.averageAccuracy.hronology}%
+        </div>
+      </div>
+      <div class="general_stats-collection-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("mul_ans") ||
+          "Питання з декількома відповідями"
+        }</div>
+        <div class="stat_info white_text">
+           ${totalStats.averageAccuracy.mul_ans}%
+        </div>
+      </div>
+`;
+
   Array.from(courseData.blocks).forEach(async (blockData) => {
     // Create a new div element
     const blockItem = document.createElement("div");
@@ -414,12 +443,12 @@ function fillData() {
     `;
     // Append the newly created block item to the block_list element
     document.getElementById("block_list").appendChild(blockItem);
-
     Array.from(blockData.tests).forEach(async (temaData) => {
       const temaItem = document.createElement("div");
       temaItem.classList.add("tema-item");
       temaItem.id = `tema-${temaData.id}`;
       const temaStats = getTestStatistics("tema", blockData.id, temaData.id);
+      console.log(temaStats.averageAccuracy.abcd);
       // Set the inner HTML for the tema item
       temaItem.innerHTML = `
     <div class="tema-name" onclick="showTema(${temaData.id})">
@@ -457,19 +486,37 @@ function fillData() {
         </div>
       </div>
       <div class="tema-info-item stat_item">
-        <div class="stat_name">Ти добре справляєшся з</div>
-        <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-          ${formatAccuracyTypeName(temaStats.bestAccuracy.type)} (${
-        temaStats.bestAccuracy.value
-      }%)
+        <div class="stat_name">${
+          formatAccuracyTypeName("abcd") ||
+          "Питання з одною правильною відповіддю"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-abcd">
+           ${temaStats.averageAccuracy.abcd}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
-        <div class="stat_name">Тобі варто звернути увагу на</div>
-        <div class="stat_info white_text" id="tema-${temaData.id}-bad_at">
-          ${formatAccuracyTypeName(temaStats.worstAccuracy.type)} (${
-        temaStats.worstAccuracy.value
-      }%)
+        <div class="stat_name">${
+          formatAccuracyTypeName("vidpovidnist") || "Питання на відповідність"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-vidp">
+           ${temaStats.averageAccuracy.vidpovidnist}%
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("hronology") || "Питання на хронологію"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-hron">
+           ${temaStats.averageAccuracy.hronology}%
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName("mul_ans") ||
+          "Питання з декількома відповідями"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-mul_ans">
+           ${temaStats.averageAccuracy.mul_ans}%
         </div>
       </div>
     </div>
