@@ -414,7 +414,6 @@ function fillData() {
     `;
     // Append the newly created block item to the block_list element
     document.getElementById("block_list").appendChild(blockItem);
-
     Array.from(blockData.tests).forEach(async (temaData) => {
       const temaItem = document.createElement("div");
       temaItem.classList.add("tema-item");
@@ -462,7 +461,7 @@ function fillData() {
           "Питання з одною правильною відповіддю"
         }</div>
         <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-           ${temaStats.accuracies[0].value}%
+           ${temaStats.averageAccuracy[0].value}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
@@ -471,7 +470,7 @@ function fillData() {
           "Питання на відповідність"
         }</div>
         <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-           ${temaStats.accuracies[1].value}%
+           ${temaStats.averageAccuracy[1].value}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
@@ -480,7 +479,7 @@ function fillData() {
           "Питання на хронологію"
         }</div>
         <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-           ${temaStats.accuracies[2].value}%
+           ${temaStats.averageAccuracy[2].value}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
@@ -489,7 +488,7 @@ function fillData() {
           "Питання з декількома відповідями"
         }</div>
         <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-           ${temaStats.accuracies[3].value}%
+           ${temaStats.averageAccuracy[3].value}%
         </div>
       </div>
     </div>
