@@ -457,19 +457,39 @@ function fillData() {
         </div>
       </div>
       <div class="tema-info-item stat_item">
-        <div class="stat_name">Ти добре справляєшся з</div>
+        <div class="stat_name">${
+          formatAccuracyTypeName(temaStats.accuracies[0].type) ||
+          "Питання з одною правильною відповіддю"
+        }</div>
         <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
-          ${formatAccuracyTypeName(temaStats.bestAccuracy.type)} (${
-        temaStats.bestAccuracy.value
-      }%)
+           ${temaStats.accuracies[0].value}%
         </div>
       </div>
       <div class="tema-info-item stat_item">
-        <div class="stat_name">Тобі варто звернути увагу на</div>
-        <div class="stat_info white_text" id="tema-${temaData.id}-bad_at">
-          ${formatAccuracyTypeName(temaStats.worstAccuracy.type)} (${
-        temaStats.worstAccuracy.value
-      }%)
+        <div class="stat_name">${
+          formatAccuracyTypeName(temaStats.accuracies[1].type) ||
+          "Питання на відповідність"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
+           ${temaStats.accuracies[1].value}%
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName(temaStats.accuracies[2].type) ||
+          "Питання на хронологію"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
+           ${temaStats.accuracies[2].value}%
+        </div>
+      </div>
+      <div class="tema-info-item stat_item">
+        <div class="stat_name">${
+          formatAccuracyTypeName(temaStats.accuracies[3].type) ||
+          "Питання з декількома відповідями"
+        }</div>
+        <div class="stat_info white_text" id="tema-${temaData.id}-good_at">
+           ${temaStats.accuracies[3].value}%
         </div>
       </div>
     </div>
