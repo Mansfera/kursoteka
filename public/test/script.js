@@ -95,7 +95,7 @@ switch (test_type) {
 
 function startShortTest() {
   document.getElementById("test_name").innerHTML =
-    "Тема " + test_id + " " + test_name;
+    "Тема " + test_id + ": " + test_name;
 
   questions_length = 12;
   vidpovidnist_length = 1;
@@ -273,7 +273,7 @@ function startFinalTest() {
 }
 function startFullTest() {
   document.getElementById("test_name").innerHTML =
-    "Тема " + test_id + " " + test_name;
+    "Тема " + test_id + ": " + test_name;
 
   questions_length = questions.length;
   vidpovidnist_length = vidpovidnist_questions.length;

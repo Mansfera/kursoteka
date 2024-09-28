@@ -279,12 +279,12 @@ function getTestStatistics(stat_type, blockValue, testValue) {
       );
       const averageShortTestTime = formatTime(
         Math.ceil(
-          temaShortTests.length ? totalShortTestTime / temaTests.length : 0
+          temaShortTests.length ? totalShortTestTime / temaShortTests.length : 0
         )
       );
       const averageFullTestTime = formatTime(
         Math.ceil(
-          temaFullTests.length ? totalFullTestTime / temaTests.length : 0
+          temaFullTests.length ? totalFullTestTime / temaFullTests.length : 0
         )
       );
 
@@ -448,7 +448,6 @@ function fillData() {
       temaItem.classList.add("tema-item");
       temaItem.id = `tema-${temaData.id}`;
       const temaStats = getTestStatistics("tema", blockData.id, temaData.id);
-      console.log(temaStats.averageAccuracy.abcd);
       // Set the inner HTML for the tema item
       temaItem.innerHTML = `
     <div class="tema-name" onclick="showTema(${temaData.id})">
