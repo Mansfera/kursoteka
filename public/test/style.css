@@ -530,6 +530,8 @@ input {
   filter: invert(1);
   cursor: pointer;
   width: fit-content;
+  display: flex;
+  gap: 1rem;
 }
 .test_result-top-center_text {
   width: 100%;
