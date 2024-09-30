@@ -466,6 +466,11 @@ function showScore() {
   test_completed = true;
   currentQuestionIndex = 0;
   showQuestion();
+  document.getElementById("q1").classList.toggle("selected");
+  // document.getElementById("test_result").classList.toggle("display-none");
+  document.getElementById("test_result").addEventListener("click", (e) => {
+    document.getElementById("test_result").classList.toggle("display-none");
+  });
 }
 
 function sendTestResult() {
@@ -540,6 +545,37 @@ function sendTestResult() {
       temp_mul_ans_questions_accuracy / test_mul_ans_q.length
     ),
   };
+  function formatTime(seconds) {
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(remainingSeconds).padStart(2, "0");
+
+    return hours > 0
+      ? `${hours}:${formattedMinutes}:${formattedSeconds}`
+      : `${formattedMinutes}:${formattedSeconds}`;
+  }
+  document.getElementById(
+    "test_result-correct_amount"
+  ).innerHTML = `${Math.ceil(testData.score)}%`;
+  document.getElementById("test_result-abcd").innerHTML = `${Math.ceil(
+    testData.abcd_questions_accuracy
+  )}%`;
+  document.getElementById("test_result-vidp").innerHTML = `${Math.ceil(
+    testData.vidpovidnist_questions_accuracy
+  )}%`;
+  document.getElementById("test_result-hron").innerHTML = `${Math.ceil(
+    testData.hronology_questions_accuracy
+  )}%`;
+  document.getElementById("test_result-mul_ans").innerHTML = `${Math.ceil(
+    testData.mul_ans_questions_accuracy
+  )}%`;
+  document.getElementById("test_result-time").innerHTML = `${formatTime(
+    testData.time
+  )}`;
+
   fetch("/sendTestResult", {
     method: "POST",
     headers: {

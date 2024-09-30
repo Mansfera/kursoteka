@@ -341,7 +341,7 @@ function fillData() {
     totalStats.totalFinalTests;
 
   document.getElementById("general_stats").innerHTML = `
-    <div class="general_stats-collection-item stat_item">
+      <div class="general_stats-collection-item stat_item">
         <div class="stat_name">${
           formatAccuracyTypeName("abcd") ||
           "Питання з одною правильною відповіддю"
