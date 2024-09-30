@@ -504,3 +504,12 @@ input {
     padding-bottom: 15rem;
   }
 }
+.main_wrapper-test_result {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 101;
+  width: 100vw;
+  height: 100vh;
+  background-color: black;
+}
