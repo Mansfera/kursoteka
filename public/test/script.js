@@ -466,9 +466,25 @@ function showScore() {
   test_completed = true;
   currentQuestionIndex = 0;
   showQuestion();
-  document.getElementById("q1").classList.toggle("selected");
-  // document.getElementById("test_result").classList.toggle("display-none");
-  document.getElementById("test_result").addEventListener("click", (e) => {
+  document.getElementById("q1").classList.remove("selected");
+  document.getElementById("test_result").classList.remove("display-none");
+  document.getElementById("test_result-block_answers").innerHTML =
+    block_answers.innerHTML;
+  Array.from(
+    document.getElementById("test_result-block_answers").children
+  ).forEach((qId) => {
+    qId.id = "_" + qId.id;
+    qId.classList.remove("selected");
+    qId.addEventListener("click", () => {
+      document.getElementById("test_result").classList.add("display-none");
+      if (!testIsPaused) {
+        saveNumAnswer();
+        currentQuestionIndex = item.innerHTML - 1;
+        showQuestion();
+      }
+    });
+  });
+  document.getElementById("test_result-close").addEventListener("click", () => {
     document.getElementById("test_result").classList.toggle("display-none");
   });
 }
