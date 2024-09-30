@@ -96,7 +96,8 @@ switch (test_type) {
 function startShortTest() {
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-
+  document.getElementById("result-test_name").innerHTML =
+    "Тема " + test_id + ": " + test_name;
   questions_length = 12;
   vidpovidnist_length = 1;
   hronology_length = 1;
@@ -172,6 +173,7 @@ function startShortTest() {
 }
 function startFinalTest() {
   document.getElementById("test_name").innerHTML = test_name;
+  document.getElementById("result-test_name").innerHTML = test_name;
   questions_length = (last_test_id - first_test_id) * 3;
   vidpovidnist_length = (last_test_id - first_test_id) * 1;
   hronology_length = (last_test_id - first_test_id) * 1;
@@ -273,6 +275,8 @@ function startFinalTest() {
 }
 function startFullTest() {
   document.getElementById("test_name").innerHTML =
+    "Тема " + test_id + ": " + test_name;
+  document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
 
   questions_length = questions.length;
