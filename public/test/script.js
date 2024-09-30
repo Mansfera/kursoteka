@@ -466,7 +466,6 @@ function showScore() {
   test_completed = true;
   currentQuestionIndex = 0;
   showQuestion();
-  document.getElementById("q1").classList.remove("selected");
   document.getElementById("test_result").classList.remove("display-none");
   document.getElementById("test_result-block_answers").innerHTML =
     block_answers.innerHTML;
