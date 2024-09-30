@@ -530,6 +530,9 @@ input {
   filter: invert(1);
   cursor: pointer;
   width: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 .test_result-top-center_text {
   width: 100%;
@@ -559,6 +562,7 @@ input {
   flex-wrap: wrap;
   overflow-y: scroll;
   height: 100%;
+  align-content: flex-start;
 }
 @media screen and (max-width: 576px) {
   .test_result-top,
