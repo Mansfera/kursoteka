@@ -384,6 +384,20 @@
         </div>
         <div id="test_result-block_answers"></div>
       </div>
+      <div
+        class="alert_window display-none"
+        id="choose_new_or_old_test_dialogue"
+      >
+        <div class="alert_box">
+          <p>Увага, знайдено дані тесту, що ви проходили</p>
+          <div class="correct alert_box-button" onclick="chooseNewOrOldTest(true)">
+            Завантажити старий тест
+          </div>
+          <div class="incorrect alert_box-button" onclick="chooseNewOrOldTest(false)">
+            Почати новий тест
+          </div>
+        </div>
+      </div>
     </div>
     <script src="script.js"></script>
   </body>

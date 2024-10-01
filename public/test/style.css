@@ -386,6 +386,7 @@ input {
   transition: 0.5s;
   animation: appear 0.5s ease-in-out forwards;
   background: rgba(76, 76, 76, 0.35);
+  backdrop-filter: blur(1rem);
 }
 .alert_box {
   min-height: 300px;
@@ -398,7 +399,14 @@ input {
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   flex-wrap: wrap;
+}
+.alert_box-button {
+  padding: 1rem;
+  border-radius: 1rem;
+  color: aliceblue;
+  cursor: pointer;
 }
 #alert_text {
   font-size: 2rem;
