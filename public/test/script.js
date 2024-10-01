@@ -47,61 +47,127 @@ let startingMinutes;
 let time;
 let timerInterval;
 let testIsPaused = false;
-switch (test_type) {
-  case "short":
-  case "full":
-    test_name = params.get("test_name");
-    loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
-      .then((testData) => {
-        if (testData) {
-          questions = testData.questions;
-          vidpovidnist_questions = testData.vidpovidnistQuestions;
-          hronology_questions = testData.hronologyQuestions;
-          mul_ans_questions = testData.mulAnsQuestions;
-          prepareTest();
-        } else {
-          console.error("Failed to load test data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading test data:", error);
-      });
-    break;
-  case "final":
-    test_name = `<i>Підсумковий тест по блоку ${block_id}</i>`;
-    loadTestDataFromServer(
-      auth_key,
-      course,
-      block_id,
-      first_test_id,
-      last_test_id
-    )
-      .then((testData) => {
-        if (testData) {
-          questions = testData.questions;
-          vidpovidnist_questions = testData.vidpovidnistQuestions;
-          hronology_questions = testData.hronologyQuestions;
-          mul_ans_questions = testData.mulAnsQuestions;
-          prepareTest();
-        } else {
-          console.error("Failed to load test data");
-        }
-      })
-      .catch((error) => {
-        console.error("Error loading test data:", error);
-      });
-    break;
+if (
+  Date.now() - getCookie("uncompletedTest_date") < 24 * 60 * 60 * 1000 &&
+  getCookie("uncompletedTest_id") == `${test_id}-${test_type}-${block_id}`
+) {
+  document
+    .getElementById("choose_new_or_old_test_dialogue")
+    .classList.toggle("display-none");
+} else {
+  localStorage.setItem("uncompletedTest_questions", null);
+  loadTestQuestions(true);
+}
+
+function chooseNewOrOldTest(answer) {
+  document
+    .getElementById("choose_new_or_old_test_dialogue")
+    .classList.toggle("display-none");
+  if (answer) {
+    loadTestQuestions(false);
+  } else {
+    setCookie("uncompletedTest_date", null);
+    loadTestQuestions(true);
+  }
+}
+
+function loadTestQuestions(newTestData) {
+  switch (test_type) {
+    case "short":
+    case "full":
+      test_name = params.get("test_name");
+      if (newTestData) {
+        loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
+          .then((testData) => {
+            if (testData) {
+              questions = testData.questions;
+              vidpovidnist_questions = testData.vidpovidnistQuestions;
+              hronology_questions = testData.hronologyQuestions;
+              mul_ans_questions = testData.mulAnsQuestions;
+              prepareTest(newTestData);
+            } else {
+              console.error("Failed to load test data");
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading test data:", error);
+          });
+      } else {
+        prepareTest(newTestData);
+      }
+      break;
+    case "final":
+      test_name = `<i>Підсумковий тест по блоку ${block_id}</i>`;
+      if (newTestData) {
+        loadTestDataFromServer(
+          auth_key,
+          course,
+          block_id,
+          first_test_id,
+          last_test_id
+        )
+          .then((testData) => {
+            if (testData) {
+              questions = testData.questions;
+              vidpovidnist_questions = testData.vidpovidnistQuestions;
+              hronology_questions = testData.hronologyQuestions;
+              mul_ans_questions = testData.mulAnsQuestions;
+              prepareTest(newTestData);
+            } else {
+              console.error("Failed to load test data");
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading test data:", error);
+          });
+      } else {
+        prepareTest(newTestData);
+      }
+      break;
+  }
+}
+
+function continueOldTest() {
+  document.getElementById("test_name").innerHTML = getCookie(
+    "uncompletedTest_testName"
+  );
+  document.getElementById("result-test_name").innerHTML = getCookie(
+    "uncompletedTest_testName"
+  );
+  questions_length = +getCookie("uncompletedTest_questions_length");
+  vidpovidnist_length = +getCookie("uncompletedTest_vidpovidnist_length");
+  hronology_length = +getCookie("uncompletedTest_hronology_length");
+  mul_ans_length = +getCookie("uncompletedTest_mul_ans_length");
+  questionCount =
+    questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
+
+  currentQuestionIndex = +getCookie("uncompletedTest_currentQuestionIndex");
+  time = +getCookie("uncompletedTest_time");
+  startTime = time;
+  timerInterval = setInterval(updateCountdown, 1000);
+  const testData = localStorage.getItem("uncompletedTest_questions");
+  test_questions = JSON.parse(testData);
 }
 
 function startShortTest() {
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
+  setCookie(
+    "uncompletedTest_testName",
+    document.getElementById("test_name").innerHTML,
+    1
+  );
   questions_length = 12;
   vidpovidnist_length = 1;
   hronology_length = 1;
   mul_ans_length = 1;
+  setCookie("uncompletedTest_questions_length", questions_length, 1);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -172,12 +238,22 @@ function startShortTest() {
   }
 }
 function startFinalTest() {
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
+  setCookie(
+    "uncompletedTest_testName",
+    document.getElementById("test_name").innerHTML,
+    1
+  );
   questions_length = (last_test_id - first_test_id) * 3;
   vidpovidnist_length = (last_test_id - first_test_id) * 1;
   hronology_length = (last_test_id - first_test_id) * 1;
   mul_ans_length = (last_test_id - first_test_id) * 1;
+  setCookie("uncompletedTest_questions_length", questions_length, 1);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -274,15 +350,24 @@ function startFinalTest() {
   );
 }
 function startFullTest() {
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-
+  setCookie(
+    "uncompletedTest_testName",
+    document.getElementById("test_name").innerHTML,
+    1
+  );
   questions_length = questions.length;
   vidpovidnist_length = vidpovidnist_questions.length;
   hronology_length = hronology_questions.length;
   mul_ans_length = mul_ans_questions.length;
+  setCookie("uncompletedTest_questions_length", questions_length, 1);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -319,7 +404,7 @@ function startFullTest() {
     );
 }
 
-function prepareTest() {
+function prepareTest(loadNewData) {
   test_completed = false;
   currentQuestionIndex = 0;
   finishTestButton.innerHTML = "Завершити тест";
@@ -328,16 +413,20 @@ function prepareTest() {
     .classList.remove("display-none");
   numeric_answers.classList.add("display-none");
   block_answers.innerHTML = "";
-  switch (test_type) {
-    case "short":
-      startShortTest();
-      break;
-    case "full":
-      startFullTest();
-      break;
-    case "final":
-      startFinalTest();
-      break;
+  if (loadNewData) {
+    switch (test_type) {
+      case "short":
+        startShortTest();
+        break;
+      case "full":
+        startFullTest();
+        break;
+      case "final":
+        startFinalTest();
+        break;
+    }
+  } else {
+    continueOldTest();
   }
   Array.from(numeric_answers.children).forEach((field) => {
     field.disabled = false;
@@ -350,6 +439,11 @@ function prepareTest() {
     block_answers.appendChild(btn);
   }
   Array.from(block_answers.children).forEach((item) => {
+    if (!loadNewData) {
+      if (test_questions[+item.innerHTML - 1].selected != "") {
+        item.classList.add("answered");
+      }
+    }
     item.addEventListener("click", () => {
       if (!testIsPaused) {
         saveNumAnswer();
@@ -465,6 +559,9 @@ function showScore() {
     }
   });
   sendTestResult();
+  setCookie("uncompletedTest_date", null);
+  localStorage.setItem("uncompletedTest_questions", null);
+  setCookie("uncompletedTest_currentQuestionIndex", null);
 
   finishTestButton.innerHTML = "Пройти знову";
   test_completed = true;
@@ -795,6 +892,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
 function showQuestion() {
   resetState();
+  setCookie("uncompletedTest_currentQuestionIndex", currentQuestionIndex, 1);
   let currentQuestion = test_questions[currentQuestionIndex];
   const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
   q_id.classList.add("selected");
@@ -1089,6 +1187,12 @@ function selectAnswer(e) {
     }
     displayedQuestion = currentQuestion;
     test_questions[currentQuestionIndex] = currentQuestion;
+    setCookie("uncompletedTest_date", Date.now(), 1);
+    localStorage.setItem(
+      "uncompletedTest_questions",
+      JSON.stringify(test_questions)
+    );
+    setCookie("uncompletedTest_time", time, 1);
   }
 }
 
@@ -1127,6 +1231,12 @@ function saveNumAnswer() {
       }
     }
   }
+  setCookie("uncompletedTest_date", Date.now(), 1);
+  localStorage.setItem(
+    "uncompletedTest_questions",
+    JSON.stringify(test_questions)
+  );
+  setCookie("uncompletedTest_time", time, 1);
 }
 Array.from(numeric_answers.children).forEach((field) => {
   field.addEventListener("input", function () {
