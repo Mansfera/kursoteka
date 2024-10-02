@@ -410,3 +410,28 @@
     flex-direction: column;
   }
 }
+
+.green_bg {
+  background-color: var(--rich-green);
+}
+.segment-create_your_own_course {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+  flex-direction: column;
+  gap: 2rem;
+}
+.create_your_own_course-title {
+  max-width: 800px;
+  font-size: 5rem;
+  font-weight: 500;
+}
+.create_your_own_course-button {
+  padding: 1.3rem;
+  border-radius: 2rem;
+  background-color: aliceblue;
+  width: fit-content;
+  font-weight: 500;
+  font-size: 1.4rem;
+  cursor: pointer;
+}
