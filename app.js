@@ -1465,6 +1465,11 @@ app.post("/api/getUserCourses", (req, res) => {
               const user_course = user.courses.find(
                 (course) => course.id === specific_course
               );
+              if (!user_course) {
+                res.status(404).json({
+                  courses: [],
+                });
+              }
               Array.from(user.courses).forEach((u_course) => {
                 if (u_course.id === course.id) {
                   restricted = u_course.restricted;

@@ -109,20 +109,18 @@ document.getElementById("start_course").addEventListener("click", () => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ auth_key }),
+      body: JSON.stringify({ auth_key, specific_course: current_course }),
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data)
-        if (data) {
-          if (data.courses.find((crs) => crs.id == current_course)) {
-            window.location = `/lessons/?id=${current_course}`;
-          }
+        console.log(data.courses[0])
+        if (data.courses[0]) {
+          window.location = `/lessons/?id=${current_course}`;
         } else {
-          window.location = `/my_courses/?showActivatoinCode=1`
+          window.location = `/my_courses/?showActivatoinCode=1`;
         }
       });
   } else {
-    window.location = `/login/`
+    window.location = `/login/`;
   }
 });

@@ -64,7 +64,7 @@ document.addEventListener("DOMContentLoaded", getCourseInfo);
 document.addEventListener("DOMContentLoaded", function () {
   var codeInput = document.getElementById("activation-code");
   if (params.get("showActivatoinCode") != null) {
-    codeInput.classList.toggle("display-none");
+    document.querySelector(".segment-course_activation").classList.toggle("display-none");
   }
 
   function formatCode(value) {
