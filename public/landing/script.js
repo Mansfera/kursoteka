@@ -134,7 +134,7 @@ function swipeRightGallery() {
 
 function resetSwipeInterval() {
   clearInterval(swipeInterval);
-  swipeInterval = setInterval(swipeLeftGallery, 3000);
+  swipeInterval = setInterval(swipeLeftGallery, 7000);
 }
 
 document.addEventListener("DOMContentLoaded", function () {
