@@ -614,7 +614,7 @@ app.post("/sendTestResult", async (req, res) => {
               );
             }
           });
-          if (averageScore >= 60 && next_tema_is_in_block) {
+          if (averageScore >= 90 && next_tema_is_in_block) {
             full_test_check = true;
           }
           if (short_test_check && full_test_check) {
