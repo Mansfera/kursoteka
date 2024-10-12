@@ -143,6 +143,7 @@ function continueOldTest() {
 
   currentQuestionIndex = +getCookie("uncompletedTest_currentQuestionIndex");
   time = +getCookie("uncompletedTest_time");
+  startingMinutes = getCookie("uncompletedTest_startingMinutes");
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
   const testData = localStorage.getItem("uncompletedTest_questions");
@@ -171,6 +172,7 @@ function startShortTest() {
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
