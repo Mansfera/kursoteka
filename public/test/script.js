@@ -442,6 +442,26 @@ function prepareTest(loadNewData) {
     if (!loadNewData) {
       if (test_questions[+item.innerHTML - 1].selected != "") {
         item.classList.add("answered");
+        if (test_questions[+item.innerHTML - 1].correct) {
+          if (
+            test_questions[+item.innerHTML - 1].selected ==
+            test_questions[+item.innerHTML - 1].correct
+          ) {
+            item.classList.add("correct");
+          } else {
+            item.classList.add("incorrect");
+          }
+        } else if (displayedQuestion.answers != null) {
+          if (
+            test_questions[+item.innerHTML - 1].selected ==
+            Array.from(displayedQuestion.answers).find((ans) => ans.correct)
+              .text
+          ) {
+            item.classList.add("correct");
+          } else {
+            item.classList.add("incorrect");
+          }
+        }
         if (
           test_questions[+item.innerHTML - 1].selected ==
             test_questions[+item.innerHTML - 1].correct ||
