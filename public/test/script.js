@@ -444,7 +444,10 @@ function prepareTest(loadNewData) {
         item.classList.add("answered");
         if (
           test_questions[+item.innerHTML - 1].selected ==
-          test_questions[+item.innerHTML - 1].correct
+            test_questions[+item.innerHTML - 1].correct ||
+          test_questions[+item.innerHTML - 1].selected ==
+            Array.from(displayedQuestion.answers).find((ans) => ans.correct)
+              .text
         ) {
           item.classList.add("correct");
         } else {
