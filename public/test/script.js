@@ -259,6 +259,7 @@ function startFinalTest() {
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -373,6 +374,7 @@ function startFullTest() {
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
