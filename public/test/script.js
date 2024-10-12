@@ -150,7 +150,7 @@ function continueOldTest() {
 }
 
 function startShortTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
@@ -238,7 +238,7 @@ function startShortTest() {
   }
 }
 function startFinalTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
   setCookie(
@@ -350,7 +350,7 @@ function startFinalTest() {
   );
 }
 function startFullTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1)
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
@@ -442,6 +442,14 @@ function prepareTest(loadNewData) {
     if (!loadNewData) {
       if (test_questions[+item.innerHTML - 1].selected != "") {
         item.classList.add("answered");
+        if (
+          test_questions[+item.innerHTML - 1].selected ==
+          test_questions[+item.innerHTML - 1].correct
+        ) {
+          item.classList.add("correct");
+        } else {
+          item.classList.add("incorrect");
+        }
       }
     }
     item.addEventListener("click", () => {
