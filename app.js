@@ -614,10 +614,9 @@ app.post("/sendTestResult", async (req, res) => {
               );
             }
           });
-          if (averageScore >= 90 && next_tema_is_in_block) {
+          if (averageScore >= 85 && next_tema_is_in_block) {
             full_test_check = true;
           }
-          console.log(short_test_check, full_test_check)
           if (short_test_check && full_test_check) {
             course.data.allowed_tests.push(next_tema_id);
           }
