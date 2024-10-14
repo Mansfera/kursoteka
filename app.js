@@ -614,7 +614,7 @@ app.post("/sendTestResult", async (req, res) => {
               );
             }
           });
-          if (averageScore >= 85 && next_tema_is_in_block) {
+          if (averageScore >= 75 && next_tema_is_in_block) {
             full_test_check = true;
           }
           if (short_test_check && full_test_check) {
@@ -641,7 +641,7 @@ app.post("/sendTestResult", async (req, res) => {
 
           const lastTest =
             filteredAndSortedTests[filteredAndSortedTests.length - 1];
-          if (lastTest && lastTest.score >= 70) {
+          if (lastTest && lastTest.score >= 85) {
             course.data.allowed_tests.push(next_tema_id);
           }
           break;
