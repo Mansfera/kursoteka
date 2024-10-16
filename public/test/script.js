@@ -474,6 +474,10 @@ function prepareTest(loadNewData) {
         saveNumAnswer();
         currentQuestionIndex = item.innerHTML - 1;
         showQuestion();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       }
     });
   });
@@ -588,6 +592,10 @@ function showScore() {
         saveNumAnswer();
         currentQuestionIndex = item.innerHTML - 1;
         showQuestion();
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       }
     });
   });
