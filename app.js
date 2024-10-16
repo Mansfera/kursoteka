@@ -353,6 +353,108 @@ app.get("/getImage", (req, res) => {
     }
   });
 });
+app.get("/getCardImage", (req, res) => {
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const imageId = req.query.imageId;
+  const auth_key = req.query.auth_key;
+
+  const filePath = path.join(__dirname, "users.json");
+
+  fs.readFile(filePath, "utf8", async (err, data) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      res.status(500).send("Internal Server Error");
+      return;
+    }
+
+    try {
+      const users = JSON.parse(data);
+      const user = users.find((user) => user.auth_key === auth_key);
+      if (user) {
+        const course = findCourse(users, user.auth_key, courseName);
+
+        if (course != null && !course.restricted) {
+          const filePathImg = path.join(
+            __dirname,
+            `courseData/${course.id}/block${blockId}/test${testId}/cardImages/${imageId}.png`
+          );
+
+          fs.readFile(filePathImg, (err, data) => {
+            if (err) {
+              res.status(404).send("Image not found");
+            } else {
+              res.writeHead(200, { "Content-Type": "image/png" });
+              res.end(data);
+            }
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Error loading test data:", error);
+      res.status(500).send("Error loading test data");
+    }
+  });
+});
+app.get("/loadCardsData", async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const filePath = path.join(__dirname, "users.json");
+
+  try {
+    // Reading user data
+    const userData = await fs_promise.readFile(filePath, "utf8");
+    const users = JSON.parse(userData);
+    const user = users.find((user) => user.auth_key === auth_key);
+
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    async function fetchData() {
+      const courseName = req.query.course;
+      const block = req.query.block;
+      const tema = req.query.tema;
+
+      const course = findCourse(users, user.auth_key, courseName);
+
+      if (course.restricted) {
+        return false;
+      }
+
+      if (
+        !course.data.allowed_tests.includes("all") &&
+        !course.data.allowed_tests.includes(tema)
+      ) {
+        return false;
+      }
+
+      let cards = [];
+
+      await Promise.all([
+        readJsonFile(
+          `courseData/${course.id}/block${block}/test${tema}/cards.json`
+        ).then((data) => {
+          if (data) cards = data;
+          // .sort((p1, p2) =>
+          //     p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+          //   );
+        }),
+      ]);
+      return cards;
+    }
+
+    const cardsData = await fetchData();
+    if (cardsData !== false) {
+      res.json(cardsData);
+    } else {
+      res.status(403).send("Cards not found");
+    }
+  } catch (error) {
+    console.error("Error loading test data:", error);
+    res.status(500).send("Error loading test data");
+  }
+});
 const fs_promise = require("fs").promises;
 app.get("/loadTestData", async (req, res) => {
   const auth_key = req.query.auth_key;

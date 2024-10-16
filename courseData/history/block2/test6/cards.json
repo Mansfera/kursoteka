@@ -1,0 +1,90 @@
+[
+  { "id": 1, "frontContentType": "img", "infoText": "Козацькі клейноди" },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Козацькі клейноди, монета НБУ"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Козацькі клейноди, монета НБУ"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Байда Вишневецький, монета НБУ"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Северин Наливайко, монета НБУ"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Чорна Кам’яниця у місті Львів (стиль ренесанс)"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "будинок Корнякта у місті Львів (стиль ренесанс)"
+  },
+  { "id": 8, "frontContentType": "img", "infoText": "бандура, монета НБУ" },
+  { "id": 9, "frontContentType": "img", "infoText": "вертеп" },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "мініатюра з Пересопницького Євнгелія"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Пересопницьке Євангеліє, монета НБУ"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "євангеліст Лука, гравюра з львівського «Апостола»"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "ансамбль Успенської церкви у місті Львів (стиль ренесанс)"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "ансамбль Успенської церкви у місті Львів (стиль ренесанс)"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Острозький замок, Кругла (Нова) вежа"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Острозька школа, монета НБУ"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "портрет князя Костянтина-Василя Острозького"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "родина Острозьких, монета НБУ"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Острозька Біблія, монета НБУ"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Картосхема Люблінська унія"
+  }
+]
