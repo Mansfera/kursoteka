@@ -49,6 +49,11 @@ function openTest(course, block, test, type, test_name) {
 function openFinalTest(course, block, first_test_id, last_test_id) {
   window.location = `/test/?course=${course}&block=${block}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
 }
+function openCards(course, block, test, test_name) {
+  window.open(
+    `/remember_cards/?course=${course}&block=${block}&id=${test}&test_name=${test_name}`
+  );
+}
 
 function openMaterials(course, block, tema) {
   window.open(
@@ -151,7 +156,7 @@ function fetchAndDisplayUserCourses() {
                   <div class="test_picker-bubble_wrapper">
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
                     <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
-                    <div class="test_picker-test_bubble display-none" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Картки на памʼять</div>
+                    <div class="test_picker-test_bubble" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Картки на памʼять</div>
                     <div class="test_picker-test_bubble __test_editor display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}')">Редактор тесту</div>
                   </div>
                 </div>

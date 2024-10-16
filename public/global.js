@@ -76,3 +76,21 @@ fetch("/api/getUserDetails", {
   .catch((error) => {
     console.log(error.message);
   });
+function shuffle(array) {
+  // Create a copy of the original array to avoid modifying it directly
+  const shuffledArray = array.slice();
+
+  // Loop through the array starting from the end
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    // Generate a random index between 0 and i
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+
+    // Swap the elements at randomIndex and i
+    [shuffledArray[i], shuffledArray[randomIndex]] = [
+      shuffledArray[randomIndex],
+      shuffledArray[i],
+    ];
+  }
+
+  return shuffledArray;
+}

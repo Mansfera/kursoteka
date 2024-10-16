@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <meta name="description" content="Курсотека! © Mansfera" />
+
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+    <link rel="stylesheet" href="/locomotive-scroll.css" />
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/global.js"></script>
+    <script src="/top_bar.js"></script>
+    <title>Курсотека</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+      <div class="main_wrapper-segment">
+        <div class="top_bar_spacefiller"></div>
+        <div class="segment-tema_name">
+          <div id="close_window" onclick="window.close()">
+            <img src="/assets/cross.svg" alt="" />
+          </div>
+          <div
+            class="tema_name-text subtitle_text white_text"
+            id="tema_name"
+          ></div>
+        </div>
+        <div id="card_display"></div>
+        <div class="card-options">
+          <div class="card-button" id="card_button-dont_know">Не знаю</div>
+          <div class="card-button" id="card_button-know">Знаю</div>
+        </div>
+        <div id="alert_box" class="alert_box hidden display-none white_text"></div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>
