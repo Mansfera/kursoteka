@@ -50,6 +50,8 @@ async function addCards(cards) {
     cardDisplay.appendChild(element);
     element.addEventListener("click", () => {
       element.classList.toggle("flipped");
+      dont_know_btn.innerHTML = "Нагадати пізніше";
+      know_btn.innerHTML = "Вже зрозуміло";
     });
   }
   cardDisplay.children[0].classList.toggle("hidden");
@@ -78,7 +80,7 @@ dont_know_btn.addEventListener("click", () => {
     cardUnknownCheck = true;
     card.classList.add("flipped");
     dont_know_btn.innerHTML = "Нагадати пізніше";
-    know_btn.innerHTML = "Вже запамʼятав";
+    know_btn.innerHTML = "Вже зрозуміло";
   }
 });
 know_btn.addEventListener("click", () => {
