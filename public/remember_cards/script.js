@@ -50,6 +50,8 @@ async function addCards(cards) {
     cardDisplay.appendChild(element);
     element.addEventListener("click", () => {
       element.classList.toggle("flipped");
+      dont_know_btn.innerHTML = "Нагадати пізніше";
+      know_btn.innerHTML = "Вже зрозуміло";
     });
   }
   cardDisplay.children[0].classList.toggle("hidden");
