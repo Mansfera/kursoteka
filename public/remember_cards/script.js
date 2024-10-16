@@ -78,7 +78,7 @@ dont_know_btn.addEventListener("click", () => {
     cardUnknownCheck = true;
     card.classList.add("flipped");
     dont_know_btn.innerHTML = "Нагадати пізніше";
-    know_btn.innerHTML = "Вже запамʼятав";
+    know_btn.innerHTML = "Вже зрозуміло";
   }
 });
 know_btn.addEventListener("click", () => {
