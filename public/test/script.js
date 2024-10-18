@@ -48,7 +48,7 @@ let time;
 let timerInterval;
 let testIsPaused = false;
 if (
-  Date.now() - getCookie("uncompletedTest_date") < 24 * 60 * 60 * 1000 &&
+  Date.now() - getCookie("uncompletedTest_date") < 90 * 24 * 60 * 60 * 1000 &&
   getCookie("uncompletedTest_id") == `${test_id}-${test_type}-${block_id}`
 ) {
   document
@@ -151,7 +151,7 @@ function continueOldTest() {
 }
 
 function startShortTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
@@ -165,14 +165,14 @@ function startShortTest() {
   vidpovidnist_length = 1;
   hronology_length = 1;
   mul_ans_length = 1;
-  setCookie("uncompletedTest_questions_length", questions_length, 1);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
+  setCookie("uncompletedTest_questions_length", questions_length, 90);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -240,7 +240,7 @@ function startShortTest() {
   }
 }
 function startFinalTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
   setCookie(
@@ -252,14 +252,14 @@ function startFinalTest() {
   vidpovidnist_length = (last_test_id - first_test_id) * 1;
   hronology_length = (last_test_id - first_test_id) * 1;
   mul_ans_length = (last_test_id - first_test_id) * 1;
-  setCookie("uncompletedTest_questions_length", questions_length, 1);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
+  setCookie("uncompletedTest_questions_length", questions_length, 90);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -353,7 +353,7 @@ function startFinalTest() {
   );
 }
 function startFullTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 1);
+  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
@@ -367,14 +367,14 @@ function startFullTest() {
   vidpovidnist_length = vidpovidnist_questions.length;
   hronology_length = hronology_questions.length;
   mul_ans_length = mul_ans_questions.length;
-  setCookie("uncompletedTest_questions_length", questions_length, 1);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 1);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 1);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 1);
+  setCookie("uncompletedTest_questions_length", questions_length, 90);
+  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
+  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
+  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 1);
+  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -907,7 +907,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
 function showQuestion() {
   resetState();
-  setCookie("uncompletedTest_currentQuestionIndex", currentQuestionIndex, 1);
+  setCookie("uncompletedTest_currentQuestionIndex", currentQuestionIndex, 90);
   let currentQuestion = test_questions[currentQuestionIndex];
   const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
   q_id.classList.add("selected");
@@ -1202,12 +1202,12 @@ function selectAnswer(e) {
     }
     displayedQuestion = currentQuestion;
     test_questions[currentQuestionIndex] = currentQuestion;
-    setCookie("uncompletedTest_date", Date.now(), 1);
+    setCookie("uncompletedTest_date", Date.now(), 90);
     localStorage.setItem(
       "uncompletedTest_questions",
       JSON.stringify(test_questions)
     );
-    setCookie("uncompletedTest_time", time, 1);
+    setCookie("uncompletedTest_time", time, 90);
   }
 }
 
@@ -1246,12 +1246,12 @@ function saveNumAnswer() {
       }
     }
   }
-  setCookie("uncompletedTest_date", Date.now(), 1);
+  setCookie("uncompletedTest_date", Date.now(), 90);
   localStorage.setItem(
     "uncompletedTest_questions",
     JSON.stringify(test_questions)
   );
-  setCookie("uncompletedTest_time", time, 1);
+  setCookie("uncompletedTest_time", time, 90);
 }
 Array.from(numeric_answers.children).forEach((field) => {
   field.addEventListener("input", function () {
