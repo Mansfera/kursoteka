@@ -476,7 +476,7 @@ function prepareTest(loadNewData) {
         showQuestion();
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     });
@@ -594,7 +594,7 @@ function showScore() {
         showQuestion();
         window.scrollTo({
           top: 0,
-          behavior: 'smooth'
+          behavior: "smooth",
         });
       }
     });
@@ -608,6 +608,31 @@ function sendTestResult() {
   let _test_id;
   if (test_type == "final") {
     _test_id = last_test_id;
+    let lastCompletedSummaryTests =
+      JSON.parse(localStorage.getItem(`lastCompletedSummaryTests-${course}`)) ||
+      [];
+
+    const foundTest = lastCompletedSummaryTests.find(
+      (test) => test.block === block_id
+    );
+
+    if (foundTest) {
+      lastCompletedSummaryTests = lastCompletedSummaryTests.filter(
+        (test) => test.block !== block_id
+      );
+
+      lastCompletedSummaryTests.push({
+        date: Date.now(),
+        block: block_id,
+        first_test_id: first_test_id,
+        last_test_id: last_test_id,
+      });
+
+      localStorage.setItem(
+        `lastCompletedSummaryTests-${course}`,
+        JSON.stringify(lastCompletedSummaryTests)
+      );
+    }
   } else {
     _test_id = test_id;
   }

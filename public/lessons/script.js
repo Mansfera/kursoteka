@@ -43,27 +43,53 @@ function openTestWindow(test) {
 
 let current_course = params.get("id");
 
-function openTest(course, block, test, type, test_name) {
-  window.location = `/test/?course=${course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
+function openTest(block, test, type, test_name) {
+  window.location = `/test/?course=${current_course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
 }
-function openFinalTest(course, block, first_test_id, last_test_id) {
-  window.location = `/test/?course=${course}&block=${block}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
+function openFinalTest(block, first_test_id, last_test_id) {
+  window.location = `/test/?course=${current_course}&block=${block}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
 }
-function openCards(course, block, test, test_name) {
+function openCards(block, test, test_name) {
   window.open(
-    `/remember_cards/?course=${course}&block=${block}&id=${test}&test_name=${test_name}`
+    `/remember_cards/?course=${current_course}&block=${block}&id=${test}&test_name=${test_name}`
   );
 }
 
-function openMaterials(course, block, tema) {
+function openMaterials(block, tema) {
   window.open(
-    `/lesson_materials/?course=${course}&block=${block}&tema=${tema}&scroll_to=conspects`
+    `/lesson_materials/?course=${current_course}&block=${block}&tema=${tema}&scroll_to=conspects`
   );
 }
-function openVideo(course, block, tema) {
+function openVideo(block, tema) {
   window.open(
-    `/lesson_materials/?course=${course}&block=${block}&tema=${tema}`
+    `/lesson_materials/?course=${current_course}&block=${block}&tema=${tema}`
   );
+}
+
+const lastCompletedSummaryTests = localStorage.getItem(
+  `lastCompletedSummaryTests-${current_course}`
+);
+if (lastCompletedSummaryTests.length > 0) {
+  document
+    .getElementById("reviseSummaryTest_notification")
+    .classList.toggle("display-none");
+  Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
+    if (Date.now() - summaryTest.date > 14 * 24 * 60 * 60 * 1000) {
+      let element = document.createElement("div");
+      element.className = "rstn-alert_box-button";
+      element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
+
+      element.addEventListener("click", () => {
+        openFinalTest(
+          summaryTest.block,
+          summaryTest.first_test_id,
+          summaryTest.last_test_id
+        );
+      });
+
+      document.getElementById("rstn-alert_box-tests").appendChild(element);
+    }
+  });
 }
 
 function fetchAndDisplayUserCourses() {
@@ -128,14 +154,14 @@ function fetchAndDisplayUserCourses() {
               testCard.innerHTML = `
                 <div class="lessons-card" id="lesson_card_${test.id}">
                   <div class="lesson-card-top_buttons">
-                    <div class="lessons-card-materials circle_button" onclick="openMaterials('${course.id}', '${block.id}', '${test.id}')">
+                    <div class="lessons-card-materials circle_button" onclick="openMaterials('${block.id}', '${test.id}')">
                       <img src="/assets/attachment.svg" alt="" />
                     </div>
                     <div class="lessons-card-tests circle_button" onclick="openTestWindow('${test.id}')">
                       <img src="/assets/test.svg" alt="" />
                     </div>
                     <div
-                      class="lessons-card-video circle_button video_link_button" onclick="openVideo('${course.id}', '${block.id}', '${test.id}')"
+                      class="lessons-card-video circle_button video_link_button" onclick="openVideo('${block.id}', '${test.id}')"
                     >
                       <img src="/assets/play.svg" alt="" />
                     </div>
@@ -154,10 +180,10 @@ function fetchAndDisplayUserCourses() {
                     </div>
                   </div>
                   <div class="test_picker-bubble_wrapper">
-                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
-                    <div class="test_picker-test_bubble" onclick="openTest('${course.id}', '${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
-                    <div class="test_picker-test_bubble" onclick="openCards('${course.id}', '${block.id}', '${test.id}', '${test.name}')">Історичні памʼятки</div>
-                    <div class="test_picker-test_bubble __test_editor display-none" onclick="openTestEditor('${course.id}', '${block.id}', '${test.id}')">Редактор тесту</div>
+                    <div class="test_picker-test_bubble" onclick="openTest('${block.id}', '${test.id}', 'short', '${test.name}')">Тренувальний тест</div>
+                    <div class="test_picker-test_bubble" onclick="openTest('${block.id}', '${test.id}', 'full', '${test.name}')">Розширений тест</div>
+                    <div class="test_picker-test_bubble" onclick="openCards('${block.id}', '${test.id}', '${test.name}')">Історичні памʼятки</div>
+                    <div class="test_picker-test_bubble __test_editor display-none" onclick="openTestEditor(${block.id}', '${test.id}')">Редактор тесту</div>
                   </div>
                 </div>
                 <div class="lessons-lock_overlay" id="lesson_lock-${test.id}">

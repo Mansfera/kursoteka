@@ -34,6 +34,7 @@ function getCookie(name) {
   return null;
 }
 function logout() {
+  localStorage.setItem("uncompletedTest_questions", null);
   window.location = "/login";
   clearCookies();
 }
