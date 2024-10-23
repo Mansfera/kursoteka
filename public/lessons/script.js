@@ -239,5 +239,5 @@ function fetchAndDisplayUserCourses() {
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
 function openTestEditor(block, test) {
-  window.open(`/test_editor?course=${course_name}&block=${block}&test=${test}`);
+  window.open(`/test_editor?course=${current_course}&block=${block}&test=${test}`);
 }
