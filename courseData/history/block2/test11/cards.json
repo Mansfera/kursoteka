@@ -1,0 +1,59 @@
+[
+  { "id": 1, "frontContentType": "img", "infoText": "Київ Андріївська церква" },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Київ Покровська церква"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Новомосковська Троїцька церква"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Розумовський"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Почаїв Успенська церква"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Львів Собор Святого Юра"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Бучач ратуша"
+  },
+  { "id": 8, "frontContentType": "img", "infoText": "Львів Пінзель" },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Українські землі"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Турецько-московські війни"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Колії̈вщина"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Опришки"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Поділи Речі Посполитої"
+  }
+]

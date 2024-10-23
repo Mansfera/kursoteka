@@ -1,0 +1,69 @@
+[
+  { "id": 1, "frontContentType": "img", "infoText": "Чернігівське воєводство" },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Героїчні походи"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Похід Сагайдачного на маскву 1618"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Памʼятна монета 500 років з дня заснування столиці Чигирин"
+  },
+  { "id": 8, "frontContentType": "img", "infoText": "Іван Богун" },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "гетьмани столиці Чигирин"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Переяславська рада"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "350 років з дня битви під Батогом"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Визвольна війна 1648-1654"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Гетьманщина, монета НБУ"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": ""
+  }
+]
