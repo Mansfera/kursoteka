@@ -307,6 +307,7 @@
   justify-content: center;
   align-items: center;
   backdrop-filter: blur(10px);
+  background-color: var(--glass-strong);
 }
 .revise_summary_test_notification-alert_box {
   width: 20rem;
@@ -317,8 +318,19 @@
   flex-direction: column;
   gap: 1rem;
 }
+.rstn-alert_box-text {
+  width: 100%;
+  text-align: center;
+}
 #rstn-alert_box-tests {
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
+}
+.rstn-alert_box-button {
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  background-color: var(--rich-green);
+  color: aliceblue;
+  cursor: pointer;
 }

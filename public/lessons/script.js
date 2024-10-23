@@ -65,32 +65,38 @@ function openVideo(block, tema) {
     `/lesson_materials/?course=${current_course}&block=${block}&tema=${tema}`
   );
 }
+document.addEventListener("DOMContentLoaded", () => {
+  const lastCompletedSummaryTests =
+    JSON.parse(
+      localStorage.getItem(`lastCompletedSummaryTests-${current_course}`)
+    ) || [];
+  if (lastCompletedSummaryTests.length > 0) {
+    Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
+      if (
+        Date.now() - summaryTest.date >
+        // 0
+         14 * 24 * 60 * 60 * 1000
+      ) {
+        document
+          .getElementById("reviseSummaryTest_notification")
+          .classList.remove("display-none");
+        let element = document.createElement("div");
+        element.className = "rstn-alert_box-button";
+        element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
 
-const lastCompletedSummaryTests = localStorage.getItem(
-  `lastCompletedSummaryTests-${current_course}`
-);
-if (lastCompletedSummaryTests && lastCompletedSummaryTests.length > 0) {
-  document
-    .getElementById("reviseSummaryTest_notification")
-    .classList.toggle("display-none");
-  Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
-    if (Date.now() - summaryTest.date > 14 * 24 * 60 * 60 * 1000) {
-      let element = document.createElement("div");
-      element.className = "rstn-alert_box-button";
-      element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
+        element.addEventListener("click", () => {
+          openFinalTest(
+            summaryTest.block,
+            summaryTest.first_test_id,
+            summaryTest.last_test_id
+          );
+        });
 
-      element.addEventListener("click", () => {
-        openFinalTest(
-          summaryTest.block,
-          summaryTest.first_test_id,
-          summaryTest.last_test_id
-        );
-      });
-
-      document.getElementById("rstn-alert_box-tests").appendChild(element);
-    }
-  });
-}
+        document.getElementById("rstn-alert_box-tests").appendChild(element);
+      }
+    });
+  }
+});
 
 function fetchAndDisplayUserCourses() {
   fetch("/api/getUserCourses", {

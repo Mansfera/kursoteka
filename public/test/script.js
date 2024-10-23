@@ -620,19 +620,18 @@ function sendTestResult() {
       lastCompletedSummaryTests = lastCompletedSummaryTests.filter(
         (test) => test.block !== block_id
       );
-
-      lastCompletedSummaryTests.push({
-        date: Date.now(),
-        block: block_id,
-        first_test_id: first_test_id,
-        last_test_id: last_test_id,
-      });
-
-      localStorage.setItem(
-        `lastCompletedSummaryTests-${course}`,
-        JSON.stringify(lastCompletedSummaryTests)
-      );
     }
+    lastCompletedSummaryTests.push({
+      date: Date.now(),
+      block: block_id,
+      first_test_id: first_test_id,
+      last_test_id: last_test_id,
+    });
+
+    localStorage.setItem(
+      `lastCompletedSummaryTests-${course}`,
+      JSON.stringify(lastCompletedSummaryTests)
+    );
   } else {
     _test_id = test_id;
   }
