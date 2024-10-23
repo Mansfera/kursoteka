@@ -47,16 +47,32 @@ let startingMinutes;
 let time;
 let timerInterval;
 let testIsPaused = false;
+localStorage.removeItem("test_questions");
+const uncompletedTestsData = localStorage.getItem("uncompletedTests");
+let uncompletedTests = [];
+if (uncompletedTestsData && uncompletedTestsData != "") {
+  uncompletedTests = JSON.parse(uncompletedTestsData);
+}
+const currentTest =
+  uncompletedTests.find(
+    (test) => test.id == `${test_id}-${test_type}-${block_id}`
+  ) || {};
 if (
-  Date.now() - getCookie("uncompletedTest_date") < 90 * 24 * 60 * 60 * 1000 &&
-  getCookie("uncompletedTest_id") == `${test_id}-${test_type}-${block_id}` &&
-  localStorage.getItem("uncompletedTest_questions") != "null"
+  currentTest != {} &&
+  Date.now() - currentTest.date < 90 * 24 * 60 * 60 * 1000
 ) {
   document
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
 } else {
-  localStorage.setItem("uncompletedTest_questions", null);
+  localStorage.setItem(
+    "uncompletedTests",
+    JSON.stringify(
+      uncompletedTests.filter(
+        (test) => test.id != `${test_id}-${test_type}-${block_id}`
+      )
+    )
+  );
   loadTestQuestions(true);
 }
 
@@ -67,7 +83,6 @@ function chooseNewOrOldTest(answer) {
   if (answer) {
     loadTestQuestions(false);
   } else {
-    setCookie("uncompletedTest_date", null);
     loadTestQuestions(true);
   }
 }
@@ -129,51 +144,43 @@ function loadTestQuestions(newTestData) {
 }
 
 function continueOldTest() {
-  document.getElementById("test_name").innerHTML = getCookie(
-    "uncompletedTest_testName"
-  );
-  document.getElementById("result-test_name").innerHTML = getCookie(
-    "uncompletedTest_testName"
-  );
-  questions_length = +getCookie("uncompletedTest_questions_length");
-  vidpovidnist_length = +getCookie("uncompletedTest_vidpovidnist_length");
-  hronology_length = +getCookie("uncompletedTest_hronology_length");
-  mul_ans_length = +getCookie("uncompletedTest_mul_ans_length");
+  document.getElementById("test_name").innerHTML = currentTest.testName;
+  document.getElementById("result-test_name").innerHTML = currentTest.testName;
+  questions_length = currentTest.test_questions_length;
+  vidpovidnist_length = currentTest.vidpovidnist_length;
+  hronology_length = currentTest.hronology_length;
+  mul_ans_length = currentTest.mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
 
-  currentQuestionIndex = +getCookie("uncompletedTest_currentQuestionIndex");
-  time = +getCookie("uncompletedTest_time");
-  startingMinutes = getCookie("uncompletedTest_startingMinutes");
+  currentQuestionIndex = currentTest.currentQuestionIndex;
+  time = currentTest.time;
+  startingMinutes = currentTest.startingMinutes;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
-  const testData = localStorage.getItem("uncompletedTest_questions");
+  const testData = currentTest.test_questions;
   test_questions = JSON.parse(testData);
 }
 
 function startShortTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
+  currentTest.id = `${test_id}-${test_type}-${block_id}`;
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-  setCookie(
-    "uncompletedTest_testName",
-    document.getElementById("test_name").innerHTML,
-    1
-  );
+  currentTest.testName = document.getElementById("test_name").innerHTML;
   questions_length = 12;
   vidpovidnist_length = 1;
   hronology_length = 1;
   mul_ans_length = 1;
-  setCookie("uncompletedTest_questions_length", questions_length, 90);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
+  currentTest.test_questions_length = questions_length;
+  currentTest.vidpovidnist_length = vidpovidnist_length;
+  currentTest.hronology_length = hronology_length;
+  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
+  currentTest.startingMinutes = startingMinutes;
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -241,26 +248,22 @@ function startShortTest() {
   }
 }
 function startFinalTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
+  currentTest.id = `${test_id}-${test_type}-${block_id}`;
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
-  setCookie(
-    "uncompletedTest_testName",
-    document.getElementById("test_name").innerHTML,
-    1
-  );
-  questions_length = (last_test_id - first_test_id) * 3;
+  (currentTest.testName = document.getElementById("test_name").innerHTML),
+    (questions_length = (last_test_id - first_test_id) * 3);
   vidpovidnist_length = (last_test_id - first_test_id) * 1;
   hronology_length = (last_test_id - first_test_id) * 1;
   mul_ans_length = (last_test_id - first_test_id) * 1;
-  setCookie("uncompletedTest_questions_length", questions_length, 90);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
+  currentTest.test_questions_length = questions_length;
+  currentTest.vidpovidnist_length = vidpovidnist_length;
+  currentTest.hronology_length = hronology_length;
+  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
+  currentTest.startingMinutes = startingMinutes;
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -354,28 +357,24 @@ function startFinalTest() {
   );
 }
 function startFullTest() {
-  setCookie("uncompletedTest_id", `${test_id}-${test_type}-${block_id}`, 90);
+  currentTest.id = `${test_id}-${test_type}-${block_id}`;
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-  setCookie(
-    "uncompletedTest_testName",
-    document.getElementById("test_name").innerHTML,
-    1
-  );
+  currentTest.testName = document.getElementById("test_name").innerHTML;
   questions_length = questions.length;
   vidpovidnist_length = vidpovidnist_questions.length;
   hronology_length = hronology_questions.length;
   mul_ans_length = mul_ans_questions.length;
-  setCookie("uncompletedTest_questions_length", questions_length, 90);
-  setCookie("uncompletedTest_vidpovidnist_length", vidpovidnist_length, 90);
-  setCookie("uncompletedTest_hronology_length", hronology_length, 90);
-  setCookie("uncompletedTest_mul_ans_length", mul_ans_length, 90);
+  currentTest.test_questions_length = questions_length;
+  currentTest.vidpovidnist_length = vidpovidnist_length;
+  currentTest.hronology_length = hronology_length;
+  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
-  setCookie("uncompletedTest_startingMinutes", startingMinutes, 90);
+  currentTest.startingMinutes = startingMinutes;
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
@@ -407,6 +406,18 @@ function startFullTest() {
         p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
       )
     );
+}
+
+function saveUncompletedTest() {
+  currentTest.test_questions = test_questions;
+  currentTest.time = time;
+  currentTest.startingMinutes = startingMinutes;
+  currentTest.date = Date.now();
+  uncompletedTests = uncompletedTests.filter(
+    (test) => test.id != currentTest.id
+  );
+  uncompletedTests.push(currentTest);
+  localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
 }
 
 function prepareTest(loadNewData) {
@@ -571,9 +582,14 @@ function showScore() {
     }
   });
   sendTestResult();
-  setCookie("uncompletedTest_date", null);
-  localStorage.setItem("uncompletedTest_questions", null);
-  setCookie("uncompletedTest_currentQuestionIndex", null);
+  localStorage.setItem(
+    "uncompletedTests",
+    JSON.stringify(
+      uncompletedTests.filter(
+        (test) => test.id != `${test_id}-${test_type}-${block_id}`
+      )
+    )
+  );
 
   finishTestButton.innerHTML = "Пройти знову";
   test_completed = true;
@@ -932,7 +948,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
 function showQuestion() {
   resetState();
-  setCookie("uncompletedTest_currentQuestionIndex", currentQuestionIndex, 90);
+  currentTest.currentQuestionIndex = currentQuestionIndex;
   let currentQuestion = test_questions[currentQuestionIndex];
   const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
   q_id.classList.add("selected");
@@ -1227,12 +1243,7 @@ function selectAnswer(e) {
     }
     displayedQuestion = currentQuestion;
     test_questions[currentQuestionIndex] = currentQuestion;
-    setCookie("uncompletedTest_date", Date.now(), 90);
-    localStorage.setItem(
-      "uncompletedTest_questions",
-      JSON.stringify(test_questions)
-    );
-    setCookie("uncompletedTest_time", time, 90);
+    saveUncompletedTest();
   }
 }
 
@@ -1271,12 +1282,7 @@ function saveNumAnswer() {
       }
     }
   }
-  setCookie("uncompletedTest_date", Date.now(), 90);
-  localStorage.setItem(
-    "uncompletedTest_questions",
-    JSON.stringify(test_questions)
-  );
-  setCookie("uncompletedTest_time", time, 90);
+  saveUncompletedTest();
 }
 Array.from(numeric_answers.children).forEach((field) => {
   field.addEventListener("input", function () {
