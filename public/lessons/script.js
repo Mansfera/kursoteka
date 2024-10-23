@@ -69,7 +69,7 @@ function openVideo(block, tema) {
 const lastCompletedSummaryTests = localStorage.getItem(
   `lastCompletedSummaryTests-${current_course}`
 );
-if (lastCompletedSummaryTests.length > 0) {
+if (lastCompletedSummaryTests && lastCompletedSummaryTests.length > 0) {
   document
     .getElementById("reviseSummaryTest_notification")
     .classList.toggle("display-none");
@@ -128,8 +128,8 @@ function fetchAndDisplayUserCourses() {
                 block.id
               }">
                 <div class="final_test-button" onclick="openFinalTest('${
-                  course.id
-                }', '${block.id}', ${block.tests[0].id}, ${
+                  block.id
+                }', ${block.tests[0].id}, ${
               block.tests[block.tests.length - 1].id
             })">Підсумковий тест</div>
               </div>
