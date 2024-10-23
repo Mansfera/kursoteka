@@ -155,7 +155,7 @@ function continueOldTest() {
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
   const testData = currentTest.test_questions;
-  test_questions = JSON.parse(testData);
+  test_questions = testData;
 }
 
 function startShortTest() {
