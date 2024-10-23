@@ -49,7 +49,8 @@ let timerInterval;
 let testIsPaused = false;
 if (
   Date.now() - getCookie("uncompletedTest_date") < 90 * 24 * 60 * 60 * 1000 &&
-  getCookie("uncompletedTest_id") == `${test_id}-${test_type}-${block_id}`
+  getCookie("uncompletedTest_id") == `${test_id}-${test_type}-${block_id}` &&
+  localStorage.getItem("uncompletedTest_questions") != "null"
 ) {
   document
     .getElementById("choose_new_or_old_test_dialogue")
