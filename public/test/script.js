@@ -65,14 +65,10 @@ if (
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
 } else {
-  localStorage.setItem(
-    "uncompletedTests",
-    JSON.stringify(
-      uncompletedTests.filter(
-        (test) => test.id != `${test_id}-${test_type}-${block_id}`
-      )
-    )
+  uncompletedTests = uncompletedTests.filter(
+    (test) => test.id != `${test_id}-${test_type}-${block_id}`
   );
+  localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
   loadTestQuestions(true);
 }
 
@@ -441,6 +437,10 @@ function prepareTest(loadNewData) {
         startFinalTest();
         break;
     }
+    uncompletedTests = uncompletedTests.filter(
+      (test) => test.id != currentTest.id
+    );
+    localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
   } else {
     continueOldTest();
   }
