@@ -99,7 +99,7 @@
   object-fit: contain;
   flex-grow: 1;
   max-height: 60vh;
-  max-width: 80vh;
+  max-width: 80vw;
 }
 
 .card-options {
