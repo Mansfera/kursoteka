@@ -87,18 +87,39 @@ async function getConspect(conspectId) {
     const pdfBlob = await response.blob();
     const pdfUrl = URL.createObjectURL(pdfBlob);
 
-    // Try opening the PDF in the browser
-    const opened = window.open(pdfUrl);
+    // Create a modal or container for the PDF viewer
+    const viewerContainer = document.createElement('div');
+    viewerContainer.style.position = 'fixed';
+    viewerContainer.style.top = '0';
+    viewerContainer.style.left = '0';
+    viewerContainer.style.width = '100%';
+    viewerContainer.style.height = '100%';
+    viewerContainer.style.backgroundColor = 'rgba(0,0,0,0.8)';
+    viewerContainer.style.zIndex = '9999';
 
-    // If the PDF can't be opened in the browser, trigger a download
-    if (!opened || opened.closed || typeof opened.closed == 'undefined') {
-      const a = document.createElement("a");
-      a.href = pdfUrl;
-      a.download = `conspect-${conspectId}.pdf`; // Filename for the download
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-    }
+    // Create an iframe to display the PDF
+    const iframe = document.createElement('iframe');
+    iframe.style.width = '100%';
+    iframe.style.height = '100%';
+    iframe.style.border = 'none';
+    
+    // Set the src to the PDF URL with options to disable download
+    iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`;
+
+    // Add a close button
+    const closeButton = document.createElement('button');
+    closeButton.textContent = 'Close';
+    closeButton.style.position = 'absolute';
+    closeButton.style.top = '10px';
+    closeButton.style.right = '10px';
+    closeButton.addEventListener('click', () => {
+      document.body.removeChild(viewerContainer);
+      URL.revokeObjectURL(pdfUrl);
+    });
+
+    viewerContainer.appendChild(iframe);
+    viewerContainer.appendChild(closeButton);
+    document.body.appendChild(viewerContainer);
   } catch (error) {
     console.error("Failed to fetch the PDF: ", error);
   }
