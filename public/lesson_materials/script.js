@@ -108,7 +108,7 @@ async function getConspect(conspectId) {
 
     // Add a close button
     const closeButton = document.createElement('button');
-    closeButton.textContent = 'Close';
+    closeButton.textContent = 'Закрити';
     closeButton.style.position = 'absolute';
     closeButton.style.top = '10px';
     closeButton.style.right = '10px';
