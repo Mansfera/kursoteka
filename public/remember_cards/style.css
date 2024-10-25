@@ -65,7 +65,6 @@
   position: absolute;
   min-width: 350px;
   width: fit-content;
-  max-width: 100%;
   min-height: 300px;
   height: fit-content;
   display: flex;
