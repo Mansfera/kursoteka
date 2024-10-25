@@ -67,7 +67,6 @@
   width: fit-content;
   min-height: 300px;
   height: fit-content;
-  max-height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -99,7 +98,8 @@
 .card_display-item-img {
   object-fit: contain;
   flex-grow: 1;
-  max-width: 100%;
+  max-height: 70vh;
+  max-width: 80vh;
 }
 
 .card-options {
