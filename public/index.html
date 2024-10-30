@@ -16,6 +16,9 @@
       if (params.get("reset") != null) {
         clearCookies();
       }
+      if (params.get("allowContextmenu") != null) {
+        setCookie("allowContextmenu", "true", 365);
+      }
 
       window.location = "/landing";
     </script>
