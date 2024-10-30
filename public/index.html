@@ -13,20 +13,11 @@
   <body>
     <script src="global.js"></script>
     <script>
-      if (params.get("style") != null) {
-        setCookie("styleVariant", params.get("style"), 90);
-      }
       if (params.get("reset") != null) {
         clearCookies();
       }
 
-      if (getCookie("styleVariant") == "old") {
-        window.location = "/old_landing";
-        console.log("old");
-      } else {
-        window.location = "/landing";
-        console.log("new");
-      }
+      window.location = "/landing";
     </script>
   </body>
 </html>

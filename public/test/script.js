@@ -621,6 +621,46 @@ function showScore() {
   });
 }
 
+function sendFakeTestResult(test_type, score, auth_key) {
+  let testData = {
+    date: Date.now(),
+    time: 666,
+    test_type: test_type,
+    block: block_id,
+    test: "11",
+    score: score,
+    auth_key: auth_key,
+    courseName: course,
+    abcd_questions_accuracy: 100,
+    hronology_questions_accuracy: 100,
+    vidpovidnist_questions_accuracy: 100,
+    mul_ans_questions_accuracy: 100,
+    fake: true,
+  };
+  fetch("/sendTestResult", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(testData),
+  })
+    .then((response) => {
+      switch (response.status) {
+        case 200:
+          console.log(testData);
+          break;
+        case 403:
+          console.log("Нашо в консоль було лізти?");
+          break;
+        default:
+      }
+      response.json();
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+    });
+}
+
 function sendTestResult() {
   let _test_id;
   if (test_type == "final") {
