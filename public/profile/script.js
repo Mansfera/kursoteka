@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
-  document.getElementById("login").value = getCookie("login");
+  document.getElementById("login_input").value = getCookie("login");
   document.getElementById("name").value = getCookie("name");
   document.getElementById("surname").value = getCookie("surname");
   var codeInput = document.getElementById("activation-code");
@@ -88,12 +88,12 @@ function redeemCode() {
 }
 
 function saveUserData() {
-  const login = document.getElementById("login").value;
+  const login = document.getElementById("login_input").value;
   const name = document.getElementById("name").value;
   const surname = document.getElementById("surname").value;
   var _login;
   if (login != "") {
-    _login = login;
+    _login = login.toLowerCase();
   }
   var _name;
   if (name != "") {

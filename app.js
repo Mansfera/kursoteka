@@ -5,6 +5,7 @@ const path = require("path");
 const multer = require("multer");
 const sharp = require("sharp");
 const { error } = require("console");
+const { db, dbHelpers } = require("./db/database");
 
 const app = express();
 const port = 30000;
@@ -23,65 +24,55 @@ app.post("/uploadImg", upload.single("image"), (req, res) => {
   const imgName = req.query.img_name;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          if (!req.file) {
-            return res.status(400).json({ error: "No file uploaded" });
-          }
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("No access");
+    }
 
-          // Define the new filename
-          const newFileName = `${imgName}.png`;
-          const dirPath = path.join(
-            __dirname,
-            `courseData/${courseName}/block${blockId}/test${testId}/images/`
-          );
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
 
-          const filePath = path.join(dirPath, newFileName);
+    // Define the new filename
+    const newFileName = `${imgName}.png`;
+    const dirPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/images/`
+    );
 
-          // Check if the directory exists
-          if (!fs.existsSync(dirPath)) {
-            console.log("Directory does not exist:", dirPath);
-            // Optionally, create the directory if it doesn't exist
-            fs.mkdirSync(dirPath, { recursive: true });
-            console.log("Directory created:", dirPath);
-          }
+    const filePath = path.join(dirPath, newFileName);
 
-          // Convert the uploaded image to PNG and save it with the new filename
-          sharp(req.file.buffer)
-            .png()
-            .toFile(filePath, (err, info) => {
-              if (err) {
-                console.log(err);
-                return res
-                  .status(500)
-                  .json({ error: "Error processing image" });
-              }
-              res.status(200).json({
-                message: "File uploaded and converted successfully",
-                file: newFileName,
-              });
-            });
-        } else {
-          res.status(403).send("No access");
+    // Check if the directory exists
+    if (!fs.existsSync(dirPath)) {
+      console.log("Directory does not exist:", dirPath);
+      fs.mkdirSync(dirPath, { recursive: true });
+      console.log("Directory created:", dirPath);
+    }
+
+    // Convert the uploaded image to PNG and save it
+    sharp(req.file.buffer)
+      .png()
+      .toFile(filePath, (err, info) => {
+        if (err) {
+          console.log(err);
+          return res.status(500).json({ error: "Error processing image" });
         }
-      }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+        res.status(200).json({
+          message: "File uploaded and converted successfully",
+          file: newFileName,
+        });
+      });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/deleteImg", (req, res) => {
   const auth_key = req.query.auth_key;
@@ -89,49 +80,41 @@ app.post("/deleteImg", (req, res) => {
   const imgName = req.query.img_name;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          // Define the filename to delete
-          const filePath = path.join(
-            __dirname,
-            `courseData/${courseName}/block${blockId}/test${testId}/images/`,
-            `${imgName}.png`
-          );
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("No access");
+    }
 
-          // Check if file exists and delete it
-          fs.access(filePath, fs.constants.F_OK, (err) => {
-            if (err) {
-              return res.status(404).json({ error: "File not found" });
-            }
+    const filePath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/images/`,
+      `${imgName}.png`
+    );
 
-            fs.unlink(filePath, (err) => {
-              if (err) {
-                return res.status(500).json({ error: "Error deleting file" });
-              }
-              res.status(200).json({ message: "File deleted successfully" });
-            });
-          });
-        } else {
-          res.status(403).send("No access");
-        }
+    // Check if file exists and delete it
+    fs.access(filePath, fs.constants.F_OK, (err) => {
+      if (err) {
+        return res.status(404).json({ error: "File not found" });
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+
+      fs.unlink(filePath, (err) => {
+        if (err) {
+          return res.status(500).json({ error: "Error deleting file" });
+        }
+        res.status(200).json({ message: "File deleted successfully" });
+      });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/saveTest", (req, res) => {
   const {
@@ -145,61 +128,53 @@ app.post("/saveTest", (req, res) => {
     mul_ans_questions,
   } = req.body;
 
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          // Define paths for JSON files
-          const questionPath = `courseData/${courseName}/block${blockId}/test${testId}/questions.json`;
-          const vidpovidnistPath = `courseData/${courseName}/block${blockId}/test${testId}/vidpovidnist_questions.json`;
-          const hronologyPath = `courseData/${courseName}/block${blockId}/test${testId}/hronology_questions.json`;
-          const mulAnsPath = `courseData/${courseName}/block${blockId}/test${testId}/mul_ans_questions.json`;
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("No access");
+    }
 
-          // Write data to JSON files
-          fs.writeFile(questionPath, JSON.stringify(questions), (err) => {
-            if (err) throw err;
-          });
+    // Define paths for JSON files
+    const questionPath = `courseData/${courseName}/block${blockId}/test${testId}/questions.json`;
+    const vidpovidnistPath = `courseData/${courseName}/block${blockId}/test${testId}/vidpovidnist_questions.json`;
+    const hronologyPath = `courseData/${courseName}/block${blockId}/test${testId}/hronology_questions.json`;
+    const mulAnsPath = `courseData/${courseName}/block${blockId}/test${testId}/mul_ans_questions.json`;
 
-          fs.writeFile(
-            vidpovidnistPath,
-            JSON.stringify(vidpovidnist_questions),
-            (err) => {
-              if (err) throw err;
-            }
-          );
+    // Write data to JSON files
+    fs.writeFile(questionPath, JSON.stringify(questions), (err) => {
+      if (err) throw err;
+    });
 
-          fs.writeFile(
-            hronologyPath,
-            JSON.stringify(hronology_questions),
-            (err) => {
-              if (err) throw err;
-            }
-          );
-
-          fs.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions), (err) => {
-            if (err) throw err;
-          });
-
-          res.status(200).json({});
-        } else {
-          res.status(403).send("No access");
-        }
+    fs.writeFile(
+      vidpovidnistPath,
+      JSON.stringify(vidpovidnist_questions),
+      (err) => {
+        if (err) throw err;
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+    );
+
+    fs.writeFile(
+      hronologyPath,
+      JSON.stringify(hronology_questions),
+      (err) => {
+        if (err) throw err;
+      }
+    );
+
+    fs.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions), (err) => {
+      if (err) throw err;
+    });
+
+    res.status(200).json({});
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 function findCourse(users, auth_key, courseId) {
@@ -230,40 +205,29 @@ app.get("/getPlaylist", async (req, res) => {
   const blockId = req.query.block;
   const testId = req.query.tema;
 
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
-        if (course != null && !course.restricted) {
-          readJsonFile(
-            `courseData/${course.id}/block${blockId}/test${testId}/playlist.json`
-          ).then((data) => {
-            if (data) {
-              const list = data;
-              res.json({ list });
-            }
-          });
-        } else {
-          res.status(403).send("Course not found");
-        }
-      } else {
-        res.status(404).send("User not found");
-      }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
+    if (userCourse.restricted) {
+      return res.status(403).send("Course not found");
     }
-  });
+
+    const playlistData = await readJsonFile(
+      `courseData/${courseName}/block${blockId}/test${testId}/playlist.json`
+    );
+
+    if (playlistData) {
+      res.json({ list: playlistData });
+    } else {
+      res.status(404).send("Playlist not found");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/getConspect", (req, res) => {
   const courseName = req.query.course;
@@ -272,42 +236,33 @@ app.get("/getConspect", (req, res) => {
   const conspectId = req.query.conspectId;
   const auth_key = req.query.auth_key;
 
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
+    if (userCourse.restricted) {
+      return res.status(403).send("Access denied");
+    }
 
-        if (course != null && !course.restricted) {
-          const filePathImg = path.join(
-            __dirname,
-            `courseData/${course.id}/block${blockId}/test${testId}/${conspectId}.pdf`
-          );
+    const filePathPdf = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/${conspectId}.pdf`
+    );
 
-          fs.readFile(filePathImg, (err, data) => {
-            if (err) {
-              res.status(404).send("PDF not found");
-            } else {
-              res.writeHead(200, { "Content-Type": "application/pdf" });
-              res.end(data);
-            }
-          });
-        }
+    fs.readFile(filePathPdf, (err, data) => {
+      if (err) {
+        res.status(404).send("PDF not found");
+      } else {
+        res.writeHead(200, { "Content-Type": "application/pdf" });
+        res.end(data);
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/getImage", (req, res) => {
   const courseName = req.query.course;
@@ -316,42 +271,33 @@ app.get("/getImage", (req, res) => {
   const imageId = req.query.imageId;
   const auth_key = req.query.auth_key;
 
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
+    if (userCourse.restricted) {
+      return res.status(403).send("Access denied");
+    }
 
-        if (course != null && !course.restricted) {
-          const filePathImg = path.join(
-            __dirname,
-            `courseData/${course.id}/block${blockId}/test${testId}/images/${imageId}.png`
-          );
+    const filePathImg = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/images/${imageId}.png`
+    );
 
-          fs.readFile(filePathImg, (err, data) => {
-            if (err) {
-              res.status(404).send("Image not found");
-            } else {
-              res.writeHead(200, { "Content-Type": "image/png" });
-              res.end(data);
-            }
-          });
-        }
+    fs.readFile(filePathImg, (err, data) => {
+      if (err) {
+        res.status(404).send("Image not found");
+      } else {
+        res.writeHead(200, { "Content-Type": "image/png" });
+        res.end(data);
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/getCardImage", (req, res) => {
   const courseName = req.query.course;
@@ -360,222 +306,163 @@ app.get("/getCardImage", (req, res) => {
   const imageId = req.query.imageId;
   const auth_key = req.query.auth_key;
 
-  const filePath = path.join(__dirname, "users.json");
-
-  fs.readFile(filePath, "utf8", async (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const course = findCourse(users, user.auth_key, courseName);
+    if (userCourse.restricted) {
+      return res.status(403).send("Access denied");
+    }
 
-        if (course != null && !course.restricted) {
-          const filePathImg = path.join(
-            __dirname,
-            `courseData/${course.id}/block${blockId}/test${testId}/cardImages/${imageId}.png`
-          );
+    const filePathImg = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cardImages/${imageId}.png`
+    );
 
-          fs.readFile(filePathImg, (err, data) => {
-            if (err) {
-              res.status(404).send("Image not found");
-            } else {
-              res.writeHead(200, { "Content-Type": "image/png" });
-              res.end(data);
-            }
-          });
-        }
+    fs.readFile(filePathImg, (err, data) => {
+      if (err) {
+        res.status(404).send("Image not found");
+      } else {
+        res.writeHead(200, { "Content-Type": "image/png" });
+        res.end(data);
       }
-    } catch (error) {
-      console.error("Error loading test data:", error);
-      res.status(500).send("Error loading test data");
-    }
-  });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/loadCardsData", async (req, res) => {
   const auth_key = req.query.auth_key;
-  const filePath = path.join(__dirname, "users.json");
+  const courseName = req.query.course;
+  const block = req.query.block;
+  const tema = req.query.tema;
 
   try {
-    // Reading user data
-    const userData = await fs_promise.readFile(filePath, "utf8");
-    const users = JSON.parse(userData);
-    const user = users.find((user) => user.auth_key === auth_key);
-
-    if (!user) {
-      return res.status(404).send("User not found");
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
     }
 
-    async function fetchData() {
-      const courseName = req.query.course;
-      const block = req.query.block;
-      const tema = req.query.tema;
+    if (userCourse.restricted) {
+      return res.status(403).send("Cards not found");
+    }
 
-      const course = findCourse(users, user.auth_key, courseName);
+    const allowedTests = JSON.parse(userCourse.allowed_tests);
+    if (!allowedTests.includes("all") && !allowedTests.includes(tema)) {
+      return res.status(403).send("Cards not found");
+    }
 
-      if (course.restricted) {
-        return false;
-      }
+    const cards = await readJsonFile(
+      `courseData/${courseName}/block${block}/test${tema}/cards.json`
+    );
 
-      if (
-        !course.data.allowed_tests.includes("all") &&
-        !course.data.allowed_tests.includes(tema)
-      ) {
-        return false;
-      }
+    if (cards) {
+      res.json(cards);
+    } else {
+      res.status(404).send("Cards not found");
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.get("/loadTestData", async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const courseName = req.query.course;
+  const block = req.query.block;
+  const firstTest = req.query.firstTest;
+  const lastTest = req.query.lastTest;
 
-      let cards = [];
+  try {
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
+    }
+
+    if (userCourse.restricted) {
+      return res.status(403).send("Found non-allowed test");
+    }
+
+    const allowedTests = JSON.parse(userCourse.allowed_tests);
+    if (!allowedTests.includes("all") && !allowedTests.includes(lastTest)) {
+      return res.status(403).send("Found non-allowed test");
+    }
+
+    const coursesFilePath = path.join(__dirname, "courses.json");
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+    const course_obj = courseData.find(crs => crs.id === courseName);
+
+    let temas_id_list = [];
+    let first_tema_found = false;
+    let last_tema_found = false;
+
+    course_obj.blocks.some(block_obj => {
+      return block_obj.tests.some(test_obj => {
+        if (test_obj.id == firstTest) {
+          first_tema_found = true;
+        }
+        if (first_tema_found && !last_tema_found) {
+          temas_id_list.push(test_obj.id);
+        }
+        if (test_obj.id == lastTest) {
+          last_tema_found = true;
+        }
+      });
+    });
+
+    const questions = [];
+    const vidpovidnistQuestions = [];
+    const hronologyQuestions = [];
+    const mulAnsQuestions = [];
+
+    for (const id of temas_id_list) {
+      let testQuestions = [];
+      let testVidpovidnistQuestions = [];
+      let testHronologyQuestions = [];
+      let testMulAnsQuestions = [];
 
       await Promise.all([
         readJsonFile(
-          `courseData/${course.id}/block${block}/test${tema}/cards.json`
+          `courseData/${courseName}/block${block}/test${id}/questions.json`
         ).then((data) => {
-          if (data) cards = data;
-          // .sort((p1, p2) =>
-          //     p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-          //   );
+          if (data) testQuestions = data.sort((p1, p2) =>
+            p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+          );
+        }),
+        readJsonFile(
+          `courseData/${courseName}/block${block}/test${id}/vidpovidnist_questions.json`
+        ).then((data) => {
+          if (data) testVidpovidnistQuestions = data;
+        }),
+        readJsonFile(
+          `courseData/${courseName}/block${block}/test${id}/hronology_questions.json`
+        ).then((data) => {
+          if (data) testHronologyQuestions = data;
+        }),
+        readJsonFile(
+          `courseData/${courseName}/block${block}/test${id}/mul_ans_questions.json`
+        ).then((data) => {
+          if (data) testMulAnsQuestions = data.sort((p1, p2) =>
+            p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+          );
         }),
       ]);
-      return cards;
+
+      questions.push(...testQuestions);
+      vidpovidnistQuestions.push(...testVidpovidnistQuestions);
+      hronologyQuestions.push(...testHronologyQuestions);
+      mulAnsQuestions.push(...testMulAnsQuestions);
     }
 
-    const cardsData = await fetchData();
-    if (cardsData !== false) {
-      res.json(cardsData);
-    } else {
-      res.status(403).send("Cards not found");
-    }
-  } catch (error) {
-    console.error("Error loading test data:", error);
-    res.status(500).send("Error loading test data");
-  }
-});
-const fs_promise = require("fs").promises;
-app.get("/loadTestData", async (req, res) => {
-  const auth_key = req.query.auth_key;
-  const filePath = path.join(__dirname, "users.json");
-  const coursesFilePath = path.join(__dirname, "courses.json");
-
-  try {
-    // Reading user data
-    const userData = await fs_promise.readFile(filePath, "utf8");
-    const users = JSON.parse(userData);
-    const user = users.find((user) => user.auth_key === auth_key);
-
-    if (!user) {
-      return res.status(404).send("User not found");
-    }
-
-    async function fetchData() {
-      const courseName = req.query.course;
-      const block = req.query.block;
-      const firstTest = req.query.firstTest;
-      const lastTest = req.query.lastTest;
-
-      const questions = [];
-      const vidpovidnistQuestions = [];
-      const hronologyQuestions = [];
-      const mulAnsQuestions = [];
-      const course = findCourse(users, user.auth_key, courseName);
-
-      if (course.restricted) {
-        return false;
-      }
-
-      if (
-        !course.data.allowed_tests.includes("all") &&
-        !course.data.allowed_tests.includes(lastTest)
-      ) {
-        return false;
-      }
-
-      let temas_id_list = [];
-      // Reading course data
-      const courseData = await fs_promise.readFile(coursesFilePath, "utf8");
-      const courses = JSON.parse(courseData);
-      const course_obj = courses.find((crs) => crs.id === courseName);
-
-      let first_tema_found = false;
-      let last_tema_found = false;
-
-      // Process tests and collect IDs
-      course_obj.blocks.some((block_obj) => {
-        return block_obj.tests.some((test_obj) => {
-          if (test_obj.id == firstTest) {
-            first_tema_found = true;
-          }
-          if (first_tema_found && !last_tema_found) {
-            temas_id_list.push(test_obj.id);
-          }
-          if (test_obj.id == lastTest) {
-            last_tema_found = true;
-          }
-        });
-      });
-
-      // Loop through test IDs and load questions
-      for (const id of Array.from(temas_id_list)) {
-        let testQuestions = [];
-        let testVidpovidnistQuestions = [];
-        let testHronologyQuestions = [];
-        let testMulAnsQuestions = [];
-
-        await Promise.all([
-          readJsonFile(
-            `courseData/${course.id}/block${block}/test${id}/questions.json`
-          ).then((data) => {
-            if (data)
-              testQuestions = data.sort((p1, p2) =>
-                p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-              );
-          }),
-          readJsonFile(
-            `courseData/${course.id}/block${block}/test${id}/vidpovidnist_questions.json`
-          ).then((data) => {
-            if (data) testVidpovidnistQuestions = data;
-          }),
-          readJsonFile(
-            `courseData/${course.id}/block${block}/test${id}/hronology_questions.json`
-          ).then((data) => {
-            if (data) testHronologyQuestions = data;
-          }),
-          readJsonFile(
-            `courseData/${course.id}/block${block}/test${id}/mul_ans_questions.json`
-          ).then((data) => {
-            if (data)
-              testMulAnsQuestions = data.sort((p1, p2) =>
-                p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-              );
-          }),
-        ]);
-
-        questions.push(...testQuestions);
-        vidpovidnistQuestions.push(...testVidpovidnistQuestions);
-        hronologyQuestions.push(...testHronologyQuestions);
-        mulAnsQuestions.push(...testMulAnsQuestions);
-      }
-
-      const testData = {
-        questions,
-        vidpovidnistQuestions,
-        hronologyQuestions,
-        mulAnsQuestions,
-      };
-      return testData;
-    }
-
-    // Fetch test data and send the response
-    const testData = await fetchData();
-    if (testData !== false) {
-      res.json(testData);
-    } else {
-      res.status(403).send("Found non-allowed test");
-    }
+    res.json({
+      questions,
+      vidpovidnistQuestions,
+      hronologyQuestions,
+      mulAnsQuestions,
+    });
   } catch (error) {
     console.error("Error loading test data:", error);
     res.status(500).send("Error loading test data");
@@ -596,23 +483,22 @@ app.post("/sendTestResult", async (req, res) => {
     vidpovidnist_questions_accuracy,
     mul_ans_questions_accuracy,
   } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
   try {
-    // Read the users file
-    const data = await fs_promise.readFile(filePath, "utf8");
-    const users = JSON.parse(data);
-    const user = users.find((user) => user.auth_key === auth_key);
-
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
     if (!user) {
       return res.status(404).send("Ви не є користувачем курсотеки!");
     }
 
-    const course = findCourse(users, user.auth_key, courseName);
-    const changedUser = users.find((user) => user.auth_key === auth_key);
-    let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
+    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
+    }
 
-    let new_test = {
+    const completedTests = JSON.parse(userCourse.completed_tests);
+    const allowedTests = JSON.parse(userCourse.allowed_tests);
+
+    completedTests.push({
       date,
       time,
       test_type,
@@ -623,29 +509,25 @@ app.post("/sendTestResult", async (req, res) => {
       hronology_questions_accuracy,
       vidpovidnist_questions_accuracy,
       mul_ans_questions_accuracy,
-    };
-    course.data.completed_tests.push(new_test);
+    });
 
-    // Update allowed tests logic
-    if (!course.data.allowed_tests.includes("all")) {
-      // Reading course data
+    // Check if we need to update allowed tests
+    if (!allowedTests.includes("all")) {
       const coursesFilePath = path.join(__dirname, "courses.json");
-      const courseData = await fs_promise.readFile(coursesFilePath, "utf8");
-      const courses = JSON.parse(courseData);
-      const course_obj = courses.find((crs) => crs.id === courseName);
+      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+      const course_obj = courseData.find(crs => crs.id === courseName);
 
-      // Process tests and collect IDs
+      // Get list of all test IDs
       let temas_id_list = [];
-      course_obj.blocks.some((block_obj) => {
-        return block_obj.tests.some((test_obj) => {
+      course_obj.blocks.some(block_obj => {
+        return block_obj.tests.some(test_obj => {
           temas_id_list.push(test_obj.id);
         });
       });
+
+      // Find next tema ID
+      const next_tema_id = temas_id_list[temas_id_list.indexOf(test) + 1];
       let next_tema_is_in_block = false;
-      const next_tema_id =
-        temas_id_list[
-          temas_id_list.indexOf(temas_id_list.find((lt) => lt == test)) + 1
-        ];
 
       let short_test_check = false;
       let full_test_check = false;
@@ -653,111 +535,100 @@ app.post("/sendTestResult", async (req, res) => {
       switch (test_type) {
         case "short":
         case "full": {
-          //short
-          if (course.data.allowed_tests.includes(next_tema_id)) {
+          if (allowedTests.includes(next_tema_id)) {
             break;
           }
-          let filteredTests = course.data.completed_tests.filter(
-            (item) => item.test === test && item.test_type == "short"
+
+          // Check short test requirements
+          let filteredTests = completedTests.filter(
+            item => item.test === test && item.test_type === "short"
           );
-          if (filteredTests.length < 3) break;
+          if (filteredTests.length >= 3) {
+            let filteredAndSortedTests = filteredTests
+              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            let lastTests = filteredAndSortedTests.slice(0, 3);
+            let averageScore = lastTests.reduce((sum, item) => sum + item.score, 0) / lastTests.length;
 
-          let filteredAndSortedTests = filteredTests
-            // .filter(
-            //   (item) =>
-            //     Date.now() - new Date(item.date).getTime() <=
-            //     3 * 24 * 60 * 60 * 1000
-            // )
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
+            course_obj.blocks.some(block_obj => {
+              if (block_obj.id == block) {
+                next_tema_is_in_block = block_obj.tests.find(
+                  test_obj => test_obj.id == next_tema_id
+                );
+              }
+            });
 
-          if (filteredAndSortedTests.length < 3) break;
-
-          let lastTests = filteredAndSortedTests.slice(0, 3);
-          let averageScore =
-            lastTests.reduce((sum, item) => sum + item.score, 0) /
-            lastTests.length;
-
-          course_obj.blocks.some((block_obj) => {
-            if (block_obj.id == block) {
-              next_tema_is_in_block = block_obj.tests.find(
-                (test_obj) => test_obj.id == next_tema_id
-              );
+            if (averageScore >= 70 && next_tema_is_in_block) {
+              short_test_check = true;
             }
-          });
-          if (averageScore >= 70 && next_tema_is_in_block) {
-            short_test_check = true;
           }
 
-          //full
-          filteredTests = course.data.completed_tests.filter(
-            (item) => item.test === test && item.test_type == "full"
+          // Check full test requirements
+          filteredTests = completedTests.filter(
+            item => item.test === test && item.test_type === "full"
           );
-          if (filteredTests.length === 0) break;
+          if (filteredTests.length > 0) {
+            let filteredAndSortedTests = filteredTests
+              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            let lastTest = filteredAndSortedTests[0];
+            
+            course_obj.blocks.some(block_obj => {
+              if (block_obj.id == block) {
+                next_tema_is_in_block = block_obj.tests.find(
+                  test_obj => test_obj.id == next_tema_id
+                );
+              }
+            });
 
-          filteredAndSortedTests = filteredTests
-            // .filter(
-            //   (item) =>
-            //     Date.now() - new Date(item.date).getTime() <=
-            //     3 * 24 * 60 * 60 * 1000
-            // )
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-          if (filteredAndSortedTests.length === 0) break;
-
-          lastTests = filteredAndSortedTests.slice(0, 1);
-          averageScore =
-            lastTests.reduce((sum, item) => sum + item.score, 0) /
-            lastTests.length;
-
-          course_obj.blocks.some((block_obj) => {
-            if (block_obj.id == block) {
-              next_tema_is_in_block = block_obj.tests.find(
-                (test_obj) => test_obj.id == next_tema_id
-              );
+            if (lastTest.score >= 75 && next_tema_is_in_block) {
+              full_test_check = true;
             }
-          });
-          if (averageScore >= 75 && next_tema_is_in_block) {
-            full_test_check = true;
           }
+
           if (short_test_check && full_test_check) {
-            course.data.allowed_tests.push(next_tema_id);
+            allowedTests.push(next_tema_id);
           }
           break;
         }
         case "final": {
-          if (course.data.allowed_tests.includes(next_tema_id)) {
+          if (allowedTests.includes(next_tema_id)) {
             break;
           }
-          const filteredTests = course.data.completed_tests.filter(
-            (item) => item.test === test
+
+          const filteredTests = completedTests.filter(
+            item => item.test === test
           );
-          if (filteredTests.length === 0) break;
-
-          const filteredAndSortedTests = filteredTests
-            // .filter(
-            //   (item) =>
-            //     Date.now() - new Date(item.date).getTime() <=
-            //     3 * 24 * 60 * 60 * 1000
-            // )
-            .sort((a, b) => new Date(b.date) - new Date(a.date));
-
-          const lastTest =
-            filteredAndSortedTests[filteredAndSortedTests.length - 1];
-          if (lastTest && lastTest.score >= 85) {
-            course.data.allowed_tests.push(next_tema_id);
+          if (filteredTests.length > 0) {
+            const filteredAndSortedTests = filteredTests
+              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            const lastTest = filteredAndSortedTests[filteredAndSortedTests.length - 1];
+            
+            if (lastTest && lastTest.score >= 85) {
+              allowedTests.push(next_tema_id);
+            }
           }
           break;
         }
       }
     }
 
-    updatedUsers.push(changedUser);
+    // Update the database with new completed tests and allowed tests
+    dbHelpers.addCompletedTest.run(
+      JSON.stringify(completedTests),
+      auth_key,
+      courseName
+    );
 
-    // Write the updated users back to the file
-    await fs_promise.writeFile(filePath, JSON.stringify(updatedUsers, null, 2));
-    res.status(200).send("Sent successful");
-  } catch (err) {
-    console.error("Error handling test result:", err);
+    if (!allowedTests.includes("all")) {
+      dbHelpers.updateAllowedTests.run(
+        JSON.stringify(allowedTests),
+        auth_key,
+        courseName
+      );
+    }
+
+    res.status(200).send("Test result saved");
+  } catch (error) {
+    console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -782,224 +653,153 @@ function readJsonFile(filePath) {
 
 app.post("/api/register", (req, res) => {
   const { login, password, name, surname } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      return res.status(500).send("Internal Server Error");
-    }
+  try {
+    if (
+      login.length > 2 &&
+      !login.includes('"') &&
+      !login.includes("'") &&
+      password.length > 6 &&
+      !password.includes('"') &&
+      !password.includes("'")
+    ) {
+      const existingUser = dbHelpers.getUserByLogin.get(login);
 
-    try {
-      if (
-        login.length > 2 &&
-        !login.includes('"') &&
-        !login.includes("'") &&
-        password.length > 6 &&
-        !password.includes('"') &&
-        !password.includes("'")
-      ) {
-        const users = JSON.parse(data);
-        const user = users.find((user) => user.login === login);
-        if (!user) {
-          const newUser = {
-            login: login,
-            password: password,
-            name: name,
-            surname: surname,
-            group: "student",
-            auth_key: createRandomString(128),
-            coursesOwned: [],
-            courses: [],
-          };
-          users.push(newUser);
-          fs.writeFile(filePath, JSON.stringify(users, null, 2), (writeErr) => {
-            if (writeErr) {
-              console.error("Error writing file:", writeErr);
-              res.status(500).send("Internal Server Error");
-              return;
-            }
-          });
-          res.status(200);
-          res.json({
-            group: newUser.group,
-            auth_key: newUser.auth_key,
-            coursesOwned: newUser.coursesOwned,
-            name: newUser.name,
-            surname: newUser.surname,
-          });
-        } else {
-          res.status(403);
-          res.json({});
-        }
+      if (!existingUser) {
+        const auth_key = createRandomString(128);
+        const result = dbHelpers.insertUser.run({
+          login,
+          password,
+          name,
+          surname,
+          group: "student",
+          auth_key,
+          coursesOwned: "[]",
+        });
+
+        res.status(200).json({
+          group: "student",
+          auth_key,
+          coursesOwned: [],
+          name,
+          surname,
+        });
+      } else {
+        res.status(403).json({});
       }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      return res.status(500).send("Internal Server Error");
     }
-  });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/login", (req, res) => {
   const { login, password } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
-    }
+  try {
+    const user = dbHelpers.getUserByLogin.get(login);
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.login === login);
-      if (user) {
-        if (user.password === password) {
-          res.status(200);
-          res.json({
-            group: user.group,
-            auth_key: user.auth_key,
-            coursesOwned: user.coursesOwned,
-            name: user.name,
-            surname: user.surname,
-          });
-        } else {
-          res.status(403);
-          res.json({});
-        }
-      } else {
-        res.status(404);
-        res.json({});
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
-    }
-  });
-});
-app.post("/api/getUserDetails", (req, res) => {
-  const { auth_key } = req.body;
-  const filePath = path.join(__dirname, "users.json");
+    if (user) {
+      if (user.password === password) {
+        const courses = dbHelpers.getUserCourses.all(user.id);
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
-    }
-
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        res.status(200).send({
-          username: user.login,
+        res.status(200).json({
+          group: user.group_type,
+          auth_key: user.auth_key,
+          coursesOwned: JSON.parse(user.coursesOwned),
           name: user.name,
           surname: user.surname,
         });
       } else {
-        res.status(404).send("User not found");
+        res.status(403).json({});
       }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    } else {
+      res.status(404).send("User not found");
     }
-  });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+app.post("/api/getUserDetails", (req, res) => {
+  const { auth_key } = req.body;
+
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (user) {
+      res.status(200).send({
+        username: user.login,
+        name: user.name,
+        surname: user.surname,
+      });
+    } else {
+      res.status(404).send("User not found");
+    }
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/changeUserCredentials", (req, res) => {
   const { auth_key, login, name, surname } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (user) {
+      dbHelpers.updateUserAndCourses(
+        auth_key,
+        login || user.login,
+        name || user.name,
+        surname || user.surname,
+        user.login
+      );
+      res.status(200).send({ message: "✅" });
+    } else {
+      res.status(404).send("Користувача не знайдено");
     }
-
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      let updatedUsers = users.filter((user) => user.auth_key !== auth_key);
-
-      if (user) {
-        if (login != null) {
-          user.login = login;
-        }
-        if (name != null) {
-          user.name = name;
-        }
-        if (surname != null) {
-          user.surname = surname;
-        }
-        updatedUsers.push(user);
-        fs.writeFile(
-          filePath,
-          JSON.stringify(updatedUsers, null, 2),
-          (writeErr) => {
-            if (writeErr) {
-              console.error("Error writing file:", writeErr);
-              res.status(500).send("Internal Server Error");
-              return;
-            } else {
-              res.status(200).send({ message: "✅" });
-            }
-          }
-        );
-      } else {
-        res.status(404).send("Користувача не знайдено");
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
-    }
-  });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/getUserStats", async (req, res) => {
   const { auth_key, courseName, start_date, end_date, login } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
   try {
-    const userData = await fs_promise.readFile(filePath, "utf8");
-    const users = JSON.parse(userData);
-    const user = users.find((user) => user.auth_key === auth_key);
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
     if (!user) {
-      res.status(404).send("User not found");
-      return;
-    }
-    let student_auth_key;
-    if (user.coursesOwned.includes(courseName) && login != null) {
-      const student = users.find((student) => student.login === login);
-      if (!student) {
-        res.status(404).send("Student not found");
-        return;
-      }
-      student_auth_key = student.auth_key;
-    } else {
-      student_auth_key = auth_key;
+      return res.status(404).send("User not found");
     }
 
-    const student_course = findCourse(users, student_auth_key, courseName);
-    if (student_course) {
-      if (start_date != null && end_date != null) {
-        res.status(200).send({
-          completed_tests: student_course.data.completed_tests.filter(
-            (test) => test.date > start_date && test.date < end_date
-          ),
-        });
-      } else {
-        const userData = {
-          join_date: student_course.data.join_date,
-          expire_date: student_course.data.expire_date,
-        };
-        res.status(200).send(userData);
+    let targetUser = user;
+    if (user.coursesOwned.includes(courseName) && login) {
+      targetUser = dbHelpers.getUserByLogin.get(login);
+      if (!targetUser) {
+        return res.status(404).send("Student not found");
       }
+    }
+
+    const userCourse = dbHelpers.getUserCourses
+      .all(targetUser.id)
+      .find((course) => course.course_id === courseName);
+
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
+    }
+
+    if (start_date && end_date) {
+      const completedTests = JSON.parse(userCourse.completed_tests).filter(
+        (test) => test.date > start_date && test.date < end_date
+      );
+      res.status(200).send({ completed_tests: completedTests });
     } else {
-      res.status(404).send("Course not found");
-      return;
+      res.status(200).send({
+        join_date: userCourse.join_date,
+        expire_date: userCourse.expire_date,
+      });
     }
   } catch (error) {
-    console.error("Error loading test data:", error);
+    console.error("Database error:", error);
     res.status(500).send("Error loading test data");
   }
 });
@@ -1031,680 +831,420 @@ function generateCode() {
 
 app.post("/api/activateCode", (req, res) => {
   const { auth_key, code } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+    }
+    const promocode = dbHelpers.getUnusedPromocode.get(code, Date.now());
+    if (!promocode) {
+      return res.status(400).json({ message: "Неправильний або використаний код ❌" });
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        const coursesFilePath = path.join(__dirname, "courses.json");
-        const promocodesFilePath = path.join(__dirname, "promocodes.json");
-
-        fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
-          if (err) {
-            console.error("Error reading promocodes file:", err);
-            res.status(500).send("Internal Server Error");
-            return;
-          }
-
-          const promocodes = JSON.parse(promocodesData);
-          const promocode = promocodes.find(
-            (p) => p.code === code && p.used_date === -1
-          );
-
-          if (promocode) {
-            if (!user.courses.some((c) => c.id === promocode.id)) {
-              promocode.used_date = Date.now();
-              promocode.used_by = auth_key;
-
-              fs.readFile(coursesFilePath, "utf8", (err, coursesData) => {
-                if (err) {
-                  console.error("Error reading courses file:", err);
-                  res.status(500).send("Internal Server Error");
-                  return;
-                }
-
-                const courses = JSON.parse(coursesData);
-                const course = courses.find((c) => c.id === promocode.id);
-
-                if (course) {
-                  course.totalUsers++;
-
-                  user.courses.push({
-                    id: course.id,
-                    hidden: false,
-                    data: {
-                      join_date: Date.now(),
-                      expire_date: Date.now() + promocode.access_duration,
-                      restricted: false,
-                      allowed_tests: promocode.start_temas,
-                      completed_tests: [],
-                    },
-                  });
-
-                  // Write updated data back to files
-                  fs.writeFile(
-                    promocodesFilePath,
-                    JSON.stringify(promocodes, null, 2),
-                    (err) => {
-                      if (err) {
-                        console.error("Error writing promocodes file:", err);
-                        res.status(500).send("Internal Server Error");
-                        return;
-                      }
-
-                      fs.writeFile(
-                        coursesFilePath,
-                        JSON.stringify(courses, null, 2),
-                        (err) => {
-                          if (err) {
-                            console.error("Error writing courses file:", err);
-                            res.status(500).send("Internal Server Error");
-                            return;
-                          }
-
-                          fs.writeFile(
-                            filePath,
-                            JSON.stringify(users, null, 2),
-                            (err) => {
-                              if (err) {
-                                console.error("Error writing users file:", err);
-                                res.status(500).send("Internal Server Error");
-                                return;
-                              }
-
-                              res.status(200).json({ message: "Успіх! ✅" });
-                            }
-                          );
-                        }
-                      );
-                    }
-                  );
-                } else {
-                  res.status(404).json({ message: "Курс не знайдено 🤔" });
-                }
-              });
-            } else {
-              res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
-            }
-          } else {
-            res
-              .status(400)
-              .json({ message: "Неправильний або використаний код ❌" });
-          }
-        });
-      } else {
-        res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    const existingCourse = dbHelpers.getCourseByUserAndId.get(auth_key, promocode.course_id);
+    if (existingCourse) {
+      return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
     }
-  });
+
+    const coursesFilePath = path.join(__dirname, "courses.json");
+    const courses = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+    const course = courses.find(c => c.id === promocode.course_id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Курс не знайдено 🤔" });
+    }
+
+    // Update promocode in database
+    dbHelpers.updatePromocode.run(Date.now(), auth_key, code);
+    
+    // Update course total users in courses.json
+    course.totalUsers++;
+    fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
+
+    // Insert new course for user
+    dbHelpers.insertCourse.run({
+      auth_key: auth_key,
+      login: user.login,
+      course_id: course.id,
+      hidden: 0,
+      join_date: Date.now(),
+      expire_date: Date.now() + promocode.access_duration,
+      restricted: 0,
+      allowed_tests: promocode.start_temas,
+      completed_tests: '[]'
+    });
+
+    res.status(200).json({ message: "Успіх! ✅" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course, expire_date, access_duration, start_temas } =
-    req.body;
-  const filePath = path.join(__dirname, "users.json");
+  const { auth_key, course, expire_date, access_duration, start_temas } = req.body;
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-      if (user) {
-        if (user.coursesOwned.includes(course)) {
-          const promocodesFilePath = path.join(__dirname, "promocodes.json");
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(course)) {
+      return res.status(403).json({ message: "User does not own this course" });
+    }
 
-          fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
-            if (err) {
-              console.error("Error reading promocodes file:", err);
-              res.status(500).send("Internal Server Error");
-              return;
-            }
+    let code;
+    do {
+      code = generateCode();
+    } while (dbHelpers.getPromocode.get(code));
 
-            const promocodes = JSON.parse(promocodesData);
-            let code;
-            do {
-              code = generateCode();
-            } while (promocodes.some((p) => p.code === code));
-            let _expire_date;
-            if (expire_date == "") {
-              _expire_date = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days from now
-            } else {
-              _expire_date = +expire_date;
-            }
-            let _access_time;
-            if (access_duration == "") {
-              _access_time = 300 * 24 * 60 * 60 * 1000; // 300 days from now
-            } else if (+access_duration == 0) {
-              _access_time = "never";
-            } else {
-              _access_time = +access_duration * 24 * 60 * 60 * 1000;
-            }
-            let _start_temas = [];
-            if (start_temas == [""]) {
-              _start_temas.push("all");
-            } else {
-              _start_temas = start_temas;
-            }
+    let _expire_date;
+    if (expire_date == "") {
+      _expire_date = Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days from now
+    } else {
+      _expire_date = +expire_date;
+    }
 
-            const newPromocode = {
-              id: course,
-              code: code,
-              expire_date: _expire_date,
-              access_duration: _access_time,
-              used_date: -1,
-              used_by: "",
-              start_temas: _start_temas,
-            };
+    let _access_time;
+    if (access_duration == "") {
+      _access_time = 300 * 24 * 60 * 60 * 1000; // 300 days from now
+    } else if (+access_duration == 0) {
+      _access_time = -1; // Using -1 to represent "never" in database
+    } else {
+      _access_time = +access_duration * 24 * 60 * 60 * 1000;
+    }
 
-            promocodes.push(newPromocode);
+    let _start_temas = [];
+    if (start_temas == [""]) {
+      _start_temas = ["all"];
+    } else {
+      _start_temas = start_temas;
+    }
 
-            fs.writeFile(
-              promocodesFilePath,
-              JSON.stringify(promocodes, null, 2),
-              (err) => {
-                if (err) {
-                  console.error("Error writing promocodes file:", err);
-                  res.status(500).send("Internal Server Error");
-                  return;
-                }
+    const newPromocode = {
+      course_id: course,
+      code: code,
+      expire_date: _expire_date,
+      access_duration: _access_time,
+      start_temas: JSON.stringify(_start_temas)
+    };
 
-                res.status(200).json({ promocode: newPromocode });
-              }
-            );
-          });
-        } else {
-          res.status(403).json({ message: "User does not own this course" });
-        }
-      } else {
-        res.status(404).json({ message: "User not found" });
+    dbHelpers.insertPromocode.run(newPromocode);
+
+    res.status(200).json({ 
+      promocode: {
+        id: course,
+        code: code,
+        expire_date: _expire_date,
+        access_duration: _access_time,
+        used_date: -1,
+        used_by: "",
+        start_temas: _start_temas
       }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
-    }
-  });
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/getPromoCodes", (req, res) => {
   const { auth_key, course } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        if (user.coursesOwned.includes(course)) {
-          const promocodesFilePath = path.join(__dirname, "promocodes.json");
-
-          fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
-            if (err) {
-              console.error("Error reading promocodes file:", err);
-              res.status(500).send("Internal Server Error");
-              return;
-            }
-
-            try {
-              const promocodes = JSON.parse(promocodesData);
-
-              const filteredPromocodes = promocodes.filter(
-                (promocode) => promocode.id === course
-              );
-
-              filteredPromocodes.forEach((promocode) => {
-                if (promocode.used_by) {
-                  const student = users.find(
-                    (student) => student.auth_key === promocode.used_by
-                  );
-                  if (student) {
-                    promocode.used_by = student.login;
-                    if (student.name != "") {
-                      promocode.used_by_name = student.name;
-                      promocode.used_by_surname = student.surname;
-                    }
-                  } else {
-                    promocode.used_by = "";
-                  }
-                }
-              });
-              res.status(200).json({ promocodes: filteredPromocodes });
-            } catch (parseErr) {
-              console.error("Error parsing promocodes JSON:", parseErr);
-              res.status(500).send("Internal Server Error");
-            }
-          });
-        } else {
-          res.status(403).json({ message: "User does not own this course" });
-        }
-      } else {
-        res.status(404).json({ message: "User not found" });
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(course)) {
+      return res.status(403).json({ message: "User does not own this course" });
     }
-  });
+
+    const promocodes = dbHelpers.getPromocodesByCourse.all(course);
+    const formattedPromocodes = promocodes.map(promocode => ({
+      id: promocode.course_id,
+      code: promocode.code,
+      expire_date: promocode.expire_date,
+      access_duration: promocode.access_duration,
+      used_date: promocode.used_date,
+      used_by: promocode.login || "",
+      used_by_name: promocode.name || "",
+      used_by_surname: promocode.surname || "",
+      start_temas: JSON.parse(promocode.start_temas)
+    }));
+
+    res.status(200).json({ promocodes: formattedPromocodes });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/deletePromoCode", (req, res) => {
   const { auth_key, code } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(403).json({ message: "Будь ласка увійдіть 🔐" });
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        const promocodesFilePath = path.join(__dirname, "promocodes.json");
-
-        fs.readFile(promocodesFilePath, "utf8", (err, promocodesData) => {
-          if (err) {
-            console.error("Error reading promocodes file:", err);
-            res.status(500).send("Internal Server Error");
-            return;
-          }
-
-          try {
-            const promocodes = JSON.parse(promocodesData);
-
-            const promocode = promocodes.find((p) => p.code === code);
-
-            if (promocode) {
-              if (user.coursesOwned.some((c) => c === promocode.id)) {
-                const updatedPromocodes = promocodes.filter(
-                  (p) => p.code !== code
-                );
-                fs.writeFile(
-                  promocodesFilePath,
-                  JSON.stringify(updatedPromocodes, null, 2),
-                  (err) => {
-                    if (err) {
-                      console.error("Error writing promocodes file:", err);
-                      res.status(500).send("Internal Server Error");
-                      return;
-                    }
-                    res.status(200).json({ message: "Успіх! ✅" });
-                  }
-                );
-              } else {
-                res
-                  .status(403)
-                  .json({ message: "Ви не володієте цим курсом ❌" });
-              }
-            } else {
-              res
-                .status(400)
-                .json({ message: "Неправильний або використаний код ❌" });
-            }
-          } catch (parseErr) {
-            console.error("Error parsing promocodes JSON:", parseErr);
-            res.status(500).send("Internal Server Error");
-          }
-        });
-      } else {
-        res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    const promocode = dbHelpers.getPromocode.get(code);
+    if (!promocode) {
+      return res.status(404).json({ message: "Код не знайдено ❌" });
     }
-  });
+
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(promocode.course_id)) {
+      return res.status(403).json({ message: "Ви не володієте цим курсом ❌" });
+    }
+
+    const result = dbHelpers.deletePromocode.run(code);
+    if (result.changes > 0) {
+      res.status(200).json({ message: "Успіх! ✅" });
+    } else {
+      res.status(404).json({ message: "Код не знайдено" });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 
 app.post("/api/getUsers", (req, res) => {
   const { auth_key, courseName } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          let students = getUsersWithSpecificCourse(users, courseName);
-          Array.from(students).forEach((safeUser) => {
-            safeUser.password = "";
-            safeUser.auth_key = "";
-            safeUser.courses = safeUser.courses.filter(
-              (course) => course.id === courseName
-            );
-          });
-          res.json({
-            students: students,
-          });
-        } else {
-          res.status(403).send("Ви не володієте цим курсом!");
-        }
-      }
-      res.status(404);
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("Ви не володієте цим курсом!");
     }
-  });
+
+    const students = dbHelpers.getUsersWithCourse.all(courseName);
+    const safeStudents = students.map((student) => {
+      const courses = dbHelpers.getCourseByUserAndId.all(
+        student.auth_key,
+        courseName
+      );
+      return {
+        login: student.user_login,
+        name: student.user_name,
+        surname: student.user_surname,
+        courses: courses.map((course) => ({
+          id: course.course_id,
+          hidden: Boolean(course.hidden),
+          restricted: Boolean(course.restricted),
+          data: {
+            join_date: course.join_date,
+            expire_date: course.expire_date,
+            allowed_tests: JSON.parse(course.allowed_tests),
+            completed_tests: JSON.parse(course.completed_tests),
+          },
+        })),
+      };
+    });
+
+    res.json({ students: safeStudents });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/changeAccessCourseForUser", (req, res) => {
   const { auth_key, courseName, login, access } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error #1");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          const student = users.find((student) => student.login === login);
-          const course = findCourse(users, student.auth_key, courseName);
-          const changedUser = users.find(
-            (student) => student.auth_key === auth_key
-          );
-          let updatedUsers = users.filter(
-            (student) => student.auth_key !== auth_key
-          );
-          course.restricted = !access;
-          updatedUsers.push(changedUser);
-          fs.writeFile(
-            filePath,
-            JSON.stringify(updatedUsers, null, 2),
-            (writeErr) => {
-              if (writeErr) {
-                console.error("Error writing file:", writeErr);
-                res.status(500).send("Internal Server Error #2");
-                return;
-              } else {
-                res.status(200).send({ data: "success" });
-              }
-            }
-          );
-        } else {
-          res.status(403).send("Ви не володієте цим курсом!");
-        }
-      }
-      res.status(404);
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error #3");
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("Ви не володієте цим курсом!");
     }
-  });
+
+    const result = dbHelpers.updateCourseRestrictionByUsername.run(
+      !access ? 1 : 0,
+      login,
+      courseName
+    );
+
+    if (result.changes > 0) {
+      res.status(200).send({ data: "success" });
+    } else {
+      res.status(404).send("Course or user not found");
+    }
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/changeUserAllowedCourse", (req, res) => {
   const { auth_key, courseName, username, allowed_tests } = req.body;
-  const filePath = path.join(__dirname, "users.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(403).send("Будь ласка увійдіть 🔐");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        if (user.coursesOwned.includes(courseName)) {
-          const changedUser = users.find((user) => user.login === username);
-          let updatedUsers = users.filter((user) => user.login !== username);
-          const course = findCourse(users, changedUser.auth_key, courseName);
-          course.data.allowed_tests = allowed_tests;
-          updatedUsers.push(changedUser);
-          fs.writeFile(
-            filePath,
-            JSON.stringify(updatedUsers, null, 2),
-            (writeErr) => {
-              if (writeErr) {
-                console.error("Error writing file:", writeErr);
-                res.status(500).send("Internal Server Error");
-                return;
-              }
-              res.status(200).send("Дані оновлені успішно");
-            }
-          );
-        } else {
-          res.status(403).send("Ви не володієте цим курсом!");
-        }
-      } else {
-        res.status(403).send("Ви не адміністратор");
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (!coursesOwned.includes(courseName)) {
+      return res.status(403).send("Ви не володієте цим курсом!");
     }
-  });
+
+    const result = dbHelpers.updateAllowedTestsByUsername.run(
+      JSON.stringify(allowed_tests),
+      username,
+      courseName
+    );
+    
+    if (result.changes > 0) {
+      res.status(200).send("Дані оновлені успішно");
+    } else {
+      res.status(404).send("User or course not found");
+    }
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/getUserCourses", (req, res) => {
   const { auth_key, specific_course } = req.body;
-  const filePath = path.join(__dirname, "users.json");
   const coursesFilePath = path.join(__dirname, "courses.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
-
-      if (user) {
-        fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
-          if (err) {
-            console.error("Error reading file:", err);
-            res.status(500).send("Internal Server Error");
-            return;
-          }
-
-          try {
-            const courses = JSON.parse(courseData);
-            if (specific_course == null) {
-              let userCourses = [];
-              let lostCourses = [];
-              Array.from(user.courses).forEach((u_course) => {
-                Array.from(courses).forEach((a_course) => {
-                  if (a_course.id === u_course.id) {
-                    if (!u_course.restricted) {
-                      userCourses.push(a_course);
-                    } else {
-                      lostCourses.push(a_course);
-                    }
-                  }
-                });
-              });
-
-              res.status(200).json({
-                courses: userCourses,
-                restricted: lostCourses,
-              });
-            } else {
-              const course = courses.find(
-                (course) => course.id === specific_course
-              );
-              let restricted = true;
-              const user_course = user.courses.find(
-                (course) => course.id === specific_course
-              );
-              if (!user_course) {
-                res.status(404).json({
-                  courses: [],
-                });
-              }
-              Array.from(user.courses).forEach((u_course) => {
-                if (u_course.id === course.id) {
-                  restricted = u_course.restricted;
-                }
-              });
-              if (!restricted) {
-                res.status(200).json({
-                  courses: [course],
-                  allowed_tests: user_course.data.allowed_tests,
-                });
-              }
-            }
-          } catch {}
-        });
-      } else {
-        res.status(404);
+    if (specific_course) {
+      const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, specific_course);
+      if (!userCourse) {
+        return res.status(404).json({ courses: [] });
       }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
+
+      if (!userCourse.restricted) {
+        // Read course details from courses.json
+        const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+        const course = courseData.find(c => c.id === specific_course);
+        
+        if (course) {
+          return res.status(200).json({
+            courses: [course],
+            allowed_tests: JSON.parse(userCourse.allowed_tests)
+          });
+        }
+      }
+    } else {
+      const userCourses = dbHelpers.getUserCourses.all(auth_key);
+      // Read course details from courses.json
+      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+      
+      const activeCourses = [];
+      const restrictedCourses = [];
+
+      userCourses.forEach(userCourse => {
+        const courseDetails = courseData.find(c => c.id === userCourse.course_id);
+        if (courseDetails) {
+          if (userCourse.restricted) {
+            restrictedCourses.push(courseDetails);
+          } else {
+            activeCourses.push(courseDetails);
+          }
+        }
+      });
+
+      return res.status(200).json({
+        courses: activeCourses,
+        restricted: restrictedCourses
+      });
     }
-  });
+
+    res.status(404).json({ courses: [] });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/getOwnedCourses", (req, res) => {
   const { auth_key } = req.body;
-  const filePath = path.join(__dirname, "users.json");
   const coursesFilePath = path.join(__dirname, "courses.json");
 
-  fs.readFile(filePath, "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
     }
 
-    try {
-      const users = JSON.parse(data);
-      const user = users.find((user) => user.auth_key === auth_key);
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+    
+    const userCourses = courseData.filter(course => 
+      coursesOwned.includes(course.id)
+    );
 
-      if (user) {
-        fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
-          if (err) {
-            console.error("Error reading file:", err);
-            res.status(500).send("Internal Server Error");
-            return;
-          }
-
-          try {
-            const courses = JSON.parse(courseData);
-            let userCourses = [];
-            Array.from(user.coursesOwned).forEach((u_course) => {
-              Array.from(courses).forEach((a_course) => {
-                if (a_course.id === u_course) {
-                  userCourses.push(a_course);
-                }
-              });
-            });
-
-            res.json({
-              courses: userCourses,
-            });
-          } catch {}
-        });
-      } else {
-        res.status(404);
-      }
-    } catch (parseErr) {
-      console.error("Error parsing JSON:", parseErr);
-      res.status(500).send("Internal Server Error");
-    }
-  });
+    res.json({ courses: userCourses });
+  } catch (error) {
+    console.error("Database error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/api/getCoverImage", (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  let image_name = req.query.image_name;
-
-  if (image_name == null) {
-    image_name = "cover";
-  }
-
+  let image_name = req.query.image_name || "cover";
   const auth_key = req.query.auth_key;
 
-  if (auth_key != null) {
-    const filePath = path.join(__dirname, "users.json");
-    fs.readFile(filePath, "utf8", async (err, data) => {
-      if (err) {
-        console.error("Error reading file:", err);
-        res.status(500).send("Internal Server Error");
-        return;
+  if (auth_key) {
+    try {
+      const userCourse = dbHelpers.findCourse.get(auth_key, courseName);
+      if (!userCourse) {
+        return res.status(404).send("Course not found");
       }
 
-      try {
-        const users = JSON.parse(data);
-        const user = users.find((user) => user.auth_key === auth_key);
-        if (user) {
-          const course = findCourse(users, user.auth_key, courseName);
-          if (course != null) {
-            let filePathImg;
-            if (testId != null) {
-              filePathImg = path.join(
-                __dirname,
-                `courseData/${course.id}/block${blockId}/test${testId}/${image_name}.jpeg`
-              );
-            } else if (blockId != null) {
-              filePathImg = path.join(
-                __dirname,
-                `courseData/${course.id}/block${blockId}/${image_name}.jpeg`
-              );
-            } else {
-              filePathImg = path.join(
-                __dirname,
-                `courseData/${course.id}/${image_name}.jpeg`
-              );
-            }
-            fs.readFile(filePathImg, (err, data) => {
-              if (err) {
-                res.status(404).send("Image not found");
-              } else {
-                res.writeHead(200, { "Content-Type": "image/jpeg" });
-                res.end(data);
-              }
-            });
-          }
-        }
-      } catch (error) {
-        console.error("Error loading test data:", error);
-        res.status(500).send("Error loading test data");
+      let filePathImg;
+      if (testId) {
+        filePathImg = path.join(
+          __dirname,
+          `courseData/${courseName}/block${blockId}/test${testId}/${image_name}.jpeg`
+        );
+      } else if (blockId) {
+        filePathImg = path.join(
+          __dirname,
+          `courseData/${courseName}/block${blockId}/${image_name}.jpeg`
+        );
+      } else {
+        filePathImg = path.join(
+          __dirname,
+          `courseData/${courseName}/${image_name}.jpeg`
+        );
       }
-    });
+
+      fs.readFile(filePathImg, (err, data) => {
+        if (err) {
+          res.status(404).send("Image not found");
+        } else {
+          res.writeHead(200, { "Content-Type": "image/jpeg" });
+          res.end(data);
+        }
+      });
+    } catch (error) {
+      console.error("Database error:", error);
+      res.status(500).send("Internal Server Error");
+    }
   } else {
-    let filePathImg = path.join(
+    const filePathImg = path.join(
       __dirname,
       `courseData/${courseName}/${image_name}.jpeg`
     );
@@ -1730,105 +1270,69 @@ app.post("/api/marketplace/getCourses", (req, res) => {
   } = req.body;
   const coursesFilePath = path.join(__dirname, "courses.json");
 
-  fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+    const courses = courseData;
+    const searchForTags = search_tags != null && search_tags != [];
+    const searchForAuthors = authors != null && authors != [];
+    const searchForUserCourses = auth_key != null && auth_key != "" && only_show_non_owned;
+    
+    let tag_courses = [];
+    let author_courses = [];
+    let owned_courses = [];
+
+    Array.from(courses).forEach((course) => {
+      if (searchForTags) {
+        Array.from(course.tags).forEach((tag) => {
+          if (search_tags.includes(tag)) {
+            tag_courses.push(course);
+          }
+        });
+      }
+
+      if (searchForAuthors) {
+        Array.from(authors).forEach((author) => {
+          if (author == course.author) {
+            author_courses.push(course);
+          }
+        });
+      }
+
+      if (searchForUserCourses) {
+        const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, course.id);
+        if (userCourse) {
+          owned_courses.push(course);
+        }
+      }
+    });
+
+    let similar_courses = [];
+    function intersectArrays(arr1, arr2) {
+      return arr1.filter((item) => arr2.includes(item));
     }
 
-    try {
-      const courses = JSON.parse(courseData);
-      const searchForTags = search_tags != null && search_tags != [];
-      const searchForAuthors = authors != null && authors != [];
-      const searchForUserCourses =
-        auth_key != null && auth_key != "" && only_show_non_owned;
-      let tag_courses = [];
-      let author_courses = [];
-      let owned_courses = [];
-      Array.from(courses).forEach((course) => {
-        if (searchForTags) {
-          Array.from(course.tags).forEach((tag) => {
-            if (search_tags.includes(tag)) {
-              tag_courses.push(course);
-            }
-          });
-        }
+    if (searchForTags) {
+      similar_courses = similar_courses.length === 0 ? tag_courses : intersectArrays(similar_courses, tag_courses);
+    }
 
-        if (searchForAuthors) {
-          Array.from(authors).forEach((author) => {
-            if (author == course.author) {
-              author_courses.push(course);
-            }
-          });
-        }
-        if (searchForUserCourses) {
-          const usersFilePath = path.join(__dirname, "users.json");
-          fs.readFile(usersFilePath, "utf8", (err, data) => {
-            if (err) {
-              console.error("Error reading file:", err);
-              res.status(500).send("Internal Server Error");
-              return;
-            }
+    if (searchForAuthors) {
+      similar_courses = similar_courses.length === 0 ? author_courses : intersectArrays(similar_courses, author_courses);
+    }
 
-            try {
-              const users = JSON.parse(data);
-              const user = users.find((user) => user.auth_key === auth_key);
-              if (user) {
-                Array.from(user.courses).forEach((u_course) => {
-                  if (u_course.id == course.id) {
-                    owned_courses.push(course);
-                  }
-                });
-              } else {
-                res.status(404);
-              }
-            } catch (parseErr) {
-              console.error("Error parsing JSON:", parseErr);
-              res.status(500).send("Internal Server Error");
-            }
-          });
-        }
-      });
-      let similar_courses = [];
-      function intersectArrays(arr1, arr2) {
-        return arr1.filter((item) => arr2.includes(item));
-      }
+    if (searchForUserCourses) {
+      similar_courses = similar_courses.length === 0 ? owned_courses : intersectArrays(similar_courses, owned_courses);
+    }
 
-      // Process similar_courses based on search_tags
-      if (searchForTags) {
-        if (similar_courses.length === 0) {
-          similar_courses = tag_courses;
-        } else {
-          similar_courses = intersectArrays(similar_courses, tag_courses);
-        }
-      }
-
-      // Process similar_courses based on authors
-      if (searchForAuthors) {
-        if (similar_courses.length === 0) {
-          similar_courses = author_courses;
-        } else {
-          similar_courses = intersectArrays(similar_courses, author_courses);
-        }
-      }
-
-      // Process similar_courses based on owned courses
-      if (searchForUserCourses) {
-        if (similar_courses.length === 0) {
-          similar_courses = owned_courses;
-        } else {
-          similar_courses = intersectArrays(similar_courses, owned_courses);
-        }
-      }
-
-      const startIndex = search_index * search_amount;
-      const endIndex = (search_index + 1) * search_amount;
-      const maxIndex = Math.floor(similar_courses.length / search_amount);
-      similar_courses = similar_courses.slice(startIndex, endIndex);
-      res.status(200).send({ courses: similar_courses, maxIndex: maxIndex });
-    } catch {}
-  });
+    const startIndex = search_index * search_amount;
+    const endIndex = (search_index + 1) * search_amount;
+    const maxIndex = Math.floor(similar_courses.length / search_amount);
+    similar_courses = similar_courses.slice(startIndex, endIndex);
+    
+    res.status(200).send({ courses: similar_courses, maxIndex: maxIndex });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.post("/api/marketplace/getCourseInfo", (req, res) => {
   const { specific_course } = req.body;
