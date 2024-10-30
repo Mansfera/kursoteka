@@ -1211,6 +1211,13 @@ function showQuestion() {
   });
   document.getElementById("question_id").innerHTML =
     "ID#" + currentQuestion.question;
+  if (getCookie("allowContextmenu") != null) {
+    if (displayedQuestion.correct != null) {
+      console.log(displayedQuestion.correct);
+    } else {
+      console.log(displayedQuestion.answers.filter((a) => a.correct)[0].text);
+    }
+  }
 }
 
 function selectAnswer(e) {
