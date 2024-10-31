@@ -173,10 +173,7 @@ const dbHelpers = {
     `),
 
     getCourseByUserAndId: db.prepare(`
-        SELECT uc.*,
-            json_extract(uc.user_data, '$.login') as user_login,
-            json_extract(uc.user_data, '$.name') as user_name,
-            json_extract(uc.user_data, '$.surname') as user_surname
+        SELECT uc.*
         FROM user_courses uc
         WHERE uc.auth_key = ? AND uc.course_id = ?
     `),

@@ -780,21 +780,19 @@ app.post("/api/getUserStats", async (req, res) => {
       }
     }
 
-    const userCourse = dbHelpers.getUserCourses
-      .all(targetUser.id)
-      .find((course) => course.course_id === courseName);
-
+    // Get the course directly using getCourseByUserAndId
+    const userCourse = dbHelpers.getCourseByUserAndId.get(targetUser.auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
 
     if (start_date && end_date) {
       const completedTests = JSON.parse(userCourse.completed_tests).filter(
-        (test) => test.date > start_date && test.date < end_date
+        (test) => test.date >= start_date && test.date <= end_date
       );
-      res.status(200).send({ completed_tests: completedTests });
+      res.status(200).json({ completed_tests: completedTests });
     } else {
-      res.status(200).send({
+      res.status(200).json({
         join_date: userCourse.join_date,
         expire_date: userCourse.expire_date,
       });

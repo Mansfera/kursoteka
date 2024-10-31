@@ -77,6 +77,7 @@ async function getUserStats() {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           courseData = data.courses[0];
           fillData();
         });
