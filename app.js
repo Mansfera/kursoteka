@@ -557,7 +557,7 @@ app.post("/sendTestResult", async (req, res) => {
               }
             });
 
-            if (averageScore >= 70 && next_tema_is_in_block) {
+            if (averageScore >= 75 && next_tema_is_in_block) {
               short_test_check = true;
             }
           }
@@ -579,7 +579,7 @@ app.post("/sendTestResult", async (req, res) => {
               }
             });
 
-            if (lastTest.score >= 75 && next_tema_is_in_block) {
+            if (lastTest.score >= 80 && next_tema_is_in_block) {
               full_test_check = true;
             }
           }
@@ -597,12 +597,13 @@ app.post("/sendTestResult", async (req, res) => {
           const filteredTests = completedTests.filter(
             item => item.test === test
           );
-          if (filteredTests.length > 0) {
+          if (filteredTests.length > 1) {
             const filteredAndSortedTests = filteredTests
               .sort((a, b) => new Date(b.date) - new Date(a.date));
             const lastTest = filteredAndSortedTests[filteredAndSortedTests.length - 1];
-            
-            if (lastTest && lastTest.score >= 85) {
+            const secondLastTest = filteredAndSortedTests[filteredAndSortedTests.length - 2];
+
+            if (lastTest && lastTest.score >= 85 && secondLastTest && secondLastTest.score >= 85) {
               allowedTests.push(next_tema_id);
             }
           }
