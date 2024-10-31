@@ -621,21 +621,31 @@ function showScore() {
   });
 }
 
-function sendFakeTestResult(test_type, score, auth_key) {
+function sendDebugTestResult(
+  time,
+  test_id,
+  test_type,
+  score,
+  auth_key,
+  abcd_questions_accuracy,
+  hronology_questions_accuracy,
+  vidpovidnist_questions_accuracy,
+  mul_ans_questions_accuracy
+) {
   let testData = {
     date: Date.now(),
-    time: 666,
-    test_type: test_type,
+    time,
+    test_type,
     block: block_id,
-    test: "11",
-    score: score,
+    test: test_id,
+    score,
     auth_key: auth_key,
     courseName: course,
-    abcd_questions_accuracy: 100,
-    hronology_questions_accuracy: 100,
-    vidpovidnist_questions_accuracy: 100,
-    mul_ans_questions_accuracy: 100,
-    fake: true,
+    abcd_questions_accuracy,
+    hronology_questions_accuracy,
+    vidpovidnist_questions_accuracy,
+    mul_ans_questions_accuracy,
+    debug: true,
   };
   fetch("/sendTestResult", {
     method: "POST",
