@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (
         Date.now() - summaryTest.date >
         // 0
-         14 * 24 * 60 * 60 * 1000
+         7 * 24 * 60 * 60 * 1000
       ) {
         document
           .getElementById("reviseSummaryTest_notification")
