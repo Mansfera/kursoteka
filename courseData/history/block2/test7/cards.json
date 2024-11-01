@@ -3,5 +3,55 @@
     "id": 1,
     "frontContentType": "img",
     "infoText": "вертеп"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Чернігівське, Руське та Брацлавське воєводства"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Похід Сагайдачного на м. Москва 1618"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "\"Героїчні походи\" козацтва"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "портрет гетьмана Петра Конашевича-Сагайдачного"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "портрет гетьмана Сагайдачного з книги \"Вірші на жалісний погреб шляхетного лицаря Петра Сагайдачного\""
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "гравюра морських походів з книги \"Вірші на жалісний погреб шляхетного лицаря Петра Сагайдачного\""
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "портрет митрополита Могили"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "замок у селі Підгірці (стиль ренесанс)"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "каплиця Боїмів у місті Львів (стиль ренесанс)"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "кафедральний костел у місті Львів (стиль бароко)"
   }
 ]

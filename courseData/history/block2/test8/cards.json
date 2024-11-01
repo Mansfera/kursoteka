@@ -1,15 +1,4 @@
 [
-  { "id": 1, "frontContentType": "img", "infoText": "Чернігівське воєводство" },
-  {
-    "id": 2,
-    "frontContentType": "img",
-    "infoText": "Героїчні походи"
-  },
-  {
-    "id": 3,
-    "frontContentType": "img",
-    "infoText": "Похід Сагайдачного на маскву 1618"
-  },
   {
     "id": 4,
     "frontContentType": "img",
@@ -29,7 +18,7 @@
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "гетьмани столиці Чигирин"
+    "infoText": "гетьманська столиця м. Чигирин"
   },
   {
     "id": 10,
