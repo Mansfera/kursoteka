@@ -138,7 +138,12 @@ function getUsers() {
       const student_list = document.getElementById("student_list");
       student_list.innerHTML = "";
       Array.from(students).forEach((user) => {
-        if (user.group != "admin") {
+        if (
+          user.group != "admin" &&
+          user.group != "teacher" &&
+          !user.courses[0].restricted &&
+          !user.courses[0].hidden
+        ) {
           let login = user.login;
           let username = login;
           if (user.name != "") {

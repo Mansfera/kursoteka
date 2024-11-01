@@ -1,16 +1,6 @@
 [
   { "id": 1, "frontContentType": "img", "infoText": "Козацькі клейноди" },
   {
-    "id": 2,
-    "frontContentType": "img",
-    "infoText": "Козацькі клейноди, монета НБУ"
-  },
-  {
-    "id": 3,
-    "frontContentType": "img",
-    "infoText": "Козацькі клейноди, монета НБУ"
-  },
-  {
     "id": 4,
     "frontContentType": "img",
     "infoText": "Байда Вишневецький, монета НБУ"
@@ -30,7 +20,6 @@
     "frontContentType": "img",
     "infoText": "будинок Корнякта у місті Львів (стиль ренесанс)"
   },
-  { "id": 8, "frontContentType": "img", "infoText": "бандура, монета НБУ" },
   { "id": 9, "frontContentType": "img", "infoText": "вертеп" },
   {
     "id": 10,
