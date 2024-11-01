@@ -1036,6 +1036,7 @@ app.post("/api/getUsers", (req, res) => {
         login: student.user_login,
         name: student.user_name,
         surname: student.user_surname,
+        group: student.group_type,
         courses: courses.map((course) => ({
           id: course.course_id,
           hidden: Boolean(course.hidden),
