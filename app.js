@@ -498,6 +498,9 @@ app.post("/sendTestResult", async (req, res) => {
     const completedTests = JSON.parse(userCourse.completed_tests);
     const allowedTests = JSON.parse(userCourse.allowed_tests);
 
+    let short_test_check = false;
+    let full_test_check = false;
+
     completedTests.push({
       date,
       time,
@@ -528,9 +531,6 @@ app.post("/sendTestResult", async (req, res) => {
       // Find next tema ID
       const next_tema_id = temas_id_list[temas_id_list.indexOf(test) + 1];
       let next_tema_is_in_block = false;
-
-      let short_test_check = false;
-      let full_test_check = false;
 
       switch (test_type) {
         case "short":
@@ -602,6 +602,7 @@ app.post("/sendTestResult", async (req, res) => {
               .sort((a, b) => new Date(b.date) - new Date(a.date));
             const lastTest = filteredAndSortedTests[filteredAndSortedTests.length - 1];
             const secondLastTest = filteredAndSortedTests[filteredAndSortedTests.length - 2];
+            console.log(lastTest && lastTest.score >= 85, secondLastTest && secondLastTest.score >= 85);
 
             if (lastTest && lastTest.score >= 85 && secondLastTest && secondLastTest.score >= 85) {
               allowedTests.push(next_tema_id);
@@ -627,7 +628,7 @@ app.post("/sendTestResult", async (req, res) => {
       );
     }
 
-    res.status(200).send("Test result saved");
+    res.status(200).send({answer: "Test result saved", last_allowed_test: allowedTests[allowedTests.length - 1], next_tema_id: next_tema_id, });
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
