@@ -527,12 +527,10 @@ app.post("/sendTestResult", async (req, res) => {
           temas_id_list.push(test_obj.id);
         });
       });
-      console.log(temas_id_list);
 
       // Find next tema ID
       const next_tema_id = temas_id_list[temas_id_list.indexOf(test) + 1];
       let next_tema_is_in_block = false;
-      console.log(next_tema_id);
 
       switch (test_type) {
         case "short":
@@ -599,6 +597,7 @@ app.post("/sendTestResult", async (req, res) => {
           const filteredTests = completedTests.filter(
             item => item.test === test
           );
+          console.log(filteredTests);
           if (filteredTests.length > 1) {
             const filteredAndSortedTests = filteredTests
               .sort((a, b) => new Date(b.date) - new Date(a.date));
@@ -614,6 +613,7 @@ app.post("/sendTestResult", async (req, res) => {
         }
       }
     }
+    console.log(allowedTests);
 
     // Update the database with new completed tests and allowed tests
     dbHelpers.addCompletedTest.run(
