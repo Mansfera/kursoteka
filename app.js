@@ -158,13 +158,9 @@ app.post("/saveTest", (req, res) => {
       }
     );
 
-    fs.writeFile(
-      hronologyPath,
-      JSON.stringify(hronology_questions),
-      (err) => {
-        if (err) throw err;
-      }
-    );
+    fs.writeFile(hronologyPath, JSON.stringify(hronology_questions), (err) => {
+      if (err) throw err;
+    });
 
     fs.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions), (err) => {
       if (err) throw err;
@@ -392,15 +388,15 @@ app.get("/loadTestData", async (req, res) => {
     }
 
     const coursesFilePath = path.join(__dirname, "courses.json");
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-    const course_obj = courseData.find(crs => crs.id === courseName);
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+    const course_obj = courseData.find((crs) => crs.id === courseName);
 
     let temas_id_list = [];
     let first_tema_found = false;
     let last_tema_found = false;
 
-    course_obj.blocks.some(block_obj => {
-      return block_obj.tests.some(test_obj => {
+    course_obj.blocks.some((block_obj) => {
+      return block_obj.tests.some((test_obj) => {
         if (test_obj.id == firstTest) {
           first_tema_found = true;
         }
@@ -428,9 +424,10 @@ app.get("/loadTestData", async (req, res) => {
         readJsonFile(
           `courseData/${courseName}/block${block}/test${id}/questions.json`
         ).then((data) => {
-          if (data) testQuestions = data.sort((p1, p2) =>
-            p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-          );
+          if (data)
+            testQuestions = data.sort((p1, p2) =>
+              p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+            );
         }),
         readJsonFile(
           `courseData/${courseName}/block${block}/test${id}/vidpovidnist_questions.json`
@@ -445,9 +442,10 @@ app.get("/loadTestData", async (req, res) => {
         readJsonFile(
           `courseData/${courseName}/block${block}/test${id}/mul_ans_questions.json`
         ).then((data) => {
-          if (data) testMulAnsQuestions = data.sort((p1, p2) =>
-            p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-          );
+          if (data)
+            testMulAnsQuestions = data.sort((p1, p2) =>
+              p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+            );
         }),
       ]);
 
@@ -517,13 +515,13 @@ app.post("/sendTestResult", async (req, res) => {
     // Check if we need to update allowed tests
     if (!allowedTests.includes("all")) {
       const coursesFilePath = path.join(__dirname, "courses.json");
-      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-      const course_obj = courseData.find(crs => crs.id === courseName);
+      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+      const course_obj = courseData.find((crs) => crs.id === courseName);
 
       // Get list of all test IDs
       let temas_id_list = [];
-      course_obj.blocks.some(block_obj => {
-        return block_obj.tests.some(test_obj => {
+      course_obj.blocks.some((block_obj) => {
+        return block_obj.tests.some((test_obj) => {
           temas_id_list.push(test_obj.id);
         });
       });
@@ -541,18 +539,21 @@ app.post("/sendTestResult", async (req, res) => {
 
           // Check short test requirements
           let filteredTests = completedTests.filter(
-            item => item.test === test && item.test_type === "short"
+            (item) => item.test === test && item.test_type === "short"
           );
           if (filteredTests.length >= 3) {
-            let filteredAndSortedTests = filteredTests
-              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            let filteredAndSortedTests = filteredTests.sort(
+              (a, b) => new Date(b.date) - new Date(a.date)
+            );
             let lastTests = filteredAndSortedTests.slice(0, 3);
-            let averageScore = lastTests.reduce((sum, item) => sum + item.score, 0) / lastTests.length;
+            let averageScore =
+              lastTests.reduce((sum, item) => sum + item.score, 0) /
+              lastTests.length;
 
-            course_obj.blocks.some(block_obj => {
+            course_obj.blocks.some((block_obj) => {
               if (block_obj.id == block) {
                 next_tema_is_in_block = block_obj.tests.find(
-                  test_obj => test_obj.id == next_tema_id
+                  (test_obj) => test_obj.id == next_tema_id
                 );
               }
             });
@@ -564,17 +565,18 @@ app.post("/sendTestResult", async (req, res) => {
 
           // Check full test requirements
           filteredTests = completedTests.filter(
-            item => item.test === test && item.test_type === "full"
+            (item) => item.test === test && item.test_type === "full"
           );
           if (filteredTests.length > 0) {
-            let filteredAndSortedTests = filteredTests
-              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            let filteredAndSortedTests = filteredTests.sort(
+              (a, b) => new Date(b.date) - new Date(a.date)
+            );
             let lastTest = filteredAndSortedTests[0];
-            
-            course_obj.blocks.some(block_obj => {
+
+            course_obj.blocks.some((block_obj) => {
               if (block_obj.id == block) {
                 next_tema_is_in_block = block_obj.tests.find(
-                  test_obj => test_obj.id == next_tema_id
+                  (test_obj) => test_obj.id == next_tema_id
                 );
               }
             });
@@ -595,15 +597,21 @@ app.post("/sendTestResult", async (req, res) => {
           }
 
           const filteredTests = completedTests.filter(
-            item => item.test === test
+            (item) => item.test === test
           );
           if (filteredTests.length > 1) {
-            const filteredAndSortedTests = filteredTests
-              .sort((a, b) => new Date(b.date) - new Date(a.date));
+            const filteredAndSortedTests = filteredTests.sort(
+              (a, b) => new Date(b.date) - new Date(a.date)
+            );
             const lastTest = filteredAndSortedTests[0];
             const secondLastTest = filteredAndSortedTests[1];
 
-            if (lastTest && lastTest.score >= 85 && secondLastTest && secondLastTest.score >= 85) {
+            if (
+              lastTest &&
+              lastTest.score >= 85 &&
+              secondLastTest &&
+              secondLastTest.score >= 85
+            ) {
               allowedTests.push(next_tema_id);
             }
           }
@@ -618,11 +626,11 @@ app.post("/sendTestResult", async (req, res) => {
     //   auth_key,
     //   courseName
     // );
-    console.log(dbHelpers.addCompletedTest.run(
+    dbHelpers.addCompletedTest.run(
       JSON.stringify(completedTests),
       auth_key,
       courseName
-    ));
+    );
 
     if (!allowedTests.includes("all")) {
       dbHelpers.updateAllowedTests.run(
@@ -632,7 +640,12 @@ app.post("/sendTestResult", async (req, res) => {
       );
     }
 
-    res.status(200).send({answer: "Test result saved", last_allowed_test: allowedTests[allowedTests.length - 1]});
+    res
+      .status(200)
+      .send({
+        answer: "Test result saved",
+        last_allowed_test: allowedTests[allowedTests.length - 1],
+      });
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
@@ -786,7 +799,10 @@ app.post("/api/getUserStats", async (req, res) => {
     }
 
     // Get the course directly using getCourseByUserAndId
-    const userCourse = dbHelpers.getCourseByUserAndId.get(targetUser.auth_key, courseName);
+    const userCourse = dbHelpers.getCourseByUserAndId.get(
+      targetUser.auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -843,17 +859,22 @@ app.post("/api/activateCode", (req, res) => {
     }
     const promocode = dbHelpers.getUnusedPromocode.get(code, Date.now());
     if (!promocode) {
-      return res.status(400).json({ message: "Неправильний або використаний код ❌" });
+      return res
+        .status(400)
+        .json({ message: "Неправильний або використаний код ❌" });
     }
 
-    const existingCourse = dbHelpers.getCourseByUserAndId.get(auth_key, promocode.course_id);
+    const existingCourse = dbHelpers.getCourseByUserAndId.get(
+      auth_key,
+      promocode.course_id
+    );
     if (existingCourse) {
       return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
     }
 
     const coursesFilePath = path.join(__dirname, "courses.json");
-    const courses = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-    const course = courses.find(c => c.id === promocode.course_id);
+    const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+    const course = courses.find((c) => c.id === promocode.course_id);
 
     if (!course) {
       return res.status(404).json({ message: "Курс не знайдено 🤔" });
@@ -861,7 +882,7 @@ app.post("/api/activateCode", (req, res) => {
 
     // Update promocode in database
     dbHelpers.updatePromocode.run(Date.now(), auth_key, code);
-    
+
     // Update course total users in courses.json
     course.totalUsers++;
     fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
@@ -876,7 +897,7 @@ app.post("/api/activateCode", (req, res) => {
       expire_date: Date.now() + promocode.access_duration,
       restricted: 0,
       allowed_tests: promocode.start_temas,
-      completed_tests: '[]'
+      completed_tests: "[]",
     });
 
     res.status(200).json({ message: "Успіх! ✅" });
@@ -886,7 +907,8 @@ app.post("/api/activateCode", (req, res) => {
   }
 });
 app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course, expire_date, access_duration, start_temas } = req.body;
+  const { auth_key, course, expire_date, access_duration, start_temas } =
+    req.body;
 
   try {
     const user = dbHelpers.getUserByAuthKey.get(auth_key);
@@ -932,12 +954,12 @@ app.post("/api/generateCode", (req, res) => {
       code: code,
       expire_date: _expire_date,
       access_duration: _access_time,
-      start_temas: JSON.stringify(_start_temas)
+      start_temas: JSON.stringify(_start_temas),
     };
 
     dbHelpers.insertPromocode.run(newPromocode);
 
-    res.status(200).json({ 
+    res.status(200).json({
       promocode: {
         id: course,
         code: code,
@@ -945,8 +967,8 @@ app.post("/api/generateCode", (req, res) => {
         access_duration: _access_time,
         used_date: -1,
         used_by: "",
-        start_temas: _start_temas
-      }
+        start_temas: _start_temas,
+      },
     });
   } catch (error) {
     console.error("Error:", error);
@@ -968,7 +990,7 @@ app.post("/api/getPromoCodes", (req, res) => {
     }
 
     const promocodes = dbHelpers.getPromocodesByCourse.all(course);
-    const formattedPromocodes = promocodes.map(promocode => ({
+    const formattedPromocodes = promocodes.map((promocode) => ({
       id: promocode.course_id,
       code: promocode.code,
       expire_date: promocode.expire_date,
@@ -977,7 +999,7 @@ app.post("/api/getPromoCodes", (req, res) => {
       used_by: promocode.login || "",
       used_by_name: promocode.name || "",
       used_by_surname: promocode.surname || "",
-      start_temas: JSON.parse(promocode.start_temas)
+      start_temas: JSON.parse(promocode.start_temas),
     }));
 
     res.status(200).json({ promocodes: formattedPromocodes });
@@ -1111,7 +1133,7 @@ app.post("/api/changeUserAllowedCourse", (req, res) => {
       username,
       courseName
     );
-    
+
     if (result.changes > 0) {
       res.status(200).send("Дані оновлені успішно");
     } else {
@@ -1133,33 +1155,38 @@ app.post("/api/getUserCourses", (req, res) => {
     }
 
     if (specific_course) {
-      const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, specific_course);
+      const userCourse = dbHelpers.getCourseByUserAndId.get(
+        auth_key,
+        specific_course
+      );
       if (!userCourse) {
         return res.status(404).json({ courses: [] });
       }
 
       if (!userCourse.restricted) {
         // Read course details from courses.json
-        const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-        const course = courseData.find(c => c.id === specific_course);
-        
+        const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+        const course = courseData.find((c) => c.id === specific_course);
+
         if (course) {
           return res.status(200).json({
             courses: [course],
-            allowed_tests: JSON.parse(userCourse.allowed_tests)
+            allowed_tests: JSON.parse(userCourse.allowed_tests),
           });
         }
       }
     } else {
       const userCourses = dbHelpers.getUserCourses.all(auth_key);
       // Read course details from courses.json
-      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-      
+      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+
       const activeCourses = [];
       const restrictedCourses = [];
 
-      userCourses.forEach(userCourse => {
-        const courseDetails = courseData.find(c => c.id === userCourse.course_id);
+      userCourses.forEach((userCourse) => {
+        const courseDetails = courseData.find(
+          (c) => c.id === userCourse.course_id
+        );
         if (courseDetails) {
           if (userCourse.restricted) {
             restrictedCourses.push(courseDetails);
@@ -1171,7 +1198,7 @@ app.post("/api/getUserCourses", (req, res) => {
 
       return res.status(200).json({
         courses: activeCourses,
-        restricted: restrictedCourses
+        restricted: restrictedCourses,
       });
     }
 
@@ -1192,9 +1219,9 @@ app.post("/api/getOwnedCourses", (req, res) => {
     }
 
     const coursesOwned = JSON.parse(user.coursesOwned);
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
-    
-    const userCourses = courseData.filter(course => 
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+
+    const userCourses = courseData.filter((course) =>
       coursesOwned.includes(course.id)
     );
 
@@ -1276,12 +1303,13 @@ app.post("/api/marketplace/getCourses", (req, res) => {
   const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
+    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
     const courses = courseData;
     const searchForTags = search_tags != null && search_tags != [];
     const searchForAuthors = authors != null && authors != [];
-    const searchForUserCourses = auth_key != null && auth_key != "" && only_show_non_owned;
-    
+    const searchForUserCourses =
+      auth_key != null && auth_key != "" && only_show_non_owned;
+
     let tag_courses = [];
     let author_courses = [];
     let owned_courses = [];
@@ -1304,7 +1332,10 @@ app.post("/api/marketplace/getCourses", (req, res) => {
       }
 
       if (searchForUserCourses) {
-        const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, course.id);
+        const userCourse = dbHelpers.getCourseByUserAndId.get(
+          auth_key,
+          course.id
+        );
         if (userCourse) {
           owned_courses.push(course);
         }
@@ -1317,22 +1348,31 @@ app.post("/api/marketplace/getCourses", (req, res) => {
     }
 
     if (searchForTags) {
-      similar_courses = similar_courses.length === 0 ? tag_courses : intersectArrays(similar_courses, tag_courses);
+      similar_courses =
+        similar_courses.length === 0
+          ? tag_courses
+          : intersectArrays(similar_courses, tag_courses);
     }
 
     if (searchForAuthors) {
-      similar_courses = similar_courses.length === 0 ? author_courses : intersectArrays(similar_courses, author_courses);
+      similar_courses =
+        similar_courses.length === 0
+          ? author_courses
+          : intersectArrays(similar_courses, author_courses);
     }
 
     if (searchForUserCourses) {
-      similar_courses = similar_courses.length === 0 ? owned_courses : intersectArrays(similar_courses, owned_courses);
+      similar_courses =
+        similar_courses.length === 0
+          ? owned_courses
+          : intersectArrays(similar_courses, owned_courses);
     }
 
     const startIndex = search_index * search_amount;
     const endIndex = (search_index + 1) * search_amount;
     const maxIndex = Math.floor(similar_courses.length / search_amount);
     similar_courses = similar_courses.slice(startIndex, endIndex);
-    
+
     res.status(200).send({ courses: similar_courses, maxIndex: maxIndex });
   } catch (error) {
     console.error("Error:", error);
