@@ -597,12 +597,12 @@ app.post("/sendTestResult", async (req, res) => {
           const filteredTests = completedTests.filter(
             item => item.test === test
           );
-          console.log(filteredTests);
           if (filteredTests.length > 1) {
             const filteredAndSortedTests = filteredTests
               .sort((a, b) => new Date(b.date) - new Date(a.date));
             const lastTest = filteredAndSortedTests[filteredAndSortedTests.length - 1];
             const secondLastTest = filteredAndSortedTests[filteredAndSortedTests.length - 2];
+            console.log(lastTest, secondLastTest);
             console.log(lastTest && lastTest.score >= 85, secondLastTest && secondLastTest.score >= 85);
 
             if (lastTest && lastTest.score >= 85 && secondLastTest && secondLastTest.score >= 85) {
