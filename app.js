@@ -602,8 +602,6 @@ app.post("/sendTestResult", async (req, res) => {
               .sort((a, b) => new Date(b.date) - new Date(a.date));
             const lastTest = filteredAndSortedTests[0];
             const secondLastTest = filteredAndSortedTests[1];
-            console.log(lastTest, secondLastTest);
-            console.log(lastTest && lastTest.score >= 85, secondLastTest && secondLastTest.score >= 85);
 
             if (lastTest && lastTest.score >= 85 && secondLastTest && secondLastTest.score >= 85) {
               allowedTests.push(next_tema_id);
@@ -613,14 +611,18 @@ app.post("/sendTestResult", async (req, res) => {
         }
       }
     }
-    console.log(allowedTests);
 
     // Update the database with new completed tests and allowed tests
-    dbHelpers.addCompletedTest.run(
+    // dbHelpers.addCompletedTest.run(
+    //   JSON.stringify(completedTests),
+    //   auth_key,
+    //   courseName
+    // );
+    console.log(dbHelpers.addCompletedTest.run(
       JSON.stringify(completedTests),
       auth_key,
       courseName
-    );
+    ));
 
     if (!allowedTests.includes("all")) {
       dbHelpers.updateAllowedTests.run(
