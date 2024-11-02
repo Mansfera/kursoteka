@@ -519,7 +519,6 @@ app.post("/sendTestResult", async (req, res) => {
       const coursesFilePath = path.join(__dirname, "courses.json");
       const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
       const course_obj = courseData.find(crs => crs.id === courseName);
-      console.log(course_obj);
 
       // Get list of all test IDs
       let temas_id_list = [];
@@ -528,10 +527,12 @@ app.post("/sendTestResult", async (req, res) => {
           temas_id_list.push(test_obj.id);
         });
       });
+      console.log(temas_id_list);
 
       // Find next tema ID
       const next_tema_id = temas_id_list[temas_id_list.indexOf(test) + 1];
       let next_tema_is_in_block = false;
+      console.log(next_tema_id);
 
       switch (test_type) {
         case "short":
