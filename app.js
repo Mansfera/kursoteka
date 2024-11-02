@@ -632,7 +632,7 @@ app.post("/sendTestResult", async (req, res) => {
       );
     }
 
-    res.status(200).send({answer: "Test result saved", last_allowed_test: allowedTests[allowedTests.length - 1], next_tema_id: next_tema_id, });
+    res.status(200).send({answer: "Test result saved", last_allowed_test: allowedTests[allowedTests.length - 1]});
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
