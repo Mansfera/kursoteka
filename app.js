@@ -519,6 +519,7 @@ app.post("/sendTestResult", async (req, res) => {
       const coursesFilePath = path.join(__dirname, "courses.json");
       const courseData = JSON.parse(fs.readFileSync(coursesFilePath, 'utf8'));
       const course_obj = courseData.find(crs => crs.id === courseName);
+      console.log(course_obj);
 
       // Get list of all test IDs
       let temas_id_list = [];
