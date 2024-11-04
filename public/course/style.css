@@ -117,7 +117,7 @@
 .segment-half_screen_picture {
   z-index: 0;
   height: 50%;
-  background-position: bottom;
+  background-position: center;
   background-size: cover;
   display: flex;
   flex-direction: column;
