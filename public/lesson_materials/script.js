@@ -108,13 +108,50 @@ async function getConspect(conspectId) {
 
     // Add a close button
     const closeButton = document.createElement('button');
-    closeButton.textContent = 'Закрити';
+    closeButton.innerHTML = '✕'; // X symbol
     closeButton.style.position = 'absolute';
-    closeButton.style.top = '10px';
-    closeButton.style.right = '10px';
+    closeButton.style.top = '20px';
+    closeButton.style.right = '20px';
+    closeButton.style.width = '32px';
+    closeButton.style.height = '32px';
+    closeButton.style.borderRadius = '50%';
+    closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    closeButton.style.border = 'none';
+    closeButton.style.color = 'white';
+    closeButton.style.fontSize = '18px';
+    closeButton.style.cursor = 'pointer';
+    closeButton.style.display = 'flex';
+    closeButton.style.alignItems = 'center';
+    closeButton.style.justifyContent = 'center';
+    closeButton.style.transition = 'opacity 0.3s';
+
+    // Add hover effect
+    closeButton.addEventListener('mouseover', () => {
+      closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    });
+    closeButton.addEventListener('mouseout', () => {
+      closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    });
+
+    // Add auto-hide functionality
+    let hideTimeout;
+    const hideControls = () => {
+      closeButton.style.opacity = '0';
+    };
+    const showControls = () => {
+      closeButton.style.opacity = '1';
+      clearTimeout(hideTimeout);
+      hideTimeout = setTimeout(hideControls, 2000);
+    };
+
+    viewerContainer.addEventListener('mousemove', showControls);
+    viewerContainer.addEventListener('scroll', showControls);
+    showControls(); // Show controls initially
+
     closeButton.addEventListener('click', () => {
       document.body.removeChild(viewerContainer);
       URL.revokeObjectURL(pdfUrl);
+      clearTimeout(hideTimeout);
     });
 
     viewerContainer.appendChild(iframe);
