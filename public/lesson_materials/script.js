@@ -8,8 +8,8 @@ if (scrollTo) {
 
   if (targetElement) {
     targetElement.scrollIntoView({
-      behavior: 'smooth',
-      block: 'start' // Scroll to the top of the element
+      behavior: "smooth",
+      block: "start", // Scroll to the top of the element
     });
   }
 }
@@ -88,67 +88,81 @@ async function getConspect(conspectId) {
     const pdfUrl = URL.createObjectURL(pdfBlob);
 
     // Create a modal or container for the PDF viewer
-    const viewerContainer = document.createElement('div');
-    viewerContainer.style.position = 'fixed';
-    viewerContainer.style.top = '0';
-    viewerContainer.style.left = '0';
-    viewerContainer.style.width = '100%';
-    viewerContainer.style.height = '100%';
-    viewerContainer.style.backgroundColor = 'rgba(0,0,0,0.8)';
-    viewerContainer.style.zIndex = '9999';
+    const viewerContainer = document.createElement("div");
+    viewerContainer.style.position = "fixed";
+    viewerContainer.style.top = "0";
+    viewerContainer.style.left = "0";
+    viewerContainer.style.width = "100%";
+    viewerContainer.style.height = "100vh";
+    viewerContainer.style.backgroundColor = "rgba(0,0,0,0.8)";
+    viewerContainer.style.zIndex = "9999";
+    viewerContainer.style.overflow = "hidden";
 
     // Create an iframe to display the PDF
-    const iframe = document.createElement('iframe');
-    iframe.style.width = '100%';
-    iframe.style.height = '100%';
-    iframe.style.border = 'none';
-    
+    const iframe = document.createElement("iframe");
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
+    iframe.style.border = "none";
+    iframe.style.overflow = "auto";
+    iframe.style.display = "block";
+
     // Set the src to the PDF URL with options to disable download
-    iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`;
+    iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
 
     // Add a close button
-    const closeButton = document.createElement('button');
-    closeButton.innerHTML = '✕'; // X symbol
-    closeButton.style.position = 'absolute';
-    closeButton.style.top = '20px';
-    closeButton.style.right = '20px';
-    closeButton.style.width = '32px';
-    closeButton.style.height = '32px';
-    closeButton.style.borderRadius = '50%';
-    closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
-    closeButton.style.border = 'none';
-    closeButton.style.color = 'white';
-    closeButton.style.fontSize = '18px';
-    closeButton.style.cursor = 'pointer';
-    closeButton.style.display = 'flex';
-    closeButton.style.alignItems = 'center';
-    closeButton.style.justifyContent = 'center';
-    closeButton.style.transition = 'opacity 0.3s';
+    const closeButton = document.createElement("button");
+    closeButton.innerHTML = "✕"; // X symbol
+    closeButton.style.position = "absolute";
+    closeButton.style.top = "20px";
+    closeButton.style.right = "20px";
+    closeButton.style.width = "32px";
+    closeButton.style.height = "32px";
+    closeButton.style.borderRadius = "50px";
+    closeButton.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
+    closeButton.style.border = "none";
+    closeButton.style.color = "white";
+    closeButton.style.fontSize = "18px";
+    closeButton.style.cursor = "pointer";
+    closeButton.style.display = "flex";
+    closeButton.style.alignItems = "center";
+    closeButton.style.justifyContent = "center";
+    closeButton.style.transition = "opacity 0.3s";
 
     // Add hover effect
-    closeButton.addEventListener('mouseover', () => {
-      closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+    closeButton.addEventListener("mouseover", () => {
+      closeButton.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
     });
-    closeButton.addEventListener('mouseout', () => {
-      closeButton.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+    closeButton.addEventListener("mouseout", () => {
+      closeButton.style.backgroundColor = "rgba(0, 0, 0, 0.7)";
     });
 
     // Add auto-hide functionality
     let hideTimeout;
     const hideControls = () => {
-      closeButton.style.opacity = '0';
+      closeButton.style.opacity = "0";
     };
     const showControls = () => {
-      closeButton.style.opacity = '1';
+      closeButton.style.opacity = "1";
       clearTimeout(hideTimeout);
       hideTimeout = setTimeout(hideControls, 2000);
     };
 
-    viewerContainer.addEventListener('mousemove', showControls);
-    viewerContainer.addEventListener('scroll', showControls);
+    // Add both mouse and touch event listeners
+    viewerContainer.addEventListener("mousemove", showControls);
+    viewerContainer.addEventListener("touchstart", showControls);
+    viewerContainer.addEventListener("touchmove", showControls);
+    viewerContainer.addEventListener("scroll", showControls);
     showControls(); // Show controls initially
 
-    closeButton.addEventListener('click', () => {
+    closeButton.addEventListener("click", () => {
+      document.body.removeChild(viewerContainer);
+      URL.revokeObjectURL(pdfUrl);
+      clearTimeout(hideTimeout);
+    });
+
+    // Add touch event for the close button
+    closeButton.addEventListener("touchend", (e) => {
+      e.preventDefault(); // Prevent default touch behavior
       document.body.removeChild(viewerContainer);
       URL.revokeObjectURL(pdfUrl);
       clearTimeout(hideTimeout);
