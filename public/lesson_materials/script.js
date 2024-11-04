@@ -92,7 +92,7 @@ async function getConspect(conspectId) {
     viewerContainer.style.position = "fixed";
     viewerContainer.style.top = "0";
     viewerContainer.style.left = "0";
-    viewerContainer.style.width = "100%";
+    viewerContainer.style.width = "100vw";
     viewerContainer.style.height = "100vh";
     viewerContainer.style.backgroundColor = "rgba(0,0,0,0.8)";
     viewerContainer.style.zIndex = "9999";
@@ -100,8 +100,8 @@ async function getConspect(conspectId) {
 
     // Create an iframe to display the PDF
     const iframe = document.createElement("iframe");
-    iframe.style.width = "100%";
-    iframe.style.height = "100%";
+    iframe.style.width = "100vw";
+    iframe.style.height = "100vh";
     iframe.style.border = "none";
     iframe.style.overflow = "auto";
     iframe.style.display = "block";
