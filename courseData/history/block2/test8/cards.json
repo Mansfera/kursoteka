@@ -2,19 +2,14 @@
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Богдан Хмельницький"
-  },
-  {
-    "id": 5,
-    "frontContentType": "img",
-    "infoText": "Богдан Хмельницький"
+    "infoText": "портрет Богдана Хмельницького авторства Гондіуса"
   },
   {
     "id": 7,
     "frontContentType": "img",
     "infoText": "Памʼятна монета 500 років з дня заснування столиці Чигирин"
   },
-  { "id": 8, "frontContentType": "img", "infoText": "Іван Богун" },
+  { "id": 8, "frontContentType": "img", "infoText": "Іван Богун, монета НБУ" },
   {
     "id": 9,
     "frontContentType": "img",
@@ -38,7 +33,7 @@
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Богдан Хмельницький"
+    "infoText": "Богдан Хмельницький, монета НБУ"
   },
   {
     "id": 14,
@@ -53,6 +48,6 @@
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": ""
+    "infoText": "Герб Гетьманщини, монета НБУ"
   }
 ]
