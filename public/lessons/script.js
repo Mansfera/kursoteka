@@ -70,12 +70,12 @@ document.addEventListener("DOMContentLoaded", () => {
     JSON.parse(
       localStorage.getItem(`lastCompletedSummaryTests-${current_course}`)
     ) || [];
-  if (lastCompletedSummaryTests.length > 0) {
+  if (lastCompletedSummaryTests.length > 0 && !getCookie("allowContextmenu")) {
     Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
       if (
         Date.now() - summaryTest.date >
         // 0
-         7 * 24 * 60 * 60 * 1000
+        7 * 24 * 60 * 60 * 1000
       ) {
         document
           .getElementById("reviseSummaryTest_notification")
@@ -239,5 +239,7 @@ function fetchAndDisplayUserCourses() {
 
 document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
 function openTestEditor(block, test) {
-  window.open(`/test_editor?course=${current_course}&block=${block}&test=${test}`);
+  window.open(
+    `/test_editor?course=${current_course}&block=${block}&test=${test}`
+  );
 }
