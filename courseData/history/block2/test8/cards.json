@@ -1,8 +1,32 @@
 [
   {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Події Національно-визвольної війни протягом 1648 – 1649 року"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Зборівський договір"
+  },{
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Берестецька битва"
+  },
+  {
     "id": 4,
     "frontContentType": "img",
     "infoText": "портрет Богдана Хмельницького авторства Гондіуса"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Білоцерківський договір"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Події Національно-визвольної війни протягом 1654 року"
   },
   {
     "id": 7,

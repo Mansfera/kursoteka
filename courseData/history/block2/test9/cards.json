@@ -90,5 +90,85 @@
     "id": 20,
     "frontContentType": "img",
     "infoText": "Кафедральний костел у місті Львів"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Конотопська битва, монета НБУ"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "гетьман Юрій Хмельницький, марка Укрпошта"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "гетьман Тетеря, марка Укрпошта"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "гетьман Брюховецький, марка Укрпошта"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "п’єса початку XX ст. \"Сонце Руїни\""
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "гетьман Дорошенко, монета НБУ"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "кошовий Сірко, монета НБУ"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "гетьман Многогрішний, марка Укрпошта"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Українські землі в період Руїни"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Гетьман Виговський"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Гетьман Тетеря та гетьман Брюховецький"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Гетьман Тетеря та гетьман Брюховецький"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Бахчисарайський договір"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "\"Вічний мир\""
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "портрет гетьмана Дорошенка"
   }
 ]

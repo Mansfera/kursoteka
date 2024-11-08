@@ -1428,6 +1428,7 @@ function pauseTest() {
       document.getElementById("pause_btn_img").src = "/assets/play.svg";
       Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
         (element) => {
+          console.log(element);
           element.classList.add("blurred");
         }
       );
