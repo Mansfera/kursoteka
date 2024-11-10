@@ -100,6 +100,15 @@ async function getConspect(conspectId) {
     viewerContainer.style.flexDirection = "column";
     viewerContainer.style.alignItems = "center";
     viewerContainer.style.justifyContent = "center";
+    viewerContainer.style.userSelect = "none"; // Prevent text selection
+    viewerContainer.style.webkitUserSelect = "none"; // For Safari
+    viewerContainer.style.msUserSelect = "none"; // For IE/Edge
+
+    // Add context menu prevention
+    viewerContainer.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      return false;
+    });
 
     // Create an iframe to display the PDF
     const iframe = document.createElement("iframe");
@@ -109,6 +118,17 @@ async function getConspect(conspectId) {
     iframe.style.maxWidth = "100vw";
     iframe.style.maxHeight = "100vh";
     iframe.style.display = "block";
+    iframe.style.userSelect = "none";
+    iframe.style.webkitUserSelect = "none";
+    iframe.style.msUserSelect = "none";
+
+    // Prevent right-click inside iframe
+    iframe.onload = function() {
+      iframe.contentWindow.document.addEventListener('contextmenu', (e) => {
+        e.preventDefault();
+        return false;
+      });
+    };
 
     // Update the iframe src with parameters for proper scaling
     iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitV&zoom=page-fit`;
