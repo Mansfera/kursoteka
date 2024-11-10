@@ -5,20 +5,41 @@ const path = require("path");
 const multer = require("multer");
 const sharp = require("sharp");
 const { error } = require("console");
-const { db, dbHelpers } = require("./db/database");
 
 const app = express();
 const port = 30000;
 
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
-
 app.use(express.static("public"));
+
+let dbHelpers; // Will store database helpers
+let db;        // Will store database connection
+
+// Initialize database connection
+async function initializeApp() {
+    try {
+        const database = await require('./db/database.js');
+        db = database.db;
+        dbHelpers = database.dbHelpers;
+        
+        // Start server only after database is initialized
+        app.listen(port, () => {
+            console.log(`Server running on http://localhost:${port}`);
+        });
+    } catch (error) {
+        console.error('Failed to initialize database:', error);
+        process.exit(1);
+    }
+}
+
+// Start the application
+initializeApp();
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-app.post("/uploadImg", upload.single("image"), (req, res) => {
+app.post("/uploadImg", upload.single("image"), async (req, res) => {
   const auth_key = req.query.auth_key;
   const courseName = req.query.course;
   const imgName = req.query.img_name;
@@ -26,7 +47,7 @@ app.post("/uploadImg", upload.single("image"), (req, res) => {
   const testId = req.query.testId;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -202,7 +223,7 @@ app.get("/getPlaylist", async (req, res) => {
   const testId = req.query.tema;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -225,7 +246,7 @@ app.get("/getPlaylist", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/getConspect", (req, res) => {
+app.get("/getConspect", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
@@ -233,7 +254,7 @@ app.get("/getConspect", (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -260,7 +281,7 @@ app.get("/getConspect", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/getImage", (req, res) => {
+app.get("/getImage", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
@@ -268,7 +289,7 @@ app.get("/getImage", (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -295,7 +316,7 @@ app.get("/getImage", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/getCardImage", (req, res) => {
+app.get("/getCardImage", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
@@ -303,7 +324,7 @@ app.get("/getCardImage", (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -337,7 +358,7 @@ app.get("/loadCardsData", async (req, res) => {
   const tema = req.query.tema;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -373,7 +394,7 @@ app.get("/loadTestData", async (req, res) => {
   const lastTest = req.query.lastTest;
 
   try {
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -483,12 +504,12 @@ app.post("/sendTestResult", async (req, res) => {
   } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("Ви не є користувачем курсотеки!");
     }
 
-    const userCourse = dbHelpers.getCourseByUserAndId.get(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -621,31 +642,24 @@ app.post("/sendTestResult", async (req, res) => {
     }
 
     // Update the database with new completed tests and allowed tests
-    // dbHelpers.addCompletedTest.run(
-    //   JSON.stringify(completedTests),
-    //   auth_key,
-    //   courseName
-    // );
-    dbHelpers.addCompletedTest.run(
+    await dbHelpers.addCompletedTest(
       JSON.stringify(completedTests),
       auth_key,
       courseName
     );
 
     if (!allowedTests.includes("all")) {
-      dbHelpers.updateAllowedTests.run(
+      await dbHelpers.updateAllowedTests(
         JSON.stringify(allowedTests),
         auth_key,
         courseName
       );
     }
 
-    res
-      .status(200)
-      .send({
-        answer: "Test result saved",
-        last_allowed_test: allowedTests[allowedTests.length - 1],
-      });
+    res.status(200).send({
+      answer: "Test result saved",
+      last_allowed_test: allowedTests[allowedTests.length - 1],
+    });
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
@@ -670,7 +684,7 @@ function readJsonFile(filePath) {
   });
 }
 
-app.post("/api/register", (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { login, password, name, surname } = req.body;
 
   try {
@@ -682,11 +696,11 @@ app.post("/api/register", (req, res) => {
       !password.includes('"') &&
       !password.includes("'")
     ) {
-      const existingUser = dbHelpers.getUserByLogin.get(login);
+      const existingUser = await dbHelpers.getUserByLogin(login);
 
       if (!existingUser) {
         const auth_key = createRandomString(128);
-        const result = dbHelpers.insertUser.run({
+        await dbHelpers.insertUser({
           login,
           password,
           name,
@@ -712,15 +726,15 @@ app.post("/api/register", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/login", (req, res) => {
+app.post("/api/login", async (req, res) => {
   const { login, password } = req.body;
 
   try {
-    const user = dbHelpers.getUserByLogin.get(login);
+    const user = await dbHelpers.getUserByLogin(login);
 
     if (user) {
       if (user.password === password) {
-        const courses = dbHelpers.getUserCourses.all(user.id);
+        await dbHelpers.getUserCourses(user.auth_key);
 
         res.status(200).json({
           group: user.group_type,
@@ -740,11 +754,11 @@ app.post("/api/login", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/getUserDetails", (req, res) => {
+app.post("/api/getUserDetails", async (req, res) => {
   const { auth_key } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (user) {
       res.status(200).send({
         username: user.login,
@@ -759,18 +773,17 @@ app.post("/api/getUserDetails", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/changeUserCredentials", (req, res) => {
+app.post("/api/changeUserCredentials", async (req, res) => {
   const { auth_key, login, name, surname } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (user) {
-      dbHelpers.updateUserAndCourses(
+      await dbHelpers.updateUserAndCourses(
         auth_key,
         login || user.login,
         name || user.name,
-        surname || user.surname,
-        user.login
+        surname || user.surname
       );
       res.status(200).send({ message: "✅" });
     } else {
@@ -785,21 +798,20 @@ app.post("/api/getUserStats", async (req, res) => {
   const { auth_key, courseName, start_date, end_date, login } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
     let targetUser = user;
     if (user.coursesOwned.includes(courseName) && login) {
-      targetUser = dbHelpers.getUserByLogin.get(login);
+      targetUser = await dbHelpers.getUserByLogin(login);
       if (!targetUser) {
         return res.status(404).send("Student not found");
       }
     }
 
-    // Get the course directly using getCourseByUserAndId
-    const userCourse = dbHelpers.getCourseByUserAndId.get(
+    const userCourse = await dbHelpers.getCourseByUserAndId(
       targetUser.auth_key,
       courseName
     );
@@ -1114,11 +1126,11 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/changeUserAllowedCourse", (req, res) => {
+app.post("/api/changeUserAllowedCourse", async (req, res) => {
   const { auth_key, courseName, username, allowed_tests } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(403).send("Будь ласка увійдіть 🔐");
     }
@@ -1128,8 +1140,8 @@ app.post("/api/changeUserAllowedCourse", (req, res) => {
       return res.status(403).send("Ви не володієте цим курсом!");
     }
 
-    const result = dbHelpers.updateAllowedTestsByUsername.run(
-      JSON.stringify(allowed_tests),
+    const result = await dbHelpers.updateAllowedTestsByUsername(
+      allowed_tests,
       username,
       courseName
     );
@@ -1144,18 +1156,18 @@ app.post("/api/changeUserAllowedCourse", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/getUserCourses", (req, res) => {
+app.post("/api/getUserCourses", async (req, res) => {
   const { auth_key, specific_course } = req.body;
   const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
 
     if (specific_course) {
-      const userCourse = dbHelpers.getCourseByUserAndId.get(
+      const userCourse = await dbHelpers.getCourseByUserAndId(
         auth_key,
         specific_course
       );
@@ -1176,7 +1188,7 @@ app.post("/api/getUserCourses", (req, res) => {
         }
       }
     } else {
-      const userCourses = dbHelpers.getUserCourses.all(auth_key);
+      const userCourses = await dbHelpers.getUserCourses(auth_key);
       // Read course details from courses.json
       const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
 
@@ -1231,7 +1243,7 @@ app.post("/api/getOwnedCourses", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.get("/api/getCoverImage", (req, res) => {
+app.get("/api/getCoverImage", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
@@ -1240,7 +1252,7 @@ app.get("/api/getCoverImage", (req, res) => {
 
   if (auth_key) {
     try {
-      const userCourse = dbHelpers.findCourse.get(auth_key, courseName);
+      const userCourse = await dbHelpers.findCourse(auth_key, courseName);
       if (!userCourse) {
         return res.status(404).send("Course not found");
       }
@@ -1458,8 +1470,4 @@ app.get("/api/marketplace/getCourseImage", (req, res) => {
       res.end(data);
     }
   });
-});
-
-app.listen(port, "0.0.0.0", () => {
-  console.log(`Server running on http://localhost:${port}`);
 });

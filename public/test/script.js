@@ -673,7 +673,7 @@ function sendDebugTestResult(
 
 function sendTestResult() {
   let _test_id;
-  if (test_type == "final") {
+  if (test_type == "final" && score >= 85) {
     _test_id = last_test_id;
     let lastCompletedSummaryTests =
       JSON.parse(localStorage.getItem(`lastCompletedSummaryTests-${course}`)) ||
