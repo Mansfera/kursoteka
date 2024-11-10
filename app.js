@@ -95,7 +95,7 @@ app.post("/uploadImg", upload.single("image"), async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/deleteImg", (req, res) => {
+app.post("/deleteImg", async (req, res) => {
   const auth_key = req.query.auth_key;
   const courseName = req.query.course;
   const imgName = req.query.img_name;
@@ -103,7 +103,7 @@ app.post("/deleteImg", (req, res) => {
   const testId = req.query.testId;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -119,25 +119,23 @@ app.post("/deleteImg", (req, res) => {
       `${imgName}.png`
     );
 
-    // Check if file exists and delete it
-    fs.access(filePath, fs.constants.F_OK, (err) => {
-      if (err) {
+    // Use promisified fs operations
+    try {
+      await fs.promises.access(filePath, fs.constants.F_OK);
+      await fs.promises.unlink(filePath);
+      res.status(200).json({ message: "File deleted successfully" });
+    } catch (err) {
+      if (err.code === 'ENOENT') {
         return res.status(404).json({ error: "File not found" });
       }
-
-      fs.unlink(filePath, (err) => {
-        if (err) {
-          return res.status(500).json({ error: "Error deleting file" });
-        }
-        res.status(200).json({ message: "File deleted successfully" });
-      });
-    });
+      return res.status(500).json({ error: "Error deleting file" });
+    }
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/saveTest", (req, res) => {
+app.post("/saveTest", async (req, res) => {
   const {
     auth_key,
     courseName,
@@ -150,7 +148,7 @@ app.post("/saveTest", (req, res) => {
   } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -166,26 +164,13 @@ app.post("/saveTest", (req, res) => {
     const hronologyPath = `courseData/${courseName}/block${blockId}/test${testId}/hronology_questions.json`;
     const mulAnsPath = `courseData/${courseName}/block${blockId}/test${testId}/mul_ans_questions.json`;
 
-    // Write data to JSON files
-    fs.writeFile(questionPath, JSON.stringify(questions), (err) => {
-      if (err) throw err;
-    });
-
-    fs.writeFile(
-      vidpovidnistPath,
-      JSON.stringify(vidpovidnist_questions),
-      (err) => {
-        if (err) throw err;
-      }
-    );
-
-    fs.writeFile(hronologyPath, JSON.stringify(hronology_questions), (err) => {
-      if (err) throw err;
-    });
-
-    fs.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions), (err) => {
-      if (err) throw err;
-    });
+    // Use Promise.all to write all files concurrently
+    await Promise.all([
+      fs.promises.writeFile(questionPath, JSON.stringify(questions)),
+      fs.promises.writeFile(vidpovidnistPath, JSON.stringify(vidpovidnist_questions)),
+      fs.promises.writeFile(hronologyPath, JSON.stringify(hronology_questions)),
+      fs.promises.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions))
+    ]);
 
     res.status(200).json({});
   } catch (error) {
@@ -861,22 +846,22 @@ function generateCode() {
   return `${part1}-${part2}-${part3}`;
 }
 
-app.post("/api/activateCode", (req, res) => {
+app.post("/api/activateCode", async (req, res) => {
   const { auth_key, code } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
     }
-    const promocode = dbHelpers.getUnusedPromocode.get(code, Date.now());
+    const promocode = await dbHelpers.getUnusedPromocode(code, Date.now());
     if (!promocode) {
       return res
         .status(400)
         .json({ message: "Неправильний або використаний код ❌" });
     }
 
-    const existingCourse = dbHelpers.getCourseByUserAndId.get(
+    const existingCourse = await dbHelpers.getCourseByUserAndId(
       auth_key,
       promocode.course_id
     );
@@ -893,16 +878,20 @@ app.post("/api/activateCode", (req, res) => {
     }
 
     // Update promocode in database
-    dbHelpers.updatePromocode.run(Date.now(), auth_key, code);
+    await dbHelpers.updatePromocode(Date.now(), auth_key, code);
 
     // Update course total users in courses.json
     course.totalUsers++;
     fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
 
     // Insert new course for user
-    dbHelpers.insertCourse.run({
+    await dbHelpers.insertCourse({
       auth_key: auth_key,
-      login: user.login,
+      user_data: JSON.stringify({
+        login: user.login,
+        name: user.name || '',
+        surname: user.surname || ''
+      }),
       course_id: course.id,
       hidden: 0,
       join_date: Date.now(),
@@ -918,12 +907,11 @@ app.post("/api/activateCode", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/generateCode", (req, res) => {
-  const { auth_key, course, expire_date, access_duration, start_temas } =
-    req.body;
+app.post("/api/generateCode", async (req, res) => {
+  const { auth_key, course, expire_date, access_duration, start_temas } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -936,7 +924,7 @@ app.post("/api/generateCode", (req, res) => {
     let code;
     do {
       code = generateCode();
-    } while (dbHelpers.getPromocode.get(code));
+    } while (await dbHelpers.getPromocode(code));
 
     let _expire_date;
     if (expire_date == "") {
@@ -969,7 +957,7 @@ app.post("/api/generateCode", (req, res) => {
       start_temas: JSON.stringify(_start_temas),
     };
 
-    dbHelpers.insertPromocode.run(newPromocode);
+    await dbHelpers.insertPromocode(newPromocode);
 
     res.status(200).json({
       promocode: {
@@ -987,11 +975,11 @@ app.post("/api/generateCode", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/getPromoCodes", (req, res) => {
+app.post("/api/getPromoCodes", async (req, res) => {
   const { auth_key, course } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -1001,7 +989,7 @@ app.post("/api/getPromoCodes", (req, res) => {
       return res.status(403).json({ message: "User does not own this course" });
     }
 
-    const promocodes = dbHelpers.getPromocodesByCourse.all(course);
+    const promocodes = await dbHelpers.getPromocodesByCourse(course);
     const formattedPromocodes = promocodes.map((promocode) => ({
       id: promocode.course_id,
       code: promocode.code,
@@ -1020,16 +1008,16 @@ app.post("/api/getPromoCodes", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/deletePromoCode", (req, res) => {
+app.post("/api/deletePromoCode", async (req, res) => {
   const { auth_key, code } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(403).json({ message: "Будь ласка увійдіть 🔐" });
     }
 
-    const promocode = dbHelpers.getPromocode.get(code);
+    const promocode = await dbHelpers.getPromocode(code);
     if (!promocode) {
       return res.status(404).json({ message: "Код не знайдено ❌" });
     }
@@ -1039,7 +1027,7 @@ app.post("/api/deletePromoCode", (req, res) => {
       return res.status(403).json({ message: "Ви не володієте цим курсом ❌" });
     }
 
-    const result = dbHelpers.deletePromocode.run(code);
+    const result = await dbHelpers.deletePromocode(code);
     if (result.changes > 0) {
       res.status(200).json({ message: "Успіх! ✅" });
     } else {
@@ -1051,11 +1039,11 @@ app.post("/api/deletePromoCode", (req, res) => {
   }
 });
 
-app.post("/api/getUsers", (req, res) => {
+app.post("/api/getUsers", async (req, res) => {
   const { auth_key, courseName } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -1065,9 +1053,9 @@ app.post("/api/getUsers", (req, res) => {
       return res.status(403).send("Ви не володієте цим курсом!");
     }
 
-    const students = dbHelpers.getUsersWithCourse.all(courseName);
-    const safeStudents = students.map((student) => {
-      const courses = dbHelpers.getCourseByUserAndId.all(
+    const students = await dbHelpers.getUsersWithCourse(courseName);
+    const safeStudents = await Promise.all(students.map(async (student) => {
+      const courses = await dbHelpers.getCourseByUserAndId(
         student.auth_key,
         courseName
       );
@@ -1076,19 +1064,19 @@ app.post("/api/getUsers", (req, res) => {
         name: student.user_name,
         surname: student.user_surname,
         group: student.group_type,
-        courses: courses.map((course) => ({
-          id: course.course_id,
-          hidden: Boolean(course.hidden),
-          restricted: Boolean(course.restricted),
+        courses: courses ? [{
+          id: courses.course_id,
+          hidden: Boolean(courses.hidden),
+          restricted: Boolean(courses.restricted),
           data: {
-            join_date: course.join_date,
-            expire_date: course.expire_date,
-            allowed_tests: JSON.parse(course.allowed_tests),
-            completed_tests: JSON.parse(course.completed_tests),
+            join_date: courses.join_date,
+            expire_date: courses.expire_date,
+            allowed_tests: JSON.parse(courses.allowed_tests),
+            completed_tests: JSON.parse(courses.completed_tests),
           },
-        })),
+        }] : [],
       };
-    });
+    }));
 
     res.json({ students: safeStudents });
   } catch (error) {
@@ -1096,11 +1084,11 @@ app.post("/api/getUsers", (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/changeAccessCourseForUser", (req, res) => {
+app.post("/api/changeAccessCourseForUser", async (req, res) => {
   const { auth_key, courseName, login, access } = req.body;
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -1110,7 +1098,7 @@ app.post("/api/changeAccessCourseForUser", (req, res) => {
       return res.status(403).send("Ви не володієте цим курсом!");
     }
 
-    const result = dbHelpers.updateCourseRestrictionByUsername.run(
+    const result = await dbHelpers.updateCourseRestrictionByUsername(
       !access ? 1 : 0,
       login,
       courseName
@@ -1220,12 +1208,12 @@ app.post("/api/getUserCourses", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/getOwnedCourses", (req, res) => {
+app.post("/api/getOwnedCourses", async (req, res) => {
   const { auth_key } = req.body;
   const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
-    const user = dbHelpers.getUserByAuthKey.get(auth_key);
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
       return res.status(404).send("User not found");
     }
@@ -1303,7 +1291,7 @@ app.get("/api/getCoverImage", async (req, res) => {
   }
 });
 
-app.post("/api/marketplace/getCourses", (req, res) => {
+app.post("/api/marketplace/getCourses", async (req, res) => {
   const {
     auth_key,
     search_tags,
@@ -1326,25 +1314,24 @@ app.post("/api/marketplace/getCourses", (req, res) => {
     let author_courses = [];
     let owned_courses = [];
 
-    Array.from(courses).forEach((course) => {
+    for (const course of courses) {
       if (searchForTags) {
-        Array.from(course.tags).forEach((tag) => {
+        for (const tag of course.tags) {
           if (search_tags.includes(tag)) {
             tag_courses.push(course);
+            break;
           }
-        });
+        }
       }
 
       if (searchForAuthors) {
-        Array.from(authors).forEach((author) => {
-          if (author == course.author) {
-            author_courses.push(course);
-          }
-        });
+        if (authors.includes(course.author)) {
+          author_courses.push(course);
+        }
       }
 
       if (searchForUserCourses) {
-        const userCourse = dbHelpers.getCourseByUserAndId.get(
+        const userCourse = await dbHelpers.getCourseByUserAndId(
           auth_key,
           course.id
         );
@@ -1352,7 +1339,7 @@ app.post("/api/marketplace/getCourses", (req, res) => {
           owned_courses.push(course);
         }
       }
-    });
+    }
 
     let similar_courses = [];
     function intersectArrays(arr1, arr2) {
