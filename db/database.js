@@ -241,6 +241,92 @@ async function initializeConnection() {
                         resolve({ changes: this.changes });
                     });
                 });
+            },
+
+            getUnusedPromocode: async (code, currentTime) => {
+                return new Promise((resolve, reject) => {
+                    db.all(`
+                        SELECT * FROM promocodes 
+                        WHERE code = ? 
+                        AND used_date = -1 
+                        AND (expire_date > ? OR expire_date = -1)
+                    `, [code, currentTime], (err, rows) => {
+                        if (err) reject(err);
+                        resolve(rows && rows.length ? rows[0] : null);
+                    });
+                });
+            },
+
+            getPromocode: async (code) => {
+                return new Promise((resolve, reject) => {
+                    db.all(`
+                        SELECT * FROM promocodes 
+                        WHERE code = ?
+                    `, [code], (err, rows) => {
+                        if (err) reject(err);
+                        resolve(rows && rows.length ? rows[0] : null);
+                    });
+                });
+            },
+
+            insertPromocode: async (promocodeData) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        INSERT INTO promocodes (course_id, code, expire_date, access_duration, start_temas)
+                        VALUES (?, ?, ?, ?, ?)
+                    `, [
+                        promocodeData.course_id,
+                        promocodeData.code,
+                        promocodeData.expire_date,
+                        promocodeData.access_duration,
+                        promocodeData.start_temas
+                    ], function(err) {
+                        if (err) reject(err);
+                        resolve({ id: this.lastID });
+                    });
+                });
+            },
+
+            updatePromocode: async (usedDate, usedBy, code) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        UPDATE promocodes 
+                        SET used_date = ?, used_by = ? 
+                        WHERE code = ?
+                    `, [usedDate, usedBy, code], function(err) {
+                        if (err) reject(err);
+                        resolve({ changes: this.changes });
+                    });
+                });
+            },
+
+            getPromocodesByCourse: async (courseId) => {
+                return new Promise((resolve, reject) => {
+                    db.all(`
+                        SELECT p.*, 
+                            json_extract(uc.user_data, '$.login') as login,
+                            json_extract(uc.user_data, '$.name') as name,
+                            json_extract(uc.user_data, '$.surname') as surname
+                        FROM promocodes p 
+                        LEFT JOIN user_courses uc ON p.used_by = uc.auth_key 
+                        WHERE p.course_id = ?
+                        GROUP BY p.id
+                    `, [courseId], (err, rows) => {
+                        if (err) reject(err);
+                        resolve(rows || []);
+                    });
+                });
+            },
+
+            deletePromocode: async (code) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        DELETE FROM promocodes WHERE code = ?
+                    `, [code], function(err) {
+                        if (err) reject(err);
+                        resolve({ changes: this.changes });
+                    });
+                });
             }
         };
 
