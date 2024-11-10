@@ -92,27 +92,41 @@ async function getConspect(conspectId) {
     viewerContainer.style.position = "fixed";
     viewerContainer.style.top = "0";
     viewerContainer.style.left = "0";
-    viewerContainer.style.width = "100vw";
-    viewerContainer.style.height = "100vh";
-    viewerContainer.style.backgroundColor = "rgba(0,0,0,0.8)";
+    viewerContainer.style.width = "100%";
+    viewerContainer.style.height = "100%";
+    viewerContainer.style.backgroundColor = "rgba(0,0,0,0.9)";
     viewerContainer.style.zIndex = "9999";
-    viewerContainer.style.overflow = "hidden";
+    viewerContainer.style.display = "flex";
+    viewerContainer.style.flexDirection = "column";
+    viewerContainer.style.alignItems = "center";
+    viewerContainer.style.justifyContent = "center";
 
     // Create an iframe to display the PDF
     const iframe = document.createElement("iframe");
-    iframe.style.width = "100vw";
-    iframe.style.height = "100vh";
+    iframe.style.width = "100%";
+    iframe.style.height = "100%";
     iframe.style.border = "none";
-    iframe.style.overflow = "auto";
+    iframe.style.maxWidth = "100vw";
+    iframe.style.maxHeight = "100vh";
     iframe.style.display = "block";
 
-    // Set the src to the PDF URL with options to disable download
-    iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitH`;
+    // Update the iframe src with parameters for proper scaling
+    iframe.src = `${pdfUrl}#toolbar=0&navpanes=0&scrollbar=1&view=FitV&zoom=page-fit`;
+
+    // Create a wrapper for the iframe to control dimensions
+    const iframeWrapper = document.createElement("div");
+    iframeWrapper.style.width = "100%";
+    iframeWrapper.style.height = "calc(100% - 60px)"; // Account for close button space
+    iframeWrapper.style.position = "relative";
+    iframeWrapper.style.display = "flex";
+    iframeWrapper.style.alignItems = "center";
+    iframeWrapper.style.justifyContent = "center";
+    iframeWrapper.appendChild(iframe);
 
     // Add a close button
     const closeButton = document.createElement("button");
     closeButton.innerHTML = "✕"; // X symbol
-    closeButton.style.position = "absolute";
+    closeButton.style.position = "fixed";
     closeButton.style.top = "20px";
     closeButton.style.right = "20px";
     closeButton.style.width = "32px";
@@ -127,6 +141,7 @@ async function getConspect(conspectId) {
     closeButton.style.alignItems = "center";
     closeButton.style.justifyContent = "center";
     closeButton.style.transition = "opacity 0.3s";
+    closeButton.style.zIndex = "10000";
 
     // Add hover effect
     closeButton.addEventListener("mouseover", () => {
@@ -168,8 +183,8 @@ async function getConspect(conspectId) {
       clearTimeout(hideTimeout);
     });
 
-    viewerContainer.appendChild(iframe);
     viewerContainer.appendChild(closeButton);
+    viewerContainer.appendChild(iframeWrapper);
     document.body.appendChild(viewerContainer);
   } catch (error) {
     console.error("Failed to fetch the PDF: ", error);
