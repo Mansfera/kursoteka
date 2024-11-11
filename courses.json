@@ -74,7 +74,11 @@
       ]
     },
     "author": "",
+<<<<<<< Updated upstream
     "totalUsers": 81,
+=======
+    "totalUsers": 82,
+>>>>>>> Stashed changes
     "blocks": [
       {
         "id": "1",
