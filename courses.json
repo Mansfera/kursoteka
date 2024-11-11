@@ -10,7 +10,6 @@
       "in_developement"
     ],
     "author": "",
-    "totalUsers": 1,
     "blocks": []
   },
   {
@@ -24,7 +23,6 @@
       "in_developement"
     ],
     "author": "",
-    "totalUsers": 1,
     "blocks": []
   },
   {
@@ -74,11 +72,6 @@
       ]
     },
     "author": "",
-<<<<<<< Updated upstream
-    "totalUsers": 81,
-=======
-    "totalUsers": 82,
->>>>>>> Stashed changes
     "blocks": [
       {
         "id": "1",
@@ -905,7 +898,6 @@
       "in_developement"
     ],
     "author": "",
-    "totalUsers": 1,
     "blocks": []
   },
   {
@@ -919,7 +911,6 @@
       "in_developement"
     ],
     "author": "",
-    "totalUsers": 1,
     "blocks": []
   }
 ]
