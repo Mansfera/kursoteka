@@ -3,7 +3,12 @@
     "id": "math",
     "name": "Підготовка до НМТ з математики",
     "type": "Математика",
-    "tags": ["math", "nmt", "recommended", "in_developement"],
+    "tags": [
+      "math",
+      "nmt",
+      "recommended",
+      "in_developement"
+    ],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -12,7 +17,12 @@
     "id": "english",
     "name": "Підготовка до НМТ з англійської мови",
     "type": "Англійська мова",
-    "tags": ["english", "nmt", "recommended", "in_developement"],
+    "tags": [
+      "english",
+      "nmt",
+      "recommended",
+      "in_developement"
+    ],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -21,7 +31,11 @@
     "id": "history",
     "name": "Курси підготовки до НМТ з історії України",
     "type": "Історія",
-    "tags": ["history", "nmt", "recommended"],
+    "tags": [
+      "history",
+      "nmt",
+      "recommended"
+    ],
     "marketplace_info": {
       "author_name": "Турчин Володимир",
       "author_about": "",
@@ -60,7 +74,7 @@
       ]
     },
     "author": "",
-    "totalUsers": 79,
+    "totalUsers": 81,
     "blocks": [
       {
         "id": "1",
@@ -377,7 +391,7 @@
               {
                 "name": "Тематичний перегляд (частина 3)",
                 "id": "conspect-info-3"
-              } 
+              }
             ]
           },
           {
@@ -880,7 +894,12 @@
     "id": "ukrainian",
     "name": "Підготовка до НМТ з української мови",
     "type": "Українська мова",
-    "tags": ["ukrainian", "nmt", "recommended", "in_developement"],
+    "tags": [
+      "ukrainian",
+      "nmt",
+      "recommended",
+      "in_developement"
+    ],
     "author": "",
     "totalUsers": 1,
     "blocks": []
@@ -889,7 +908,12 @@
     "id": "biology",
     "name": "Підготовка до НМТ з біології",
     "type": "Біологія",
-    "tags": ["biology", "nmt", "recommended", "in_developement"],
+    "tags": [
+      "biology",
+      "nmt",
+      "recommended",
+      "in_developement"
+    ],
     "author": "",
     "totalUsers": 1,
     "blocks": []

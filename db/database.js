@@ -37,14 +37,13 @@ async function initializeConnection() {
             );
 
             CREATE TABLE IF NOT EXISTS promocodes (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                code TEXT PRIMARY KEY,
                 course_id TEXT NOT NULL,
-                code TEXT UNIQUE NOT NULL,
-                expire_date INTEGER NOT NULL,
-                access_duration INTEGER NOT NULL,
+                expire_date INTEGER,
+                access_duration INTEGER,
                 used_date INTEGER DEFAULT -1,
                 used_by TEXT,
-                start_temas TEXT DEFAULT '[]',
+                start_temas TEXT,
                 FOREIGN KEY(used_by) REFERENCES users(auth_key)
             );
         `);
@@ -244,17 +243,24 @@ async function initializeConnection() {
             },
 
             getUnusedPromocode: async (code, currentTime) => {
-                return new Promise((resolve, reject) => {
-                    db.all(`
-                        SELECT * FROM promocodes 
-                        WHERE code = ? 
-                        AND used_date = -1 
-                        AND (expire_date > ? OR expire_date = -1)
-                    `, [code, currentTime], (err, rows) => {
-                        if (err) reject(err);
-                        resolve(rows && rows.length ? rows[0] : null);
+                try {
+                    return new Promise((resolve, reject) => {
+                        db.all(`
+                            SELECT p.*, u.login, u.name, u.surname 
+                            FROM promocodes p
+                            LEFT JOIN users u ON p.used_by = u.auth_key
+                            WHERE p.code = ? 
+                            AND (p.expire_date > ? OR p.expire_date = -1)
+                            AND (p.used_date IS NULL OR p.used_date = -1)
+                        `, [code, currentTime], (err, rows) => {
+                            if (err) reject(err);
+                            resolve(rows && rows.length ? rows[0] : null);
+                        });
                     });
-                });
+                } catch (error) {
+                    console.error('Error in getUnusedPromocode:', error);
+                    throw error;
+                }
             },
 
             getPromocode: async (code) => {
@@ -325,6 +331,56 @@ async function initializeConnection() {
                     `, [code], function(err) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
+                    });
+                });
+            },
+
+            checkPromocodeExists: async (code) => {
+                return new Promise((resolve, reject) => {
+                    db.all(`
+                        SELECT * FROM promocodes 
+                        WHERE code = ?
+                    `, [code], (err, rows) => {
+                        if (err) {
+                            console.error('Error checking promocode:', err);
+                            reject(err);
+                        }
+                        console.log('Raw promocode data:', rows);
+                        resolve(rows && rows.length ? rows[0] : null);
+                    });
+                });
+            },
+
+            insertCourse: async (courseData) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        INSERT INTO user_courses (
+                            auth_key,
+                            user_data,
+                            course_id,
+                            hidden,
+                            join_date,
+                            expire_date,
+                            restricted,
+                            allowed_tests,
+                            completed_tests
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    `, [
+                        courseData.auth_key,
+                        courseData.user_data,
+                        courseData.course_id,
+                        courseData.hidden,
+                        courseData.join_date,
+                        courseData.expire_date,
+                        courseData.restricted,
+                        courseData.allowed_tests,
+                        courseData.completed_tests
+                    ], function(err) {
+                        if (err) {
+                            console.error('Error inserting course:', err);
+                            reject(err);
+                        }
+                        resolve({ id: this.lastID });
                     });
                 });
             }

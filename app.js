@@ -72,9 +72,9 @@ app.post("/uploadImg", upload.single("image"), async (req, res) => {
 
     // Check if the directory exists
     if (!fs.existsSync(dirPath)) {
-      console.log("Directory does not exist:", dirPath);
+      console.error("Directory does not exist:", dirPath);
       fs.mkdirSync(dirPath, { recursive: true });
-      console.log("Directory created:", dirPath);
+      console.info("Directory created:", dirPath);
     }
 
     // Convert the uploaded image to PNG and save it
@@ -82,7 +82,7 @@ app.post("/uploadImg", upload.single("image"), async (req, res) => {
       .png()
       .toFile(filePath, (err, info) => {
         if (err) {
-          console.log(err);
+          console.error(err);
           return res.status(500).json({ error: "Error processing image" });
         }
         res.status(200).json({
@@ -847,65 +847,85 @@ function generateCode() {
 }
 
 app.post("/api/activateCode", async (req, res) => {
-  const { auth_key, code } = req.body;
+    const { auth_key, code } = req.body;
 
-  try {
-    const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user) {
-      return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+    try {
+        // Validate input
+        if (!auth_key || !code) {
+            return res.status(400).json({ message: "Missing required fields" });
+        }
+
+        const user = await dbHelpers.getUserByAuthKey(auth_key);
+        if (!user) {
+            return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+        }
+
+        // Get unused promocode
+        const promocode = await dbHelpers.getUnusedPromocode(code, Date.now());
+
+        if (!promocode) {
+            return res.status(400).json({ message: "Неправильний або використаний код ❌" });
+        }
+
+        // Check if user already has the course
+        const existingCourse = await dbHelpers.getCourseByUserAndId(auth_key, promocode.course_id);
+        if (existingCourse) {
+            return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
+        }
+
+        // Get course details
+        const coursesFilePath = path.join(__dirname, "courses.json");
+        const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+        const course = courses.find(c => c.id === promocode.course_id);
+
+        if (!course) {
+            return res.status(404).json({ message: "Курс не знайдено 🤔" });
+        }
+
+        // Begin transaction
+        try {
+            await db.run('BEGIN TRANSACTION');
+
+            // Update promocode
+            await dbHelpers.updatePromocode(Date.now(), auth_key, code);
+
+            // Update course total users
+            course.totalUsers = (course.totalUsers || 0) + 1;
+            fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
+
+            // Insert new course for user
+            await dbHelpers.insertCourse({
+                auth_key: auth_key,
+                user_data: JSON.stringify({
+                    login: user.login,
+                    name: user.name || '',
+                    surname: user.surname || ''
+                }),
+                course_id: course.id,
+                hidden: 0,
+                join_date: Date.now(),
+                expire_date: Date.now() + promocode.access_duration,
+                restricted: 0,
+                allowed_tests: promocode.start_temas,
+                completed_tests: "[]"
+            });
+
+            await db.run('COMMIT');
+            res.status(200).json({ message: "Успіх! ✅" });
+        } catch (error) {
+            console.error("Transaction error:", error);
+            try {
+                await db.run('ROLLBACK');
+            } catch (rollbackError) {
+                console.error("Rollback error:", rollbackError);
+            }
+            throw error;
+        }
+
+    } catch (error) {
+        console.error("Error activating code:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
-    const promocode = await dbHelpers.getUnusedPromocode(code, Date.now());
-    if (!promocode) {
-      return res
-        .status(400)
-        .json({ message: "Неправильний або використаний код ❌" });
-    }
-
-    const existingCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      promocode.course_id
-    );
-    if (existingCourse) {
-      return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
-    }
-
-    const coursesFilePath = path.join(__dirname, "courses.json");
-    const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-    const course = courses.find((c) => c.id === promocode.course_id);
-
-    if (!course) {
-      return res.status(404).json({ message: "Курс не знайдено 🤔" });
-    }
-
-    // Update promocode in database
-    await dbHelpers.updatePromocode(Date.now(), auth_key, code);
-
-    // Update course total users in courses.json
-    course.totalUsers++;
-    fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
-
-    // Insert new course for user
-    await dbHelpers.insertCourse({
-      auth_key: auth_key,
-      user_data: JSON.stringify({
-        login: user.login,
-        name: user.name || '',
-        surname: user.surname || ''
-      }),
-      course_id: course.id,
-      hidden: 0,
-      join_date: Date.now(),
-      expire_date: Date.now() + promocode.access_duration,
-      restricted: 0,
-      allowed_tests: promocode.start_temas,
-      completed_tests: "[]",
-    });
-
-    res.status(200).json({ message: "Успіх! ✅" });
-  } catch (error) {
-    console.error("Error:", error);
-    res.status(500).send("Internal Server Error");
-  }
 });
 app.post("/api/generateCode", async (req, res) => {
   const { auth_key, course, expire_date, access_duration, start_temas } = req.body;
