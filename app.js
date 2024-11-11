@@ -889,10 +889,6 @@ app.post("/api/activateCode", async (req, res) => {
             // Update promocode
             await dbHelpers.updatePromocode(Date.now(), auth_key, code);
 
-            // Update course total users
-            course.totalUsers = (course.totalUsers || 0) + 1;
-            fs.writeFileSync(coursesFilePath, JSON.stringify(courses, null, 2));
-
             // Insert new course for user
             await dbHelpers.insertCourse({
                 auth_key: auth_key,
