@@ -73,5 +73,10 @@
     "id": 16,
     "frontContentType": "img",
     "infoText": "Герб Гетьманщини, монета НБУ"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Богдан Хмельницький"
   }
 ]
