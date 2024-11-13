@@ -53,5 +53,25 @@
     "id": 11,
     "frontContentType": "img",
     "infoText": "кафедральний костел у місті Львів"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "\"Героїчні походи\" козаків, монета НБУ"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "гетьман Сагайдачний, монета НБУ"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Митрополит Могила, монета НБУ"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "замок у селі Підгірці, монета НБУ"
   }
 ]

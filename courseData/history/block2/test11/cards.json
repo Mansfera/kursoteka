@@ -55,5 +55,135 @@
     "id": 13,
     "frontContentType": "img",
     "infoText": "Поділи Речі Посполитої"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Гетьман Розумовський, монета НБУ"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Місто Одеса, монета НБУ"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Кошовий Калнишевський, монета НБУ"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Сковорода, монета НБУ"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Сковорода, монета НБУ"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Сковорода, монета НБУ"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Рід Григоровичів-Барських, монета НБУ"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Андріївська церква в місті Київ, монета НБУ"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Собор святого Юра у місті Львів, монета НБУ"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Ратуша в місті Бучач, монета НБУ"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Пінзель, монета НБУ"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Пінзель, марка Укрпошта"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Ведель, марка Укрпошта"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Коліївщина, марка Укрпошта"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Перший та Другий поділи Речі Посполитої"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Адміністративно-територіальний устрій українських земель у складі Російської імперії"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Портрет гетьмана Розумовського"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Палиц Розумовського в місті Батурин (стиль класицизм)"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Портрет Сковороди"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Покровська церква в місті Київ (стиль бароко)"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Андріївська церква в місті Київ (стиль бароко)"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Троїцький собор у місті Новомосковськ (стиль бароко)"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Успенський собор Почаївської лаври (стиль бароко)"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Собор святого Юра у місті Львів (стиль бароко)"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Ратуша в місті Бучач (стиль бароко)"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Скульптура святого Юрія змієборця на фасаді собору святого Юра в місті Львів (стиль бароко)"
   }
 ]
