@@ -10,7 +10,7 @@ const ansSheetGrid = document.getElementsByClassName(
   "answer_sheet-column-square"
 );
 const numeric_answers = document.getElementById("text_fields");
-const numericInputs = document.querySelectorAll('.text_input');
+const numericInputs = document.querySelectorAll(".text_input");
 
 var queryString = window.location.search;
 var params = new URLSearchParams(queryString);
@@ -608,9 +608,13 @@ function showScore() {
           }
         });
       });
-      document.getElementById("test_result-close").addEventListener("click", () => {
-        document.getElementById("test_result").classList.toggle("display-none");
-      });
+      document
+        .getElementById("test_result-close")
+        .addEventListener("click", () => {
+          document
+            .getElementById("test_result")
+            .classList.toggle("display-none");
+        });
     })
     .catch((error) => {
       console.error("Failed to complete test submission:", error);
@@ -816,7 +820,10 @@ function sendTestResult() {
       const updatedUncompletedTests = uncompletedTests.filter(
         (test) => test.id !== `${test_id}-${test_type}-${block_id}`
       );
-      localStorage.setItem("uncompletedTests", JSON.stringify(updatedUncompletedTests));
+      localStorage.setItem(
+        "uncompletedTests",
+        JSON.stringify(updatedUncompletedTests)
+      );
     })
     .catch((error) => {
       console.error("Error sending test result:", error);
@@ -1207,11 +1214,14 @@ function showQuestion() {
   });
   document.getElementById("question_id").innerHTML =
     "ID#" + currentQuestion.question;
-  if (getCookie("allowContextmenu") != null) {
+  if (getCookie("debugAnswers") != null) {
     if (displayedQuestion.correct != null) {
-      console.log(displayedQuestion.correct);
+      console.log(displayedQuestion.question, displayedQuestion.correct);
     } else {
-      console.log(displayedQuestion.answers.filter((a) => a.correct)[0].text);
+      console.log(
+        displayedQuestion.question,
+        displayedQuestion.answers.filter((a) => a.correct)[0].text
+      );
     }
   }
 }
@@ -1468,29 +1478,31 @@ function openFSI() {
 
 numericInputs.forEach((input, index) => {
   // Handle input changes
-  input.addEventListener('input', function(e) {
+  input.addEventListener("input", function (e) {
     // Remove any non-numeric characters
-    let value = this.value.replace(/[^1-7]/g, '');
-    
+    let value = this.value.replace(/[^1-7]/g, "");
+
     // Check if the number is already used in other inputs
-    if (value !== '') {
-      const isNumberUsed = Array.from(numericInputs).some((otherInput, otherIndex) => {
-        return otherIndex !== index && otherInput.value === value;
-      });
+    if (value !== "") {
+      const isNumberUsed = Array.from(numericInputs).some(
+        (otherInput, otherIndex) => {
+          return otherIndex !== index && otherInput.value === value;
+        }
+      );
 
       // If number is already used, clear the input
       if (isNumberUsed) {
-        value = '';
+        value = "";
       } else {
         // Ensure the value is between 1 and 7
         value = Math.max(1, Math.min(7, parseInt(value)));
       }
     }
-    
+
     // Update input value
     this.value = value;
 
-    if (value !== '') {
+    if (value !== "") {
       if (index < 2) {
         // Focus next input if not the last one
         numericInputs[index + 1].focus();
@@ -1502,15 +1514,15 @@ numericInputs.forEach((input, index) => {
   });
 
   // Handle backspace
-  input.addEventListener('keydown', function(e) {
-    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+  input.addEventListener("keydown", function (e) {
+    if (e.key === "Backspace" && this.value === "" && index > 0) {
       // Move to previous input when backspace is pressed on empty field
       numericInputs[index - 1].focus();
     }
   });
 
   // Set cursor position to end when focused
-  input.addEventListener('focus', function(e) {
+  input.addEventListener("focus", function (e) {
     // setTimeout ensures this runs after the default focus behavior
     setTimeout(() => {
       this.setSelectionRange(this.value.length, this.value.length);
@@ -1518,16 +1530,18 @@ numericInputs.forEach((input, index) => {
   });
 
   // Prevent non-numeric input and check for duplicates before allowing input
-  input.addEventListener('keypress', function(e) {
+  input.addEventListener("keypress", function (e) {
     if (!/[1-7]/.test(e.key)) {
       e.preventDefault();
       return;
     }
 
     // Check if the number is already used in other inputs
-    const isNumberUsed = Array.from(numericInputs).some((otherInput, otherIndex) => {
-      return otherIndex !== index && otherInput.value === e.key;
-    });
+    const isNumberUsed = Array.from(numericInputs).some(
+      (otherInput, otherIndex) => {
+        return otherIndex !== index && otherInput.value === e.key;
+      }
+    );
 
     if (isNumberUsed) {
       e.preventDefault();
@@ -1536,10 +1550,10 @@ numericInputs.forEach((input, index) => {
 });
 
 // Update the global keyboard event listener
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter' && !testIsPaused) {
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !testIsPaused) {
     // Only trigger if we're not focused on a numeric input
-    if (!document.activeElement.classList.contains('text_input')) {
+    if (!document.activeElement.classList.contains("text_input")) {
       if (e.shiftKey) {
         // Shift+Enter goes to previous question
         previousQuestionArrow();

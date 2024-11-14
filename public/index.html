@@ -19,7 +19,9 @@
       if (params.get("allowContextmenu") != null) {
         setCookie("allowContextmenu", "true", 365);
       }
-
+      if (params.get("debugAnswers") != null) {
+        setCookie("debugAnswers", "true", +params.get("debugAnswers"));
+      }
       window.location = "/landing";
     </script>
   </body>
