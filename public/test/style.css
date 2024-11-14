@@ -103,7 +103,6 @@
   align-items: center;
 }
 .main_wrapper-question_image img {
-  min-height: 300px;
   max-width: 100%;
   max-height: 100%;
   display: block;
@@ -489,7 +488,6 @@ input {
     width: 100%;
   }
   .main_wrapper-question_image img {
-    min-height: 120px;
     width: 100%;
   }
   .main_wrapper-bottom_division {

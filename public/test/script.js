@@ -938,7 +938,9 @@ function checkIfImageExists(blockId, testId, imageId) {
           questionImageElement.onload = function () {
             // Check if mobile device using window width
             const isMobile = window.innerWidth <= 768;
-            document.getElementById("question_image").style.minHeight = isMobile ? "120px" : "300px";
+            document.getElementById("question_image").style.height = isMobile
+              ? "120px"
+              : "300px";
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
@@ -953,7 +955,7 @@ function checkIfImageExists(blockId, testId, imageId) {
           console.error(`Failed to fetch image. Status: ${xhr.status}`);
         }
         document.getElementById("question_image").src = "";
-        document.getElementById("q_img").style.minHeight = "0px";
+        document.getElementById("question_image").style.height = "0px";
         Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
           (element) => {
             element.classList.remove("blurred");
