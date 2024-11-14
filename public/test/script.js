@@ -581,45 +581,40 @@ function showScore() {
       score = score - q_points;
     }
   });
-  sendTestResult().then(() => {
-    localStorage.setItem(
-      "uncompletedTests",
-      JSON.stringify(
-        uncompletedTests.filter(
-          (test) => test.id != `${test_id}-${test_type}-${block_id}`
-        )
-      )
-    );
-  });
-
-  finishTestButton.innerHTML = "Пройти знову";
-  test_completed = true;
-  currentQuestionIndex = 0;
-  showQuestion();
-  document.getElementById("test_result").classList.remove("display-none");
-  document.getElementById("test_result-block_answers").innerHTML =
-    block_answers.innerHTML;
-  Array.from(
-    document.getElementById("test_result-block_answers").children
-  ).forEach((qId) => {
-    qId.id = "_" + qId.id;
-    qId.classList.remove("selected");
-    qId.addEventListener("click", () => {
-      document.getElementById("test_result").classList.add("display-none");
-      if (!testIsPaused) {
-        saveNumAnswer();
-        currentQuestionIndex = item.innerHTML - 1;
-        showQuestion();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
+  sendTestResult()
+    .then(() => {
+      finishTestButton.innerHTML = "Пройти знову";
+      test_completed = true;
+      currentQuestionIndex = 0;
+      showQuestion();
+      document.getElementById("test_result").classList.remove("display-none");
+      document.getElementById("test_result-block_answers").innerHTML =
+        block_answers.innerHTML;
+      Array.from(
+        document.getElementById("test_result-block_answers").children
+      ).forEach((qId) => {
+        qId.id = "_" + qId.id;
+        qId.classList.remove("selected");
+        qId.addEventListener("click", () => {
+          document.getElementById("test_result").classList.add("display-none");
+          if (!testIsPaused) {
+            saveNumAnswer();
+            currentQuestionIndex = item.innerHTML - 1;
+            showQuestion();
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }
         });
-      }
+      });
+      document.getElementById("test_result-close").addEventListener("click", () => {
+        document.getElementById("test_result").classList.toggle("display-none");
+      });
+    })
+    .catch((error) => {
+      console.error("Failed to complete test submission:", error);
     });
-  });
-  document.getElementById("test_result-close").addEventListener("click", () => {
-    document.getElementById("test_result").classList.toggle("display-none");
-  });
 }
 
 function sendDebugTestResult(
@@ -804,7 +799,7 @@ function sendTestResult() {
     testData.time
   )}`;
 
-  fetch("/sendTestResult", {
+  return fetch("/sendTestResult", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -812,19 +807,20 @@ function sendTestResult() {
     body: JSON.stringify(testData),
   })
     .then((response) => {
-      switch (response.status) {
-        case 200:
-          console.log(testData);
-          break;
-        case 403:
-          console.log("Нашо в консоль було лізти?");
-          break;
-        default:
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-      response.json();
+      return response.json();
+    })
+    .then(() => {
+      const updatedUncompletedTests = uncompletedTests.filter(
+        (test) => test.id !== `${test_id}-${test_type}-${block_id}`
+      );
+      localStorage.setItem("uncompletedTests", JSON.stringify(updatedUncompletedTests));
     })
     .catch((error) => {
-      console.error("Error:", error);
+      console.error("Error sending test result:", error);
+      throw error;
     });
 }
 
