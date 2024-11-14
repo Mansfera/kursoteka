@@ -10,6 +10,7 @@ const ansSheetGrid = document.getElementsByClassName(
   "answer_sheet-column-square"
 );
 const numeric_answers = document.getElementById("text_fields");
+const numericInputs = document.querySelectorAll('.text_input');
 
 var queryString = window.location.search;
 var params = new URLSearchParams(queryString);
@@ -1468,3 +1469,72 @@ function openFSI() {
     document.getElementById("question_image").src;
   document.getElementById("fsic").classList.toggle("display-none");
 }
+
+numericInputs.forEach((input, index) => {
+  // Handle input changes
+  input.addEventListener('input', function(e) {
+    // Remove any non-numeric characters
+    let value = this.value.replace(/[^1-7]/g, '');
+    
+    // Check if the number is already used in other inputs
+    if (value !== '') {
+      const isNumberUsed = Array.from(numericInputs).some((otherInput, otherIndex) => {
+        return otherIndex !== index && otherInput.value === value;
+      });
+
+      // If number is already used, clear the input
+      if (isNumberUsed) {
+        value = '';
+      } else {
+        // Ensure the value is between 1 and 7
+        value = Math.max(1, Math.min(7, parseInt(value)));
+      }
+    }
+    
+    // Update input value
+    this.value = value;
+
+    if (value !== '') {
+      if (index < 2) {
+        // Focus next input if not the last one
+        numericInputs[index + 1].focus();
+      } else {
+        // Blur (deselect) if it's the last input
+        this.blur();
+      }
+    }
+  });
+
+  // Handle backspace
+  input.addEventListener('keydown', function(e) {
+    if (e.key === 'Backspace' && this.value === '' && index > 0) {
+      // Move to previous input when backspace is pressed on empty field
+      numericInputs[index - 1].focus();
+    }
+  });
+
+  // Set cursor position to end when focused
+  input.addEventListener('focus', function(e) {
+    // setTimeout ensures this runs after the default focus behavior
+    setTimeout(() => {
+      this.setSelectionRange(this.value.length, this.value.length);
+    }, 0);
+  });
+
+  // Prevent non-numeric input and check for duplicates before allowing input
+  input.addEventListener('keypress', function(e) {
+    if (!/[1-7]/.test(e.key)) {
+      e.preventDefault();
+      return;
+    }
+
+    // Check if the number is already used in other inputs
+    const isNumberUsed = Array.from(numericInputs).some((otherInput, otherIndex) => {
+      return otherIndex !== index && otherInput.value === e.key;
+    });
+
+    if (isNumberUsed) {
+      e.preventDefault();
+    }
+  });
+});
