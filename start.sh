@@ -1,8 +1,5 @@
-# Add all changes
-git add .
-
 # Commit changes with a default message (you can customize it)
-git commit -m "Auto-commit from start.sh"
+git commit -m "Auto-commit from start.sh" -a
 
 # Push changes to the remote repository
 git push origin main  # Replace 'main' with your default branch if necessary
