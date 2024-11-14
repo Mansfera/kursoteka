@@ -848,12 +848,7 @@ function resetState() {
     }
   );
   middleLines.innerHTML = "";
-  document.getElementById("q_img").classList.add("display-none");
-  // document.getElementById("image-loader").classList.remove("display-none");
   ansSheetBtns.classList.add("display-none");
-  // if (!test_completed) {
-  //   nextButton.classList.add("display-none");
-  // }
   if (currentQuestionIndex == 0) {
     document.getElementById("back_arrow").classList.add("invisible");
   } else {
