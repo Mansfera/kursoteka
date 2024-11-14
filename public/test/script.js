@@ -1538,3 +1538,13 @@ numericInputs.forEach((input, index) => {
     }
   });
 });
+
+// Add global keyboard event listener for Enter key
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && !testIsPaused) {
+    // Only trigger if we're not focused on a numeric input
+    if (!document.activeElement.classList.contains('text_input')) {
+      nextQuestionArrow();
+    }
+  }
+});
