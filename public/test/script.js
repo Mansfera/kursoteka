@@ -1539,12 +1539,18 @@ numericInputs.forEach((input, index) => {
   });
 });
 
-// Add global keyboard event listener for Enter key
+// Update the global keyboard event listener
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !testIsPaused) {
     // Only trigger if we're not focused on a numeric input
     if (!document.activeElement.classList.contains('text_input')) {
-      nextQuestionArrow();
+      if (e.shiftKey) {
+        // Shift+Enter goes to previous question
+        previousQuestionArrow();
+      } else {
+        // Regular Enter goes to next question
+        nextQuestionArrow();
+      }
     }
   }
 });
