@@ -580,15 +580,16 @@ function showScore() {
       score = score - q_points;
     }
   });
-  sendTestResult();
-  localStorage.setItem(
-    "uncompletedTests",
-    JSON.stringify(
-      uncompletedTests.filter(
-        (test) => test.id != `${test_id}-${test_type}-${block_id}`
+  sendTestResult().then(() => {
+    localStorage.setItem(
+      "uncompletedTests",
+      JSON.stringify(
+        uncompletedTests.filter(
+          (test) => test.id != `${test_id}-${test_type}-${block_id}`
+        )
       )
-    )
-  );
+    );
+  });
 
   finishTestButton.innerHTML = "Пройти знову";
   test_completed = true;
@@ -784,6 +785,11 @@ function sendTestResult() {
   document.getElementById("test_result-abcd").innerHTML = `${Math.ceil(
     testData.abcd_questions_accuracy
   )}%`;
+  document.getElementById(
+    "test_result-date"
+  ).innerHTML = `${new Date().toLocaleDateString()} ${String(
+    new Date().getHours()
+  ).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`;
   document.getElementById("test_result-vidp").innerHTML = `${Math.ceil(
     testData.vidpovidnist_questions_accuracy
   )}%`;
