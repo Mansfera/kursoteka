@@ -599,7 +599,7 @@ function showScore() {
           document.getElementById("test_result").classList.add("display-none");
           if (!testIsPaused) {
             saveNumAnswer();
-            currentQuestionIndex = item.innerHTML - 1;
+            currentQuestionIndex = qId.innerHTML - 1;
             showQuestion();
             window.scrollTo({
               top: 0,
