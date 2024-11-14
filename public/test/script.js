@@ -561,7 +561,6 @@ function showScore() {
   middleLines.innerHTML = "";
   bottomLine.innerHTML = "";
   document.getElementById("question_image").src = "";
-  document.getElementById("q_img").classList.add("display-none");
   document.getElementById("read-explanation-btn").classList.add("display-none");
   Array.from(document.getElementsByClassName("answered")).forEach((item) => {
     item.classList.remove("answered");
@@ -936,22 +935,6 @@ function checkIfImageExists(blockId, testId, imageId) {
         if (questionImageElement) {
           questionImageElement.src = imageUrl;
           questionImageElement.onload = function () {
-            // document
-            //   .getElementById("image-loader")
-            //   .classList.add("display-none");
-            Array.from(
-              document.getElementsByClassName("__can_be_blurred")
-            ).forEach((element) => {
-              element.classList.remove("blurred");
-            });
-            document.getElementById("q_img").classList.remove("display-none");
-          };
-          questionImageElement.onerror = function () {
-            document.getElementById("question_image").src = "";
-            document.getElementById("q_img").classList.add("display-none");
-            // document
-            //   .getElementById("image-loader")
-            //   .classList.add("display-none");
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
@@ -962,10 +945,10 @@ function checkIfImageExists(blockId, testId, imageId) {
           console.error("Element with ID 'question_image' not found.");
         }
       } else {
-        console.error(`Failed to fetch image. Status: ${xhr.status}`);
+        if (false) {
+          console.error(`Failed to fetch image. Status: ${xhr.status}`);
+        }
         document.getElementById("question_image").src = "";
-        document.getElementById("q_img").classList.add("display-none");
-        // document.getElementById("image-loader").classList.add("display-none");
         Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
           (element) => {
             element.classList.remove("blurred");
@@ -980,7 +963,6 @@ function checkIfImageExists(blockId, testId, imageId) {
   xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
     document.getElementById("question_image").src = "";
-    document.getElementById("q_img").classList.add("display-none");
     Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
       (element) => {
         element.classList.remove("blurred");
@@ -1428,7 +1410,6 @@ function pauseTest() {
       document.getElementById("pause_btn_img").src = "/assets/play.svg";
       Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
         (element) => {
-          console.log(element);
           element.classList.add("blurred");
         }
       );
