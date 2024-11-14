@@ -938,7 +938,7 @@ function checkIfImageExists(blockId, testId, imageId) {
           questionImageElement.onload = function () {
             // Check if mobile device using window width
             const isMobile = window.innerWidth <= 768;
-            document.getElementById("q_img").style.minHeight = isMobile ? "120px" : "300px";
+            document.getElementById("question_image").style.minHeight = isMobile ? "120px" : "300px";
             Array.from(
               document.getElementsByClassName("__can_be_blurred")
             ).forEach((element) => {
