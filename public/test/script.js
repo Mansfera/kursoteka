@@ -787,7 +787,7 @@ function sendTestResult() {
   )}%`;
   document.getElementById(
     "test_result-date"
-  ).innerHTML = `${new Date().toLocaleDateString()} ${String(
+  ).innerHTML = `${new Date().toLocaleDateString()} ● ${String(
     new Date().getHours()
   ).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`;
   document.getElementById("test_result-vidp").innerHTML = `${Math.ceil(
