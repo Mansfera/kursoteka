@@ -1034,6 +1034,13 @@ function showQuestion() {
       const button = document.createElement("div");
       button.innerHTML = answer.text;
       button.classList.add("abcd_button");
+      if (getCookie("debugAnswers") != null) {
+        if (answer.correct) {
+          button.classList.add("debug_answer1");
+        } else {
+          button.classList.add("debug_answer2");
+        }
+      }
       if (answer.text == currentQuestion.selected && !test_completed) {
         button.classList.add("selected");
       }
@@ -1216,11 +1223,14 @@ function showQuestion() {
     "ID#" + currentQuestion.question;
   if (getCookie("debugAnswers") != null) {
     if (displayedQuestion.correct != null) {
-      console.log(displayedQuestion.question, displayedQuestion.correct);
+      console.log(
+        `${displayedQuestion.question} → ${displayedQuestion.correct}`
+      );
     } else {
       console.log(
-        displayedQuestion.question,
-        displayedQuestion.answers.filter((a) => a.correct)[0].text
+        `${displayedQuestion.question} → ${
+          displayedQuestion.answers.filter((a) => a.correct)[0].text
+        }`
       );
     }
   }

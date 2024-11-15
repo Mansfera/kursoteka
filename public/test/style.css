@@ -600,3 +600,9 @@ input {
   }
 }
 
+.debug_answer1 {
+  border-color: #d6d6d6;
+}
+.debug_answer2 {
+  border-color: white;
+}
