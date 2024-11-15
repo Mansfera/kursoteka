@@ -1574,3 +1574,40 @@ document.addEventListener("keydown", function (e) {
     }
   }
 });
+
+
+let debugPressTimer;
+const courseNameElement = document.getElementById("question_id");
+
+// Mouse events
+courseNameElement.addEventListener("mousedown", startDebugTimer);
+courseNameElement.addEventListener("mouseup", clearDebugTimer);
+courseNameElement.addEventListener("mouseleave", clearDebugTimer);
+
+// Touch events
+courseNameElement.addEventListener("touchstart", startDebugTimer);
+courseNameElement.addEventListener("touchend", clearDebugTimer);
+courseNameElement.addEventListener("touchcancel", clearDebugTimer);
+
+function startDebugTimer(e) {
+  // Prevent default touch behavior (like scrolling)
+  if (e.type === "touchstart") {
+    e.preventDefault();
+  }
+
+  debugPressTimer = setTimeout(() => {
+    if (getCookie("debugAnswers") === null) {
+      alert("Режим відладки активовано на 7 днів");
+      setCookie("debugAnswers", true, 7);
+      showQuestion();
+    } else {
+      alert("Режим відладки деактивовано");
+      setCookie("debugAnswers", null, -1);
+      showQuestion();
+    }
+  }, 5000);
+}
+
+function clearDebugTimer() {
+  clearTimeout(debugPressTimer);
+}
