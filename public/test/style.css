@@ -39,6 +39,7 @@
   background-color: aliceblue;
   font-weight: 600;
   margin-left: auto;
+  cursor: pointer;
 }
 .time_control {
   display: flex;
