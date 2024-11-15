@@ -92,6 +92,11 @@
   border: 3px aliceblue solid;
   position: relative;
 }
+@media screen and (max-width: 576px) {
+  .segment-conspects {
+    padding-top: 5rem;
+  }
+}
 .conspects-name {
   position: absolute;
   top: -1.5rem;
