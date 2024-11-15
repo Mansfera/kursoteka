@@ -1,5 +1,5 @@
 const year = document.getElementById("year");
-const search = document.getElementById("search_bar");
+const id_search_bar = document.getElementById("search_bar");
 const topLine = document.getElementById("top_question");
 const middleLines = document.getElementById("middle_lines");
 const bottomLine = document.getElementById("bottom_question");
@@ -231,7 +231,7 @@ function checkIfImageExists(blockId, testId, imageId) {
   );
   xhr_q_img.send();
 }
-search.addEventListener("input", function (e) {
+id_search_bar.addEventListener("input", function (e) {
   searchById(e.target.value);
 });
 function searchById(id) {
@@ -248,6 +248,12 @@ function searchById(id) {
 function showQuestion() {
   resetState();
   currentQuestion = test_questions[currentQuestionIndex];
+  
+  if (currentQuestionIndex === 0 && !window.firstQuestionLoaded) {
+    window.firstQuestionLoaded = true;
+    searchById(params.get("q_id"));
+  }
+  
   displayedQuestion = currentQuestion;
   document.getElementById("search_bar").value = currentQuestion.question;
   year.value = currentQuestion.year;
@@ -917,4 +923,8 @@ function saveTestData() {
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+if (params.get("q_id") != null) {
+  searchById(params.get("q_id"));
 }

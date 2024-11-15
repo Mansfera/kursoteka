@@ -1575,19 +1575,23 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-
 let debugPressTimer;
-const courseNameElement = document.getElementById("question_id");
+const questionIdElement = document.getElementById("question_id");
+if (getCookie("group") != "student") {
+  questionIdElement.addEventListener("click", () => {
+    window.open(`/test_editor?q_id=${questionIdElement.innerHTML.slice(3)}&course=${course}&block=${block_id}&test=${test_id}`);
+  });
+} else {
+  // Mouse events
+  questionIdElement.addEventListener("mousedown", startDebugTimer);
+  questionIdElement.addEventListener("mouseup", clearDebugTimer);
+  questionIdElement.addEventListener("mouseleave", clearDebugTimer);
 
-// Mouse events
-courseNameElement.addEventListener("mousedown", startDebugTimer);
-courseNameElement.addEventListener("mouseup", clearDebugTimer);
-courseNameElement.addEventListener("mouseleave", clearDebugTimer);
-
-// Touch events
-courseNameElement.addEventListener("touchstart", startDebugTimer);
-courseNameElement.addEventListener("touchend", clearDebugTimer);
-courseNameElement.addEventListener("touchcancel", clearDebugTimer);
+  // Touch events
+  questionIdElement.addEventListener("touchstart", startDebugTimer);
+  questionIdElement.addEventListener("touchend", clearDebugTimer);
+  questionIdElement.addEventListener("touchcancel", clearDebugTimer);
+}
 
 function startDebugTimer(e) {
   // Prevent default touch behavior (like scrolling)
