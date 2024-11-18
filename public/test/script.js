@@ -947,6 +947,11 @@ if (getCookie("debugAnswers") != null) {
         q.selected = q.answers.filter((a) => a.correct)[0].text;
       }
     });
+    Array.from(document.getElementsByClassName("block_answers-item")).forEach(
+      (q) => {
+        q.classList.add("selected");
+      }
+    );
   }
 }
 
