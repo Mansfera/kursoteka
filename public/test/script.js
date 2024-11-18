@@ -887,6 +887,16 @@ function resetState() {
     button.classList.remove("incorrect");
     button.classList.remove("correct");
     button.classList.remove("yellow-selected");
+    button.classList.remove("debug_answer1");
+    button.classList.remove("debug_answer2");
+    button.classList.remove("debug_answer3");
+  });
+  Array.from(
+    document.getElementsByClassName("question_answers_list-element-text")
+  ).forEach((field) => {
+    field.classList.remove("debug_answer1");
+    field.classList.remove("debug_answer2");
+    field.classList.remove("debug_answer3");
   });
   Array.from(
     document.getElementsByClassName("question_answers_list-element-text")
@@ -1106,6 +1116,13 @@ function showQuestion() {
             if (button.id[1] == currentQuestion.selected[index]) {
               button.classList.add("selected");
             }
+              if (getCookie("debugAnswers") != null) {
+                if (button.id[1] == currentQuestion.correct[index]) {
+                  button.classList.add("debug_answer1");
+                } else {
+                  button.classList.add("debug_answer2");
+                }
+              }
           }
         }
       });
@@ -1142,6 +1159,13 @@ function showQuestion() {
             if (button.id[1] == currentQuestion.selected[index]) {
               button.classList.add("selected");
             }
+            if (getCookie("debugAnswers") != null) {
+              if (button.id[1] == currentQuestion.correct[index]) {
+                button.classList.add("debug_answer1");
+              } else {
+                button.classList.add("debug_answer2");
+              }
+            }
           }
         }
       });
@@ -1161,6 +1185,13 @@ function showQuestion() {
       document.getElementById("f5").innerHTML = currentQuestion.f5;
       document.getElementById("f6").innerHTML = currentQuestion.f6;
       document.getElementById("f7").innerHTML = currentQuestion.f7;
+      if (getCookie("debugAnswers") != null) {
+        for (let i = 0; i < 3; i++) {
+          document
+            .getElementById("f" + currentQuestion.correct[i] + "_num")
+            .classList.add("debug_answer3");
+        }
+      }
       numeric_answers.classList.remove("display-none");
       document
         .getElementById("list_num-fields")
