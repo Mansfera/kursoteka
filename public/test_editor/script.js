@@ -62,8 +62,11 @@ loadTestDataFromServer()
         ...hronology_questions,
         ...mul_ans_questions
       );
-
-      showQuestion();
+      if (params.get("q_id") != null) {
+        searchById(params.get("q_id"));
+      } else {
+        showQuestion();
+      }
     } else {
       console.error("Failed to load test data");
     }
@@ -248,11 +251,6 @@ function searchById(id) {
 function showQuestion() {
   resetState();
   currentQuestion = test_questions[currentQuestionIndex];
-  
-  if (currentQuestionIndex === 0 && !window.firstQuestionLoaded) {
-    window.firstQuestionLoaded = true;
-    searchById(params.get("q_id"));
-  }
   
   displayedQuestion = currentQuestion;
   document.getElementById("search_bar").value = currentQuestion.question;
@@ -923,8 +921,4 @@ function saveTestData() {
     .catch((error) => {
       console.error("Error:", error);
     });
-}
-
-if (params.get("q_id") != null) {
-  searchById(params.get("q_id"));
 }
