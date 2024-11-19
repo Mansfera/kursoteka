@@ -1,1 +1,227 @@
-[]
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Одеський університет, монета НБУ"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Мечников, монета НБУ"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Чернівецький університет, монета НБУ"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Леся Українка, монета НБУ"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "\"Лісова пісня\", монета НБУ"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Кримський, монета НБУ"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Яворницький, монета НБУ"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "\"Ще не вмерла Україна\", монета НБУ"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Вербицький, монета НБУ"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Лисенко, монета НБУ"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Семен Гулак-Артемовський, монета НБУ"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Крушельницька, монета НБУ"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Кропивницький, марка Укрпошта"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Корифеї українського театру, марка Укрпошта"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Заньковецька, монета НБУ"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Пулюй, марка Укрпошта"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Ханенко, монета НБУ"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Родина Симиренків, монета НБУ"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Картина Пимоненка \"Святочне ворожіння\" (стиль реалізм)"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Картина Васильківського \"Козаки в степу\""
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Картина Рєпіна \"Козаки пишуть лист турецькому султану\""
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Картина Труша \"Портрет Лесі Українки\" (стиль модернізм)"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Труш, монета НБУ"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Труш, монета НБУ"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Картина Мурашка \"Дівчина в червоному капелюсі\""
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Мурашко, монета НБУ"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Резиденція православних митрополитів Буковини та Далмації в місті Чернівці"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Володимирський собор у місті Київ (неовізантійський стиль)"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Володимирський собор, монета НБУ"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Будівля оперного театру в місті Одеса (стиль бароко)"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Будинок з химерами в місті Київ (стиль модернізм)"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Будинок з химерами в місті Київ, монета НБУ"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Будинок з химерами в місті Київ, монета НБУ"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм)"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Будинок Полтавського губернського земства, монета НБУ"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Будинок страхового товариства \"Дністер\" у місті Львів (стиль український модернізм)"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Пам’ятник Богдану Хмельницькому в місті Київ (стиль класицизм)"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Крушельницька"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Лисенко"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Вербицький"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "Кримський"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "Леся Українка"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Поширення земств на початок XX ст."
+  }
+]

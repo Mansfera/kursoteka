@@ -1,1 +1,22 @@
-[]
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Печатка патріотичного спортивно-пожежного товариства \"Січ\""
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Шептицький, монета НБУ"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Шептицький, карикатура"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Печатка молодіжного патріотичного товариства \"Пласт\""
+  }
+]

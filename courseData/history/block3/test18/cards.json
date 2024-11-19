@@ -1,1 +1,67 @@
-[]
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "\"Самостійна Україна\""
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Карикатура, російсько-японська війна"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Караїкатура, російсько-японська війна"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Карикатура, повстання на панцернику \"Потьомкін\""
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Царський \"Найвищий маніфест\""
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Чикаленко, марка Укрпошта"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Газета «Хлібороб»"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Газета «Громадська думка»"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Селяни-переселенці"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Зелений Клин, марка"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Чорносотенці, пропагандистське оголошення"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Справа Бейліса, карикатура"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Справа Бейліса, газетне повідомлення"
+  }
+]
