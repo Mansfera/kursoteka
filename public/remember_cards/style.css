@@ -88,10 +88,6 @@
   transform: rotate(-90deg);
   opacity: 0;
 }
-
-.card_display-item-back {
-  background-color: var(--rich-green);
-}
 .card_display-item-front,
 .card_display-item-back {
   position: absolute;
@@ -117,6 +113,7 @@
   padding: 1rem;
   text-align: center;
   height: 100%;
+  background-color: var(--rich-green);
 }
 
 .card_display-item.flipped .card_display-item-front {
