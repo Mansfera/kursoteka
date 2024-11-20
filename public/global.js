@@ -101,6 +101,6 @@ function clearCache() {
       caches.delete(name);
     }
   }).then(() => {
-    window.location.reload();
+    window.location = "/";
   });
 }
