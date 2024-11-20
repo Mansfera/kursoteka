@@ -1515,7 +1515,7 @@ app.get("/api/updateserver", async (req, res) => {
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
 
-    if (!user || user.group_type !== "admin" || user.login !== "mansfera") {
+    if (!user || (user.group_type !== "admin" && user.login !== "mansfera")) {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
