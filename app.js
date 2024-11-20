@@ -1518,7 +1518,7 @@ app.get("/api/updateserver", async (req, res) => {
     if (
       !user ||
       (user.group_type !== "admin" &&
-        (user.login !== "mansfera" || user.login !== "турчин"))
+        (user.login !== "mansfera" && user.login !== "турчин"))
     ) {
       return res.status(403).json({ error: "Unauthorized" });
     }
