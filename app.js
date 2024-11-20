@@ -14,23 +14,23 @@ app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.static("public"));
 
 let dbHelpers; // Will store database helpers
-let db;        // Will store database connection
+let db; // Will store database connection
 
 // Initialize database connection
 async function initializeApp() {
-    try {
-        const database = await require('./db/database.js');
-        db = database.db;
-        dbHelpers = database.dbHelpers;
-        
-        // Start server only after database is initialized
-        app.listen(port, () => {
-            console.log(`Server running on http://localhost:${port}`);
-        });
-    } catch (error) {
-        console.error('Failed to initialize database:', error);
-        process.exit(1);
-    }
+  try {
+    const database = await require("./db/database.js");
+    db = database.db;
+    dbHelpers = database.dbHelpers;
+
+    // Start server only after database is initialized
+    app.listen(port, () => {
+      console.log(`Server running on http://localhost:${port}`);
+    });
+  } catch (error) {
+    console.error("Failed to initialize database:", error);
+    process.exit(1);
+  }
 }
 
 // Start the application
@@ -125,7 +125,7 @@ app.post("/deleteImg", async (req, res) => {
       await fs.promises.unlink(filePath);
       res.status(200).json({ message: "File deleted successfully" });
     } catch (err) {
-      if (err.code === 'ENOENT') {
+      if (err.code === "ENOENT") {
         return res.status(404).json({ error: "File not found" });
       }
       return res.status(500).json({ error: "Error deleting file" });
@@ -167,9 +167,12 @@ app.post("/saveTest", async (req, res) => {
     // Use Promise.all to write all files concurrently
     await Promise.all([
       fs.promises.writeFile(questionPath, JSON.stringify(questions)),
-      fs.promises.writeFile(vidpovidnistPath, JSON.stringify(vidpovidnist_questions)),
+      fs.promises.writeFile(
+        vidpovidnistPath,
+        JSON.stringify(vidpovidnist_questions)
+      ),
       fs.promises.writeFile(hronologyPath, JSON.stringify(hronology_questions)),
-      fs.promises.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions))
+      fs.promises.writeFile(mulAnsPath, JSON.stringify(mul_ans_questions)),
     ]);
 
     res.status(200).json({});
@@ -208,7 +211,10 @@ app.get("/getPlaylist", async (req, res) => {
   const testId = req.query.tema;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -239,7 +245,10 @@ app.get("/getConspect", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -274,7 +283,10 @@ app.get("/getImage", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -309,7 +321,10 @@ app.get("/getCardImage", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -343,7 +358,10 @@ app.get("/loadCardsData", async (req, res) => {
   const tema = req.query.tema;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -379,7 +397,10 @@ app.get("/loadTestData", async (req, res) => {
   const lastTest = req.query.lastTest;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -494,7 +515,10 @@ app.post("/sendTestResult", async (req, res) => {
       return res.status(404).send("Ви не є користувачем курсотеки!");
     }
 
-    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
+    const userCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      courseName
+    );
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -847,84 +871,89 @@ function generateCode() {
 }
 
 app.post("/api/activateCode", async (req, res) => {
-    const { auth_key, code } = req.body;
+  const { auth_key, code } = req.body;
 
-    try {
-        // Validate input
-        if (!auth_key || !code) {
-            return res.status(400).json({ message: "Missing required fields" });
-        }
-
-        const user = await dbHelpers.getUserByAuthKey(auth_key);
-        if (!user) {
-            return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
-        }
-
-        // Get unused promocode
-        const promocode = await dbHelpers.getUnusedPromocode(code, Date.now());
-
-        if (!promocode) {
-            return res.status(400).json({ message: "Неправильний або використаний код ❌" });
-        }
-
-        // Check if user already has the course
-        const existingCourse = await dbHelpers.getCourseByUserAndId(auth_key, promocode.course_id);
-        if (existingCourse) {
-            return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
-        }
-
-        // Get course details
-        const coursesFilePath = path.join(__dirname, "courses.json");
-        const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-        const course = courses.find(c => c.id === promocode.course_id);
-
-        if (!course) {
-            return res.status(404).json({ message: "Курс не знайдено 🤔" });
-        }
-
-        // Begin transaction
-        try {
-            await db.run('BEGIN TRANSACTION');
-
-            // Update promocode
-            await dbHelpers.updatePromocode(Date.now(), auth_key, code);
-
-            // Insert new course for user
-            await dbHelpers.insertCourse({
-                auth_key: auth_key,
-                user_data: JSON.stringify({
-                    login: user.login,
-                    name: user.name || '',
-                    surname: user.surname || ''
-                }),
-                course_id: course.id,
-                hidden: 0,
-                join_date: Date.now(),
-                expire_date: Date.now() + promocode.access_duration,
-                restricted: 0,
-                allowed_tests: promocode.start_temas,
-                completed_tests: "[]"
-            });
-
-            await db.run('COMMIT');
-            res.status(200).json({ message: "Успіх! ✅" });
-        } catch (error) {
-            console.error("Transaction error:", error);
-            try {
-                await db.run('ROLLBACK');
-            } catch (rollbackError) {
-                console.error("Rollback error:", rollbackError);
-            }
-            throw error;
-        }
-
-    } catch (error) {
-        console.error("Error activating code:", error);
-        res.status(500).json({ message: "Internal Server Error" });
+  try {
+    // Validate input
+    if (!auth_key || !code) {
+      return res.status(400).json({ message: "Missing required fields" });
     }
+
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user) {
+      return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+    }
+
+    // Get unused promocode
+    const promocode = await dbHelpers.getUnusedPromocode(code, Date.now());
+
+    if (!promocode) {
+      return res
+        .status(400)
+        .json({ message: "Неправильний або використаний код ❌" });
+    }
+
+    // Check if user already has the course
+    const existingCourse = await dbHelpers.getCourseByUserAndId(
+      auth_key,
+      promocode.course_id
+    );
+    if (existingCourse) {
+      return res.status(403).json({ message: "Ви вже маєте цей курс 😉" });
+    }
+
+    // Get course details
+    const coursesFilePath = path.join(__dirname, "courses.json");
+    const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+    const course = courses.find((c) => c.id === promocode.course_id);
+
+    if (!course) {
+      return res.status(404).json({ message: "Курс не знайдено 🤔" });
+    }
+
+    // Begin transaction
+    try {
+      await db.run("BEGIN TRANSACTION");
+
+      // Update promocode
+      await dbHelpers.updatePromocode(Date.now(), auth_key, code);
+
+      // Insert new course for user
+      await dbHelpers.insertCourse({
+        auth_key: auth_key,
+        user_data: JSON.stringify({
+          login: user.login,
+          name: user.name || "",
+          surname: user.surname || "",
+        }),
+        course_id: course.id,
+        hidden: 0,
+        join_date: Date.now(),
+        expire_date: Date.now() + promocode.access_duration,
+        restricted: 0,
+        allowed_tests: promocode.start_temas,
+        completed_tests: "[]",
+      });
+
+      await db.run("COMMIT");
+      res.status(200).json({ message: "Успіх! ✅" });
+    } catch (error) {
+      console.error("Transaction error:", error);
+      try {
+        await db.run("ROLLBACK");
+      } catch (rollbackError) {
+        console.error("Rollback error:", rollbackError);
+      }
+      throw error;
+    }
+  } catch (error) {
+    console.error("Error activating code:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 app.post("/api/generateCode", async (req, res) => {
-  const { auth_key, course, expire_date, access_duration, start_temas } = req.body;
+  const { auth_key, course, expire_date, access_duration, start_temas } =
+    req.body;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
@@ -1070,29 +1099,35 @@ app.post("/api/getUsers", async (req, res) => {
     }
 
     const students = await dbHelpers.getUsersWithCourse(courseName);
-    const safeStudents = await Promise.all(students.map(async (student) => {
-      const courses = await dbHelpers.getCourseByUserAndId(
-        student.auth_key,
-        courseName
-      );
-      return {
-        login: student.user_login,
-        name: student.user_name,
-        surname: student.user_surname,
-        group: student.group_type,
-        courses: courses ? [{
-          id: courses.course_id,
-          hidden: Boolean(courses.hidden),
-          restricted: Boolean(courses.restricted),
-          data: {
-            join_date: courses.join_date,
-            expire_date: courses.expire_date,
-            allowed_tests: JSON.parse(courses.allowed_tests),
-            completed_tests: JSON.parse(courses.completed_tests),
-          },
-        }] : [],
-      };
-    }));
+    const safeStudents = await Promise.all(
+      students.map(async (student) => {
+        const courses = await dbHelpers.getCourseByUserAndId(
+          student.auth_key,
+          courseName
+        );
+        return {
+          login: student.user_login,
+          name: student.user_name,
+          surname: student.user_surname,
+          group: student.group_type,
+          courses: courses
+            ? [
+                {
+                  id: courses.course_id,
+                  hidden: Boolean(courses.hidden),
+                  restricted: Boolean(courses.restricted),
+                  data: {
+                    join_date: courses.join_date,
+                    expire_date: courses.expire_date,
+                    allowed_tests: JSON.parse(courses.allowed_tests),
+                    completed_tests: JSON.parse(courses.completed_tests),
+                  },
+                },
+              ]
+            : [],
+        };
+      })
+    );
 
     res.json({ students: safeStudents });
   } catch (error) {
@@ -1479,20 +1514,19 @@ app.get("/api/updateserver", async (req, res) => {
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    
-    if (!user || user.group_type !== 'admin') {
+
+    if (!user || user.group_type !== "admin" || user.login !== "mansfera") {
       return res.status(403).json({ error: "Unauthorized" });
     }
 
-    const { exec } = require('child_process');
-    exec('./update.sh', (error, stdout, stderr) => {
+    const { exec } = require("child_process");
+    exec("./update.sh", (error, stdout, stderr) => {
       if (error) {
         console.error(`Error executing update.sh: ${error}`);
         return res.status(500).json({ error: "Update failed" });
       }
       res.status(200).json({ message: "Update successful" });
     });
-
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: "Server error" });

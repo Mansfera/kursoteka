@@ -109,7 +109,7 @@ function changePage(mobile, page, params) {
     window.location = goToLoc;
   }
 }
-if (getCookie("group") === "admin" || getCookie("name") === "mansfera") {
+if (getCookie("group") === "admin" || getCookie("update") !== null) {
   function updateServer() {
     fetch(`/api/updateserver?auth_key=${getCookie("auth_key")}`)
       .then(response => response.json())
