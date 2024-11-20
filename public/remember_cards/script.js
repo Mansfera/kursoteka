@@ -166,17 +166,17 @@ async function fetchCardImage(course, blockId, testId, imageId, auth_key) {
     const url = `/getCardImage?course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&auth_key=${auth_key}`;
     const response = await fetch(url);
 
-    if (response.ok) {
-      const frontContent = document.createElement("img");
-      frontContent.className = "card_display-item-img";
-      frontContent.src = url;
-      return frontContent;
-    } else {
-      console.error("Image not found or error fetching image");
-      return null;
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    
+    const frontContent = document.createElement("img");
+    frontContent.className = "card_display-item-img";
+    frontContent.src = url;
+    return frontContent;
   } catch (error) {
     console.error("Error fetching card image:", error);
+    alert("Помилка завантаження зображення");
     return null;
   }
 }
@@ -186,19 +186,23 @@ async function loadCardsData() {
     const url = `/loadCardsData?auth_key=${auth_key}&course=${course}&block=${block}&tema=${tema}`;
     const response = await fetch(url);
 
-    if (response.ok) {
-      const data = await response.json();
-      addCards(data);
-      if (data.length == 0) {
-        alert("Зоображення відсутні :(");
-        window.close();
-      }
-    } else {
-      console.error("Error fetching cards data:", response.status);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const data = await response.json();
+    if (!data || !Array.isArray(data) || data.length === 0) {
+      throw new Error("Отримано некоректні дані");
+    }
+
+    await addCards(data);
   } catch (error) {
     console.error("Error loading cards data:", error);
+    alert("Помилка завантаження даних карток");
+    if (confirm("Бажаєте закрити вікно?")) {
+      window.close();
+    }
   }
 }
 
-loadCardsData(auth_key, course, block, tema);
+loadCardsData();
