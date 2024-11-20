@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
       ) {
         document.getElementById("admin_panel").classList.remove("display-none");
       }
-      if (getCookie("group") === "admin") {
+      if (getCookie("group") === "admin" || getCookie("update") !== null) {
         document
           .getElementById("updateserver")
           .classList.remove("display-none");
@@ -47,7 +47,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 .getElementById("mobile_menu-list-admin_panel")
                 .classList.remove("display-none");
             }
-            if (getCookie("group") === "admin") {
+            if (getCookie("group") === "admin" || getCookie("update") !== null) {
               document
                 .getElementById("mobile_menu-list-updateserver")
                 .classList.remove("display-none");
