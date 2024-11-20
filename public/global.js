@@ -95,3 +95,12 @@ function shuffle(array) {
 
   return shuffledArray;
 }
+function clearCache() {
+  caches.keys().then(function(names) {
+    for (let name of names) {
+      caches.delete(name);
+    }
+  }).then(() => {
+    window.location.reload();
+  });
+}

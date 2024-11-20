@@ -116,12 +116,7 @@ if (getCookie("group") === "admin" || getCookie("update") !== null) {
       .then(data => {
         if (data.message === "Update successful") {
           alert("Сайт успішно оновлено! ✅");
-          caches.keys().then(function(names) {
-            for (let name of names) {
-              caches.delete(name);
-            }
-          });
-          window.location.reload(true);
+          clearCache();
         } else {
           alert("Помилка при оновленні сайту: " + data.error);
         }
