@@ -53,8 +53,15 @@ async function addCards(cards) {
       dont_know_btn.innerHTML = "Нагадати пізніше";
       know_btn.innerHTML = "Вже зрозуміло";
     });
+    document.getElementById("progress_text").innerHTML = `${
+      cardList.indexOf(card) + 1
+    }/${cardList.length}`;
+    document.getElementById("progress_bar").style.width = `${
+      (cardList.indexOf(card) + 1) * 100 / cardList.length
+    }%`;
   }
   document.getElementById("loader").remove();
+  document.getElementById("progress").remove();
   document.getElementById("card_options").classList.toggle("hidden");
   cardDisplay.children[0].classList.toggle("hidden");
 }
@@ -194,7 +201,7 @@ async function loadCardsData() {
     if (!data || !Array.isArray(data) || data.length === 0) {
       throw new Error("Отримано некоректні дані");
     }
-
+    document.getElementById("progress").classList.toggle("hidden");
     await addCards(data);
   } catch (error) {
     console.error("Error loading cards data:", error);
