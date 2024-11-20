@@ -115,14 +115,14 @@ if (getCookie("group") === "admin" || getCookie("update") !== null) {
       .then(response => response.json())
       .then(data => {
         if (data.message === "Update successful") {
-          alert("Server updated successfully! ✅");
+          alert("Сайт успішно оновлено! ✅");
         } else {
-          alert("Update failed: " + data.error);
+          alert("Помилка при оновленні сайту: " + data.error);
         }
       })
       .catch(error => {
         console.error('Error:', error);
-        alert("Failed to update server ❌");
+        alert("Помилка при оновленні сайту ❌");
       });
   }
 }
