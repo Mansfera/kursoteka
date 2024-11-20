@@ -1133,13 +1133,13 @@ function showQuestion() {
             if (button.id[1] == currentQuestion.selected[index]) {
               button.classList.add("selected");
             }
-              if (getCookie("debugAnswers") != null) {
-                if (button.id[1] == currentQuestion.correct[index]) {
-                  button.classList.add("debug_answer1");
-                } else {
-                  button.classList.add("debug_answer2");
-                }
+            if (getCookie("debugAnswers") != null) {
+              if (button.id[1] == currentQuestion.correct[index]) {
+                button.classList.add("debug_answer1");
+              } else {
+                button.classList.add("debug_answer2");
               }
+            }
           }
         }
       });
@@ -1627,7 +1627,11 @@ let debugPressTimer;
 const questionIdElement = document.getElementById("question_id");
 if (getCookie("group") != "student") {
   questionIdElement.addEventListener("click", () => {
-    window.open(`/test_editor?q_id=${questionIdElement.innerHTML.slice(3)}&course=${course}&block=${block_id}&test=${test_id}`);
+    window.open(
+      `/test_editor?q_id=${questionIdElement.innerHTML.slice(
+        3
+      )}&course=${course}&block=${block_id}&test=${test_id}`
+    );
   });
 } else {
   // Mouse events
@@ -1662,4 +1666,13 @@ function startDebugTimer(e) {
 
 function clearDebugTimer() {
   clearTimeout(debugPressTimer);
+}
+
+if (getCookie("removeBlur") === "true") {
+  Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
+    (element) => {
+      element.classList.remove("__can_be_blurred");
+      element.classList.remove("blurred");
+    }
+  );
 }

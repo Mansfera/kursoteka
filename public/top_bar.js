@@ -14,6 +14,11 @@ document.addEventListener("DOMContentLoaded", function () {
       ) {
         document.getElementById("admin_panel").classList.remove("display-none");
       }
+      if (getCookie("group") === "admin") {
+        document
+          .getElementById("updateserver")
+          .classList.remove("display-none");
+      }
       let __tag = "";
       if (window.matchMedia("(max-width: 965px)").matches) {
         $(function () {
@@ -40,6 +45,11 @@ document.addEventListener("DOMContentLoaded", function () {
             ) {
               document
                 .getElementById("mobile_menu-list-admin_panel")
+                .classList.remove("display-none");
+            }
+            if (getCookie("group") === "admin") {
+              document
+                .getElementById("mobile_menu-list-updateserver")
                 .classList.remove("display-none");
             }
             let path = window.location.pathname;
@@ -97,5 +107,22 @@ function changePage(mobile, page, params) {
     }, 700);
   } else {
     window.location = goToLoc;
+  }
+}
+if (getCookie("group") === "admin") {
+  function updateServer() {
+    fetch(`/api/updateserver?auth_key=${getCookie("auth_key")}`)
+      .then(response => response.json())
+      .then(data => {
+        if (data.message === "Update successful") {
+          alert("Server updated successfully! ✅");
+        } else {
+          alert("Update failed: " + data.error);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert("Failed to update server ❌");
+      });
   }
 }

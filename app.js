@@ -1474,3 +1474,27 @@ app.get("/api/marketplace/getCourseImage", (req, res) => {
     }
   });
 });
+app.get("/api/updateserver", async (req, res) => {
+  const auth_key = req.query.auth_key;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    
+    if (!user || user.group_type !== 'admin') {
+      return res.status(403).json({ error: "Unauthorized" });
+    }
+
+    const { exec } = require('child_process');
+    exec('./update.sh', (error, stdout, stderr) => {
+      if (error) {
+        console.error(`Error executing update.sh: ${error}`);
+        return res.status(500).json({ error: "Update failed" });
+      }
+      res.status(200).json({ message: "Update successful" });
+    });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Server error" });
+  }
+});

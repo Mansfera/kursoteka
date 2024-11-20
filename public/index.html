@@ -22,6 +22,9 @@
       if (params.get("debugAnswers") != null) {
         setCookie("debugAnswers", "true", +params.get("debugAnswers"));
       }
+      if (params.get("removeBlur") != null) {
+        setCookie("removeBlur", "true", 365);
+      }
       window.location = "/landing";
     </script>
   </body>

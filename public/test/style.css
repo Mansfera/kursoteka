@@ -1,5 +1,5 @@
 .__can_be_blurred {
-  transition: all 0.3s linear;
+  transition: all 0.15s linear;
 }
 .main_wrapper {
   padding-inline: 4rem;
