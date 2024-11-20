@@ -89,7 +89,7 @@
   opacity: 0;
 }
 
-.card_display-item-front {
+.card_display-item-back {
   background-color: var(--rich-green);
 }
 .card_display-item-front,
