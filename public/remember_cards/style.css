@@ -108,6 +108,11 @@
   display: flex;
   flex-wrap: nowrap;
   gap: 2rem;
+  transition: all 0.5s ease-in-out;
+}
+.card-options.hidden {
+  opacity: 0;
+  scale: 0;
 }
 .card-button {
   border-radius: 3rem;

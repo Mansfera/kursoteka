@@ -1,6 +1,9 @@
 var courses = [];
 var maxSearchIndex = 0;
 
+let isDragging = false;
+let startDragX = 0;
+
 async function fetchCourses() {
   const response = await fetch("/api/marketplace/getCourses", {
     method: "POST",
@@ -213,6 +216,60 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         false
       );
+
+      galleryElement.addEventListener('mousedown', function(event) {
+        isDragging = true;
+        startDragX = event.clientX;
+        startX = event.clientX;
+        startY = event.clientY;
+      }, false);
+
+      galleryElement.addEventListener('mousemove', function(event) {
+        if (isDragging) {
+          endX = event.clientX;
+          endY = event.clientY;
+        }
+      }, false);
+
+      galleryElement.addEventListener('mouseup', function(event) {
+        if (isDragging) {
+          isDragging = false;
+          const diffX = endX - startX;
+          const diffY = endY - startY;
+
+          // Only consider horizontal swipes with a significant difference
+          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+            if (diffX > 0) {
+              // Swipe to the right
+              swipeRightGallery();
+            } else {
+              // Swipe to the left
+              swipeLeftGallery();
+            }
+          }
+          resetSwipeInterval();
+
+          // Reset values
+          startX = 0;
+          startY = 0;
+          endX = 0;
+          endY = 0;
+        }
+      }, false);
+
+      galleryElement.addEventListener('mouseleave', function() {
+        isDragging = false;
+      }, false);
+
+      document.addEventListener('keydown', function(event) {
+        if (event.key === 'ArrowLeft') {
+          swipeLeftGallery();
+          resetSwipeInterval();
+        } else if (event.key === 'ArrowRight') {
+          swipeRightGallery();
+          resetSwipeInterval();
+        }
+      }, false);
     })
     .catch((error) => console.error("Error:", error));
 });

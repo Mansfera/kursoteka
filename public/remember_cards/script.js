@@ -54,10 +54,11 @@ async function addCards(cards) {
       know_btn.innerHTML = "Вже зрозуміло";
     });
   }
+  document.getElementById("loader").remove();
+  document.getElementById("card_options").classList.toggle("hidden");
   cardDisplay.children[0].classList.toggle("hidden");
 }
-
-dont_know_btn.addEventListener("click", () => {
+function dont_know_btn_click() {
   const card = document.getElementById(`img_id-${currentCardId}`);
   if (cardUnknownCheck || card.classList.contains("flipped")) {
     dont_know_btn.innerHTML = "Не знаю";
@@ -82,8 +83,8 @@ dont_know_btn.addEventListener("click", () => {
     dont_know_btn.innerHTML = "Нагадати пізніше";
     know_btn.innerHTML = "Вже зрозуміло";
   }
-});
-know_btn.addEventListener("click", () => {
+}
+function know_btn_click() {
   const card = document.getElementById(`img_id-${currentCardId}`);
   dont_know_btn.innerHTML = "Не знаю";
   know_btn.innerHTML = "Знаю";
@@ -101,6 +102,24 @@ know_btn.addEventListener("click", () => {
     startNewRound();
   }
   cardUnknownCheck = false;
+}
+
+dont_know_btn.addEventListener("click", dont_know_btn_click);
+know_btn.addEventListener("click", know_btn_click);
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Enter" || event.key === "ArrowRight") {
+    know_btn_click();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowLeft") {
+    dont_know_btn_click();
+  }
+});
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape") {
+    window.close();
+  }
 });
 
 function startNewRound() {
@@ -170,6 +189,10 @@ async function loadCardsData() {
     if (response.ok) {
       const data = await response.json();
       addCards(data);
+      if (data.length == 0) {
+        alert("Зоображення відсутні :(");
+        window.close();
+      }
     } else {
       console.error("Error fetching cards data:", response.status);
     }
