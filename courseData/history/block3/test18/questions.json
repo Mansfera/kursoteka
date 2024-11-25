@@ -142,9 +142,9 @@
     "question": "7",
     "answers": [
       { "text": "А", "correct": false },
-      { "text": "Б", "correct": true },
+      { "text": "Б", "correct": false },
       { "text": "В", "correct": false },
-      { "text": "Г", "correct": false }
+      { "text": "Г", "correct": true }
     ],
     "year": 1907
   },
@@ -729,9 +729,9 @@
     "df": "чумаками",
     "question": "35",
     "answers": [
-      { "text": "А", "correct": false },
+      { "text": "А", "correct": true },
       { "text": "Б", "correct": false },
-      { "text": "В", "correct": true },
+      { "text": "В", "correct": false },
       { "text": "Г", "correct": false }
     ],
     "year": 1913
@@ -773,9 +773,9 @@
     "df": "створено першу українську політичну партію в Наддніпрянській Україні",
     "question": "37",
     "answers": [
-      { "text": "А", "correct": true },
+      { "text": "А", "correct": false },
       { "text": "Б", "correct": false },
-      { "text": "В", "correct": false },
+      { "text": "В", "correct": true },
       { "text": "Г", "correct": false }
     ],
     "year": 1905
@@ -839,8 +839,8 @@
     "answers": [
       { "text": "А", "correct": false },
       { "text": "Б", "correct": false },
-      { "text": "В", "correct": true },
-      { "text": "Г", "correct": false }
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
     ],
     "year": 1906
   },
@@ -882,9 +882,9 @@
     "question": "42",
     "answers": [
       { "text": "А", "correct": false },
-      { "text": "Б", "correct": true },
+      { "text": "Б", "correct": false },
       { "text": "В", "correct": false },
-      { "text": "Г", "correct": false }
+      { "text": "Г", "correct": true }
     ],
     "year": 1903
   },
@@ -1146,8 +1146,8 @@
     "question": "55",
     "answers": [
       { "text": "А", "correct": false },
-      { "text": "Б", "correct": false },
-      { "text": "В", "correct": true },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
       { "text": "Г", "correct": false }
     ],
     "year": 1902
