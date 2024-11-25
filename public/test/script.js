@@ -284,7 +284,7 @@ function startFinalTest() {
 
   for (let i = 0; i < questionCount; i++) {
     let currentQuestion;
-    if (i < (last_test_id - first_test_id + 1) * 3) {
+    if (i < (last_test_id - first_test_id) * 3) {
       let randomQuestionIndex = Math.floor(Math.random() * questions.length);
       currentQuestion = questions[randomQuestionIndex];
       while (temp_questions.includes(currentQuestion)) {
