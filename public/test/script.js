@@ -939,19 +939,76 @@ function removeFromArray(array, element) {
 }
 
 if (getCookie("debugAnswers") != null) {
-  function debugAnswers() {
-    Array.from(test_questions).forEach((q) => {
-      if (q.correct != null) {
-        q.selected = q.correct;
+  let autofill = false;
+  let autofillInterval;
+
+  function toggleFillAnswers(interval = 1000) {
+    if (autofill) {
+      // Stop if running
+      autofill = false;
+      if (autofillInterval) {
+        clearTimeout(autofillInterval);
+      }
+      console.log("Autofill stopped");
+    } else {
+      // Start if stopped
+      autofill = true;
+      autofillInterval = interval;
+      fillAnswers(interval);
+      console.log("Autofill started with interval:", interval);
+    }
+  }
+
+  function fillAnswers(interval = 1000) {
+    if (autofill) {
+      if (currentQuestionIndex < questionCount) {
+        console.log(displayedQuestion.correct);
+        if (
+          displayedQuestion.q_type == "hron" ||
+          displayedQuestion.q_type == "vidp"
+        ) {
+          // Handle chronology and correspondence questions
+          for (let i = 0; i < 4; i++) {
+            const correctAnswer = displayedQuestion.correct[i];
+            const button = document.getElementById(`${String.fromCharCode(97 + i)}${correctAnswer}`);
+            if (button) button.click();
+          }
+        } else if (displayedQuestion.q_type == "abcd") {
+          // Handle multiple choice questions
+          const correctAnswer = displayedQuestion.answers.find(answer => answer.correct);
+          if (correctAnswer) {
+            const buttons = document.querySelectorAll('.abcd_button');
+            buttons.forEach(button => {
+              if (button.innerHTML === correctAnswer.text) {
+                button.click();
+              }
+            });
+          }
+        } else if (displayedQuestion.q_type == "mul_ans") {
+          // Handle multiple answer questions
+          for (let i = 0; i < 3; i++) {
+            const input = document.getElementById("text_input" + (i + 1));
+            if (input) {
+              input.value = displayedQuestion.correct[i];
+              // Trigger input event to save the answer
+              input.dispatchEvent(new Event('input'));
+            }
+          }
+        }
+
+        if (autofill) {
+          autofillInterval = setTimeout(() => {
+            if (currentQuestionIndex < questionCount - 1) {
+              handleNextButton();
+            }
+            fillAnswers(interval);
+          }, interval);
+        }
       } else {
-        q.selected = q.answers.filter((a) => a.correct)[0].text;
+        autofill = false;
+        console.log("Autofill completed");
       }
-    });
-    Array.from(document.getElementsByClassName("block_answers-item")).forEach(
-      (q) => {
-        q.classList.add("selected");
-      }
-    );
+    }
   }
 }
 
@@ -1630,7 +1687,7 @@ if (getCookie("group") != "student") {
     window.open(
       `/test_editor?q_id=${questionIdElement.innerHTML.slice(
         3
-      )}&course=${course}&block=${block_id}&test=${test_id}`
+      )}&course=${course}&block=${block_id}&test=${displayedQuestion.test_id}`
     );
   });
 } else {
