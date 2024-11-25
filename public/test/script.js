@@ -1000,6 +1000,9 @@ if (getCookie("debugAnswers") != null) {
           autofillInterval = setTimeout(() => {
             if (currentQuestionIndex < questionCount - 1) {
               handleNextButton();
+            } else {
+              autofill = false;
+              console.log("Autofill completed");
             }
             fillAnswers(interval);
           }, interval);
