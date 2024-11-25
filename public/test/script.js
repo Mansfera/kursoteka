@@ -942,7 +942,7 @@ if (getCookie("debugAnswers") != null) {
   let autofill = false;
   let autofillInterval;
 
-  function toggleFillAnswers(interval = 1000) {
+  function toggleFillAnswers(interval = 1000, randomTime = false) {
     if (autofill) {
       // Stop if running
       autofill = false;
@@ -954,12 +954,12 @@ if (getCookie("debugAnswers") != null) {
       // Start if stopped
       autofill = true;
       autofillInterval = interval;
-      fillAnswers(interval);
+      fillAnswers(interval, randomTime);
       console.log("Autofill started with interval:", interval);
     }
   }
 
-  function fillAnswers(interval = 1000) {
+  function fillAnswers(interval = 1000, randomTime = false) {
     if (autofill) {
       if (currentQuestionIndex < questionCount) {
         console.log(displayedQuestion.correct);
@@ -999,12 +999,15 @@ if (getCookie("debugAnswers") != null) {
         if (autofill) {
           autofillInterval = setTimeout(() => {
             if (currentQuestionIndex < questionCount - 1) {
+              if (randomTime) {
+                time = time - Math.floor(Math.random() * 15);
+              }
               handleNextButton();
             } else {
               autofill = false;
               console.log("Autofill completed");
             }
-            fillAnswers(interval);
+            fillAnswers(interval, randomTime);
           }, interval);
         }
       } else {
