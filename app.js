@@ -470,12 +470,17 @@ app.get("/loadTestData", async (req, res) => {
       mulAnsQuestions.push(...testMulAnsQuestions);
     }
 
-    res.json({
+    let response = {
       questions,
       vidpovidnistQuestions,
       hronologyQuestions,
       mulAnsQuestions,
-    });
+    };
+    if (temas_id_list.length > 1) {
+      response.final_tema_amount = temas_id_list.length;
+    }
+
+    res.json(response);
   } catch (error) {
     console.error("Error loading test data:", error);
     res.status(500).send("Error loading test data");

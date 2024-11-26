@@ -125,7 +125,8 @@ function loadTestQuestions(newTestData) {
               vidpovidnist_questions = testData.vidpovidnistQuestions;
               hronology_questions = testData.hronologyQuestions;
               mul_ans_questions = testData.mulAnsQuestions;
-              prepareTest(newTestData);
+              final_tema_amount = testData.final_tema_amount;
+              prepareTest(newTestData, final_tema_amount);
             } else {
               console.error("Failed to load test data");
             }
@@ -244,15 +245,15 @@ function startShortTest() {
     test_questions.push(currentQuestion);
   }
 }
-function startFinalTest() {
+function startFinalTest(final_tema_amount) {
   currentTest.id = `${test_id}-${test_type}-${block_id}`;
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
-  (currentTest.testName = document.getElementById("test_name").innerHTML),
-    (questions_length = (last_test_id - first_test_id) * 3);
-  vidpovidnist_length = (last_test_id - first_test_id) * 1;
-  hronology_length = (last_test_id - first_test_id) * 1;
-  mul_ans_length = (last_test_id - first_test_id) * 1;
+  currentTest.testName = document.getElementById("test_name").innerHTML;
+  questions_length = final_tema_amount * 3;
+  vidpovidnist_length = final_tema_amount * 1;
+  hronology_length = final_tema_amount * 1;
+  mul_ans_length = final_tema_amount * 1;
   currentTest.test_questions_length = questions_length;
   currentTest.vidpovidnist_length = vidpovidnist_length;
   currentTest.hronology_length = hronology_length;
@@ -284,7 +285,7 @@ function startFinalTest() {
 
   for (let i = 0; i < questionCount; i++) {
     let currentQuestion;
-    if (i < (last_test_id - first_test_id) * 3) {
+    if (i < final_tema_amount * 3) {
       let randomQuestionIndex = Math.floor(Math.random() * questions.length);
       currentQuestion = questions[randomQuestionIndex];
       while (temp_questions.includes(currentQuestion)) {
@@ -292,10 +293,7 @@ function startFinalTest() {
         currentQuestion = questions[randomQuestionIndex];
       }
       temp_questions.push(currentQuestion);
-    } else if (
-      i > (last_test_id - first_test_id) * 3 - 1 &&
-      i < (last_test_id - first_test_id) * 4
-    ) {
+    } else if (i > final_tema_amount * 3 - 1 && i < final_tema_amount * 4) {
       test_questions.sort((p1, p2) =>
         p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
       );
@@ -310,10 +308,7 @@ function startFinalTest() {
         currentQuestion = vidpovidnist_questions[randomQuestionIndex];
       }
       temp_vidpovidnist.push(currentQuestion);
-    } else if (
-      i > (last_test_id - first_test_id) * 4 - 1 &&
-      i < (last_test_id - first_test_id) * 5
-    ) {
+    } else if (i > final_tema_amount * 4 - 1 && i < final_tema_amount * 5) {
       let randomQuestionIndex = Math.floor(
         Math.random() * hronology_questions.length
       );
@@ -325,10 +320,7 @@ function startFinalTest() {
         currentQuestion = hronology_questions[randomQuestionIndex];
       }
       temp_hronology.push(currentQuestion);
-    } else if (
-      i > (last_test_id - first_test_id) * 5 - 1 &&
-      i < (last_test_id - first_test_id) * 6
-    ) {
+    } else if (i > final_tema_amount * 5 - 1 && i < final_tema_amount * 6) {
       let randomQuestionIndex = Math.floor(
         Math.random() * mul_ans_questions.length
       );
@@ -417,7 +409,7 @@ function saveUncompletedTest() {
   localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
 }
 
-function prepareTest(loadNewData) {
+function prepareTest(loadNewData, final_tema_amount = 1) {
   test_completed = false;
   currentQuestionIndex = 0;
   finishTestButton.innerHTML = "Завершити тест";
@@ -435,7 +427,7 @@ function prepareTest(loadNewData) {
         startFullTest();
         break;
       case "final":
-        startFinalTest();
+        startFinalTest(final_tema_amount);
         break;
     }
     uncompletedTests = uncompletedTests.filter(
