@@ -65,7 +65,7 @@ function openVideo(block, tema) {
     `/lesson_materials/?course=${current_course}&block=${block}&tema=${tema}`
   );
 }
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const lastCompletedSummaryTests =
     JSON.parse(
       localStorage.getItem(`lastCompletedSummaryTests-${current_course}`)
@@ -96,8 +96,37 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-});
 
+  await fetchUserStats();
+  fetchAndDisplayUserCourses();
+});
+let user_stats = null;
+
+async function fetchUserStats() {
+  try {
+    const response = await fetch("/api/getUserStats", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        auth_key,
+        courseName: current_course,
+      }),
+    });
+    
+    if (!response.ok) {
+      throw new Error('Failed to fetch user stats');
+    }
+    
+    const data = await response.json();
+    user_stats = data;
+  } catch (error) {
+    console.error("Error fetching user stats:", error);
+  }
+}
+
+//make request to get user stats and save them to user_stats
 function fetchAndDisplayUserCourses() {
   fetch("/api/getUserCourses", {
     method: "POST",
@@ -141,11 +170,13 @@ function fetchAndDisplayUserCourses() {
               </div>
             `;
             material_list.appendChild(blockCard);
+            const next_block = course.blocks[course.blocks.indexOf(block) + 1];
             if (
               data.allowed_tests.includes(
-                block.tests[block.tests.length - 1].id
+                next_block.tests[next_block.tests.length - 1].id
               ) ||
-              data.allowed_tests.includes("all")
+              data.allowed_tests.includes("all") ||
+              (user_stats?.completed_tests || []).includes(block.tests[block.tests.length - 1].id)
             ) {
               document
                 .getElementById(`final_test-${block.id}`)
@@ -237,7 +268,6 @@ function fetchAndDisplayUserCourses() {
     });
 }
 
-document.addEventListener("DOMContentLoaded", fetchAndDisplayUserCourses);
 function openTestEditor(block, test) {
   window.open(
     `/test_editor?course=${current_course}&block=${block}&test=${test}`

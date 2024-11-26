@@ -837,14 +837,6 @@ app.post("/api/getUserStats", async (req, res) => {
     res.status(500).send("Error loading test data");
   }
 });
-
-function getUsersWithSpecificCourse(users, courseName) {
-  return users.filter(
-    (user) =>
-      user.courses &&
-      user.courses.some((course) => course.id === courseName && !course.hidden)
-  );
-}
 function generateCode() {
   const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 
