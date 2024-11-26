@@ -182,18 +182,6 @@ app.post("/saveTest", async (req, res) => {
   }
 });
 
-function findCourse(users, auth_key, courseId) {
-  for (let user of users) {
-    if (user.auth_key === auth_key) {
-      for (let course of user.courses) {
-        if (course.id === courseId) {
-          return course;
-        }
-      }
-    }
-  }
-  return null;
-}
 function createRandomString(length) {
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
