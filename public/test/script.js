@@ -419,21 +419,35 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
   numeric_answers.classList.add("display-none");
   block_answers.innerHTML = "";
   if (loadNewData) {
-    switch (test_type) {
-      case "short":
-        startShortTest();
-        break;
-      case "full":
-        startFullTest();
-        break;
-      case "final":
-        startFinalTest(final_tema_amount);
-        break;
+    if (
+      questions_length != 0 &&
+      vidpovidnist_length != 0 &&
+      hronology_length != 0 &&
+      mul_ans_length != 0
+    ) {
+      switch (test_type) {
+        case "short":
+          startShortTest();
+          break;
+        case "full":
+          startFullTest();
+          break;
+        case "final":
+          startFinalTest(final_tema_amount);
+          break;
+      }
+      uncompletedTests = uncompletedTests.filter(
+        (test) => test.id != currentTest.id
+      );
+      localStorage.setItem(
+        "uncompletedTests",
+        JSON.stringify(uncompletedTests)
+      );
+    } else {
+      document.getElementById("initial_black_screen-text").innerHTML =
+        "Тест не знайдено";
+      return;
     }
-    uncompletedTests = uncompletedTests.filter(
-      (test) => test.id != currentTest.id
-    );
-    localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
   } else {
     continueOldTest();
   }
@@ -487,6 +501,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     });
   });
   showQuestion();
+  document.getElementById("initial_black_screen").classList.add("display-none");
 }
 async function loadTestDataFromServer(
   auth_key,
