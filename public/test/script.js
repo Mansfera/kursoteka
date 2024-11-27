@@ -962,15 +962,19 @@ if (getCookie("debugAnswers") != null) {
           // Handle chronology and correspondence questions
           for (let i = 0; i < 4; i++) {
             const correctAnswer = displayedQuestion.correct[i];
-            const button = document.getElementById(`${String.fromCharCode(97 + i)}${correctAnswer}`);
+            const button = document.getElementById(
+              `${String.fromCharCode(97 + i)}${correctAnswer}`
+            );
             if (button) button.click();
           }
         } else if (displayedQuestion.q_type == "abcd") {
           // Handle multiple choice questions
-          const correctAnswer = displayedQuestion.answers.find(answer => answer.correct);
+          const correctAnswer = displayedQuestion.answers.find(
+            (answer) => answer.correct
+          );
           if (correctAnswer) {
-            const buttons = document.querySelectorAll('.abcd_button');
-            buttons.forEach(button => {
+            const buttons = document.querySelectorAll(".abcd_button");
+            buttons.forEach((button) => {
               if (button.innerHTML === correctAnswer.text) {
                 button.click();
               }
@@ -983,7 +987,7 @@ if (getCookie("debugAnswers") != null) {
             if (input) {
               input.value = displayedQuestion.correct[i];
               // Trigger input event to save the answer
-              input.dispatchEvent(new Event('input'));
+              input.dispatchEvent(new Event("input"));
             }
           }
         }
@@ -1322,8 +1326,9 @@ function showQuestion() {
       field.parentElement.classList.add("display-none");
     }
   });
+  const showTestID = test_type == "final" ? `${currentQuestion.test_id}/` : "";
   document.getElementById("question_id").innerHTML =
-    "ID#" + currentQuestion.question;
+    showTestID + "ID#" + currentQuestion.question;
   if (getCookie("debugAnswers") != null) {
     if (displayedQuestion.correct != null) {
       console.log(
@@ -1683,9 +1688,9 @@ const questionIdElement = document.getElementById("question_id");
 if (getCookie("group") != "student") {
   questionIdElement.addEventListener("click", () => {
     window.open(
-      `/test_editor?q_id=${questionIdElement.innerHTML.slice(
-        3
-      )}&course=${course}&block=${block_id}&test=${displayedQuestion.test_id}`
+      `/test_editor?q_id=${
+        questionIdElement.innerHTML.split("#")[1]
+      }&course=${course}&block=${block_id}&test=${displayedQuestion.test_id}`
     );
   });
 } else {
