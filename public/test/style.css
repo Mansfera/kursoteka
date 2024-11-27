@@ -509,6 +509,7 @@ input {
     padding-inline-start: 0;
     overflow-y: visible;
     padding-bottom: 15rem;
+    margin-bottom: 15rem;
   }
 }
 .main_wrapper-test_result {
