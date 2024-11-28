@@ -685,6 +685,13 @@ function sendDebugTestResult(
 }
 
 async function sendTestResult() {
+  const updatedUncompletedTests = uncompletedTests.filter(
+    (test) => test.id !== `${test_id}-${test_type}-${block_id}`
+  );
+  localStorage.setItem(
+    "uncompletedTests",
+    JSON.stringify(updatedUncompletedTests)
+  );
   let _test_id;
   if (test_type == "final" && score >= 85) {
     _test_id = last_test_id;
@@ -833,13 +840,7 @@ async function sendTestResult() {
       return response.json();
     })
     .then(() => {
-      const updatedUncompletedTests = uncompletedTests.filter(
-        (test) => test.id !== `${test_id}-${test_type}-${block_id}`
-      );
-      localStorage.setItem(
-        "uncompletedTests",
-        JSON.stringify(updatedUncompletedTests)
-      );
+      console.log("Test result sent successfully");
     })
     .catch((error) => {
       console.error("Error sending test result:", error);
