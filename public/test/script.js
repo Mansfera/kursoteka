@@ -19,6 +19,8 @@ var block_id = params.get("block");
 var test_type = params.get("test_type");
 var course = params.get("course");
 
+let test_uuid;
+
 let test_name;
 let first_test_id = params.get("first_test_id");
 let last_test_id = params.get("last_test_id");
@@ -158,6 +160,7 @@ function continueOldTest() {
   timerInterval = setInterval(updateCountdown, 1000);
   const testData = currentTest.test_questions;
   test_questions = testData;
+  test_uuid = currentTest.uuid ? currentTest.uuid : null;
 }
 
 function startShortTest() {
@@ -181,6 +184,7 @@ function startShortTest() {
   currentTest.startingMinutes = startingMinutes;
   time = startingMinutes * 60;
   startTime = time;
+  test_uuid = Math.random().toString(36).substring(2, 10);
   timerInterval = setInterval(updateCountdown, 1000);
 
   questions.forEach((q) => {
@@ -269,6 +273,7 @@ function startFinalTest(final_tema_amount) {
   let temp_vidpovidnist = [];
   let temp_hronology = [];
   let temp_mul_ans = [];
+  test_uuid = Math.random().toString(36).substring(2, 10);
 
   questions.forEach((q) => {
     q.q_type = "abcd";
@@ -367,6 +372,7 @@ function startFullTest() {
   time = startingMinutes * 60;
   startTime = time;
   timerInterval = setInterval(updateCountdown, 1000);
+  test_uuid = Math.random().toString(36).substring(2, 10);
 
   questions.forEach((q) => {
     q.q_type = "abcd";
@@ -380,7 +386,6 @@ function startFullTest() {
   mul_ans_questions.forEach((q) => {
     q.q_type = "mul_ans";
   });
-
   let temp_1 = [];
   test_questions = temp_1
     .concat(
@@ -401,6 +406,7 @@ function saveUncompletedTest() {
   currentTest.test_questions = test_questions;
   currentTest.time = time;
   currentTest.startingMinutes = startingMinutes;
+  currentTest.uuid = test_uuid;
   currentTest.date = Date.now();
   uncompletedTests = uncompletedTests.filter(
     (test) => test.id != currentTest.id
@@ -678,7 +684,7 @@ function sendDebugTestResult(
     });
 }
 
-function sendTestResult() {
+async function sendTestResult() {
   let _test_id;
   if (test_type == "final" && score >= 85) {
     _test_id = last_test_id;
@@ -809,7 +815,7 @@ function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-
+  testData.uuid = test_uuid;
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
@@ -818,6 +824,9 @@ function sendTestResult() {
     body: JSON.stringify(testData),
   })
     .then((response) => {
+      if (response.status == 403) {
+        window.location.href = "/test/not_found";
+      }
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
