@@ -70,7 +70,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     JSON.parse(
       localStorage.getItem(`lastCompletedSummaryTests-${current_course}`)
     ) || [];
-  if (lastCompletedSummaryTests.length > 0 && (!getCookie("allowContextmenu") || !getCookie("debugAnswers"))) {
+  if (lastCompletedSummaryTests.length > 0 && (!getCookie("allowContextmenu") && !getCookie("debugAnswers"))) {
     Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
       if (
         Date.now() - summaryTest.date >
