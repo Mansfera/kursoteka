@@ -500,6 +500,7 @@ app.post("/sendTestResult", async (req, res) => {
     hronology_questions_accuracy,
     vidpovidnist_questions_accuracy,
     mul_ans_questions_accuracy,
+    uuid,
   } = req.body;
 
   try {
@@ -517,6 +518,12 @@ app.post("/sendTestResult", async (req, res) => {
     }
 
     const completedTests = JSON.parse(userCourse.completed_tests);
+
+    const test_uuid_exists = completedTests.find((test) => test.uuid === uuid);
+    if (test_uuid_exists) {
+      return res.status(403).send("Test already completed");
+    }
+
     const allowedTests = JSON.parse(userCourse.allowed_tests);
 
     let short_test_check = false;
@@ -533,6 +540,7 @@ app.post("/sendTestResult", async (req, res) => {
       hronology_questions_accuracy,
       vidpovidnist_questions_accuracy,
       mul_ans_questions_accuracy,
+      uuid,
     });
 
     // Check if we need to update allowed tests
