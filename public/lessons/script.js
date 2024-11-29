@@ -123,7 +123,6 @@ async function fetchUserStats() {
     
     const data = await response.json();
     user_stats = data;
-    console.log(user_stats);
   } catch (error) {
     console.error("Error fetching user stats:", error);
   }
@@ -179,7 +178,7 @@ function fetchAndDisplayUserCourses() {
                 next_block.tests[next_block.tests.length - 1].id
               ) ||
               data.allowed_tests.includes("all") ||
-              (user_stats?.completed_tests || []).includes(block.tests[block.tests.length - 1].id)
+              (user_stats?.completed_tests || []).find(test => test.test == block.tests[block.tests.length - 1].id)
             ) {
               document
                 .getElementById(`final_test-${block.id}`)
