@@ -112,6 +112,8 @@ async function fetchUserStats() {
       body: JSON.stringify({
         auth_key,
         courseName: current_course,
+        start_date: Date.now() - 30 * 24 * 60 * 60 * 1000,
+        end_date: Date.now(),
       }),
     });
     
@@ -121,6 +123,7 @@ async function fetchUserStats() {
     
     const data = await response.json();
     user_stats = data;
+    console.log(user_stats);
   } catch (error) {
     console.error("Error fetching user stats:", error);
   }
