@@ -832,7 +832,7 @@ async function sendTestResult() {
   })
     .then((response) => {
       if (response.status == 403) {
-        window.location.href = "/test/not_found";
+        window.location.reload();
       }
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
