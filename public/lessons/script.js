@@ -65,16 +65,39 @@ function openVideo(block, tema) {
     `/lesson_materials/?course=${current_course}&block=${block}&tema=${tema}`
   );
 }
+let user_stats = null;
 document.addEventListener("DOMContentLoaded", async () => {
-  const lastCompletedSummaryTests =
-    JSON.parse(
-      localStorage.getItem(`lastCompletedSummaryTests-${current_course}`)
-    ) || [];
-  if (lastCompletedSummaryTests.length > 0 && (!getCookie("allowContextmenu") && !getCookie("debugAnswers"))) {
-    Array.from(lastCompletedSummaryTests).forEach((summaryTest) => {
+  await fetchUserStats();
+  fetchAndDisplayUserCourses();
+
+  // Get all final tests
+  const finalTests = user_stats?.completed_tests.filter(
+    (test) => test.test_type == "final"
+  ) || [];
+
+  // Group tests by test_id and get only the latest one for each
+  const latestTestsMap = new Map();
+  finalTests.forEach((test) => {
+    const existingTest = latestTestsMap.get(test.test);
+    if (!existingTest || existingTest.date < test.date) {
+      latestTestsMap.set(test.test, test);
+    }
+  });
+
+  // Convert map values back to array and sort by date
+  const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
+    (a, b) => a.date - b.date
+  );
+  console.log(lastCompletedSummaryTests);
+
+  if (
+    lastCompletedSummaryTests.length > 0 &&
+    !getCookie("allowContextmenu") &&
+    !getCookie("debugAnswers")
+  ) {
+    lastCompletedSummaryTests.forEach((summaryTest) => {
       if (
         Date.now() - summaryTest.date >
-        // 0
         7 * 24 * 60 * 60 * 1000
       ) {
         document
@@ -96,11 +119,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     });
   }
-
-  await fetchUserStats();
-  fetchAndDisplayUserCourses();
 });
-let user_stats = null;
 
 async function fetchUserStats() {
   try {
@@ -116,11 +135,11 @@ async function fetchUserStats() {
         end_date: Date.now(),
       }),
     });
-    
+
     if (!response.ok) {
-      throw new Error('Failed to fetch user stats');
+      throw new Error("Failed to fetch user stats");
     }
-    
+
     const data = await response.json();
     user_stats = data;
   } catch (error) {
@@ -178,7 +197,9 @@ function fetchAndDisplayUserCourses() {
                 next_block.tests[next_block.tests.length - 1].id
               ) ||
               data.allowed_tests.includes("all") ||
-              (user_stats?.completed_tests || []).find(test => test.test == block.tests[block.tests.length - 1].id)
+              (user_stats?.completed_tests || []).find(
+                (test) => test.test == block.tests[block.tests.length - 1].id
+              )
             ) {
               document
                 .getElementById(`final_test-${block.id}`)
