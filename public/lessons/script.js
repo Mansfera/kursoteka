@@ -67,7 +67,7 @@ function openVideo(block, tema) {
 }
 let user_stats = null;
 document.addEventListener("DOMContentLoaded", async () => {
-  const pull = await Promise.all([
+  await Promise.all([
     fetchUserStats(),
     fetchAndDisplayUserCourses(),
   ]).then(() => {
@@ -130,7 +130,7 @@ async function fetchUserStats() {
       body: JSON.stringify({
         auth_key,
         courseName: current_course,
-        start_date: Date.now() - 30 * 24 * 60 * 60 * 1000,
+        start_date: Date.now() - 9 * 30 * 24 * 60 * 60 * 1000,
         end_date: Date.now(),
       }),
     });
