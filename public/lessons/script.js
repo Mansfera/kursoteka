@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
     (a, b) => a.date - b.date
   );
-  console.log(lastCompletedSummaryTests);
+  console.log(finalTests, lastCompletedSummaryTests);
 
   if (
     lastCompletedSummaryTests.length > 0 &&
