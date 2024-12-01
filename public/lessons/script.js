@@ -67,58 +67,57 @@ function openVideo(block, tema) {
 }
 let user_stats = null;
 document.addEventListener("DOMContentLoaded", async () => {
-  await fetchUserStats();
-  fetchAndDisplayUserCourses();
+  const pull = await Promise.all([
+    fetchUserStats(),
+    fetchAndDisplayUserCourses(),
+  ]).then(() => {
+    // Get all final tests
+    const finalTests =
+      user_stats?.completed_tests.filter((test) => test.test_type == "final") ||
+      [];
 
-  // Get all final tests
-  const finalTests = user_stats?.completed_tests.filter(
-    (test) => test.test_type == "final"
-  ) || [];
-
-  // Group tests by test_id and get only the latest one for each
-  const latestTestsMap = new Map();
-  finalTests.forEach((test) => {
-    const existingTest = latestTestsMap.get(test.test);
-    if (!existingTest || existingTest.date < test.date) {
-      latestTestsMap.set(test.test, test);
-    }
-  });
-
-  // Convert map values back to array and sort by date
-  const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
-    (a, b) => a.date - b.date
-  );
-  console.log(finalTests, lastCompletedSummaryTests);
-
-  if (
-    lastCompletedSummaryTests.length > 0 &&
-    !getCookie("allowContextmenu") &&
-    !getCookie("debugAnswers")
-  ) {
-    lastCompletedSummaryTests.forEach((summaryTest) => {
-      if (
-        Date.now() - summaryTest.date >
-        7 * 24 * 60 * 60 * 1000
-      ) {
-        document
-          .getElementById("reviseSummaryTest_notification")
-          .classList.remove("display-none");
-        let element = document.createElement("div");
-        element.className = "rstn-alert_box-button";
-        element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
-
-        element.addEventListener("click", () => {
-          openFinalTest(
-            summaryTest.block,
-            summaryTest.first_test_id,
-            summaryTest.last_test_id
-          );
-        });
-
-        document.getElementById("rstn-alert_box-tests").appendChild(element);
+    // Group tests by test_id and get only the latest one for each
+    const latestTestsMap = new Map();
+    finalTests.forEach((test) => {
+      const existingTest = latestTestsMap.get(test.test);
+      if (!existingTest || existingTest.date < test.date) {
+        latestTestsMap.set(test.test, test);
       }
     });
-  }
+
+    // Convert map values back to array and sort by date
+    const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
+      (a, b) => a.date - b.date
+    );
+    console.log(finalTests, lastCompletedSummaryTests);
+
+    if (
+      lastCompletedSummaryTests.length > 0 &&
+      !getCookie("allowContextmenu") &&
+      !getCookie("debugAnswers")
+    ) {
+      lastCompletedSummaryTests.forEach((summaryTest) => {
+        if (Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000) {
+          document
+            .getElementById("reviseSummaryTest_notification")
+            .classList.remove("display-none");
+          let element = document.createElement("div");
+          element.className = "rstn-alert_box-button";
+          element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
+
+          element.addEventListener("click", () => {
+            openFinalTest(
+              summaryTest.block,
+              summaryTest.first_test_id,
+              summaryTest.last_test_id
+            );
+          });
+
+          document.getElementById("rstn-alert_box-tests").appendChild(element);
+        }
+      });
+    }
+  });
 });
 
 async function fetchUserStats() {
