@@ -1525,3 +1525,187 @@ app.get("/api/updateserver", async (req, res) => {
     res.status(500).json({ error: "Server error" });
   }
 });
+
+app.post("/uploadCardImage", upload.single("image"), async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const imageId = req.query.imageId;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const dirPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cardImages/`
+    );
+    const filePath = path.join(dirPath, `${imageId}.png`);
+
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    await sharp(req.file.buffer)
+      .png()
+      .toFile(filePath);
+
+    res.status(200).json({ message: "Image updated successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/updateCardText", async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const imageId = req.query.imageId;
+  const { text } = req.body;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    const cardsPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
+    );
+    
+    const cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
+    const cardIndex = cards.findIndex(card => card.id === imageId);
+    
+    if (cardIndex === -1) {
+      return res.status(404).send("Card not found");
+    }
+
+    cards[cardIndex].infoText = text;
+    fs.writeFileSync(cardsPath, JSON.stringify(cards, null, 2));
+
+    res.status(200).json({ message: "Text updated successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/createCard", upload.single("image"), async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const text = req.body.text;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    if (!req.file) {
+      return res.status(400).json({ error: "No file uploaded" });
+    }
+
+    const cardsPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
+    );
+    
+    let cards = [];
+    try {
+      cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
+    } catch (err) {
+      // If file doesn't exist or is empty, start with empty array
+    }
+
+    // Generate new card ID
+    const newId = cards.length > 0 
+      ? Math.max(...cards.map(card => parseInt(card.id))) + 1 
+      : 1;
+
+    // Save image
+    const dirPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cardImages/`
+    );
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    const filePath = path.join(dirPath, `${newId}.png`);
+    await sharp(req.file.buffer).png().toFile(filePath);
+
+    // Add new card to array
+    cards.push({
+      id: newId.toString(),
+      frontContentType: "img",
+      infoText: text
+    });
+
+    // Save updated cards array
+    fs.writeFileSync(cardsPath, JSON.stringify(cards, null, 2));
+
+    res.status(200).json({ message: "Card created successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/deleteCard", async (req, res) => {
+  const auth_key = req.query.auth_key;
+  const courseName = req.query.course;
+  const blockId = req.query.blockId;
+  const testId = req.query.testId;
+  const imageId = req.query.imageId;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    const cardsPath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
+    );
+    
+    // Read and filter out the card to delete
+    const cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
+    const filteredCards = cards.filter(card => card.id !== imageId);
+    
+    if (cards.length === filteredCards.length) {
+      return res.status(404).send("Card not found");
+    }
+
+    // Delete the image file
+    const imagePath = path.join(
+      __dirname,
+      `courseData/${courseName}/block${blockId}/test${testId}/cardImages/${imageId}.png`
+    );
+    try {
+      fs.unlinkSync(imagePath);
+    } catch (err) {
+      console.error("Error deleting image file:", err);
+    }
+
+    // Save updated cards array
+    fs.writeFileSync(cardsPath, JSON.stringify(filteredCards, null, 2));
+
+    res.status(200).json({ message: "Card deleted successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});

@@ -186,3 +186,163 @@
 .alert_box.hidden {
   opacity: 0;
 }
+
+.card-action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-left: auto;
+}
+
+.card-action-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.card-action-btn:hover {
+  transform: scale(1.1);
+}
+
+.card-action-btn.edit-btn {
+  background: rgba(200, 255, 200, 0.9);
+}
+
+.card-action-btn.delete-btn {
+  background: rgba(255, 200, 200, 0.9);
+}
+
+.no-cards-message {
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.edit-window {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.edit-window-content {
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 500px;
+  color: black;
+}
+
+.edit-section {
+  margin: 15px 0;
+}
+
+.edit-section label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.edit-section textarea {
+  width: 100%;
+  min-height: 100px;
+  padding: 8px;
+}
+
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 15px;
+}
+
+.edit-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.edit-buttons button:first-child {
+  background: var(--rich-green);
+  color: white;
+}
+
+.edit-error {
+  color: red;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.input_fields-img {
+  width: 100%;
+  aspect-ratio: 16/9;
+  border-radius: 10px;
+  border: 2px dashed #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+
+.input_fields-img img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  filter: brightness(0);
+}
+
+.input_fields-img img[src*="image-upload"] {
+  width: 64px;
+  height: 64px;
+  filter: brightness(0);
+}
+
+.input_fields-img img[src*="data:image"] {
+  filter: none;
+  min-width: 80%;
+  min-height: 80%;
+}
+
+.delete_q_img-wrapper {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#delete_q_img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+#delete_q_img img {
+  width: 50%;
+  height: 50%;
+  object-fit: contain;
+}
+
+#cardBackText {
+  resize: none;
+}
