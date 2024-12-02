@@ -251,7 +251,7 @@ function searchById(id) {
 function showQuestion() {
   resetState();
   currentQuestion = test_questions[currentQuestionIndex];
-  
+
   displayedQuestion = currentQuestion;
   document.getElementById("search_bar").value = currentQuestion.question;
   year.value = currentQuestion.year;
@@ -920,5 +920,85 @@ function saveTestData() {
     })
     .catch((error) => {
       console.error("Error:", error);
+    });
+}
+
+const imageUploadArea = document.querySelector(".input_fields-img");
+
+// Handle paste events
+document.addEventListener("paste", function (event) {
+  if (!imageUploadArea.matches(":hover")) return;
+  
+  const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  
+  for (let item of items) {
+    if (item.type.indexOf("image") === 0) {
+      event.preventDefault();
+      handleImageUpload(item.getAsFile());
+      break;
+    }
+  }
+});
+
+// Handle drag and drop
+imageUploadArea.addEventListener("dragover", function (event) {
+  event.preventDefault();
+  imageUploadArea.style.opacity = "0.7";
+});
+
+imageUploadArea.addEventListener("dragleave", function (event) {
+  event.preventDefault();
+  imageUploadArea.style.opacity = "1";
+});
+
+imageUploadArea.addEventListener("drop", function (event) {
+  event.preventDefault();
+  imageUploadArea.style.opacity = "1";
+
+  const file = event.dataTransfer.files[0];
+  if (file && file.type.startsWith("image/")) {
+    handleImageUpload(file);
+  }
+});
+
+// Helper function to handle image upload
+function handleImageUpload(file) {
+  // Show loading state
+  document.getElementById("q_img").src = "/assets/three-dots-loader.svg";
+  
+  // Display the image preview
+  let reader = new FileReader();
+  reader.onload = function (e) {
+    document.getElementById("q_img").src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+
+  // Create FormData and upload
+  let formData = new FormData();
+  formData.append("image", file);
+
+  fetch(
+    `/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
+      currentQuestion.question
+    )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
+      currentQuestion.test_id
+    )}`,
+    {
+      method: "POST",
+      body: formData,
+    }
+  )
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Success:", data);
+      checkIfImageExists(
+        block_id,
+        currentQuestion.test_id,
+        currentQuestion.question
+      );
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      document.getElementById("q_img").src = "/assets/image-upload.svg";
     });
 }

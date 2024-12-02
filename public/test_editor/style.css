@@ -109,6 +109,7 @@
   overflow: hidden;
   position: relative;
   cursor: pointer;
+  transition: all 0.3s ease-in-out;
 }
 .delete_q_img-wrapper {
   display: flex;
