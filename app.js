@@ -1531,7 +1531,7 @@ app.post("/uploadCardImage", upload.single("image"), async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const imageId = req.query.imageId;
+  const imageId = +req.query.imageId;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
@@ -1569,7 +1569,7 @@ app.post("/updateCardText", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const imageId = req.query.imageId;
+  const imageId = +req.query.imageId;
   const { text } = req.body;
 
   try {
@@ -1648,7 +1648,7 @@ app.post("/createCard", upload.single("image"), async (req, res) => {
 
     // Add new card to array
     cards.push({
-      id: newId.toString(),
+      id: newId,
       frontContentType: "img",
       infoText: text
     });
@@ -1668,7 +1668,7 @@ app.post("/deleteCard", async (req, res) => {
   const courseName = req.query.course;
   const blockId = req.query.blockId;
   const testId = req.query.testId;
-  const imageId = req.query.imageId;
+  const imageId = +req.query.imageId;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
