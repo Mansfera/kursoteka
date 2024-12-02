@@ -834,7 +834,6 @@ Array.from(document.querySelectorAll(".input_fields-item")).forEach((field) => {
 });
 
 function saveTestData() {
-  // saveQuestionData();
   const data = {
     auth_key: auth_key,
     courseName: course,
@@ -905,6 +904,11 @@ function saveTestData() {
       switch (response.status) {
         case 200:
           document.getElementById("save_button").innerHTML = "Збережено ✅";
+          if (params.get("q_id") != undefined) {
+            setTimeout(() => {
+              window.close();
+            }, 1000);
+          }
           break;
         case 403:
           document.getElementById("save_button").innerHTML = "Помилка 403 ❌";
