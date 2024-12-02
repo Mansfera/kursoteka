@@ -1210,5 +1210,1181 @@
       { "text": "Г", "correct": false }
     ],
     "year": 11
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… ці племена, склавини та анти, не управляються однією людиною, але з давніх часів живуть у народоправстві…\"",
+      ""
+    ],
+    "bottom_question": "",
+    "top_question": "Племена про які йдеться в уривку з історичного джерела проживали в",
+    "af": "IV – III тис. до н. е.",
+    "bf": "VIII ст. до н. е. – VI ст. н. е.",
+    "cf": "V – VII ст. н. е.",
+    "df": "XIII – XIV ст.",
+    "question": "60",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Античні міста-колонії Північного Причорномор’я та Криму були засновані",
+    "af": "сарматами",
+    "bf": "гунами",
+    "cf": "хозарами",
+    "df": "греками",
+    "question": "61",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "В який період кам’яного віку на території України люди приручили перших тварин",
+    "af": "палеоліт",
+    "bf": "мезоліт",
+    "cf": "неоліт",
+    "df": "енеоліт",
+    "question": "62",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Велика Скіфія включала в себе",
+    "af": "територію степової частини України",
+    "bf": "територію степової та лісостепової частини України",
+    "cf": "територію грецьких міст-держав Північного Причорномор’я та Криму",
+    "df": "територію лісостепової частини України",
+    "question": "63",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Серед пронумерованих на карті населених пунктів вкажіть той, який дав умовну назву найвиразнішій культурі доби енеоліту",
+    "af": "1",
+    "bf": "2",
+    "cf": "3",
+    "df": "4",
+    "question": "64",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Основним заняттям слов’ян у V – VII ст. було (а)",
+    "af": "скотарство",
+    "bf": "ремесло",
+    "cf": "землеробство",
+    "df": "торгівля",
+    "question": "65",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Укажіть, що стало одним із наслідків винайдення первісною людиною лука та стріл",
+    "af": "суттєве зростання продуктивності праці мисливців",
+    "bf": "криза та занепад рибальства і збиральництва",
+    "cf": "перехід людини до осілого способу життя",
+    "df": "перехід до відтворювальних форм господарювання",
+    "question": "66",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Складовою частиною якої експозиції історичного музею є зображені пам’ятки",
+    "af": "\"Дивосвіт Трипілля\"",
+    "bf": "\"Золоті скарби скіфів\"",
+    "cf": "\"Прикраси античного Причорномор'я\"",
+    "df": "\"Ювелірні шедеври Руської держави\"",
+    "question": "67",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Як називається археологічна культура скотарів доби енеоліту на території сучасної України",
+    "af": "сарматська",
+    "bf": "середньостогівська",
+    "cf": "трипільська",
+    "df": "кіммерійська",
+    "question": "68",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Першими на території України розпочали виплавляти залізо із болотяної руди й оволоділи технікою виготовлення сталі",
+    "af": "племена трипільської культури",
+    "bf": "кіммерійці",
+    "cf": "скіфи",
+    "df": "анти",
+    "question": "69",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 7
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Які історичні джерела створюють найбільш повну картину господарського життя людей часів кам’яного віку",
+    "af": "візуальні",
+    "bf": "речові",
+    "cf": "писемні",
+    "df": "усні",
+    "question": "70",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "У результаті Великого розселення слов'ян V – VII ст. слов'яни",
+    "af": "позбулися залежності від сарматів у Північному Причорномор'ї",
+    "bf": "оволоділи землями Балканського півострова",
+    "cf": "створили між річкою Доном і горами Кавказу могутню державу",
+    "df": "витіснили племена готів на узбережжі Балтійського моря",
+    "question": "71",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "На наведеній картосхемі відображено",
+    "af": "Велика грецька колонізація",
+    "bf": "походи перших київських князів",
+    "cf": "Велике розселення слов’ян",
+    "df": "похід персів на Велику Скіфію",
+    "question": "72",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Який вид занять привласнюючого господарства набув широкого поширення в мезоліті",
+    "af": "рибальство",
+    "bf": "землеробство",
+    "cf": "скотарство",
+    "df": "збиральництво",
+    "question": "73",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яка стоянка людей кам’яного віку є найдавнішою",
+    "af": "Межиріч",
+    "bf": "Киїк-Коба",
+    "cf": "Королево",
+    "df": "Мізин",
+    "question": "74",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 2
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Язичницька релігія слов’ян передбачала віру в",
+    "af": "єдиного бога Перуна",
+    "bf": "багатьох богів",
+    "cf": "божественне походження князя",
+    "df": "надприродні сили ковалів",
+    "question": "75",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… в Європі є народ, що живе навколо озера Меотиди та відрізняється від інших народів. Жінки їздять верхи, стріляють із луків і кидають дротики, сидячи на конях, і б’ються з ворогами, поки вони дівчата, а заміж вони не йдуть, поки не заб’ють трьох ворогів. У них немає хат, а живуть вони в кибитках. На одному місці вони залишаються стільки часу, поки вистачає трави для отар, а коли її не вистачить, переходять в іншу місцевість…\"",
+      ""
+    ],
+    "bottom_question": "",
+    "top_question": "Про який народ йдеться в уривку з історичного джерела",
+    "af": "поляни",
+    "bf": "сармати",
+    "cf": "уличі",
+    "df": "древляни",
+    "question": "76",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 10
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яке заняття первісних людей спонукало їх до осілого способу життя",
+    "af": "збиральництво",
+    "bf": "полювання",
+    "cf": "рибальство",
+    "df": "землеробство",
+    "question": "77",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 4
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Позначте правильне твердження, що відповідає дійсності",
+    "af": "в мезоліті винайшли бронзу",
+    "bf": "бронза – сплав міді та заліза",
+    "cf": "каменяний вік – найдовший період в історії людства",
+    "df": "трипільська археологічна культура загинула під натиском гунів",
+    "question": "78",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 2
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Позначте заняття людей, що були основою ведення привласнювального господарства",
+    "af": "землеробство, скотарство, мисливство",
+    "bf": "мисливство, рибальство, збиральництво",
+    "cf": "збиральництво, торгівля, ремесло",
+    "df": "ремесло, землеробство, скотарство",
+    "question": "79",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Поява скотарських племен у степовій частині України відбулася в період",
+    "af": "палеоліту",
+    "bf": "енеоліту",
+    "cf": "бронзового віку",
+    "df": "мезоліту",
+    "question": "80",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 11
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яким войовничим кочовим народом були підкорені та витіснені з українських земель готи",
+    "af": "хозари",
+    "bf": "тиверці",
+    "cf": "древляни",
+    "df": "гуни",
+    "question": "81",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 11
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яке слов’янське плем’я було одним із безпосередніх пращурів українців",
+    "af": "словени",
+    "bf": "хорвати",
+    "cf": "в’ятичі",
+    "df": "хозари",
+    "question": "83",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 13
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яку подію можна охарактеризувати за допомогою наведеної картосхеми",
+    "af": "похід перського царя Дарія I у Велику Скіфію",
+    "bf": "витіснення сарматами з Причорноморських степів скіфів",
+    "cf": "грабіжницькі набіги кіммерійців і скіфів на землеробські племена",
+    "df": "переселення готів у Причорноморські степи та Крим",
+    "question": "84",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Зображені на світлині музейні експонати ілюструють розповідь екскурсовода про життя й побут",
+    "af": "носіїв Трипільської культури",
+    "bf": "вождів кіммерійських кочових племен",
+    "cf": "мешканців античних міст Північного Причорномор'я",
+    "df": "князів слов'янських племінних союзів",
+    "question": "85",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… гробниці їхніх царів розташовані в Геррах, до яких Борисфен ще судноплавний. У Геррах тіло ховали в просторій гробниці разом із дружиною, найближчими слугами, кіньми. Над гробницями насипали величезні кургани – що знатніший був цар, то вищий курган…\"",
+      ""
+    ],
+    "bottom_question": "",
+    "top_question": "В уривку оповіді грецького історика Геродота йдеться про",
+    "af": "греків",
+    "bf": "скіфів",
+    "cf": "полян",
+    "df": "древлян",
+    "question": "86",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 7
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Провідною галуззю господарства племен лісостепової зони України за часів раннього залізного віку було",
+    "af": "розведення худоби",
+    "bf": "орне землеробство",
+    "cf": "загінне полювання",
+    "df": "збиральництво",
+    "question": "87",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 10
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Що стало наслідком занепаду Великої Скіфії",
+    "af": "заселення Причорноморських степів сарматами",
+    "bf": "заснування в Причорномор’ї грецьких міст-держав",
+    "cf": "відкриття торговельного шляху \"із варяг у греки\"",
+    "df": "Велике розселення слов’ян",
+    "question": "88",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 10
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Виберіть правильне твердження про сарматів",
+    "af": "складалися з декількох великих племен та були споріднені зі скіфами",
+    "bf": "мали свою державу та вели торгівлю з трипільцями",
+    "cf": "воювали з перським імператором Дарієм I на території України",
+    "df": "першими в Європі приручили коня та кочували в степах степової Лівобережної України",
+    "question": "89",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 10
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Сутність неолітичної революції полягає у",
+    "af": "винайденні збиральництва",
+    "bf": "появі рибальських гачків",
+    "cf": "освоєнні нових шляхів здобуття вогню",
+    "df": "винайденні відтворюючого господарства",
+    "question": "90",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 4
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Звіриний стиль у мистецтві був характерним",
+    "af": "трипільцям",
+    "bf": "кіммерійцям",
+    "cf": "скіфам",
+    "df": "волинянам",
+    "question": "91",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Під час Великого переселення народів в українських степах з’явилися",
+    "af": "гуни, а за ними – готи",
+    "bf": "лише гуни",
+    "cf": "лише готи",
+    "df": "готи, а за ними – гуни",
+    "question": "92",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 11
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Виготовлення зброї та ювелірних прикрас у звіриному стилі робилося на замовлення",
+    "af": "варязьких конунгів",
+    "bf": "слов'янських князів",
+    "cf": "грецьких аристократів",
+    "df": "скіфської знаті",
+    "question": "93",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Вкажіть назву Людини розумної часу пізнього палеоліту",
+    "af": "кроманьйонець",
+    "bf": "пітекантроп",
+    "cf": "неандерталець",
+    "df": "австралопітек",
+    "question": "94",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 2
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яка із зображених пам'яток належить Трипільській археологічній культурі",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "95",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Позначте одне твердження, що відповідає дійсності",
+    "af": "слов’яни збули кочовиками та займалися скотарством",
+    "bf": "основою відтворювального господарства було мисливство та збиральництво",
+    "cf": "основою господарства кіммерійців було конярство",
+    "df": "кіммерійська культура існувала перед трипільською",
+    "question": "96",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 7
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "На картосхемі штрихуванням позначено територію державного утворення",
+    "af": "кіммерійців",
+    "bf": "скіфів",
+    "cf": "хозарів",
+    "df": "гунів",
+    "question": "97",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "В основу археологічної періодизації стародавньої історії України покладено",
+    "af": "заняття первісної людини",
+    "bf": "природно-кліматичні умови",
+    "cf": "антропологічний тип людини",
+    "df": "матеріал виготовлення знарядь праці",
+    "question": "98",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… вони спустошили й спалили їх міста й фортеці, взяли полонених і стали панами на землі. Вони осіли на ній панами, як на своїй без страху. І нині вони лишаються тут, живуть і спокійно перебувають у країні ромеїв…\"",
+      ""
+    ],
+    "bottom_question": "",
+    "top_question": "Прочитайте уривок з історичного джерела та виконайте завдання",
+    "af": "панування скіфів у причорноморських степах",
+    "bf": "переселення греків у Причорномор'я та Крим",
+    "cf": "Великого розселення слов'ян",
+    "df": "утворення Київської держави",
+    "question": "99",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Позначте назву держави, що виникла на території України внаслідок Великої грецької колонізації",
+    "af": "Хозарський каганат",
+    "bf": "Візантійська імперія",
+    "cf": "Мала Скіфія",
+    "df": "Боспорське царство",
+    "question": "100",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Велике розселення слов’ян відбулося в період",
+    "af": "мезоліту",
+    "bf": "неоліту",
+    "cf": "бронзового віку",
+    "df": "раннього залізного віку",
+    "question": "101",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Для племен Трипільської археологічної культури було характерним",
+    "af": "катакомбне поховання представників племінної знаті",
+    "bf": "використання залізних знарядь праці",
+    "cf": "упровадження трипільної системи землеробства",
+    "df": "виготовлення орнаментованого керамічного посуду",
+    "question": "102",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "В яку історичну добу людиною вперше винайдено ці знаряддя праці",
+    "af": "палеоліт",
+    "bf": "мезоліт",
+    "cf": "неоліт",
+    "df": "енеоліт",
+    "question": "103",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Що спільного в господарській діяльності людей періоду палеоліту та мезоліту",
+    "af": "поглиблення Першого суспільного поділу праці",
+    "bf": "вдосконалення привласнювальних форм господарювання",
+    "cf": "розвиток різних форм землеробства та скотарства",
+    "df": "формування кочового господарства",
+    "question": "104",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Залізні знаряддя праці та зброю в українських землях першими почали виготовляти племена",
+    "af": "сарматів",
+    "bf": "трипільців",
+    "cf": "кіммерійців",
+    "df": "скіфів",
+    "question": "105",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 7
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яку історичну добу розвитку людства відображено на світлині",
+    "af": "мезоліт",
+    "bf": "неоліт",
+    "cf": "енеоліт",
+    "df": "бронзовий вік",
+    "question": "106",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 4
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Кіммерійські племена",
+    "af": "здійснювали грабіжницькі набіги",
+    "bf": "зводили систему прикордонних укріплень 'змієві вали'",
+    "cf": "засновували торговельні факторії",
+    "df": "освоювали нові території для розвитку землеробства",
+    "question": "107",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 7
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яка назва слов’янських племен, що трапляється в письмових джерелах, найдавніша",
+    "af": "венеди",
+    "bf": "анти",
+    "cf": "поляни",
+    "df": "уличі",
+    "question": "108",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 12
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "У ранній залізній епосі перси здійснили військовий похід на",
+    "af": "Малу Скіфію",
+    "bf": "Русь-Україну",
+    "cf": "Хозарський каганат",
+    "df": "Велику Скіфію",
+    "question": "109",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Пам'ятка архітектури, зображена на світлині, пов'язана з історією міста",
+    "af": "Ольвія",
+    "bf": "Пантікапей",
+    "cf": "Херсонес",
+    "df": "Тіра",
+    "question": "110",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Про що свідчить поява зображених на ілюстрації знарядь праці",
+    "af": "перехід до відтворювальних форм господарювання",
+    "bf": "появу нового заняття людей – рибальства",
+    "cf": "початок використання людьми металів",
+    "df": "перший суспільний поділ праці",
+    "question": "111",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 3
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Якою цифрою на картосхемі позначено стоянку, де археологи знайшли археологічну пам’ятку, зображену на світлині",
+    "af": "1",
+    "bf": "2",
+    "cf": "3",
+    "df": "4",
+    "question": "112",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 2
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Укажіть світлину, на якій зображено археологічну пам’ятку, створену майстрами Трипільської археологічної культури",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "113",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Яке знаряддя праці пов’язане зі змінами в господарському житті людей у період неоліту",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "114",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Елементами оздоблення археологічної пам’ятки, зображеної на світлині, є фігурки воїнів",
+    "af": "скіфів",
+    "bf": "греків",
+    "cf": "сарматів",
+    "df": "кіммерійців",
+    "question": "115",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 9
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Як називається археологічна культура землеробів доби енеоліту на території сучасної України",
+    "af": "сарматська",
+    "bf": "середньостогівська",
+    "cf": "трипільська",
+    "df": "кіммерійська",
+    "question": "116",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 5
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "Про кераміку, зображену на світлині, відомо що вона",
+    "af": "виготовлена у \"звіриному стилі\"",
+    "bf": "знайдена археологами на стоянці Королево",
+    "cf": "створена кроманьйонцями в добу мезоліту",
+    "df": "виготовлена у ранній залізній епосі",
+    "question": "117",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 8
+  },
+  {
+    "selected": "",
+    "test_id": "1-2",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "",
+    "top_question": "На картосхемі зображено стоянки первісних",
+    "af": "землеробів",
+    "bf": "кочівників",
+    "cf": "ковалів",
+    "df": "мисливців",
+    "question": "118",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 2
   }
 ]
