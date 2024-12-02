@@ -1,5 +1,9 @@
 [
-  { "id": 1, "frontContentType": "img", "infoText": "Козацькі клейноди" },
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Козацькі клейноди"
+  },
   {
     "id": 4,
     "frontContentType": "img",
