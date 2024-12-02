@@ -1021,7 +1021,7 @@ if (getCookie("debugAnswers") != null) {
           autofillInterval = setTimeout(() => {
             if (currentQuestionIndex < questionCount - 1) {
               if (randomTime) {
-                time = time - Math.floor(Math.random() * (30 - 15 + 1) + 15);
+                time = time - Math.floor(Math.random() * (20 - 10 + 1) + 10);
               }
               handleNextButton();
             } else {
