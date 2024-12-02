@@ -89,7 +89,6 @@ document.addEventListener("DOMContentLoaded", async () => {
       const lastCompletedSummaryTests = Array.from(
         latestTestsMap.values()
       ).sort((a, b) => a.date - b.date);
-      console.log(finalTests, lastCompletedSummaryTests);
 
       if (
         lastCompletedSummaryTests.length > 0 &&
@@ -199,9 +198,9 @@ function fetchAndDisplayUserCourses() {
             material_list.appendChild(blockCard);
             const next_block = course.blocks[course.blocks.indexOf(block) + 1];
             if (
-              data.allowed_tests.includes(
+              (next_block && data.allowed_tests.includes(
                 next_block.tests[next_block.tests.length - 1].id
-              ) ||
+              )) ||
               data.allowed_tests.includes("all") ||
               (user_stats?.completed_tests || []).find(
                 (test) => test.test == block.tests[block.tests.length - 1].id
