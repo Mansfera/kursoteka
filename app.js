@@ -552,7 +552,16 @@ app.post("/sendTestResult", async (req, res) => {
 
     // Check if we need to update allowed tests
     if (!allowedTests.includes("all")) {
-      const course_obj = await dbHelpers.getCourseById(courseName);
+      const course = await dbHelpers.getCourseById(courseName);
+      if (!course) {
+        return res.status(404).send("Course not found");
+      }
+
+      // Parse the blocks JSON string from the database
+      const course_obj = {
+        ...course,
+        blocks: JSON.parse(course.blocks)
+      };
 
       // Get list of all test IDs
       let temas_id_list = [];
@@ -904,7 +913,7 @@ app.post("/api/activateCode", async (req, res) => {
     const course = await dbHelpers.getCourseById(promocode.course_id);
 
     if (!course) {
-      return res.status(404).json({ message: "Курс н�� знайдено 🤔" });
+      return res.status(404).json({ message: "Курс н знайдено 🤔" });
     }
 
     // Begin transaction
