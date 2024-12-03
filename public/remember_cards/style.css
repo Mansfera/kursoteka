@@ -210,11 +210,11 @@
 }
 
 .card-action-btn.edit-btn {
-  background: rgba(200, 255, 200, 0.9);
+  background: var(--light-green);
 }
 
 .card-action-btn.delete-btn {
-  background: rgba(255, 200, 200, 0.9);
+  background: var(--light-red);
 }
 
 .no-cards-message {
@@ -318,7 +318,7 @@
 
 .delete_q_img-wrapper {
   position: absolute;
-  top: 10px;
+  bottom: 10px;
   right: 10px;
   z-index: 2;
   display: flex;
@@ -327,10 +327,10 @@
 }
 
 #delete_q_img {
-  width: 30px;
-  height: 30px;
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.9);
+  background: var(--light-red);
   display: flex;
   justify-content: center;
   align-items: center;

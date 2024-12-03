@@ -311,7 +311,7 @@ async function showEditWindow(cardId) {
         <div class="input_fields-img">
           <div class="delete_q_img-wrapper">
             <div id="delete_q_img">
-              <img src="/assets/cross.svg" alt="" />
+              <img src="/assets/delete-image.svg" alt="Видалити зображення" />
             </div>
           </div>
           <img id="currentImage" src="${
