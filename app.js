@@ -612,7 +612,7 @@ app.post("/sendTestResult", async (req, res) => {
               }
             });
 
-            if (lastTest.score >= 80 && next_tema_is_in_block) {
+            if (lastTest.score >= 85 && next_tema_is_in_block) {
               full_test_check = true;
             }
           }
