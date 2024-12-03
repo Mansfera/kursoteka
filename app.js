@@ -1344,41 +1344,39 @@ app.post("/api/marketplace/getCourses", async (req, res) => {
     search_index,
     search_amount,
   } = req.body;
-  const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-    const courses = courseData;
-    const searchForTags = search_tags != null && search_tags != [];
-    const searchForAuthors = authors != null && authors != [];
-    const searchForUserCourses =
-      auth_key != null && auth_key != "" && only_show_non_owned;
+    const courses = await dbHelpers.getAllCourses();
+    // Transform courses data from DB format
+    const transformedCourses = courses.map(course => ({
+      ...course,
+      tags: JSON.parse(course.tags),
+      marketplace_info: JSON.parse(course.marketplace_info),
+      blocks: JSON.parse(course.blocks)
+    }));
+
+    const searchForTags = search_tags != null && search_tags.length > 0;
+    const searchForAuthors = authors != null && authors.length > 0;
+    const searchForUserCourses = auth_key != null && auth_key != "" && only_show_non_owned;
 
     let tag_courses = [];
     let author_courses = [];
     let owned_courses = [];
 
-    for (const course of courses) {
+    for (const course of transformedCourses) {
       if (searchForTags) {
-        for (const tag of course.tags) {
-          if (search_tags.includes(tag)) {
-            tag_courses.push(course);
-            break;
-          }
+        const courseTags = course.tags;
+        if (courseTags.some(tag => search_tags.includes(tag))) {
+          tag_courses.push(course);
         }
       }
 
-      if (searchForAuthors) {
-        if (authors.includes(course.author)) {
-          author_courses.push(course);
-        }
+      if (searchForAuthors && authors.includes(course.author)) {
+        author_courses.push(course);
       }
 
       if (searchForUserCourses) {
-        const userCourse = await dbHelpers.getCourseByUserAndId(
-          auth_key,
-          course.id
-        );
+        const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course.id);
         if (userCourse) {
           owned_courses.push(course);
         }
@@ -1422,68 +1420,32 @@ app.post("/api/marketplace/getCourses", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
-app.post("/api/marketplace/getCourseInfo", (req, res) => {
+app.post("/api/marketplace/getCourseInfo", async (req, res) => {
   const { specific_course } = req.body;
-  const coursesFilePath = path.join(__dirname, "courses.json");
 
-  fs.readFile(coursesFilePath, "utf8", (err, courseData) => {
-    if (err) {
-      console.error("Error reading file:", err);
-      res.status(500).send("Internal Server Error");
-      return;
+  try {
+    const course = await dbHelpers.getCourseById(specific_course);
+    if (!course) {
+      return res.status(404).send("Course not found");
     }
 
-    try {
-      const courses = JSON.parse(courseData);
-      let blocks = [];
-      let testCount = 0;
-      let found_course;
-      let courseName = "";
-      let authorName = "";
-      let authorAbout = "";
-      let masterFeature = "";
-      let keyFeatures = [];
-      let courseDetails = [];
-      Array.from(courses).forEach((course) => {
-        if (course.id == specific_course) {
-          found_course = course;
-        }
-      });
-      Array.from(found_course.blocks).forEach((block) => {
-        testCount += block.tests.length;
-        blocks.push(block);
-      });
-      courseName = found_course.name;
-      authorName = found_course.marketplace_info.author_name;
-      authorAbout = found_course.marketplace_info.author_about;
-      if (testCount > 4) {
-        let tema_text;
-        if (testCount % 10 === 1) {
-          tema_text = `${testCount} тема, `;
-        } else if (testCount % 10 > 1 && testCount % 10 < 5) {
-          tema_text = `${testCount} теми, `;
-        } else {
-          tema_text = `${testCount} тем, `;
-        }
-        masterFeature =
-          // tema_text +
-          found_course.marketplace_info.master_feature;
-      } else {
-        masterFeature = found_course.marketplace_info.master_feature;
-      }
-      keyFeatures = found_course.marketplace_info.key_features;
-      courseDetails = found_course.marketplace_info.course_details;
-      res.status(200).json({
-        courseName,
-        masterFeature,
-        courseDetails,
-        authorName,
-        authorAbout,
-        keyFeatures,
-        blocks,
-      });
-    } catch {}
-  });
+    const blocks = JSON.parse(course.blocks);
+    const marketplaceInfo = JSON.parse(course.marketplace_info);
+    const testCount = blocks.reduce((count, block) => count + block.tests.length, 0);
+
+    res.status(200).json({
+      courseName: course.name,
+      masterFeature: testCount > 4 ? marketplaceInfo.master_feature : marketplaceInfo.master_feature,
+      courseDetails: marketplaceInfo.course_details,
+      authorName: marketplaceInfo.author_name,
+      authorAbout: marketplaceInfo.author_about,
+      keyFeatures: marketplaceInfo.key_features,
+      blocks: blocks
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
 });
 app.get("/api/marketplace/getCourseImage", (req, res) => {
   const courseName = req.query.course;

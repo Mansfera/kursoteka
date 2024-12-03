@@ -46,6 +46,16 @@ async function initializeConnection() {
                 start_temas TEXT,
                 FOREIGN KEY(used_by) REFERENCES users(auth_key)
             );
+
+            CREATE TABLE IF NOT EXISTS courses (
+                id TEXT PRIMARY KEY,
+                name TEXT NOT NULL,
+                type TEXT NOT NULL,
+                tags TEXT NOT NULL,
+                author TEXT,
+                marketplace_info TEXT,
+                blocks TEXT
+            );
         `);
 
         // Helper functions with proper promise handling
@@ -381,6 +391,65 @@ async function initializeConnection() {
                             reject(err);
                         }
                         resolve({ id: this.lastID });
+                    });
+                });
+            },
+
+            getCourseById: async (courseId) => {
+                return new Promise((resolve, reject) => {
+                    db.all('SELECT * FROM courses WHERE id = ?', [courseId], (err, rows) => {
+                        if (err) reject(err);
+                        resolve(rows && rows.length ? rows[0] : null);
+                    });
+                });
+            },
+
+            getAllCourses: async () => {
+                return new Promise((resolve, reject) => {
+                    db.all('SELECT * FROM courses', [], (err, rows) => {
+                        if (err) reject(err);
+                        resolve(rows || []);
+                    });
+                });
+            },
+
+            insertCourse: async (courseData) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        INSERT INTO courses (id, name, type, tags, author, marketplace_info, blocks)
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                    `, [
+                        courseData.id,
+                        courseData.name,
+                        courseData.type,
+                        JSON.stringify(courseData.tags),
+                        courseData.author || '',
+                        JSON.stringify(courseData.marketplace_info || {}),
+                        JSON.stringify(courseData.blocks || [])
+                    ], function(err) {
+                        if (err) reject(err);
+                        resolve({ id: this.lastID });
+                    });
+                });
+            },
+
+            updateCourse: async (courseId, courseData) => {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        UPDATE courses 
+                        SET name = ?, type = ?, tags = ?, author = ?, marketplace_info = ?, blocks = ?
+                        WHERE id = ?
+                    `, [
+                        courseData.name,
+                        courseData.type,
+                        JSON.stringify(courseData.tags),
+                        courseData.author || '',
+                        JSON.stringify(courseData.marketplace_info || {}),
+                        JSON.stringify(courseData.blocks || []),
+                        courseId
+                    ], function(err) {
+                        if (err) reject(err);
+                        resolve({ changes: this.changes });
                     });
                 });
             }
