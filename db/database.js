@@ -56,16 +56,6 @@ async function initializeConnection() {
                 marketplace_info TEXT,
                 blocks TEXT
             );
-
-            CREATE TABLE IF NOT EXISTS test_sync (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                auth_key TEXT NOT NULL,
-                course_id TEXT NOT NULL,
-                test_data TEXT NOT NULL,
-                last_sync INTEGER DEFAULT (strftime('%s','now')),
-                FOREIGN KEY(auth_key) REFERENCES users(auth_key),
-                UNIQUE(auth_key, course_id)
-            );
         `);
 
         // Helper functions with proper promise handling
@@ -462,22 +452,6 @@ async function initializeConnection() {
                         resolve({ changes: this.changes });
                     });
                 });
-            },
-
-            async getTestSync(auth_key, course_id) {
-                return await db.get(
-                    "SELECT * FROM test_sync WHERE auth_key = ? AND course_id = ?",
-                    [auth_key, course_id]
-                );
-            },
-
-            async updateTestSync(auth_key, course_id, test_data) {
-                return await db.run(
-                    `INSERT OR REPLACE INTO test_sync 
-                    (auth_key, course_id, test_data, last_sync) 
-                    VALUES (?, ?, ?, ?)`,
-                    [auth_key, course_id, test_data, Date.now()]
-                );
             }
         };
 

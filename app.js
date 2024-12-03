@@ -402,7 +402,16 @@ app.get("/loadTestData", async (req, res) => {
       return res.status(403).send("Found non-allowed test");
     }
 
-    const course_obj = await dbHelpers.getCourseById(courseName);
+    const course = await dbHelpers.getCourseById(courseName);
+    if (!course) {
+      return res.status(404).send("Course not found");
+    }
+
+    // Parse the blocks JSON string from the database
+    const course_obj = {
+      ...course,
+      blocks: JSON.parse(course.blocks)
+    };
 
     let temas_id_list = [];
     let first_tema_found = false;
@@ -897,7 +906,7 @@ app.post("/api/activateCode", async (req, res) => {
     const course = await dbHelpers.getCourseById(promocode.course_id);
 
     if (!course) {
-      return res.status(404).json({ message: "Курс не знайдено 🤔" });
+      return res.status(404).json({ message: "Курс н�� знайдено 🤔" });
     }
 
     // Begin transaction
@@ -1684,48 +1693,4 @@ app.post("/deleteCard", async (req, res) => {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
   }
-});
-
-app.post("/api/syncTestData", async (req, res) => {
-    const { auth_key, course_id, uncompleted_tests } = req.body;
-
-    try {
-        const user = await dbHelpers.getUserByAuthKey(auth_key);
-        if (!user) {
-            return res.status(404).send("User not found");
-        }
-
-        // Get existing synced data
-        const syncedData = await dbHelpers.getTestSync(auth_key, course_id);
-        
-        let hasNewerData = false;
-        let finalTests = uncompleted_tests || [];
-
-        if (syncedData && syncedData.test_data) {
-            const serverTests = JSON.parse(syncedData.test_data);
-            
-            // Keep only 7 most recent uncompleted tests
-            const allTests = [...serverTests, ...finalTests]
-                .sort((a, b) => b.date - a.date)
-                .slice(0, 7);
-
-            // Check if server has newer data
-            if (syncedData.last_sync > (finalTests[0]?.date || 0)) {
-                hasNewerData = true;
-                finalTests = allTests;
-            }
-        }
-
-        // Update database with latest data
-        await dbHelpers.updateTestSync(auth_key, course_id, JSON.stringify(finalTests));
-
-        res.json({
-            hasNewerData,
-            tests: finalTests
-        });
-
-    } catch (error) {
-        console.error("Sync error:", error);
-        res.status(500).send("Internal Server Error");
-    }
 });

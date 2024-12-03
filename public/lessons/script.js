@@ -40,16 +40,9 @@ function openTestWindow(test) {
     closeTestWindow(test);
   }, 30000);
 }
+
 let course_data = null;
 let current_course = params.get("id");
-const uncompletedTestsData = localStorage.getItem(
-  `uncompletedTests-${current_course}`
-);
-let uncompletedTests = [];
-if (uncompletedTestsData && uncompletedTestsData != "") {
-  uncompletedTests = JSON.parse(uncompletedTestsData);
-}
-
 
 function openTest(block, test, type, test_name) {
   window.location = `/test/?course=${current_course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
@@ -74,113 +67,62 @@ function openVideo(block, tema) {
   );
 }
 let user_stats = null;
-let syncInterval;
-
-async function syncTestData() {
-  const overlay = document.getElementById("sync-overlay");
-  overlay.classList.remove("display-none");
-
-  try {
-    const response = await fetch("/api/syncTestData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        auth_key,
-        course_id: current_course,
-        uncompleted_tests: uncompletedTests
-      }),
-    });
-
-    if (!response.ok) {
-      throw new Error("Sync failed");
-    }
-
-    const serverData = await response.json();
-
-    // Update local storage if server has newer data
-    if (serverData.hasNewerData) {
-      localStorage.setItem(
-        `uncompletedTests-${current_course}`, 
-        JSON.stringify(serverData.tests)
-      );
-      uncompletedTests = serverData.tests;
-    }
-  } catch (error) {
-    console.error("Sync error:", error);
-  } finally {
-    overlay.classList.add("display-none");
-  }
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
-  await fetchUserStats();
-  fetchAndDisplayUserCourses();
+  await fetchUserStats().then(() => {
+    fetchAndDisplayUserCourses();
 
-  const finalTests =
-    user_stats?.completed_tests.filter((test) => test.test_type == "final") ||
-    [];
+    const finalTests =
+      user_stats?.completed_tests.filter((test) => test.test_type == "final") ||
+      [];
 
-  // Group tests by test_id and get only the latest one for each
-  const latestTestsMap = new Map();
-  finalTests.forEach((test) => {
-    const existingTest = latestTestsMap.get(test.test);
-    if (!existingTest || existingTest.date < test.date) {
-      latestTestsMap.set(test.test, test);
-    }
-  });
-
-  // Convert map values back to array and sort by date
-  const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
-    (a, b) => a.date - b.date
-  );
-
-  if (
-    lastCompletedSummaryTests.length > 0 &&
-    !getCookie("allowContextmenu") &&
-    !getCookie("debugAnswers")
-  ) {
-    lastCompletedSummaryTests.forEach((summaryTest) => {
-      if (
-        Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 &&
-        summaryTest.score < 85
-      ) {
-        document
-          .getElementById("reviseSummaryTest_notification")
-          .classList.remove("display-none");
-        let element = document.createElement("div");
-        element.className = "rstn-alert_box-button";
-        element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
-
-        element.addEventListener("click", () => {
-          const first_test_id = course_data.courses
-            .find((course) => course.id == current_course)
-            .blocks.find((block) => block.id == summaryTest.block).tests[0].id;
-          const last_test_id = course_data.courses
-            .find((course) => course.id == current_course)
-            .blocks.find((block) => block.id == summaryTest.block)
-            .tests.reverse()[0].id;
-          openFinalTest(summaryTest.block, first_test_id, last_test_id);
-        });
-
-        document.getElementById("rstn-alert_box-tests").appendChild(element);
+    // Group tests by test_id and get only the latest one for each
+    const latestTestsMap = new Map();
+    finalTests.forEach((test) => {
+      const existingTest = latestTestsMap.get(test.test);
+      if (!existingTest || existingTest.date < test.date) {
+        latestTestsMap.set(test.test, test);
       }
     });
-  }
 
-  // Start sync interval
-  syncInterval = setInterval(syncTestData, 60000);
+    // Convert map values back to array and sort by date
+    const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
+      (a, b) => a.date - b.date
+    );
 
-  // Initial sync
-  syncTestData();
-});
+    if (
+      lastCompletedSummaryTests.length > 0 &&
+      !getCookie("allowContextmenu") &&
+      !getCookie("debugAnswers")
+    ) {
+      lastCompletedSummaryTests.forEach((summaryTest) => {
+        if (
+          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 &&
+          summaryTest.score < 85
+        ) {
+          document
+            .getElementById("reviseSummaryTest_notification")
+            .classList.remove("display-none");
+          let element = document.createElement("div");
+          element.className = "rstn-alert_box-button";
+          element.innerHTML = `Підсумковий тест по блоку ${summaryTest.block}`;
 
-// Clean up on page unload
-window.addEventListener("beforeunload", () => {
-  if (syncInterval) {
-    clearInterval(syncInterval);
-  }
+          element.addEventListener("click", () => {
+            const first_test_id = course_data.courses
+              .find((course) => course.id == current_course)
+              .blocks.find((block) => block.id == summaryTest.block)
+              .tests[0].id;
+            const last_test_id = course_data.courses
+              .find((course) => course.id == current_course)
+              .blocks.find((block) => block.id == summaryTest.block)
+              .tests.reverse()[0].id;
+            openFinalTest(summaryTest.block, first_test_id, last_test_id);
+          });
+
+          document.getElementById("rstn-alert_box-tests").appendChild(element);
+        }
+      });
+    }
+  });
 });
 
 async function fetchUserStats() {
