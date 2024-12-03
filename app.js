@@ -1451,7 +1451,7 @@ app.post("/api/marketplace/getCourseInfo", async (req, res) => {
       courseName: course.name,
       masterFeature: testCount > 4 ? marketplaceInfo.master_feature : marketplaceInfo.master_feature,
       courseDetails: marketplaceInfo.course_details,
-      authorName: course.author,
+      authorName: marketplaceInfo.author_name,
       authorAbout: marketplaceInfo.author_about,
       keyFeatures: marketplaceInfo.key_features,
       blocks: blocks
