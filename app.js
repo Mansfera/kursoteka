@@ -402,9 +402,7 @@ app.get("/loadTestData", async (req, res) => {
       return res.status(403).send("Found non-allowed test");
     }
 
-    const coursesFilePath = path.join(__dirname, "courses.json");
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-    const course_obj = courseData.find((crs) => crs.id === courseName);
+    const course_obj = await dbHelpers.getCourseById(courseName);
 
     let temas_id_list = [];
     let first_tema_found = false;
@@ -896,9 +894,7 @@ app.post("/api/activateCode", async (req, res) => {
     }
 
     // Get course details
-    const coursesFilePath = path.join(__dirname, "courses.json");
-    const courses = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-    const course = courses.find((c) => c.id === promocode.course_id);
+    const course = await dbHelpers.getCourseById(promocode.course_id);
 
     if (!course) {
       return res.status(404).json({ message: "Курс не знайдено 🤔" });
@@ -1190,7 +1186,6 @@ app.post("/api/changeUserAllowedCourse", async (req, res) => {
 });
 app.post("/api/getUserCourses", async (req, res) => {
   const { auth_key, specific_course } = req.body;
-  const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
@@ -1208,37 +1203,46 @@ app.post("/api/getUserCourses", async (req, res) => {
       }
 
       if (!userCourse.restricted) {
-        // Read course details from courses.json
-        const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-        const course = courseData.find((c) => c.id === specific_course);
-
+        const course = await dbHelpers.getCourseById(specific_course);
         if (course) {
+          // Transform course data from DB format
+          const transformedCourse = {
+            ...course,
+            tags: JSON.parse(course.tags),
+            marketplace_info: JSON.parse(course.marketplace_info),
+            blocks: JSON.parse(course.blocks)
+          };
+
           return res.status(200).json({
-            courses: [course],
+            courses: [transformedCourse],
             allowed_tests: JSON.parse(userCourse.allowed_tests),
           });
         }
       }
     } else {
       const userCourses = await dbHelpers.getUserCourses(auth_key);
-      // Read course details from courses.json
-      const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
-
       const activeCourses = [];
       const restrictedCourses = [];
 
-      userCourses.forEach((userCourse) => {
-        const courseDetails = courseData.find(
-          (c) => c.id === userCourse.course_id
-        );
+      // Process each user course
+      for (const userCourse of userCourses) {
+        const courseDetails = await dbHelpers.getCourseById(userCourse.course_id);
         if (courseDetails) {
+          // Transform course data from DB format
+          const transformedCourse = {
+            ...courseDetails,
+            tags: JSON.parse(courseDetails.tags),
+            marketplace_info: JSON.parse(courseDetails.marketplace_info),
+            blocks: JSON.parse(courseDetails.blocks)
+          };
+
           if (userCourse.restricted) {
-            restrictedCourses.push(courseDetails);
+            restrictedCourses.push(transformedCourse);
           } else {
-            activeCourses.push(courseDetails);
+            activeCourses.push(transformedCourse);
           }
         }
-      });
+      }
 
       return res.status(200).json({
         courses: activeCourses,
@@ -1254,7 +1258,6 @@ app.post("/api/getUserCourses", async (req, res) => {
 });
 app.post("/api/getOwnedCourses", async (req, res) => {
   const { auth_key } = req.body;
-  const coursesFilePath = path.join(__dirname, "courses.json");
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
@@ -1263,13 +1266,24 @@ app.post("/api/getOwnedCourses", async (req, res) => {
     }
 
     const coursesOwned = JSON.parse(user.coursesOwned);
-    const courseData = JSON.parse(fs.readFileSync(coursesFilePath, "utf8"));
+    const ownedCourses = [];
 
-    const userCourses = courseData.filter((course) =>
-      coursesOwned.includes(course.id)
-    );
+    // Fetch each owned course from database
+    for (const courseId of coursesOwned) {
+      const course = await dbHelpers.getCourseById(courseId);
+      if (course) {
+        // Transform course data from DB format
+        const transformedCourse = {
+          ...course,
+          tags: JSON.parse(course.tags),
+          marketplace_info: JSON.parse(course.marketplace_info),
+          blocks: JSON.parse(course.blocks)
+        };
+        ownedCourses.push(transformedCourse);
+      }
+    }
 
-    res.json({ courses: userCourses });
+    res.json({ courses: ownedCourses });
   } catch (error) {
     console.error("Database error:", error);
     res.status(500).send("Internal Server Error");
@@ -1437,7 +1451,7 @@ app.post("/api/marketplace/getCourseInfo", async (req, res) => {
       courseName: course.name,
       masterFeature: testCount > 4 ? marketplaceInfo.master_feature : marketplaceInfo.master_feature,
       courseDetails: marketplaceInfo.course_details,
-      authorName: marketplaceInfo.author_name,
+      authorName: course.author,
       authorAbout: marketplaceInfo.author_about,
       keyFeatures: marketplaceInfo.key_features,
       blocks: blocks
