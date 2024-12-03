@@ -95,7 +95,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       !getCookie("debugAnswers")
     ) {
       lastCompletedSummaryTests.forEach((summaryTest) => {
-        if (Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000) {
+        if (
+          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 &&
+          summaryTest.score < 85
+        ) {
           document
             .getElementById("reviseSummaryTest_notification")
             .classList.remove("display-none");

@@ -589,7 +589,7 @@ app.post("/sendTestResult", async (req, res) => {
               }
             });
 
-            if (averageScore >= 75 && next_tema_is_in_block) {
+            if (averageScore >= 85 && next_tema_is_in_block) {
               short_test_check = true;
             }
           }
