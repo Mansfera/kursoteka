@@ -50,8 +50,7 @@ let startingMinutes;
 let time;
 let timerInterval;
 let testIsPaused = false;
-localStorage.removeItem("test_questions");
-const uncompletedTestsData = localStorage.getItem("uncompletedTests");
+const uncompletedTestsData = localStorage.getItem(`uncompletedTests-${course}`);
 let uncompletedTests = [];
 if (uncompletedTestsData && uncompletedTestsData != "") {
   uncompletedTests = JSON.parse(uncompletedTestsData);
@@ -71,7 +70,10 @@ if (
   uncompletedTests = uncompletedTests.filter(
     (test) => test.id != `${test_id}-${test_type}-${block_id}`
   );
-  localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
+  localStorage.setItem(
+    `uncompletedTests-${course}`,
+    JSON.stringify(uncompletedTests)
+  );
   loadTestQuestions(true);
 }
 
@@ -412,7 +414,10 @@ function saveUncompletedTest() {
     (test) => test.id != currentTest.id
   );
   uncompletedTests.push(currentTest);
-  localStorage.setItem("uncompletedTests", JSON.stringify(uncompletedTests));
+  localStorage.setItem(
+    `uncompletedTests-${course}`,
+    JSON.stringify(uncompletedTests)
+  );
 }
 
 function prepareTest(loadNewData, final_tema_amount = 1) {
@@ -446,7 +451,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
         (test) => test.id != currentTest.id
       );
       localStorage.setItem(
-        "uncompletedTests",
+        `uncompletedTests-${course}`,
         JSON.stringify(uncompletedTests)
       );
     } else {
@@ -689,39 +694,10 @@ async function sendTestResult() {
     (test) => test.id !== `${test_id}-${test_type}-${block_id}`
   );
   localStorage.setItem(
-    "uncompletedTests",
+    `uncompletedTests-${course}`,
     JSON.stringify(updatedUncompletedTests)
   );
-  let _test_id;
-  if (test_type == "final" && score >= 85) {
-    _test_id = last_test_id;
-    let lastCompletedSummaryTests =
-      JSON.parse(localStorage.getItem(`lastCompletedSummaryTests-${course}`)) ||
-      [];
-
-    const foundTest = lastCompletedSummaryTests.find(
-      (test) => test.block === block_id
-    );
-
-    if (foundTest) {
-      lastCompletedSummaryTests = lastCompletedSummaryTests.filter(
-        (test) => test.block !== block_id
-      );
-    }
-    lastCompletedSummaryTests.push({
-      date: Date.now(),
-      block: block_id,
-      first_test_id: first_test_id,
-      last_test_id: last_test_id,
-    });
-
-    localStorage.setItem(
-      `lastCompletedSummaryTests-${course}`,
-      JSON.stringify(lastCompletedSummaryTests)
-    );
-  } else {
-    _test_id = test_id;
-  }
+  let _test_id = test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
   let test_vidp_q = [];

@@ -37,9 +37,6 @@
 .material_list-element-text {
   cursor: pointer;
 }
-.material_list-element-text:hover {
-  /* text-decoration: underline; */
-}
 .material_list-element-info img {
   height: 100%;
   min-width: 2rem;
@@ -333,4 +330,41 @@
   background-color: var(--rich-green);
   color: aliceblue;
   cursor: pointer;
+}
+
+.sync-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sync-content {
+    text-align: center;
+    color: white;
+}
+
+.sync-spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.sync-text {
+    font-size: 18px;
 }
