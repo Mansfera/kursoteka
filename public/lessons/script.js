@@ -60,7 +60,13 @@ async function syncUncompletedTests() {
     localStorage.clear();
   }
   if (uncompleted_tests.length > 9) {
-    uncompleted_tests = uncompleted_tests.sort((a, b) => b.date - a.date).slice(0, 9);
+    uncompleted_tests = uncompleted_tests
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 9);
+    localStorage.setItem(
+      `uncompletedTests-${current_course}`,
+      JSON.stringify(uncompleted_tests)
+    );
   }
 
   try {

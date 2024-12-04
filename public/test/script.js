@@ -70,7 +70,6 @@ if (
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
 } else {
-  console.log("uncompletedTests before", uncompletedTests);
   uncompletedTests = uncompletedTests.filter(
     (test) =>
       !(
@@ -79,7 +78,6 @@ if (
         test.test_type == test_type
       )
   );
-  console.log("uncompletedTests after", uncompletedTests);
   localStorage.setItem(
     `uncompletedTests-${course}`,
     JSON.stringify(uncompletedTests)
@@ -93,6 +91,20 @@ function chooseNewOrOldTest(answer) {
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
   loadTestQuestions(answer);
+  if (answer) {
+    uncompletedTests = uncompletedTests.filter(
+      (test) =>
+        !(
+          test.id == test_id &&
+          test.block_id == block_id &&
+          test.test_type == test_type
+        )
+    );
+    localStorage.setItem(
+      `uncompletedTests-${course}`,
+      JSON.stringify(uncompletedTests)
+    );
+  }
 }
 async function loadTestDataFromServer(
   auth_key,
@@ -525,7 +537,7 @@ function saveUncompletedTest() {
   currentTest.block_id = block_id;
   currentTest.test_type = test_type;
   uncompletedTests = uncompletedTests.filter(
-    (test) => (test) =>
+    (test) =>
       !(
         test.id == test_id &&
         test.block_id == block_id &&
