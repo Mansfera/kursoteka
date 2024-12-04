@@ -51,9 +51,6 @@ let sync_interval;
 async function syncUncompletedTests() {
   const current_time = Date.now();
 
-  if (uncompleted_tests.length == 0) {
-    return;
-  }
   if (last_update == null) {
     last_update = current_time;
     setCookie(`lastUncompletedTestsUpdate-${current_course}`, current_time);
