@@ -10,7 +10,9 @@ function getCourseInfo() {
     .then((data) => {
       const courseListElement = document.getElementById("course_list");
       if (data.courses.length > 0) {
+        let user_courses = [];
         data.courses.forEach((course) => {
+          user_courses.push(course.id);
           const courseCard = document.createElement("div");
           courseCard.className = "courses-card-wrapper";
           courseCard.innerHTML = `
@@ -38,6 +40,7 @@ function getCourseInfo() {
 
           courseListElement.appendChild(courseCard);
         });
+        localStorage.setItem("user_courses", JSON.stringify(user_courses));
       } else {
         const noCoursesElement = document.getElementById("no_courses_text");
         if (noCoursesElement) {

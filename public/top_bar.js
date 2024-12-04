@@ -116,7 +116,6 @@ if (getCookie("group") === "admin" || getCookie("update") !== null) {
       .then(data => {
         if (data.message === "Update successful") {
           alert("Сайт успішно оновлено! ✅");
-          clearCache();
         } else {
           alert("Помилка при оновленні сайту: " + data.error);
         }

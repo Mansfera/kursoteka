@@ -96,11 +96,19 @@ function shuffle(array) {
   return shuffledArray;
 }
 function clearCache() {
-  caches.keys().then(function(names) {
-    for (let name of names) {
-      caches.delete(name);
-    }
-  }).then(() => {
-    window.location = "/";
+  let user_courses = JSON.parse(localStorage.getItem("user_courses"));
+  user_courses.forEach((course) => {
+    setCookie(`lastUncompletedTestsUpdate-${course}`, null);
   });
+  localStorage.clear();
+  caches
+    .keys()
+    .then(function (names) {
+      for (let name of names) {
+        caches.delete(name);
+      }
+    })
+    .then(() => {
+      alert("Кеш успішно очищено! ✅");
+    });
 }
