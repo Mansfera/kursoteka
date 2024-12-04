@@ -1716,7 +1716,6 @@ app.post('/api/getUncompletedTests', async (req, res) => {
     }
 
     const result = await dbHelpers.getUncompletedTests(user.id, course);
-    console.log("result", result);
     res.json({
       tests: result.tests,
       last_updated: result.last_updated
