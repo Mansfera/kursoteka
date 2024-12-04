@@ -665,7 +665,6 @@ app.post("/sendTestResult", async (req, res) => {
       }
     }
 
-    // Update the database with new completed tests and allowed tests
     await dbHelpers.addCompletedTest(
       JSON.stringify(completedTests),
       auth_key,
@@ -1699,5 +1698,81 @@ app.post("/deleteCard", async (req, res) => {
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post('/api/getUncompletedTests', async (req, res) => {
+  const { auth_key, course } = req.body;
+  
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
+    if (!userCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    const result = await dbHelpers.getUncompletedTests(user.id, course);
+    res.json({
+      tests: result.tests,
+      last_updated: result.last_updated
+    });
+
+  } catch (error) {
+    console.error('Error getting uncompleted tests:', error);
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.post('/api/updateUncompletedTests', async (req, res) => {
+  const { auth_key, course, tests, last_updated } = req.body;
+  
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user) {
+      return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
+    if (!userCourse) {
+      return res.status(404).json({ error: 'Course not found' });
+    }
+
+    // Get current server data to compare timestamps
+    const currentData = await dbHelpers.getUncompletedTests(user.id, course);
+    
+    // Only update if client data is newer
+    if (!currentData.last_updated || !last_updated || last_updated >= currentData.last_updated) {
+      const result = await dbHelpers.updateUncompletedTests(
+        user.id,
+        course,
+        JSON.stringify(tests || [])
+      );
+
+      if (result.changes === 0) {
+        return res.status(404).json({ error: 'Failed to update tests' });
+      }
+      
+      res.json({ 
+        success: true,
+        changes: result.changes,
+        last_updated: Date.now()
+      });
+    } else {
+      // Client data is older, send back current server data
+      res.json({
+        success: false,
+        message: 'Server data is newer',
+        tests: currentData.tests,
+        last_updated: currentData.last_updated
+      });
+    }
+
+  } catch (error) {
+    console.error('Error updating uncompleted tests:', error);
+    res.status(500).json({ error: 'Server error' });
   }
 });
