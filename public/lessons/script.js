@@ -52,8 +52,6 @@ async function syncUncompletedTests() {
   const current_time = Date.now();
 
   if (last_update == null) {
-    last_update = current_time;
-    setCookie(`lastUncompletedTestsUpdate-${current_course}`, current_time);
     localStorage.clear();
   }
   if (uncompleted_tests.length > 9) {
