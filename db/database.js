@@ -59,12 +59,12 @@ async function initializeConnection() {
                 blocks TEXT
             );
 
-            CREATE TABLE IF NOT EXISTS uncompleted_tests_chunks (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
+            CREATE TABLE IF NOT EXISTS uncompleted_tests (
                 user_id INTEGER NOT NULL,
                 course_id TEXT NOT NULL,
-                chunk_index INTEGER NOT NULL,
-                chunk_data TEXT NOT NULL,
+                tests TEXT DEFAULT '[]',
+                last_updated INTEGER NOT NULL,
+                PRIMARY KEY (user_id, course_id),
                 FOREIGN KEY(user_id) REFERENCES users(id)
             );
         `);
@@ -466,47 +466,47 @@ async function initializeConnection() {
             },
 
             async getUncompletedTests(userId, courseId) {
-                const sql = `
-                    SELECT uc.uncompleted_tests as tests,
-                           COALESCE(uc.last_updated, uc.join_date) as last_updated
-                    FROM user_courses uc
-                    WHERE uc.auth_key = (
-                        SELECT auth_key FROM users WHERE id = ?
-                    ) AND uc.course_id = ?
-                `;
-                
                 try {
-                    const row = await db.get(sql, [userId, courseId]);
+                    const row = await db.get(
+                        `SELECT tests, last_updated 
+                         FROM uncompleted_tests 
+                         WHERE user_id = ? AND course_id = ?`,
+                        [userId, courseId]
+                    );
+
+                    if (!row) {
+                        // If no record exists, return default values
+                        return {
+                            tests: [],
+                            last_updated: Date.now() // Set current timestamp as initial last_updated
+                        };
+                    }
+
                     return {
-                        tests: row?.tests ? JSON.parse(row.tests) : [],
-                        last_updated: row?.last_updated || null
+                        tests: JSON.parse(row.tests || '[]'),
+                        last_updated: row.last_updated || Date.now() // Ensure we always have a timestamp
                     };
                 } catch (error) {
-                    console.error('Database error:', error);
+                    console.error('Error in getUncompletedTests:', error);
                     throw error;
                 }
             },
 
-            async updateUncompletedTests(userId, courseId, testsJson) {
-                const sql = `
-                    UPDATE user_courses 
-                    SET uncompleted_tests = ?,
-                        last_updated = ?
-                    WHERE auth_key = (
-                        SELECT auth_key FROM users WHERE id = ?
-                    ) AND course_id = ?
-                `;
-
+            async updateUncompletedTests(userId, courseId, tests) {
+                const timestamp = Date.now();
+                
                 try {
-                    const result = await db.run(sql, [
-                        testsJson,
-                        Date.now(),
-                        userId,
-                        courseId
-                    ]);
+                    const result = await db.run(
+                        `INSERT INTO uncompleted_tests (user_id, course_id, tests, last_updated)
+                         VALUES (?, ?, ?, ?)
+                         ON CONFLICT(user_id, course_id) 
+                         DO UPDATE SET tests = ?, last_updated = ?`,
+                        [userId, courseId, tests, timestamp, tests, timestamp]
+                    );
+                    
                     return result;
                 } catch (error) {
-                    console.error('Database error:', error);
+                    console.error('Error in updateUncompletedTests:', error);
                     throw error;
                 }
             }

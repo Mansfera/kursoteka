@@ -65,7 +65,7 @@ async function syncUncompletedTests() {
   }
 
   try {
-    if (!last_update || current_time - parseInt(last_update) > 120000) {
+    if (!last_update || current_time - parseInt(last_update) > 10000) {
       const response = await fetch("/api/getUncompletedTests", {
         method: "POST",
         headers: {
