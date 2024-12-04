@@ -43,6 +43,73 @@ function openTestWindow(test) {
 
 let course_data = null;
 let current_course = params.get("id");
+let uncompleted_tests =
+  JSON.parse(localStorage.getItem(`uncompletedTests-${current_course}`)) || [];
+let last_update = getCookie(`lastUncompletedTestsUpdate-${current_course}`);
+let sync_interval;
+
+async function syncUncompletedTests() {
+  const current_time = Date.now();
+
+  if (uncompleted_tests.length == 0) {
+    return;
+  }
+  if (last_update == null) {
+    last_update = current_time;
+    setCookie(`lastUncompletedTestsUpdate-${current_course}`, current_time);
+    localStorage.clear();
+  }
+  if (uncompleted_tests.length > 9) {
+    uncompleted_tests = uncompleted_tests.sort((a, b) => b.date - a.date).slice(0, 9);
+  }
+
+  try {
+    if (!last_update || current_time - parseInt(last_update) > 120000) {
+      const response = await fetch("/api/getUncompletedTests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth_key,
+          course: current_course,
+          last_update: last_update,
+        }),
+      });
+
+      if (response.ok) {
+        const server_data = await response.json();
+        if (!last_update || server_data.last_updated > parseInt(last_update)) {
+          uncompleted_tests = server_data.tests;
+          localStorage.setItem(
+            `uncompletedTests-${current_course}`,
+            JSON.stringify(uncompleted_tests)
+          );
+          setCookie(
+            `lastUncompletedTestsUpdate-${current_course}`,
+            server_data.last_updated
+          );
+          last_update = server_data.last_updated;
+        }
+      }
+    } else {
+      await fetch("/api/updateUncompletedTests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth_key,
+          course: current_course,
+          tests: uncompleted_tests,
+          last_updated: last_update,
+        }),
+      });
+    }
+  } catch (error) {
+    console.error("Error syncing uncompleted tests:", error);
+  }
+}
 
 function openTest(block, test, type, test_name) {
   window.location = `/test/?course=${current_course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
@@ -123,6 +190,15 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
     }
   });
+
+  await syncUncompletedTests();
+  sync_interval = setInterval(syncUncompletedTests, 60000);
+});
+
+window.addEventListener("beforeunload", () => {
+  if (sync_interval) {
+    clearInterval(sync_interval);
+  }
 });
 
 async function fetchUserStats() {

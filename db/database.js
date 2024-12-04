@@ -33,6 +33,8 @@ async function initializeConnection() {
                 restricted BOOLEAN DEFAULT FALSE,
                 allowed_tests TEXT DEFAULT '[]',
                 completed_tests TEXT DEFAULT '[]',
+                uncompleted_tests TEXT DEFAULT '[]',
+                last_updated INTEGER,
                 FOREIGN KEY(auth_key) REFERENCES users(auth_key)
             );
 
@@ -55,6 +57,15 @@ async function initializeConnection() {
                 author TEXT,
                 marketplace_info TEXT,
                 blocks TEXT
+            );
+
+            CREATE TABLE IF NOT EXISTS uncompleted_tests_chunks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                course_id TEXT NOT NULL,
+                chunk_index INTEGER NOT NULL,
+                chunk_data TEXT NOT NULL,
+                FOREIGN KEY(user_id) REFERENCES users(id)
             );
         `);
 
@@ -452,6 +463,52 @@ async function initializeConnection() {
                         resolve({ changes: this.changes });
                     });
                 });
+            },
+
+            async getUncompletedTests(userId, courseId) {
+                const sql = `
+                    SELECT uc.uncompleted_tests as tests,
+                           COALESCE(uc.last_updated, uc.join_date) as last_updated
+                    FROM user_courses uc
+                    WHERE uc.auth_key = (
+                        SELECT auth_key FROM users WHERE id = ?
+                    ) AND uc.course_id = ?
+                `;
+                
+                try {
+                    const row = await db.get(sql, [userId, courseId]);
+                    return {
+                        tests: row?.tests ? JSON.parse(row.tests) : [],
+                        last_updated: row?.last_updated || null
+                    };
+                } catch (error) {
+                    console.error('Database error:', error);
+                    throw error;
+                }
+            },
+
+            async updateUncompletedTests(userId, courseId, testsJson) {
+                const sql = `
+                    UPDATE user_courses 
+                    SET uncompleted_tests = ?,
+                        last_updated = ?
+                    WHERE auth_key = (
+                        SELECT auth_key FROM users WHERE id = ?
+                    ) AND course_id = ?
+                `;
+
+                try {
+                    const result = await db.run(sql, [
+                        testsJson,
+                        Date.now(),
+                        userId,
+                        courseId
+                    ]);
+                    return result;
+                } catch (error) {
+                    console.error('Database error:', error);
+                    throw error;
+                }
             }
         };
 

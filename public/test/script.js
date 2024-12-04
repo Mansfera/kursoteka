@@ -51,13 +51,16 @@ let time;
 let timerInterval;
 let testIsPaused = false;
 const uncompletedTestsData = localStorage.getItem(`uncompletedTests-${course}`);
-let uncompletedTests = [];
-if (uncompletedTestsData && uncompletedTestsData != "") {
-  uncompletedTests = JSON.parse(uncompletedTestsData);
-}
+let uncompletedTests = uncompletedTestsData
+  ? JSON.parse(uncompletedTestsData)
+  : [];
+
 const currentTest =
   uncompletedTests.find(
-    (test) => test.id == `${test_id}-${test_type}-${block_id}`
+    (test) =>
+      test.id == test_id &&
+      test.test_type == test_type &&
+      test.block_id == block_id
   ) || {};
 if (
   currentTest != {} &&
@@ -67,119 +70,198 @@ if (
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
 } else {
+  console.log("uncompletedTests before", uncompletedTests);
   uncompletedTests = uncompletedTests.filter(
-    (test) => test.id != `${test_id}-${test_type}-${block_id}`
+    (test) =>
+      !(
+        test.id == test_id &&
+        test.block_id == block_id &&
+        test.test_type == test_type
+      )
   );
+  console.log("uncompletedTests after", uncompletedTests);
   localStorage.setItem(
     `uncompletedTests-${course}`,
     JSON.stringify(uncompletedTests)
   );
-  loadTestQuestions(true);
+  setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+  loadTestQuestions(false);
 }
 
 function chooseNewOrOldTest(answer) {
   document
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
-  if (answer) {
-    loadTestQuestions(false);
-  } else {
-    loadTestQuestions(true);
+  loadTestQuestions(answer);
+}
+async function loadTestDataFromServer(
+  auth_key,
+  course,
+  block,
+  firstTest,
+  lastTest
+) {
+  try {
+    const response = await fetch(
+      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
+    );
+    if (!response.ok) {
+      throw new Error(`Failed to load test data: ${response.statusText}`);
+    }
+    return await response.json();
+  } catch (error) {
+    console.error(error);
+    return null;
   }
 }
-
 function loadTestQuestions(newTestData) {
   switch (test_type) {
     case "short":
     case "full":
       test_name = params.get("test_name");
-      if (newTestData) {
-        loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
-          .then((testData) => {
-            if (testData) {
-              questions = testData.questions;
-              vidpovidnist_questions = testData.vidpovidnistQuestions;
-              hronology_questions = testData.hronologyQuestions;
-              mul_ans_questions = testData.mulAnsQuestions;
-              prepareTest(newTestData);
-            } else {
-              console.error("Failed to load test data");
-            }
-          })
-          .catch((error) => {
-            console.error("Error loading test data:", error);
-          });
-      } else {
-        prepareTest(newTestData);
-      }
+      loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
+        .then((testData) => {
+          if (testData) {
+            questions = testData.questions;
+            vidpovidnist_questions = testData.vidpovidnistQuestions;
+            hronology_questions = testData.hronologyQuestions;
+            mul_ans_questions = testData.mulAnsQuestions;
+            prepareTest(newTestData);
+          } else {
+            console.error("Failed to load test data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading test data:", error);
+        });
+
       break;
     case "final":
       test_name = `<i>Підсумковий тест по блоку ${block_id}</i>`;
-      if (newTestData) {
-        loadTestDataFromServer(
-          auth_key,
-          course,
-          block_id,
-          first_test_id,
-          last_test_id
-        )
-          .then((testData) => {
-            if (testData) {
-              questions = testData.questions;
-              vidpovidnist_questions = testData.vidpovidnistQuestions;
-              hronology_questions = testData.hronologyQuestions;
-              mul_ans_questions = testData.mulAnsQuestions;
-              final_tema_amount = testData.final_tema_amount;
-              prepareTest(newTestData, final_tema_amount);
-            } else {
-              console.error("Failed to load test data");
-            }
-          })
-          .catch((error) => {
-            console.error("Error loading test data:", error);
-          });
-      } else {
-        prepareTest(newTestData);
-      }
+      loadTestDataFromServer(
+        auth_key,
+        course,
+        block_id,
+        first_test_id,
+        last_test_id
+      )
+        .then((testData) => {
+          if (testData) {
+            questions = testData.questions;
+            vidpovidnist_questions = testData.vidpovidnistQuestions;
+            hronology_questions = testData.hronologyQuestions;
+            mul_ans_questions = testData.mulAnsQuestions;
+            final_tema_amount = testData.final_tema_amount;
+            prepareTest(newTestData, final_tema_amount);
+          } else {
+            console.error("Failed to load test data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading test data:", error);
+        });
       break;
   }
 }
+function prepareTest(loadNewData, final_tema_amount = 1) {
+  test_completed = false;
+  currentQuestionIndex = 0;
+  finishTestButton.innerHTML = "Завершити тест";
+  document
+    .getElementById("read-explanation-btn")
+    .classList.remove("display-none");
+  numeric_answers.classList.add("display-none");
+  block_answers.innerHTML = "";
+  if (
+    questions_length != 0 &&
+    vidpovidnist_length != 0 &&
+    hronology_length != 0 &&
+    mul_ans_length != 0
+  ) {
+    switch (test_type) {
+      case "short":
+        startShortTest();
+        break;
+      case "full":
+        startFullTest();
+        break;
+      case "final":
+        startFinalTest(final_tema_amount);
+        break;
+    }
+    if (loadNewData) {
+      continueOldTest();
+    }
+  } else {
+    document.getElementById("initial_black_screen-text").innerHTML =
+      "Тест не знайдено";
+    return;
+  }
 
-function continueOldTest() {
-  document.getElementById("test_name").innerHTML = currentTest.testName;
-  document.getElementById("result-test_name").innerHTML = currentTest.testName;
-  questions_length = currentTest.test_questions_length;
-  vidpovidnist_length = currentTest.vidpovidnist_length;
-  hronology_length = currentTest.hronology_length;
-  mul_ans_length = currentTest.mul_ans_length;
-  questionCount =
-    questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
-
-  currentQuestionIndex = currentTest.currentQuestionIndex;
-  time = currentTest.time;
-  startingMinutes = currentTest.startingMinutes;
-  startTime = time;
-  timerInterval = setInterval(updateCountdown, 1000);
-  const testData = currentTest.test_questions;
-  test_questions = testData;
-  test_uuid = currentTest.uuid ? currentTest.uuid : null;
+  Array.from(numeric_answers.children).forEach((field) => {
+    field.disabled = false;
+  });
+  for (var i = 1; i <= questionCount; i++) {
+    var btn = document.createElement("div");
+    btn.classList.add("block_answers-item");
+    btn.id = "q" + i;
+    btn.innerHTML = i;
+    block_answers.appendChild(btn);
+  }
+  Array.from(block_answers.children).forEach((item) => {
+    if (test_questions[+item.innerHTML - 1].selected != "") {
+      item.classList.add("answered");
+      if (test_questions[+item.innerHTML - 1].correct) {
+        if (
+          test_questions[+item.innerHTML - 1].selected ==
+          test_questions[+item.innerHTML - 1].correct
+        ) {
+          item.classList.add("correct");
+        } else {
+          item.classList.add("incorrect");
+        }
+      } else if (test_questions[+item.innerHTML - 1].answers) {
+        if (
+          test_questions[+item.innerHTML - 1].selected ==
+          Array.from(test_questions[+item.innerHTML - 1].answers).find(
+            (ans) => ans.correct
+          ).text
+        ) {
+          item.classList.add("correct");
+        } else {
+          item.classList.add("incorrect");
+        }
+      }
+    }
+    item.addEventListener("click", () => {
+      if (!testIsPaused) {
+        saveNumAnswer();
+        currentQuestionIndex = item.innerHTML - 1;
+        showQuestion();
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        saveUncompletedTest();
+      }
+    });
+  });
+  showQuestion();
+  document.getElementById("initial_black_screen").classList.add("display-none");
 }
 
 function startShortTest() {
-  currentTest.id = `${test_id}-${test_type}-${block_id}`;
+  currentTest.id = test_id;
+  currentTest.test_type = test_type;
+  currentTest.block_id = block_id;
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-  currentTest.testName = document.getElementById("test_name").innerHTML;
   questions_length = 12;
   vidpovidnist_length = 1;
   hronology_length = 1;
   mul_ans_length = 1;
-  currentTest.test_questions_length = questions_length;
-  currentTest.vidpovidnist_length = vidpovidnist_length;
-  currentTest.hronology_length = hronology_length;
-  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -252,18 +334,15 @@ function startShortTest() {
   }
 }
 function startFinalTest(final_tema_amount) {
-  currentTest.id = `${test_id}-${test_type}-${block_id}`;
+  currentTest.id = test_id;
+  currentTest.test_type = test_type;
+  currentTest.block_id = block_id;
   document.getElementById("test_name").innerHTML = test_name;
   document.getElementById("result-test_name").innerHTML = test_name;
-  currentTest.testName = document.getElementById("test_name").innerHTML;
   questions_length = final_tema_amount * 3;
   vidpovidnist_length = final_tema_amount * 1;
   hronology_length = final_tema_amount * 1;
   mul_ans_length = final_tema_amount * 1;
-  currentTest.test_questions_length = questions_length;
-  currentTest.vidpovidnist_length = vidpovidnist_length;
-  currentTest.hronology_length = hronology_length;
-  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -353,20 +432,17 @@ function startFinalTest(final_tema_amount) {
   );
 }
 function startFullTest() {
-  currentTest.id = `${test_id}-${test_type}-${block_id}`;
+  currentTest.id = test_id;
+  currentTest.test_type = test_type;
+  currentTest.block_id = block_id;
   document.getElementById("test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
   document.getElementById("result-test_name").innerHTML =
     "Тема " + test_id + ": " + test_name;
-  currentTest.testName = document.getElementById("test_name").innerHTML;
   questions_length = questions.length;
   vidpovidnist_length = vidpovidnist_questions.length;
   hronology_length = hronology_questions.length;
   mul_ans_length = mul_ans_questions.length;
-  currentTest.test_questions_length = questions_length;
-  currentTest.vidpovidnist_length = vidpovidnist_length;
-  currentTest.hronology_length = hronology_length;
-  currentTest.mul_ans_length = mul_ans_length;
   questionCount =
     questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
   startingMinutes = questionCount;
@@ -403,136 +479,65 @@ function startFullTest() {
       )
     );
 }
+function continueOldTest() {
+  currentQuestionIndex = currentTest.currentQuestionIndex;
+  time = currentTest.time;
+  startTime = time;
+  timerInterval = setInterval(updateCountdown, 1000);
+  test_uuid = currentTest.uuid;
+  const savedAnswers = currentTest.answers;
+  let temp_1 = [];
+  test_questions = temp_1
+    .concat(
+      questions.sort((p1, p2) =>
+        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+      )
+    )
+    .concat(vidpovidnist_questions)
+    .concat(hronology_questions)
+    .concat(
+      mul_ans_questions.sort((p1, p2) =>
+        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+      )
+    );
 
+  test_questions.forEach((q) => {
+    const temp_question = savedAnswers.find((a) => a.question == q.question);
+    if (!temp_question) {
+      test_questions = test_questions.filter((question) => question !== q);
+    } else {
+      q.selected = temp_question.selected;
+    }
+  });
+}
 function saveUncompletedTest() {
-  currentTest.test_questions = test_questions;
+  let temp_answers = [];
+  test_questions.forEach((q) => {
+    temp_answers.push({ question: q.question, selected: q.selected });
+  });
+  currentTest.answers = temp_answers;
   currentTest.time = time;
   currentTest.startingMinutes = startingMinutes;
   currentTest.uuid = test_uuid;
   currentTest.date = Date.now();
+  currentTest.currentQuestionIndex = currentQuestionIndex;
+  currentTest.id = test_id;
+  currentTest.block_id = block_id;
+  currentTest.test_type = test_type;
   uncompletedTests = uncompletedTests.filter(
-    (test) => test.id != currentTest.id
+    (test) => (test) =>
+      !(
+        test.id == test_id &&
+        test.block_id == block_id &&
+        test.test_type == test_type
+      )
   );
   uncompletedTests.push(currentTest);
   localStorage.setItem(
     `uncompletedTests-${course}`,
     JSON.stringify(uncompletedTests)
   );
-}
-
-function prepareTest(loadNewData, final_tema_amount = 1) {
-  test_completed = false;
-  currentQuestionIndex = 0;
-  finishTestButton.innerHTML = "Завершити тест";
-  document
-    .getElementById("read-explanation-btn")
-    .classList.remove("display-none");
-  numeric_answers.classList.add("display-none");
-  block_answers.innerHTML = "";
-  if (loadNewData) {
-    if (
-      questions_length != 0 &&
-      vidpovidnist_length != 0 &&
-      hronology_length != 0 &&
-      mul_ans_length != 0
-    ) {
-      switch (test_type) {
-        case "short":
-          startShortTest();
-          break;
-        case "full":
-          startFullTest();
-          break;
-        case "final":
-          startFinalTest(final_tema_amount);
-          break;
-      }
-      uncompletedTests = uncompletedTests.filter(
-        (test) => test.id != currentTest.id
-      );
-      localStorage.setItem(
-        `uncompletedTests-${course}`,
-        JSON.stringify(uncompletedTests)
-      );
-    } else {
-      document.getElementById("initial_black_screen-text").innerHTML =
-        "Тест не знайдено";
-      return;
-    }
-  } else {
-    continueOldTest();
-  }
-  Array.from(numeric_answers.children).forEach((field) => {
-    field.disabled = false;
-  });
-  for (var i = 1; i <= questionCount; i++) {
-    var btn = document.createElement("div");
-    btn.classList.add("block_answers-item");
-    btn.id = "q" + i;
-    btn.innerHTML = i;
-    block_answers.appendChild(btn);
-  }
-  Array.from(block_answers.children).forEach((item) => {
-    if (!loadNewData) {
-      if (test_questions[+item.innerHTML - 1].selected != "") {
-        item.classList.add("answered");
-        if (test_questions[+item.innerHTML - 1].correct) {
-          if (
-            test_questions[+item.innerHTML - 1].selected ==
-            test_questions[+item.innerHTML - 1].correct
-          ) {
-            item.classList.add("correct");
-          } else {
-            item.classList.add("incorrect");
-          }
-        } else if (test_questions[+item.innerHTML - 1].answers) {
-          if (
-            test_questions[+item.innerHTML - 1].selected ==
-            Array.from(test_questions[+item.innerHTML - 1].answers).find(
-              (ans) => ans.correct
-            ).text
-          ) {
-            item.classList.add("correct");
-          } else {
-            item.classList.add("incorrect");
-          }
-        }
-      }
-    }
-    item.addEventListener("click", () => {
-      if (!testIsPaused) {
-        saveNumAnswer();
-        currentQuestionIndex = item.innerHTML - 1;
-        showQuestion();
-        window.scrollTo({
-          top: 0,
-          behavior: "smooth",
-        });
-      }
-    });
-  });
-  showQuestion();
-  document.getElementById("initial_black_screen").classList.add("display-none");
-}
-async function loadTestDataFromServer(
-  auth_key,
-  course,
-  block,
-  firstTest,
-  lastTest
-) {
-  try {
-    const response = await fetch(
-      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
-    );
-    if (!response.ok) {
-      throw new Error(`Failed to load test data: ${response.statusText}`);
-    }
-    return await response.json();
-  } catch (error) {
-    console.error(error);
-    return null;
-  }
+  setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
 }
 
 Array.from(ansSheetGrid).forEach((button) => {
@@ -691,12 +696,18 @@ function sendDebugTestResult(
 
 async function sendTestResult() {
   const updatedUncompletedTests = uncompletedTests.filter(
-    (test) => test.id !== `${test_id}-${test_type}-${block_id}`
+    (test) =>
+      !(
+        test.id == test_id &&
+        test.block_id == block_id &&
+        test.test_type == test_type
+      )
   );
   localStorage.setItem(
     `uncompletedTests-${course}`,
     JSON.stringify(updatedUncompletedTests)
   );
+  setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
   let _test_id = test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
@@ -1112,7 +1123,7 @@ function showQuestion() {
   document.getElementById("cf").innerHTML = currentQuestion.cf;
   document.getElementById("df").innerHTML = currentQuestion.df;
 
-  if (currentQuestionIndex < questions_length) {
+  if (currentQuestion.q_type == "abcd") {
     document.getElementById("list_num-fields").classList.add("display-none");
     document
       .getElementById("list_abcd-fields")
@@ -1154,10 +1165,7 @@ function showQuestion() {
       button.addEventListener("click", selectAnswer);
     });
   } else {
-    if (
-      currentQuestionIndex > questions_length - 1 &&
-      currentQuestionIndex < questions_length + vidpovidnist_length
-    ) {
+    if (currentQuestion.q_type == "vidp") {
       document
         .getElementById("list_abcd-fields")
         .classList.remove("display-none");
@@ -1203,11 +1211,7 @@ function showQuestion() {
           }
         }
       });
-    } else if (
-      currentQuestionIndex > questions_length + vidpovidnist_length - 1 &&
-      currentQuestionIndex <
-        questions_length + vidpovidnist_length + hronology_length
-    ) {
+    } else if (currentQuestion.q_type == "hron") {
       document
         .getElementById("list_abcd-fields")
         .classList.remove("display-none");
@@ -1246,15 +1250,7 @@ function showQuestion() {
           }
         }
       });
-    } else if (
-      currentQuestionIndex >
-        questions_length + vidpovidnist_length + hronology_length - 1 &&
-      currentQuestionIndex <
-        questions_length +
-          vidpovidnist_length +
-          hronology_length +
-          mul_ans_length
-    ) {
+    } else if (currentQuestion.q_type == "mul_ans") {
       document.getElementById("f1").innerHTML = currentQuestion.f1;
       document.getElementById("f2").innerHTML = currentQuestion.f2;
       document.getElementById("f3").innerHTML = currentQuestion.f3;
@@ -1351,7 +1347,7 @@ function selectAnswer(e) {
     const selectedBtn = e.target;
     let currentQuestion = displayedQuestion;
 
-    if (currentQuestionIndex < questions_length) {
+    if (currentQuestion.q_type == "abcd") {
       Array.from(answerButtons.children).forEach((button) => {
         button.classList.remove("selected");
       });
@@ -1369,11 +1365,7 @@ function selectAnswer(e) {
       q_id.classList.add("answered");
       currentQuestion.selected = selectedBtn.innerHTML;
     }
-    if (
-      currentQuestionIndex >= questions_length &&
-      currentQuestionIndex <
-        questions_length + vidpovidnist_length + hronology_length
-    ) {
+    if (currentQuestion.q_type == "vidp" || currentQuestion.q_type == "hron") {
       let selected_answers = [];
       Array.from(ansSheetGrid).forEach((button) => {
         if (button.classList.contains("selected")) {
@@ -1515,6 +1507,7 @@ function nextQuestionArrow() {
   } else {
     currentQuestionIndex--;
   }
+  saveUncompletedTest();
 }
 document.getElementById("next_arrow").addEventListener("click", () => {
   if (!testIsPaused) {
@@ -1529,6 +1522,7 @@ function previousQuestionArrow() {
   } else {
     currentQuestionIndex++;
   }
+  saveUncompletedTest();
 }
 document.getElementById("back_arrow").addEventListener("click", () => {
   if (!testIsPaused) {
@@ -1557,9 +1551,6 @@ function pauseTest() {
     }
   }
 }
-// document.getElementById("pause_btn").addEventListener("click", () => {
-//   pauseTest();
-// });
 function checkForCopium() {
   let checked = [];
   let copies = [];
