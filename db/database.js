@@ -58,15 +58,6 @@ async function initializeConnection() {
                 marketplace_info TEXT,
                 blocks TEXT
             );
-
-            CREATE TABLE IF NOT EXISTS uncompleted_tests (
-                user_id INTEGER NOT NULL,
-                course_id TEXT NOT NULL,
-                tests TEXT DEFAULT '[]',
-                last_updated INTEGER NOT NULL,
-                PRIMARY KEY (user_id, course_id),
-                FOREIGN KEY(user_id) REFERENCES users(id)
-            );
         `);
 
         // Helper functions with proper promise handling
@@ -465,50 +456,34 @@ async function initializeConnection() {
                 });
             },
 
-            async getUncompletedTests(userId, courseId) {
-                try {
-                    const row = await db.get(
-                        `SELECT tests, last_updated 
-                         FROM uncompleted_tests 
-                         WHERE user_id = ? AND course_id = ?`,
-                        [userId, courseId]
-                    );
-
-                    if (!row) {
-                        // If no record exists, return default values
-                        return {
-                            tests: [],
-                            last_updated: Date.now() // Set current timestamp as initial last_updated
-                        };
-                    }
-
-                    return {
-                        tests: JSON.parse(row.tests || '[]'),
-                        last_updated: row.last_updated || Date.now() // Ensure we always have a timestamp
-                    };
-                } catch (error) {
-                    console.error('Error in getUncompletedTests:', error);
-                    throw error;
-                }
+            async getUncompletedTests(auth_key, courseId) {
+                return new Promise((resolve, reject) => {
+                    db.get(`
+                        SELECT uncompleted_tests, last_updated 
+                        FROM user_courses 
+                        WHERE auth_key = ? AND course_id = ?
+                    `, [auth_key, courseId], (err, row) => {
+                        if (err) reject(err);
+                        resolve({
+                            tests: row?.uncompleted_tests ? JSON.parse(row.uncompleted_tests) : [],
+                            last_updated: row?.last_updated || 0
+                        });
+                    });
+                });
             },
 
-            async updateUncompletedTests(userId, courseId, tests) {
-                const timestamp = Date.now();
-                
-                try {
-                    const result = await db.run(
-                        `INSERT INTO uncompleted_tests (user_id, course_id, tests, last_updated)
-                         VALUES (?, ?, ?, ?)
-                         ON CONFLICT(user_id, course_id) 
-                         DO UPDATE SET tests = ?, last_updated = ?`,
-                        [userId, courseId, tests, timestamp, tests, timestamp]
-                    );
-                    
-                    return result;
-                } catch (error) {
-                    console.error('Error in updateUncompletedTests:', error);
-                    throw error;
-                }
+            async updateUncompletedTests(auth_key, courseId, tests) {
+                return new Promise((resolve, reject) => {
+                    db.run(`
+                        UPDATE user_courses 
+                        SET uncompleted_tests = ?, 
+                            last_updated = ?
+                        WHERE auth_key = ? AND course_id = ?
+                    `, [tests, Date.now(), auth_key, courseId], function(err) {
+                        if (err) reject(err);
+                        resolve({ changes: this.changes });
+                    });
+                });
             }
         };
 

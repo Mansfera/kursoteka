@@ -1715,7 +1715,7 @@ app.post('/api/getUncompletedTests', async (req, res) => {
       return res.status(404).json({ error: 'Course not found' });
     }
 
-    const result = await dbHelpers.getUncompletedTests(user.id, course);
+    const result = await dbHelpers.getUncompletedTests(auth_key, course);
     res.json({
       tests: result.tests,
       last_updated: result.last_updated
@@ -1742,12 +1742,12 @@ app.post('/api/updateUncompletedTests', async (req, res) => {
     }
 
     // Get current server data to compare timestamps
-    const currentData = await dbHelpers.getUncompletedTests(user.id, course);
+    const currentData = await dbHelpers.getUncompletedTests(auth_key, course);
     
     // Only update if client data is newer
     if (!currentData.last_updated || !last_updated || last_updated >= currentData.last_updated) {
       const result = await dbHelpers.updateUncompletedTests(
-        user.id,
+        auth_key,
         course,
         JSON.stringify(tests || [])
       );
