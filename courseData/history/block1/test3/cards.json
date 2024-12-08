@@ -1,1 +1,217 @@
-[]
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "князь Аскольд, монета НБУ"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "княгиня Ольга, монета НБУ"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "княгиня Ольга, монета НБУ"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "князь Святослав, монета НБУ"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Володимир Великий, монета НБУ"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Десятинна церква, монета НБУ"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "златник князя Володимира Великого"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "карбування монет, монета НБУ"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "донька Ярослава Мудрого, монета НБУ"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "донька Ярослава Мудрого, монета НБУ"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "\"Руська правда\", монета НБУ"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "\"Золоті ворота\", монета НБУ"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "місто Галич, монета НБУ"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "\"Устав\" Володимира Мономаха, марка Укрпошта"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "гривня, монета НБУ"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "літописець Нестор, монета НБУ"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Новгород-Сіверське князівство, монета НБУ"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Богоматір Оранта, монета НБУ"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Спаський собор, монета НБУ"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Михайлівський Золотоверхий собор, монета НБУ"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Успенський собор у місті Володимир, монета НБУ"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Київська держава за правління князів Олега та Ігоря"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Збір князями полюддя в Київській державі"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Київська держава та Хозарський каганат"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Київська держава за правління князя Святослава"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Київська держава за правління князя Володимира Великого"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Київська держава за правління князя Ярослава Мудрого"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Удільні князівства Київської держави"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Київська держава за правління князя Володимира Мономаха"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Похід новгород-сіверського князя Ігоря Святославовича на половців"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Спасо-Преображенський собор у місті Чернігів"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Софійський собор у місті Київ "
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Успенський собор у місті Київ "
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Михайлівський Золотоверхий собор у місті Київ "
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "П’ятницька церква в місті Чернігів "
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Успенський собор у місті Володимир      "
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "церква Святого Пантелеймона поблизу міста Галич"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "мозаїка Богоматері Оранти із Софійського собору в місті Київ \r\n"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "мозаїка Христа Вседержителя з Софійського собору в місті Київ"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" "
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "мініатюра \"Євангеліст Лука\" з Остромирового Євангелія"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Свенська ікона Богородиці з Антонієм і Феодосієм Печерськими"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "Вишгородська ікона Богородиці"
+  }
+]
