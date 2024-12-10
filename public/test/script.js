@@ -221,21 +221,21 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     block_answers.appendChild(btn);
   }
   Array.from(block_answers.children).forEach((item) => {
-    if (test_questions[+item.innerHTML - 1].selected != "") {
+    if (test_questions[+item.innerHTML - 1]?.selected != "") {
       item.classList.add("answered");
-      if (test_questions[+item.innerHTML - 1].correct) {
+      if (test_questions[+item.innerHTML - 1]?.correct) {
         if (
-          test_questions[+item.innerHTML - 1].selected ==
-          test_questions[+item.innerHTML - 1].correct
+          test_questions[+item.innerHTML - 1]?.selected ==
+          test_questions[+item.innerHTML - 1]?.correct
         ) {
           item.classList.add("correct");
         } else {
           item.classList.add("incorrect");
         }
-      } else if (test_questions[+item.innerHTML - 1].answers) {
+      } else if (test_questions[+item.innerHTML - 1]?.answers) {
         if (
-          test_questions[+item.innerHTML - 1].selected ==
-          Array.from(test_questions[+item.innerHTML - 1].answers).find(
+          test_questions[+item.innerHTML - 1]?.selected ==
+          Array.from(test_questions[+item.innerHTML - 1]?.answers).find(
             (ans) => ans.correct
           ).text
         ) {
