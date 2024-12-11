@@ -517,6 +517,7 @@ function continueOldTest() {
     const temp_question = savedAnswers.find((a) => a.question == q.question);
     if (!temp_question) {
       test_questions = test_questions.filter((question) => question !== q);
+      questionCount = test_questions.length;
     } else {
       q.selected = temp_question.selected;
     }
