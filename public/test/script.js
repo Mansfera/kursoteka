@@ -50,6 +50,7 @@ let startingMinutes;
 let time;
 let timerInterval;
 let testIsPaused = false;
+let has_user_interacted = false;
 const uncompletedTestsData = localStorage.getItem(`uncompletedTests-${course}`);
 let uncompletedTests = uncompletedTestsData
   ? JSON.parse(uncompletedTestsData)
@@ -522,6 +523,7 @@ function continueOldTest() {
       q.selected = temp_question.selected;
     }
   });
+  saveUncompletedTest();
 }
 function saveUncompletedTest() {
   let temp_answers = [];
@@ -551,7 +553,82 @@ function saveUncompletedTest() {
     JSON.stringify(uncompletedTests)
   );
   setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+
+  syncUncompletedTests();
 }
+
+async function syncUncompletedTests() {
+  const current_time = Date.now();
+  let last_update = getCookie(`lastUncompletedTestsUpdate-${course}`);
+
+  if (last_update == null) {
+    localStorage.clear();
+  }
+  if (uncompletedTests.length > 9) {
+    uncompletedTests = uncompletedTests
+      .sort((a, b) => b.date - a.date)
+      .slice(0, 9);
+    localStorage.setItem(
+      `uncompletedTests-${course}`,
+      JSON.stringify(uncompletedTests)
+    );
+  }
+
+  try {
+    if (!last_update || current_time - parseInt(last_update) > 10000) {
+      const response = await fetch("/api/getUncompletedTests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth_key,
+          course,
+          last_update,
+        }),
+      });
+
+      if (response.ok) {
+        const server_data = await response.json();
+        if (!last_update || server_data.last_updated > parseInt(last_update)) {
+          uncompletedTests = server_data.tests;
+          localStorage.setItem(
+            `uncompletedTests-${course}`,
+            JSON.stringify(uncompletedTests)
+          );
+          setCookie(
+            `lastUncompletedTestsUpdate-${course}`,
+            server_data.last_updated
+          );
+          last_update = server_data.last_updated;
+        }
+      }
+    } else {
+      await fetch("/api/updateUncompletedTests", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          auth_key,
+          course,
+          tests: uncompletedTests,
+          last_updated: last_update,
+        }),
+      });
+    }
+  } catch (error) {
+    console.error("Error syncing uncompleted tests:", error);
+  }
+}
+
+syncInterval = setInterval(syncUncompletedTests, 300000);
+
+window.addEventListener("beforeunload", (event) => {
+  if (has_user_interacted) {
+    saveUncompletedTest();
+  }
+});
 
 Array.from(ansSheetGrid).forEach((button) => {
   button.addEventListener("click", selectAnswer);
@@ -1080,8 +1157,6 @@ function checkIfImageExists(blockId, testId, imageId) {
     }
   };
 
-  // xhr.timeout = 10000;
-
   xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
     document.getElementById("question_image").src = "";
@@ -1125,7 +1200,6 @@ function showQuestion() {
   if (bottomLine.innerHTML.length < 1) {
     bottomLine.classList.add("display-none");
   }
-  // document.getElementById("image-loader").classList.remove("display-none");
   checkIfImageExists(
     block_id,
     currentQuestion.test_id,
@@ -1355,6 +1429,7 @@ function showQuestion() {
 }
 
 function selectAnswer(e) {
+  has_user_interacted = true;
   if (!test_completed && !testIsPaused) {
     const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
     const selectedBtn = e.target;
@@ -1425,6 +1500,7 @@ function selectAnswer(e) {
 }
 
 function saveNumAnswer() {
+  has_user_interacted = true;
   if (inputAnswerQuestion) {
     let temp_str = "";
     const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
@@ -1467,6 +1543,7 @@ Array.from(numeric_answers.children).forEach((field) => {
   });
 });
 function handleNextButton() {
+  has_user_interacted = true;
   if (!test_completed) {
     if (currentQuestionIndex < questionCount) {
       saveNumAnswer();
@@ -1476,6 +1553,7 @@ function handleNextButton() {
   }
 }
 function finishTest() {
+  has_user_interacted = true;
   let found_non_selected = false;
   let non_answered = "";
   for (let i = 0; i < questionCount; i++) {
@@ -1508,6 +1586,7 @@ finishTestButton.addEventListener("click", () => {
 });
 
 function nextQuestionArrow() {
+  has_user_interacted = true;
   saveNumAnswer();
   currentQuestionIndex++;
   if (currentQuestionIndex < questionCount) {
@@ -1528,6 +1607,7 @@ document.getElementById("next_arrow").addEventListener("click", () => {
   }
 });
 function previousQuestionArrow() {
+  has_user_interacted = true;
   saveNumAnswer();
   currentQuestionIndex--;
   if (currentQuestionIndex >= 0) {
