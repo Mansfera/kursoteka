@@ -1184,22 +1184,21 @@ function showQuestion() {
   displayedQuestion = currentQuestion;
   let questionNo = currentQuestionIndex + 1;
   questionNumber.innerHTML = questionNo;
-  topLine.innerHTML = currentQuestion.top_question;
-  if (currentQuestion.middle_rows != null) {
-    currentQuestion.middle_rows.forEach((row) => {
-      const mid_row = document.createElement("div");
-      mid_row.innerHTML = row;
-      mid_row.classList.add("middle_lines-element");
-      middleLines.appendChild(mid_row);
-    });
-  } else {
-    middleLines.innerHTML = "";
-  }
+  currentQuestion.top_question
+    ? (topLine.innerHTML = currentQuestion.top_question)
+    : topLine.classList.add("display-none");
+  currentQuestion.middle_rows
+    ? currentQuestion.middle_rows.forEach((row) => {
+        const mid_row = document.createElement("div");
+        mid_row.innerHTML = row;
+        mid_row.classList.add("middle_lines-element");
+        middleLines.appendChild(mid_row);
+      })
+    : (middleLines.innerHTML = "");
   bottomLine.classList.remove("display-none");
-  bottomLine.innerHTML = currentQuestion.bottom_question;
-  if (bottomLine.innerHTML.length < 1) {
-    bottomLine.classList.add("display-none");
-  }
+  currentQuestion.bottom_question
+    ? (bottomLine.innerHTML = currentQuestion.bottom_question)
+    : bottomLine.classList.add("display-none");
   checkIfImageExists(
     block_id,
     currentQuestion.test_id,
