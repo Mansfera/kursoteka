@@ -524,6 +524,19 @@ function continueOldTest() {
       questionCount = test_questions.length;
     } else {
       q.selected = temp_question.selected;
+      if (q.q_type != "abcd") {
+        let correct_percentage = 0;
+        let add_percentage = 0;
+        q.q_type == "mul_ans" ? (add_percentage = 33) : (add_percentage = 25);
+        for (let i = 0; i < q.correct.length; i++) {
+          if (q.correct[i] == q.selected[i]) {
+            correct_percentage += add_percentage;
+          }
+        }
+        q.correct_percentage = correct_percentage;
+      } else {
+        q.answers.find((a) => a.correct).text == q.selected ? (q.isCorrect = true) : (q.isCorrect = false);
+      }
     }
   });
   saveUncompletedTest();
@@ -1025,6 +1038,7 @@ function resetState() {
   document.getElementById("f5").innerHTML = "";
   document.getElementById("f6").innerHTML = "";
   document.getElementById("f7").innerHTML = "";
+  image_xhr.abort();
 }
 
 function removeFromArray(array, element) {
@@ -1072,6 +1086,7 @@ if (getCookie("debugAnswers") != null) {
             );
             if (button) button.click();
           }
+          displayedQuestion.correct_percentage = 100;
         } else if (displayedQuestion.q_type == "abcd") {
           // Handle multiple choice questions
           const correctAnswer = displayedQuestion.answers.find(
@@ -1085,6 +1100,7 @@ if (getCookie("debugAnswers") != null) {
               }
             });
           }
+          displayedQuestion.isCorrect = true;
         } else if (displayedQuestion.q_type == "mul_ans") {
           // Handle multiple answer questions
           for (let i = 0; i < 3; i++) {
@@ -1095,6 +1111,7 @@ if (getCookie("debugAnswers") != null) {
               input.dispatchEvent(new Event("input"));
             }
           }
+          displayedQuestion.correct_percentage = 100;
         }
 
         if (autofill) {
@@ -1119,11 +1136,12 @@ if (getCookie("debugAnswers") != null) {
   }
 }
 
+let image_xhr = new XMLHttpRequest();
 function checkIfImageExists(blockId, testId, imageId) {
-  const xhr = new XMLHttpRequest();
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState === XMLHttpRequest.DONE) {
-      if (xhr.status === 200) {
+  image_xhr = new XMLHttpRequest();
+  image_xhr.onreadystatechange = function () {
+    if (image_xhr.readyState === XMLHttpRequest.DONE) {
+      if (image_xhr.status === 200) {
         // Construct the image URL with a cache buster
         const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
@@ -1147,7 +1165,7 @@ function checkIfImageExists(blockId, testId, imageId) {
         }
       } else {
         if (false) {
-          console.error(`Failed to fetch image. Status: ${xhr.status}`);
+          console.error(`Failed to fetch image. Status: ${image_xhr.status}`);
         }
         document.getElementById("question_image").src = "";
         document.getElementById("question_image").style.height = "0px";
@@ -1160,7 +1178,7 @@ function checkIfImageExists(blockId, testId, imageId) {
     }
   };
 
-  xhr.ontimeout = function () {
+  image_xhr.ontimeout = function () {
     console.error("The request for the image timed out.");
     document.getElementById("question_image").src = "";
     Array.from(document.getElementsByClassName("__can_be_blurred")).forEach(
@@ -1170,12 +1188,12 @@ function checkIfImageExists(blockId, testId, imageId) {
     );
   };
 
-  xhr.open(
+  image_xhr.open(
     "GET",
     `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
     true
   );
-  xhr.send();
+  image_xhr.send();
 }
 
 function showQuestion() {
