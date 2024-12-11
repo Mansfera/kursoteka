@@ -222,7 +222,10 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     block_answers.appendChild(btn);
   }
   Array.from(block_answers.children).forEach((item) => {
-    if (test_questions[+item.innerHTML - 1]?.selected != "") {
+    if (
+      test_questions[+item.innerHTML - 1]?.selected != "" &&
+      test_questions[+item.innerHTML - 1]?.selected != null
+    ) {
       item.classList.add("answered");
       if (test_questions[+item.innerHTML - 1]?.correct) {
         if (
