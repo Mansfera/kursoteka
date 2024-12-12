@@ -571,8 +571,6 @@ function saveUncompletedTest() {
     JSON.stringify(uncompletedTests)
   );
   setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
-
-  syncUncompletedTests();
 }
 
 async function syncUncompletedTests() {
