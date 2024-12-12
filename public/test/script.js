@@ -84,6 +84,7 @@ if (
     JSON.stringify(uncompletedTests)
   );
   setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+  syncUncompletedTests();
   loadTestQuestions(false);
 }
 
@@ -571,8 +572,6 @@ function saveUncompletedTest() {
     JSON.stringify(uncompletedTests)
   );
   setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
-
-  syncUncompletedTests();
 }
 
 async function syncUncompletedTests() {
@@ -643,8 +642,9 @@ async function syncUncompletedTests() {
 syncInterval = setInterval(syncUncompletedTests, 300000);
 
 window.addEventListener("beforeunload", (event) => {
-  if (has_user_interacted) {
+  if (has_user_interacted && !test_completed) {
     saveUncompletedTest();
+    syncUncompletedTests();
   }
 });
 
@@ -811,11 +811,12 @@ async function sendTestResult() {
         test.test_type == test_type
       )
   );
+  uncompletedTests = updatedUncompletedTests;
   localStorage.setItem(
     `uncompletedTests-${course}`,
-    JSON.stringify(updatedUncompletedTests)
+    JSON.stringify(uncompletedTests)
   );
-  setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+  syncUncompletedTests();
   let _test_id = test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
