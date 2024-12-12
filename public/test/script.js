@@ -817,7 +817,7 @@ async function sendTestResult() {
     JSON.stringify(uncompletedTests)
   );
   syncUncompletedTests();
-  let _test_id = test_id;
+  let _test_id = test_id || last_test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
   let test_vidp_q = [];
