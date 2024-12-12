@@ -817,7 +817,6 @@ async function sendTestResult() {
     JSON.stringify(uncompletedTests)
   );
   syncUncompletedTests();
-  console.log("uncompletedTests", localStorage.getItem(`uncompletedTests-${course}`));
   let _test_id = test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
