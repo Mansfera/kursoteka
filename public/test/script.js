@@ -535,7 +535,9 @@ function continueOldTest() {
         }
         q.correct_percentage = correct_percentage;
       } else {
-        q.answers.find((a) => a.correct).text == q.selected ? (q.isCorrect = true) : (q.isCorrect = false);
+        q.answers.find((a) => a.correct).text == q.selected
+          ? (q.isCorrect = true)
+          : (q.isCorrect = false);
       }
     }
   });
@@ -1205,9 +1207,11 @@ function showQuestion() {
   displayedQuestion = currentQuestion;
   let questionNo = currentQuestionIndex + 1;
   questionNumber.innerHTML = questionNo;
+  topLine.classList.remove("display-none");
   currentQuestion.top_question
     ? (topLine.innerHTML = currentQuestion.top_question)
     : topLine.classList.add("display-none");
+  middleLines.classList.remove("display-none");
   currentQuestion.middle_rows
     ? currentQuestion.middle_rows.forEach((row) => {
         const mid_row = document.createElement("div");
