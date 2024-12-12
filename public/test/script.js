@@ -814,6 +814,7 @@ async function sendTestResult() {
     JSON.stringify(updatedUncompletedTests)
   );
   setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+  syncUncompletedTests();
   let _test_id = test_id;
   let test_abcd_q = [];
   let test_hron_q = [];
