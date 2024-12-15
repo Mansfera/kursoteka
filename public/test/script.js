@@ -92,8 +92,9 @@ function chooseNewOrOldTest(answer) {
   document
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
-  loadTestQuestions(answer);
-  if (answer) {
+
+  // Clear current test data if starting new test
+  if (!answer) {
     uncompletedTests = uncompletedTests.filter(
       (test) =>
         !(
@@ -106,7 +107,11 @@ function chooseNewOrOldTest(answer) {
       `uncompletedTests-${course}`,
       JSON.stringify(uncompletedTests)
     );
+    setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
+    syncUncompletedTests();
   }
+  
+  loadTestQuestions(answer);
 }
 async function loadTestDataFromServer(
   auth_key,
