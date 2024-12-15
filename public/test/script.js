@@ -918,7 +918,7 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  testData.uuid = test_uuid;
+  document.getElementById("test_result-uuid").innerHTML = testData.uuid || "UUID не знайдено";
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
