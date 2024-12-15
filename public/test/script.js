@@ -752,56 +752,6 @@ function showScore() {
     });
 }
 
-function sendDebugTestResult(
-  time,
-  test_id,
-  test_type,
-  score,
-  auth_key,
-  abcd_questions_accuracy,
-  hronology_questions_accuracy,
-  vidpovidnist_questions_accuracy,
-  mul_ans_questions_accuracy
-) {
-  let testData = {
-    date: Date.now(),
-    time,
-    test_type,
-    block: block_id,
-    test: test_id,
-    score,
-    auth_key: auth_key,
-    courseName: course,
-    abcd_questions_accuracy,
-    hronology_questions_accuracy,
-    vidpovidnist_questions_accuracy,
-    mul_ans_questions_accuracy,
-    debug: true,
-  };
-  fetch("/sendTestResult", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(testData),
-  })
-    .then((response) => {
-      switch (response.status) {
-        case 200:
-          console.log(testData);
-          break;
-        case 403:
-          console.log("Нашо в консоль було лізти?");
-          break;
-        default:
-      }
-      response.json();
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
-}
-
 async function sendTestResult() {
   const updatedUncompletedTests = uncompletedTests.filter(
     (test) =>
@@ -918,7 +868,7 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  document.getElementById("test_result-uuid").innerHTML = testData.uuid || "UUID не знайдено";
+  document.getElementById("test_result-uuid").innerHTML = currentTest.uuid || "UUID не знайдено";
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
