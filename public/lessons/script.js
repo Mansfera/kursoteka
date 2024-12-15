@@ -156,16 +156,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
       (a, b) => a.date - b.date
     );
-
     if (
       lastCompletedSummaryTests.length > 0 &&
       !getCookie("allowContextmenu") &&
       !getCookie("debugAnswers")
     ) {
       lastCompletedSummaryTests.forEach((summaryTest) => {
+        console.log(
+          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000,
+          summaryTest.score < 85,
+          Date.now() - summaryTest.date < 7 * 24 * 60 * 60 * 1000
+        );
         if (
-          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 &&
-          summaryTest.score < 85
+          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 ||
+          (summaryTest.score < 85 &&
+            Date.now() - summaryTest.date < 7 * 24 * 60 * 60 * 1000)
         ) {
           document
             .getElementById("reviseSummaryTest_notification")
