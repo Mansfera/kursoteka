@@ -83,14 +83,6 @@
     color: #48bb78;
 }
 
-.main_wrapper-question_text_rows,
-.main_wrapper-question_answers_list,
-.question_answers_list-element-wrapper,
-.question_answers_list-element-row,
-.question_answers_list-element-text {
-    /* These classes should already be styled in /test/style.css */
-}
-
 #test_uuid {
     cursor: pointer;
 }
