@@ -160,6 +160,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (
       lastCompletedSummaryTests.length > 0 &&
       !getCookie("ignoreSummaryTestNotification") &&
+      getCookie("group") != "teacher" &&
       !getCookie("debugAnswers") &&
       !getCookie("singleSessionCode")
     ) {
@@ -172,8 +173,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         );
         if (
           Date.now() - summaryTest.date > period ||
-          (summaryTest.score < 85 &&
-            Date.now() - summaryTest.date < period)
+          (summaryTest.score < 85 && Date.now() - summaryTest.date < period)
         ) {
           document
             .getElementById("reviseSummaryTest_notification")
