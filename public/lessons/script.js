@@ -143,18 +143,19 @@ document.addEventListener("DOMContentLoaded", async () => {
       user_stats?.completed_tests.filter((test) => test.test_type == "final") ||
       [];
 
-    // Group tests by test_id and get only the latest one for each
+    // Group tests by block_id for final tests, otherwise by test_id
     const latestTestsMap = new Map();
     finalTests.forEach((test) => {
-      const existingTest = latestTestsMap.get(test.test);
+      const key = test.block; // Use block as the key for final tests
+      const existingTest = latestTestsMap.get(key);
       if (!existingTest || existingTest.date < test.date) {
-        latestTestsMap.set(test.test, test);
+        latestTestsMap.set(key, test);
       }
     });
 
-    // Convert map values back to array and sort by date
+    // Convert map values back to array and sort by block number
     const lastCompletedSummaryTests = Array.from(latestTestsMap.values()).sort(
-      (a, b) => a.date - b.date
+      (a, b) => a.block - b.block
     );
     if (
       lastCompletedSummaryTests.length > 0 &&

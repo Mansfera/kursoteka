@@ -71,14 +71,17 @@ if (
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
 } else {
-  uncompletedTests = uncompletedTests.filter(
-    (test) =>
-      !(
+  uncompletedTests = uncompletedTests.filter((test) => {
+    if (test_type === "final") {
+      return !(test.block_id == block_id && test.test_type == test_type);
+    } else {
+      return !(
         test.id == test_id &&
         test.block_id == block_id &&
         test.test_type == test_type
-      )
-  );
+      );
+    }
+  });
   localStorage.setItem(
     `uncompletedTests-${course}`,
     JSON.stringify(uncompletedTests)
@@ -92,26 +95,24 @@ function chooseNewOrOldTest(answer) {
   document
     .getElementById("choose_new_or_old_test_dialogue")
     .classList.toggle("display-none");
-
-  // Clear current test data if starting new test
-  if (!answer) {
-    uncompletedTests = uncompletedTests.filter(
-      (test) =>
-        !(
+  loadTestQuestions(answer);
+  if (answer) {
+    uncompletedTests = uncompletedTests.filter((test) => {
+      if (test_type === "final") {
+        return !(test.block_id == block_id && test.test_type == test_type);
+      } else {
+        return !(
           test.id == test_id &&
           test.block_id == block_id &&
           test.test_type == test_type
-        )
-    );
+        );
+      }
+    });
     localStorage.setItem(
       `uncompletedTests-${course}`,
       JSON.stringify(uncompletedTests)
     );
-    setCookie(`lastUncompletedTestsUpdate-${course}`, Date.now());
-    syncUncompletedTests();
   }
-  
-  loadTestQuestions(answer);
 }
 async function loadTestDataFromServer(
   auth_key,
@@ -508,45 +509,73 @@ function continueOldTest() {
   timerInterval = setInterval(updateCountdown, 1000);
   test_uuid = currentTest.uuid;
   const savedAnswers = currentTest.answers;
-  let temp_1 = [];
-  test_questions = temp_1
-    .concat(
-      questions.sort((p1, p2) =>
-        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-      )
-    )
-    .concat(vidpovidnist_questions)
-    .concat(hronology_questions)
-    .concat(
-      mul_ans_questions.sort((p1, p2) =>
-        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-      )
-    );
 
-  test_questions.forEach((q) => {
-    const temp_question = savedAnswers.find((a) => a.question == q.question);
-    if (!temp_question) {
-      test_questions = test_questions.filter((question) => question !== q);
-      questionCount = test_questions.length;
-    } else {
-      q.selected = temp_question.selected;
-      if (q.q_type != "abcd") {
+  // Reset test_questions array before populating it
+  test_questions = [];
+
+  // Add questions in the correct order based on the saved answers
+  savedAnswers.forEach((savedAnswer) => {
+    // Find matching question from our loaded questions
+    let matchingQuestion;
+    if (
+      savedAnswer.question ===
+      questions.find((q) => q.question === savedAnswer.question)?.question
+    ) {
+      matchingQuestion = questions.find(
+        (q) => q.question === savedAnswer.question
+      );
+    } else if (
+      savedAnswer.question ===
+      vidpovidnist_questions.find((q) => q.question === savedAnswer.question)
+        ?.question
+    ) {
+      matchingQuestion = vidpovidnist_questions.find(
+        (q) => q.question === savedAnswer.question
+      );
+    } else if (
+      savedAnswer.question ===
+      hronology_questions.find((q) => q.question === savedAnswer.question)
+        ?.question
+    ) {
+      matchingQuestion = hronology_questions.find(
+        (q) => q.question === savedAnswer.question
+      );
+    } else if (
+      savedAnswer.question ===
+      mul_ans_questions.find((q) => q.question === savedAnswer.question)
+        ?.question
+    ) {
+      matchingQuestion = mul_ans_questions.find(
+        (q) => q.question === savedAnswer.question
+      );
+    }
+
+    if (matchingQuestion) {
+      matchingQuestion.selected = savedAnswer.selected;
+
+      if (matchingQuestion.q_type !== "abcd") {
         let correct_percentage = 0;
-        let add_percentage = 0;
-        q.q_type == "mul_ans" ? (add_percentage = 33) : (add_percentage = 25);
-        for (let i = 0; i < q.correct.length; i++) {
-          if (q.correct[i] == q.selected[i]) {
+        let add_percentage = matchingQuestion.q_type === "mul_ans" ? 33 : 25;
+
+        for (let i = 0; i < matchingQuestion.correct.length; i++) {
+          if (matchingQuestion.correct[i] === matchingQuestion.selected[i]) {
             correct_percentage += add_percentage;
           }
         }
-        q.correct_percentage = correct_percentage;
+        matchingQuestion.correct_percentage = correct_percentage;
       } else {
-        q.answers.find((a) => a.correct).text == q.selected
-          ? (q.isCorrect = true)
-          : (q.isCorrect = false);
+        matchingQuestion.isCorrect =
+          matchingQuestion.answers.find((a) => a.correct).text ===
+          matchingQuestion.selected;
       }
+
+      test_questions.push(matchingQuestion);
     }
   });
+
+  // Update questionCount to match the actual number of questions
+  questionCount = test_questions.length;
+
   saveUncompletedTest();
 }
 function saveUncompletedTest() {
@@ -720,7 +749,6 @@ function showScore() {
   sendTestResult()
     .then(() => {
       finishTestButton.innerHTML = "Пройти знову";
-      test_completed = true;
       currentQuestionIndex = 0;
       showQuestion();
       document.getElementById("test_result").classList.remove("display-none");
@@ -758,13 +786,9 @@ function showScore() {
 }
 
 async function sendTestResult() {
+  test_completed = true;
   const updatedUncompletedTests = uncompletedTests.filter(
-    (test) =>
-      !(
-        test.id == test_id &&
-        test.block_id == block_id &&
-        test.test_type == test_type
-      )
+    (test) => !(test.uuid == test_uuid)
   );
   uncompletedTests = updatedUncompletedTests;
   localStorage.setItem(
@@ -824,6 +848,7 @@ async function sendTestResult() {
     test: _test_id,
     score: Math.ceil(score),
     auth_key,
+    uuid: test_uuid,
     courseName: course,
     abcd_questions_accuracy: Math.ceil(
       (temp_abcd_questions_accuracy * 100) / test_abcd_q.length
@@ -873,7 +898,8 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  document.getElementById("test_result-uuid").innerHTML = currentTest.uuid || "UUID не знайдено";
+  document.getElementById("test_result-uuid").innerHTML =
+    test_uuid || "UUID не знайдено";
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
