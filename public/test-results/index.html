@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <meta name="description" content="Курсотека! © Mansfera" />
+
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="/test/style.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/global.js"></script>
+    <script src="/top_bar.js"></script>
+    <title>Результат тесту</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+      <div class="top_bar_spacefiller"></div>
+      <div class="main_wrapper-test_result">
+        <div class="test_result-top">
+          <div id="test_result-close">
+            <div class="test_result-close-name" id="test_name"></div>
+          </div>
+          <div class="test_result-top-center_text">
+            <div class="test_result-top-title title_text uppercase white_text">
+              Результат тесту
+            </div>
+            <div class="test_result-top-score white_text" id="total_score">
+              --%
+            </div>
+          </div>
+        </div>
+        <div class="test_result-stats">
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">
+              Дата проходження
+            </div>
+            <div class="test_result-stats-item-info white_text" id="test_date">
+              дд.мм.рррр гг:хх
+            </div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">UUID тесту</div>
+            <div
+              class="test_result-stats-item-info white_text"
+              id="test_uuid"
+            ></div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">
+              Питання з вибором однієї правильної відповідді
+            </div>
+            <div class="test_result-stats-item-info white_text" id="abcd_score">
+              --%
+            </div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">
+              Питання на встановлення відповідності
+            </div>
+            <div class="test_result-stats-item-info white_text" id="vidp_score">
+              --%
+            </div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">
+              Питання на встановлення правильної послідовності
+            </div>
+            <div class="test_result-stats-item-info white_text" id="hron_score">
+              --%
+            </div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">
+              Питання з вибором трьох правильних відповідей
+            </div>
+            <div
+              class="test_result-stats-item-info white_text"
+              id="mul_ans_score"
+            >
+              --%
+            </div>
+          </div>
+          <div class="test_result-stats-item">
+            <div class="test_result-stats-item-name gray_text">Час</div>
+            <div class="test_result-stats-item-info white_text" id="test_time">
+              --:--
+            </div>
+          </div>
+        </div>
+
+        <div id="questions_list"></div>
+      </div>
+    </div>
+
+    <div id="initial_black_screen" class="main_wrapper-initial_black_screen">
+      <span id="initial_black_screen-text">Завантаження...</span>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
