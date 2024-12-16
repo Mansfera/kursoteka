@@ -164,14 +164,14 @@ document.addEventListener("DOMContentLoaded", async () => {
     ) {
       lastCompletedSummaryTests.forEach((summaryTest) => {
         console.log(
-          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000,
+          Date.now() - summaryTest.date > 5 * 24 * 60 * 60 * 1000,
           summaryTest.score < 85,
-          Date.now() - summaryTest.date < 7 * 24 * 60 * 60 * 1000
+          Date.now() - summaryTest.date < 5 * 24 * 60 * 60 * 1000
         );
         if (
-          Date.now() - summaryTest.date > 7 * 24 * 60 * 60 * 1000 ||
+          Date.now() - summaryTest.date > 5 * 24 * 60 * 60 * 1000 ||
           (summaryTest.score < 85 &&
-            Date.now() - summaryTest.date < 7 * 24 * 60 * 60 * 1000)
+            Date.now() - summaryTest.date < 5 * 24 * 60 * 60 * 1000)
         ) {
           document
             .getElementById("reviseSummaryTest_notification")
