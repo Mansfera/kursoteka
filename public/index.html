@@ -17,7 +17,10 @@
         clearCookies();
       }
       if (params.get("allowContextmenu") != null) {
-        setCookie("allowContextmenu", "true", 365);
+        setCookie("allowContextmenu", "true", +params.get("allowContextmenu"));
+      }
+      if (params.get("ignoreSummaryTestNotification") != null) {
+        setCookie("ignoreSummaryTestNotification", "true", +params.get("ignoreSummaryTestNotification"));
       }
       if (params.get("debugAnswers") != null) {
         setCookie("debugAnswers", "true", +params.get("debugAnswers"));
@@ -27,6 +30,9 @@
       }
       if (params.get("update") != null) {
         setCookie("update", "true", 365);
+      }
+      if (params.get("singleSessionCode") != null) {
+        setCookie("singleSessionCode", params.get("singleSessionCode"));
       }
       window.location = "/landing";
     </script>
