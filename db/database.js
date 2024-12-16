@@ -58,6 +58,24 @@ async function initializeConnection() {
                 marketplace_info TEXT,
                 blocks TEXT
             );
+
+            CREATE TABLE IF NOT EXISTS test_details (
+                uuid TEXT PRIMARY KEY,
+                auth_key TEXT NOT NULL,
+                course_id TEXT NOT NULL,
+                date INTEGER NOT NULL,
+                time TEXT NOT NULL,
+                test_type TEXT NOT NULL,
+                block TEXT NOT NULL,
+                test TEXT NOT NULL,
+                score INTEGER NOT NULL,
+                abcd_questions_accuracy TEXT,
+                hronology_questions_accuracy TEXT,
+                vidpovidnist_questions_accuracy TEXT,
+                mul_ans_questions_accuracy TEXT,
+                questions_data TEXT NOT NULL,
+                FOREIGN KEY (auth_key) REFERENCES users (auth_key)
+            );
         `);
 
         // Helper functions with proper promise handling
@@ -483,6 +501,85 @@ async function initializeConnection() {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
                     });
+                });
+            },
+
+            async saveTestDetails(testData) {
+                const query = `
+                    INSERT INTO test_details (
+                        uuid, auth_key, course_id, date, time, test_type, block, test,
+                        score, abcd_questions_accuracy, hronology_questions_accuracy,
+                        vidpovidnist_questions_accuracy, mul_ans_questions_accuracy,
+                        questions_data
+                    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                `;
+                
+                return new Promise((resolve, reject) => {
+                    db.run(query, [
+                        testData.uuid,
+                        testData.auth_key,
+                        testData.courseName,
+                        testData.date,
+                        testData.time,
+                        testData.test_type,
+                        testData.block,
+                        testData.test,
+                        testData.score,
+                        testData.abcd_questions_accuracy,
+                        testData.hronology_questions_accuracy,
+                        testData.vidpovidnist_questions_accuracy,
+                        testData.mul_ans_questions_accuracy,
+                        JSON.stringify(testData.questions_data)
+                    ], function(err) {
+                        if (err) reject(err);
+                        resolve({ changes: this.changes });
+                    });
+                });
+            },
+
+            async cleanupOldTests() {
+                const twoWeeksAgo = Date.now() - (14 * 24 * 60 * 60 * 1000);
+                return new Promise((resolve, reject) => {
+                    db.run('DELETE FROM test_details WHERE date < ?', [twoWeeksAgo], 
+                        function(err) {
+                            if (err) reject(err);
+                            resolve({ changes: this.changes });
+                        }
+                    );
+                });
+            },
+
+            async getTestDetails(uuid) {
+                return new Promise((resolve, reject) => {
+                    db.get('SELECT * FROM test_details WHERE uuid = ?', [uuid],
+                        (err, row) => {
+                            if (err) reject(err);
+                            resolve(row);
+                        }
+                    );
+                });
+            },
+
+            async getUserTestsByTeacher(auth_key, course_id) {
+                const user = await this.getUserByAuthKey(auth_key);
+                if (!user) return null;
+                
+                const coursesOwned = JSON.parse(user.coursesOwned);
+                if (!coursesOwned.includes(course_id)) return null;
+
+                return new Promise((resolve, reject) => {
+                    db.all(
+                        `SELECT td.*, u.name, u.surname, u.login 
+                         FROM test_details td
+                         JOIN users u ON td.auth_key = u.auth_key
+                         WHERE td.course_id = ?
+                         ORDER BY td.date DESC`,
+                        [course_id],
+                        (err, rows) => {
+                            if (err) reject(err);
+                            resolve(rows || []);
+                        }
+                    );
                 });
             }
         };

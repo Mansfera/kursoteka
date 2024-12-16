@@ -508,6 +508,7 @@ app.post("/sendTestResult", async (req, res) => {
     vidpovidnist_questions_accuracy,
     mul_ans_questions_accuracy,
     uuid,
+    questions_data
   } = req.body;
 
   try {
@@ -679,9 +680,31 @@ app.post("/sendTestResult", async (req, res) => {
       );
     }
 
+    // Save test details
+    await dbHelpers.saveTestDetails({
+      uuid,
+      auth_key,
+      courseName,
+      date,
+      time,
+      test_type,
+      block,
+      test,
+      score,
+      abcd_questions_accuracy,
+      hronology_questions_accuracy,
+      vidpovidnist_questions_accuracy,
+      mul_ans_questions_accuracy,
+      questions_data
+    });
+
+    // Cleanup old tests
+    await dbHelpers.cleanupOldTests();
+
     res.status(200).send({
       answer: "Test result saved",
       last_allowed_test: allowedTests[allowedTests.length - 1],
+      test_url: `/test-results/?uuid=${uuid}`
     });
   } catch (error) {
     console.error("Database error:", error);
@@ -1180,7 +1203,7 @@ app.post("/api/changeUserAllowedCourse", async (req, res) => {
 
     const coursesOwned = JSON.parse(user.coursesOwned);
     if (!coursesOwned.includes(courseName)) {
-      return res.status(403).send("Ви не володієте цим курсом!");
+      return res.status(403).send("Ві не володієте цим курсом!");
     }
 
     const result = await dbHelpers.updateAllowedTestsByUsername(
@@ -1774,5 +1797,64 @@ app.post('/api/updateUncompletedTests', async (req, res) => {
   } catch (error) {
     console.error('Error updating uncompleted tests:', error);
     res.status(500).json({ error: 'Server error' });
+  }
+});
+
+app.get("/api/test-details/:uuid", async (req, res) => {
+  const { uuid } = req.params;
+  const { auth_key } = req.query;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+
+    const testDetails = await dbHelpers.getTestDetails(uuid);
+    if (!testDetails) {
+      return res.status(404).send("Test not found");
+    }
+
+    // Check if user owns this test or owns the course
+    const coursesOwned = JSON.parse(user.coursesOwned);
+    if (testDetails.auth_key !== auth_key && !coursesOwned.includes(testDetails.course_id)) {
+      return res.status(403).send("Access denied");
+    }
+
+    // Return test details in format expected by test page
+    res.json({
+      test_type: testDetails.test_type,
+      block: testDetails.block,
+      test: testDetails.test,
+      questions: JSON.parse(testDetails.questions_data),
+      completed: true,
+      score: testDetails.score,
+      abcd_questions_accuracy: testDetails.abcd_questions_accuracy,
+      hronology_questions_accuracy: testDetails.hronology_questions_accuracy,
+      vidpovidnist_questions_accuracy: testDetails.vidpovidnist_questions_accuracy,
+      mul_ans_questions_accuracy: testDetails.mul_ans_questions_accuracy,
+      date: testDetails.date,
+      time: testDetails.time
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.get("/api/course-tests/:courseId", async (req, res) => {
+  const { courseId } = req.params;
+  const { auth_key } = req.query;
+
+  try {
+    const tests = await dbHelpers.getUserTestsByTeacher(auth_key, courseId);
+    if (!tests) {
+      return res.status(403).send("Access denied");
+    }
+
+    res.json(tests);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
   }
 });

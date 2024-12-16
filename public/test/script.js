@@ -214,7 +214,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     }
   } else {
     document.getElementById("initial_black_screen-text").innerHTML =
-      "Тест не знайдено";
+      "Тест не знайде��о";
     return;
   }
 
@@ -898,14 +898,21 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  document.getElementById("test_result-uuid").innerHTML =
-    test_uuid || "UUID не знайдено";
+  document.getElementById("test_result-uuid").innerHTML = test_uuid || "UUID не знайдено";
+  document.getElementById("test_result-uuid").style.cursor = "pointer";
+  document.getElementById("test_result-uuid").addEventListener("click", () => {
+    const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}`;
+    showTestUrlModal(testUrl);
+  });
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(testData),
+    body: JSON.stringify({
+      ...testData,
+      questions_data: test_questions,
+    }),
   })
     .then((response) => {
       if (response.status == 403) {
@@ -916,8 +923,12 @@ async function sendTestResult() {
       }
       return response.json();
     })
-    .then(() => {
+    .then((data) => {
       console.log("Test result sent successfully");
+      if (data.test_params) {
+        const testUrl = `${window.location.origin}${window.location.pathname}${data.test_params}`;
+        showTestUrlModal(testUrl);
+      }
     })
     .catch((error) => {
       console.error("Error sending test result:", error);
@@ -1826,4 +1837,42 @@ if (getCookie("removeBlur") === "true") {
       element.classList.remove("blurred");
     }
   );
+}
+
+function showTestUrlModal(url) {
+  // Create modal elements if they don't exist
+  if (!document.getElementById('testUrlModal')) {
+    const modalHtml = `
+      <div id="testUrlModal" class="modal">
+        <div class="modal-content">
+          <h3>Посилання на результати тесту</h3>
+          <div class="url-container">
+            <input type="text" id="testUrlInput" readonly value="${url}">
+            <button id="copyTestUrl">Копіювати</button>
+          </div>
+          <button id="closeTestUrlModal">Закрити</button>
+        </div>
+      </div>
+    `;
+    document.body.insertAdjacentHTML('beforeend', modalHtml);
+
+    // Add event listeners
+    document.getElementById('copyTestUrl').addEventListener('click', () => {
+      const urlInput = document.getElementById('testUrlInput');
+      urlInput.select();
+      document.execCommand('copy');
+      document.getElementById('copyTestUrl').textContent = 'Скопійовано!';
+      setTimeout(() => {
+        document.getElementById('copyTestUrl').textContent = 'Копіювати';
+      }, 2000);
+    });
+
+    document.getElementById('closeTestUrlModal').addEventListener('click', () => {
+      document.getElementById('testUrlModal').style.display = 'none';
+    });
+  }
+
+  // Update URL and show modal
+  document.getElementById('testUrlInput').value = url;
+  document.getElementById('testUrlModal').style.display = 'block';
 }
