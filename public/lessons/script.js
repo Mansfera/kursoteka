@@ -159,19 +159,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     );
     if (
       lastCompletedSummaryTests.length > 0 &&
-      !getCookie("allowContextmenu") &&
-      !getCookie("debugAnswers")
+      !getCookie("ignoreSummaryTestNotification") &&
+      !getCookie("debugAnswers") &&
+      !getCookie("singleSessionCode")
     ) {
+      const period = 5 * 24 * 60 * 60 * 1000;
       lastCompletedSummaryTests.forEach((summaryTest) => {
         console.log(
-          Date.now() - summaryTest.date > 5 * 24 * 60 * 60 * 1000,
+          Date.now() - summaryTest.date > period,
           summaryTest.score < 85,
-          Date.now() - summaryTest.date < 5 * 24 * 60 * 60 * 1000
+          Date.now() - summaryTest.date < period
         );
         if (
-          Date.now() - summaryTest.date > 5 * 24 * 60 * 60 * 1000 ||
+          Date.now() - summaryTest.date > period ||
           (summaryTest.score < 85 &&
-            Date.now() - summaryTest.date < 5 * 24 * 60 * 60 * 1000)
+            Date.now() - summaryTest.date < period)
         ) {
           document
             .getElementById("reviseSummaryTest_notification")
