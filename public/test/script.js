@@ -849,6 +849,7 @@ async function sendTestResult() {
     score: Math.ceil(score),
     auth_key,
     uuid: test_uuid,
+    test_name: test_name,
     courseName: course,
     abcd_questions_accuracy: Math.ceil(
       (temp_abcd_questions_accuracy * 100) / test_abcd_q.length
@@ -898,12 +899,6 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  document.getElementById("test_result-uuid").innerHTML = test_uuid || "UUID не знайдено";
-  document.getElementById("test_result-uuid").style.cursor = "pointer";
-  document.getElementById("test_result-uuid").addEventListener("click", () => {
-    const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}`;
-    showTestUrlModal(testUrl);
-  });
   return fetch("/sendTestResult", {
     method: "POST",
     headers: {
@@ -925,6 +920,11 @@ async function sendTestResult() {
     })
     .then((data) => {
       console.log("Test result sent successfully");
+      // Create floating buttons after test completion
+      createFloatingButtons();
+
+      const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}&course=${course}`;
+      showSharePopup(testUrl);
       if (data.test_params) {
         const testUrl = `${window.location.origin}${window.location.pathname}${data.test_params}`;
         showTestUrlModal(testUrl);
@@ -1291,7 +1291,10 @@ function showQuestion() {
         if (index >= 0 && index < 4) {
           if (test_completed) {
             if (button.id[1] == currentQuestion.correct[index]) {
-              if (button.id[1] == currentQuestion.selected[index]) {
+              if (
+                button.id[1] == currentQuestion.selected[index] &&
+                currentQuestion.selected != currentQuestion.correct
+              ) {
                 button.classList.add("yellow-selected");
               } else {
                 button.classList.add("correct");
@@ -1330,7 +1333,10 @@ function showQuestion() {
         if (index >= 0 && index < 4) {
           if (test_completed) {
             if (button.id[1] == currentQuestion.correct[index]) {
-              if (button.id[1] == currentQuestion.selected[index]) {
+              if (
+                button.id[1] == currentQuestion.selected[index] &&
+                currentQuestion.selected != currentQuestion.correct
+              ) {
                 button.classList.add("yellow-selected");
               } else {
                 button.classList.add("correct");
@@ -1382,36 +1388,6 @@ function showQuestion() {
             answer_field.value = currentQuestion.selected[i - 1];
           } else {
             answer_field.value = "0";
-          }
-        }
-      }
-      if (test_completed) {
-        for (i = 1; i < 4; i++) {
-          let answer_field = document.getElementById("text_input" + i);
-          answer_field.disabled = true;
-          if (currentQuestion.selected != "") {
-            if (
-              currentQuestion.correct.includes(currentQuestion.selected[i - 1])
-            ) {
-              answer_field.classList.add("yellow-selected");
-              answer_field.classList.add("noImg");
-            } else {
-              answer_field.classList.add("incorrect");
-            }
-          }
-        }
-        for (j = 1; j < 8; j++) {
-          if (currentQuestion.correct.includes(j)) {
-            if (!currentQuestion.selected.includes(j)) {
-              document.getElementById("f" + j).classList.add("correct");
-            } else {
-              document.getElementById("f" + j).classList.add("yellow-selected");
-              document.getElementById("f" + j).classList.add("noImg");
-            }
-          } else {
-            if (currentQuestion.selected.includes(j)) {
-              document.getElementById("f" + j).classList.add("incorrect");
-            }
           }
         }
       }
@@ -1841,7 +1817,7 @@ if (getCookie("removeBlur") === "true") {
 
 function showTestUrlModal(url) {
   // Create modal elements if they don't exist
-  if (!document.getElementById('testUrlModal')) {
+  if (!document.getElementById("testUrlModal")) {
     const modalHtml = `
       <div id="testUrlModal" class="modal">
         <div class="modal-content">
@@ -1854,25 +1830,105 @@ function showTestUrlModal(url) {
         </div>
       </div>
     `;
-    document.body.insertAdjacentHTML('beforeend', modalHtml);
+    document.body.insertAdjacentHTML("beforeend", modalHtml);
 
     // Add event listeners
-    document.getElementById('copyTestUrl').addEventListener('click', () => {
-      const urlInput = document.getElementById('testUrlInput');
+    document.getElementById("copyTestUrl").addEventListener("click", () => {
+      const urlInput = document.getElementById("testUrlInput");
       urlInput.select();
-      document.execCommand('copy');
-      document.getElementById('copyTestUrl').textContent = 'Скопійовано!';
+      document.execCommand("copy");
+      document.getElementById("copyTestUrl").textContent = "Скопійовано!";
       setTimeout(() => {
-        document.getElementById('copyTestUrl').textContent = 'Копіювати';
+        document.getElementById("copyTestUrl").textContent = "Копіювати";
       }, 2000);
     });
 
-    document.getElementById('closeTestUrlModal').addEventListener('click', () => {
-      document.getElementById('testUrlModal').style.display = 'none';
-    });
+    document
+      .getElementById("closeTestUrlModal")
+      .addEventListener("click", () => {
+        document.getElementById("testUrlModal").style.display = "none";
+      });
   }
 
   // Update URL and show modal
-  document.getElementById('testUrlInput').value = url;
-  document.getElementById('testUrlModal').style.display = 'block';
+  document.getElementById("testUrlInput").value = url;
+  document.getElementById("testUrlModal").style.display = "block";
+}
+
+function showSharePopup(testUrl) {
+  // Copy to clipboard automatically
+  const tempInput = document.createElement("input");
+  tempInput.value = testUrl;
+  document.body.appendChild(tempInput);
+  tempInput.select();
+  document.execCommand("copy");
+  document.body.removeChild(tempInput);
+
+  const popup = document.createElement("div");
+  popup.className = "share-popup";
+  popup.innerHTML = `
+    <div class="share-popup-content">
+      <p>Посилання скопійовано!</p>
+      <div class="share-url-container">
+        <input type="text" readonly value="${testUrl}">
+        <button class="copy-btn">Скопійовано ✓</button>
+      </div>
+      <button class="close-btn">✕</button>
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  // Add event listeners
+  const closeBtn = popup.querySelector(".close-btn");
+  const copyBtn = popup.querySelector(".copy-btn");
+  const urlInput = popup.querySelector("input");
+
+  closeBtn.addEventListener("click", () => {
+    popup.remove();
+  });
+
+  copyBtn.addEventListener("click", () => {
+    urlInput.select();
+    document.execCommand("copy");
+    copyBtn.textContent = "Скопійовано ✓";
+  });
+
+  // Remove popup after 10 seconds
+  setTimeout(() => {
+    if (document.body.contains(popup)) {
+      popup.remove();
+    }
+  }, 10000);
+}
+
+// Move the floating buttons creation to a function
+function createFloatingButtons() {
+  const floatingButtons = document.createElement("div");
+  floatingButtons.className = "floating-buttons";
+  floatingButtons.innerHTML = `
+    <button class="toggle-results-btn">
+      <img src="/assets/results.svg" alt="Toggle Results">
+    </button>
+    <button class="share-btn">
+      <img src="/assets/share.svg" alt="Share">
+    </button>
+  `;
+
+  document.body.appendChild(floatingButtons);
+
+  const shareBtn = floatingButtons.querySelector(".share-btn");
+  const toggleResultsBtn = floatingButtons.querySelector(".toggle-results-btn");
+
+  shareBtn.addEventListener("click", () => {
+    const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}&course=${course}`;
+    showSharePopup(testUrl);
+  });
+
+  toggleResultsBtn.addEventListener("click", () => {
+    const testResult = document.getElementById("test_result");
+    if (testResult) {
+      testResult.classList.toggle("display-none");
+    }
+  });
 }

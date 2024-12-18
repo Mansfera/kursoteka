@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="uk">
   <head>
     <meta charset="UTF-8" />
     <meta name="Mansfera's history tests" />
@@ -27,13 +27,12 @@
     <link rel="stylesheet" href="/top_bar.css" />
     <link rel="stylesheet" href="/global.css" />
     <link rel="stylesheet" href="/test/style.css" />
-    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="/text-formatting.css" />
 
     <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <script src="/global.js"></script>
     <script src="/top_bar.js"></script>
-    <title>Результат тесту</title>
+    <title>Результати тесту</title>
   </head>
   <body>
     <div class="main_wrapper">
@@ -43,16 +42,278 @@
         id="mobile_menu-placeholder"
       ></div>
       <div class="top_bar_spacefiller"></div>
-      <div class="main_wrapper-test_result">
+
+      <div class="main_wrapper-test_info">
+        <div class="test_info __left">
+          <div class="test_info-test_name white_text title_text" id="test_name">
+            Назва тесту
+          </div>
+          <div class="test_info-question_info">
+            <div class="white_text subtitle_text">Запитання №</div>
+            <div class="white_text subtitle_text" id="question_number">1</div>
+            <div class="question_info-id_bubble" id="question_id">ID#0</div>
+          </div>
+        </div>
+        <div class="test_info __right">
+          <div class="time_control">
+            <div class="white_text" id="test_date">
+              Дата проходження: --/--/----
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="main_wrapper-question_text_rows __can_be_blurred">
+        <div class="question_text_rows-top_line white_text bold" id="top_line">
+          Верхнє запитання
+        </div>
+        <div class="question_text_rows-middle_lines" id="middle_lines">
+          <p class="middle_lines-element"></p>
+          <p class="middle_lines-element">"...пряма мова..."</p>
+          <p class="middle_lines-element"></p>
+        </div>
+        <div
+          class="question_text_rows-bottom_line white_text subtitle_text bold"
+          id="bottom_line"
+        >
+          Нижнє запитання
+        </div>
+      </div>
+      <div class="main_wrapper-question_image __can_be_blurred" id="q_img">
+        <img src="" draggable="false" id="question_image" />
+      </div>
+      <div class="main_wrapper-question_answers_list __can_be_blurred">
+        <div
+          class="question_answers_list-element-wrapper left"
+          id="list_abcd-fields"
+        >
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              А
+            </div>
+            <div class="question_answers_list-element-text" id="af">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              Б
+            </div>
+            <div class="question_answers_list-element-text" id="bf">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              В
+            </div>
+            <div class="question_answers_list-element-text" id="cf">text</div>
+          </div>
+          <div class="question_answers_list-element-row">
+            <div class="question_answers_list-element-text bold subtitle_text">
+              Г
+            </div>
+            <div class="question_answers_list-element-text" id="df">text</div>
+          </div>
+        </div>
+
+        <div
+          class="question_answers_list-element-wrapper right"
+          id="list_num-fields"
+        >
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f1_num"
+            >
+              1
+            </div>
+            <div class="question_answers_list-element-text" id="f1">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f2_num"
+            >
+              2
+            </div>
+            <div class="question_answers_list-element-text" id="f2">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f3_num"
+            >
+              3
+            </div>
+            <div class="question_answers_list-element-text" id="f3">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f4_num"
+            >
+              4
+            </div>
+            <div class="question_answers_list-element-text" id="f4">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f5_num"
+            >
+              5
+            </div>
+            <div class="question_answers_list-element-text" id="f5">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f6_num"
+            >
+              6
+            </div>
+            <div class="question_answers_list-element-text" id="f6">text</div>
+          </div>
+          <div class="question_answers_list-element-row list_num-field">
+            <div
+              class="question_answers_list-element-text bold subtitle_text"
+              id="f7_num"
+            >
+              7
+            </div>
+            <div class="question_answers_list-element-text" id="f7">text</div>
+          </div>
+        </div>
+      </div>
+      <div class="main_wrapper-answer_selection_methdods-wrapper">
+        <div class="main_wrapper-answer_selection_methdods __can_be_blurred">
+          <div
+            class="answer_selection_methdods-abcd_answer_buttons"
+            id="answer-buttons"
+          >
+            <div class="abcd_button">А</div>
+            <div class="abcd_button selected">Б</div>
+            <div class="abcd_button">В</div>
+            <div class="abcd_button">Г</div>
+          </div>
+          <div class="answer_selection_methdods-answer_sheet" id="ansSheetBtns">
+            <div class="answer_sheet-column" id="answer_sheet_column-abcd">
+              <div class="answer_sheet-column-name"></div>
+              <div class="answer_sheet-column-name">А</div>
+              <div class="answer_sheet-column-name">Б</div>
+              <div class="answer_sheet-column-name">В</div>
+              <div class="answer_sheet-column-name">Г</div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-1">
+              <div class="answer_sheet-column-name">1</div>
+              <div class="answer_sheet-column-square selected" id="a1"></div>
+              <div class="answer_sheet-column-square" id="b1"></div>
+              <div class="answer_sheet-column-square" id="c1"></div>
+              <div class="answer_sheet-column-square" id="d1"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-2">
+              <div class="answer_sheet-column-name">2</div>
+              <div class="answer_sheet-column-square" id="a2"></div>
+              <div class="answer_sheet-column-square selected" id="b2"></div>
+              <div class="answer_sheet-column-square" id="c2"></div>
+              <div class="answer_sheet-column-square" id="d2"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-3">
+              <div class="answer_sheet-column-name">3</div>
+              <div class="answer_sheet-column-square" id="a3"></div>
+              <div class="answer_sheet-column-square" id="b3"></div>
+              <div class="answer_sheet-column-square selected" id="c3"></div>
+              <div class="answer_sheet-column-square" id="d3"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-4">
+              <div class="answer_sheet-column-name">4</div>
+              <div class="answer_sheet-column-square" id="a4"></div>
+              <div class="answer_sheet-column-square" id="b4"></div>
+              <div class="answer_sheet-column-square" id="c4"></div>
+              <div class="answer_sheet-column-square selected" id="d4"></div>
+            </div>
+            <div class="answer_sheet-column" id="answer_sheet_column-5">
+              <div class="answer_sheet-column-name">5</div>
+              <div class="answer_sheet-column-square" id="a5"></div>
+              <div class="answer_sheet-column-square" id="b5"></div>
+              <div class="answer_sheet-column-square" id="c5"></div>
+              <div class="answer_sheet-column-square" id="d5"></div>
+            </div>
+          </div>
+          <div
+            class="answer_selection_methdods-answer_text_fields"
+            id="text_fields"
+          >
+            <input
+              class="text_input"
+              id="text_input1"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input2"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+            <input
+              class="text_input"
+              id="text_input3"
+              placeholder="0"
+              maxlength="1"
+              type="number"
+              inputmode="numeric"
+              min="1"
+              max="7"
+              pattern="[1-7]"
+            />
+          </div>
+        </div>
+        <div class="select_answers_filler"></div>
+      </div>
+
+      <div class="main_wrapper-bottom_division">
+        <div class="main_wrapper-bottom_division-part left">
+          <div class="bottom_division-part-nav_bar" id="bottom-buttons">
+            <div class="nav_bar-navigation_arrows">
+              <div class="navigation_arrows-button back-arrow" id="back_arrow">
+                <img src="/assets/left-arrow.svg" alt="" />
+              </div>
+              <div class="navigation_arrows-button next-arrow" id="next_arrow">
+                <img src="/assets/right-arrow.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="main_wrapper-bottom_division-part right">
+          <div
+            class="bottom_division-part-block_answers"
+            id="block_answers"
+          ></div>
+        </div>
+      </div>
+
+      <div class="main_wrapper-test_result" id="test_result">
         <div class="test_result-top">
           <div id="test_result-close">
-            <div class="test_result-close-name" id="test_name"></div>
+            <img src="/assets/cross.svg" alt="" />
+            <div class="test_result-close-name" id="result-test_name"></div>
           </div>
           <div class="test_result-top-center_text">
             <div class="test_result-top-title title_text uppercase white_text">
               Результат тесту
             </div>
-            <div class="test_result-top-score white_text" id="total_score">
+            <div
+              class="test_result-top-score white_text"
+              id="test_result-correct_amount"
+            >
               --%
             </div>
           </div>
@@ -62,22 +323,21 @@
             <div class="test_result-stats-item-name gray_text">
               Дата проходження
             </div>
-            <div class="test_result-stats-item-info white_text" id="test_date">
-              дд.мм.рррр гг:хх
-            </div>
-          </div>
-          <div class="test_result-stats-item">
-            <div class="test_result-stats-item-name gray_text">UUID тесту</div>
             <div
               class="test_result-stats-item-info white_text"
-              id="test_uuid"
-            ></div>
+              id="test_result-date"
+            >
+              дд.мм.рррр гг:хх
+            </div>
           </div>
           <div class="test_result-stats-item">
             <div class="test_result-stats-item-name gray_text">
               Питання з вибором однієї правильної відповідді
             </div>
-            <div class="test_result-stats-item-info white_text" id="abcd_score">
+            <div
+              class="test_result-stats-item-info white_text"
+              id="test_result-abcd"
+            >
               --%
             </div>
           </div>
@@ -85,7 +345,10 @@
             <div class="test_result-stats-item-name gray_text">
               Питання на встановлення відповідності
             </div>
-            <div class="test_result-stats-item-info white_text" id="vidp_score">
+            <div
+              class="test_result-stats-item-info white_text"
+              id="test_result-vidp"
+            >
               --%
             </div>
           </div>
@@ -93,7 +356,10 @@
             <div class="test_result-stats-item-name gray_text">
               Питання на встановлення правильної послідовності
             </div>
-            <div class="test_result-stats-item-info white_text" id="hron_score">
+            <div
+              class="test_result-stats-item-info white_text"
+              id="test_result-hron"
+            >
               --%
             </div>
           </div>
@@ -103,27 +369,37 @@
             </div>
             <div
               class="test_result-stats-item-info white_text"
-              id="mul_ans_score"
+              id="test_result-mul_ans"
             >
               --%
             </div>
           </div>
           <div class="test_result-stats-item">
             <div class="test_result-stats-item-name gray_text">Час</div>
-            <div class="test_result-stats-item-info white_text" id="test_time">
+            <div
+              class="test_result-stats-item-info white_text"
+              id="test_result-time"
+            >
               --:--
             </div>
           </div>
         </div>
+        <div id="test_result-block_answers"></div>
+      </div>
 
-        <div id="questions_list"></div>
+      <div class="main_wrapper-initial_black_screen" id="initial_black_screen">
+        <div
+          class="initial_black_screen-text white_text"
+          id="initial_black_screen-text"
+        >
+          Завантаження результатів...
+        </div>
+      </div>
+
+      <div class="fullScreenImgContainer display-none" id="fsic">
+        <img src="" id="fullScreenImg" />
       </div>
     </div>
-
-    <div id="initial_black_screen" class="main_wrapper-initial_black_screen">
-      <span id="initial_black_screen-text">Завантаження...</span>
-    </div>
-
     <script src="script.js"></script>
   </body>
 </html>
