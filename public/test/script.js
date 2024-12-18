@@ -1081,7 +1081,6 @@ if (getCookie("debugAnswers") != null) {
             );
             if (button) button.click();
           }
-          displayedQuestion.correct_percentage = 100;
         } else if (displayedQuestion.q_type == "abcd") {
           // Handle multiple choice questions
           const correctAnswer = displayedQuestion.answers.find(
@@ -1095,7 +1094,6 @@ if (getCookie("debugAnswers") != null) {
               }
             });
           }
-          displayedQuestion.isCorrect = true;
         } else if (displayedQuestion.q_type == "mul_ans") {
           // Handle multiple answer questions
           for (let i = 0; i < 3; i++) {
@@ -1106,8 +1104,9 @@ if (getCookie("debugAnswers") != null) {
               input.dispatchEvent(new Event("input"));
             }
           }
-          displayedQuestion.correct_percentage = 100;
         }
+        displayedQuestion.correct_percentage = 100;
+        displayedQuestion.isCorrect = true;
 
         if (autofill) {
           autofillInterval = setTimeout(() => {
