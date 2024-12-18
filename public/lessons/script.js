@@ -18,6 +18,10 @@ function toggleLessons(id) {
   }
 }
 let closeTimeout;
+
+if (auth_key == null || auth_key == undefined) {
+  window.location = "/login";
+}
 function closeTestWindow(test) {
   const test_picker = document.getElementById("test_picker-" + test);
   if (test_picker) {
