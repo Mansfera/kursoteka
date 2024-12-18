@@ -563,10 +563,17 @@ function continueOldTest() {
           }
         }
         matchingQuestion.correct_percentage = correct_percentage;
+        if (correct_percentage == 100) {
+          matchingQuestion.isCorrect = true;
+        }
       } else {
         matchingQuestion.isCorrect =
           matchingQuestion.answers.find((a) => a.correct).text ===
           matchingQuestion.selected;
+
+        if (matchingQuestion.isCorrect) {
+          matchingQuestion.correct_percentage = 100;
+        }
       }
 
       test_questions.push(matchingQuestion);
