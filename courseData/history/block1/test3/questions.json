@@ -5530,5 +5530,518 @@
       { "text": "Г", "correct": false }
     ],
     "year": 1187
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… чернець Києво-Печерського монастиря, учасник розпису Успенського собору Києво-Печерської Лаври. Зажив слави серед сучасників написання чудотворних ікон…\"",
+      ""
+    ],
+    "bottom_question": "Про якого діяча йдеться в уривку з історичного діяча",
+    "top_question": "Прочитайте уривок з історичного джерела та виконайте завдання:",
+    "af": "Алімпій",
+    "bf": "Нестор",
+    "cf": "Аскольд",
+    "df": "Антоній",
+    "question": "267",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Позначте подію, що відбулася в XI ст.",
+    "top_question": "",
+    "af": "розгром Хозарського каганату",
+    "bf": "запровадження християнства в Русі як державної релігії",
+    "cf": "спорудження храму Святої Софії в місті Київ",
+    "df": "перша літописна згадка назви Україна",
+    "question": "268",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1036
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "1 \"… пов’язана з великими розмірами держави й етнічною неоднорідністю її територій..\"",
+      "2 \"… спричинена передчасною смертю київського князя Володимира Мономаха…\"",
+      ""
+    ],
+    "bottom_question": "Роздробленість Київської Русі",
+    "top_question": "Прочитайте уривок з історичного джерела та виконайте завдання:",
+    "af": "обидва варіанти правильні",
+    "bf": "тільки 1-й варіант правильний",
+    "cf": "тільки 2-й варіант правильний",
+    "df": "обидва варіанти не правильні",
+    "question": "269",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1132
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… і прийшли до гір Київських, і довідався Олег, що князюють тут Аскольд і Дір. Заховав він одних воїнів у човнах, інших залишив позаду, а сам підійшов до гір, несучи малого Ігоря…\"",
+      ""
+    ],
+    "bottom_question": "Наслідком події, описаної в уривку з історичного джерела, було",
+    "top_question": "",
+    "af": "завершення формування території держави",
+    "bf": "утвердження династії Рюриковичів у місті Київ",
+    "cf": "запровадження та поширення християнства",
+    "df": "зміна централізованої монархії федеративною",
+    "question": "270",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 882
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Після смерті князя Ярослава Мудрого в Київській державі",
+    "top_question": "",
+    "af": "започатковано шлюбну дипломатію",
+    "bf": "утворено тріумвірат князів",
+    "cf": "усунуто від влади династію Рюриковичів",
+    "df": "підпорядковано київського митрополита константинопольському патріарху",
+    "question": "271",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1054
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… дуже добре він умів ікони писати; цього ж уміння захотів він навчитися не ради багатства, але для Бога робив. А робив він, скільки треба було, всім, ігуменові та брати писав ікони і нічого за це не брав…\"",
+      ""
+    ],
+    "bottom_question": "Про якого діяча культури Руської держави йде мова в уривку з історичного джерела",
+    "top_question": "",
+    "af": "Антонія",
+    "bf": "Феодосія",
+    "cf": "Нестора",
+    "df": "Алімпія",
+    "question": "272",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "З історією міста Галич пов’язана пам'ятка, зображена на світлині",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "273",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1187
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "На одній з мініатюр \"Ізборника\" зображено родину князя",
+    "top_question": "",
+    "af": "Володимира Всеволодовича",
+    "bf": "Ярослава Володимировича",
+    "cf": "Святослава Ярославовича",
+    "df": "Володимира Святославовича",
+    "question": "274",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Укажіть мініатюру, яка прикрашає \"Ізборник\"",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "275",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… відтепер з’єднаймося в одне серце й обережімо Руську землю…\"",
+      ""
+    ],
+    "bottom_question": "Однією з причин домовленості, досягнутої між онуками князя Ярослава Мудрого, було",
+    "top_question": "",
+    "af": "численні набіги печенігів",
+    "bf": "вторгнення монголів",
+    "cf": "загроза завоювання хозарами",
+    "df": "часті набіги половці",
+    "question": "276",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1097
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "З історією міста Чернігів пов’язана пам'ятка, зображена на світлині",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "277",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1187
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Колективний сюзеренітет проявлявся у",
+    "top_question": "",
+    "af": "князівських з’їздах",
+    "bf": "посиленому листуванні між князями",
+    "cf": "встановленні князем Романом \"Доброго порядку\"",
+    "df": "щорічних зборах усіх бояр Русі",
+    "question": "278",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1097
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "… форма устрою Руської держави в період роздробленості, за якої вона зі слабо централізованої держави перетворилася на об'єднання князівств, кожне з яких мало ознаки державності, а найважливіші питання внутрішнього життя вирішувалися на князівських з’їздах…",
+      ""
+    ],
+    "bottom_question": "В уривку йдеться про період розвитку Русі часів",
+    "top_question": "",
+    "af": "племінного союзу",
+    "bf": "федеративної монархії",
+    "cf": "централізованої монархії",
+    "df": "дружинної держави",
+    "question": "279",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1097
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Повстання киян проти князя Ізяслава Ярославовича зумовлено",
+    "top_question": "",
+    "af": "утворенням синами князя Ярослава тріумвірату",
+    "bf": "загрозою вторгнення печенігів",
+    "cf": "збільшенням податків на будівництво Софіївського собору",
+    "df": "поразкою від половців у битві біля річки Альта",
+    "question": "280",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1068
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Князь Ярослав Мудрий для уникнення міжусобиць між нащадками",
+    "top_question": "",
+    "af": "реформував систему престолонаслідування",
+    "bf": "заповів київський престол та усю Русь візантійському імператору",
+    "cf": "лишив живим лише одного сина, щоб передати йому у спадок усю країну",
+    "df": "просто поділив країну між своїми синами у надії на те, що їм цього вистачить",
+    "question": "281",
+    "answers": [
+      { "text": "А", "correct": true },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1054
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Карбування монет у Київській державі розпочав князь",
+    "top_question": "",
+    "af": "Володимир Мономах",
+    "bf": "Ярослав Мудрий",
+    "cf": "Володимир Великий",
+    "df": "Ігор Святославович",
+    "question": "282",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 988
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Князівська міжусобиця 1094 – 1097-х років була залагоджена",
+    "top_question": "",
+    "af": "укладенням \"Руської правди\"",
+    "bf": "рішенням Любецьким з’їздом",
+    "cf": "написанням \"Повісті минулих літ\"",
+    "df": "шлюбом Володимира Святославовича з візантійською принцесою",
+    "question": "283",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1097
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "З історією міста Київ пов’язана пам'ятка, зображена на світлині",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "284",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Укажіть історичну пам’ятку, яка є окрасою \"Ізборника\"",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "285",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1073
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… отець бо його землю хрещенням просвітив, а цей великий князь засіяв книжними словами серця віруючих людей…\"",
+      ""
+    ],
+    "bottom_question": "Про якого київського князя йдеться в уривку з історичного джерела",
+    "top_question": "",
+    "af": "Володимира Великого",
+    "bf": "Ярослава Мудрого",
+    "cf": "Володимира Мономаха",
+    "df": "Ярослава Осьмомисла",
+    "question": "286",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": true },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1019
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "На картосхемі зображено військові походи князя",
+    "top_question": "",
+    "af": "Святослава Володимировича",
+    "bf": "Володимира Святославовича",
+    "cf": "Ярослава Володимировича",
+    "df": "Володимира Всеволодовича",
+    "question": "287",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1113
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "За часів Русі-України створено",
+    "top_question": "",
+    "af": "",
+    "bf": "",
+    "cf": "",
+    "df": "",
+    "question": "288",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 988
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [],
+    "bottom_question": "Скульптурна композиція, зображена на світлині, відображає події з",
+    "top_question": "",
+    "af": "\"Слова про закон і благодать\"",
+    "bf": "\"Руської правди\"",
+    "cf": "\"Повчання дітям\"",
+    "df": "\"Повісті минулих літ\"",
+    "question": "289",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": false },
+      { "text": "Г", "correct": true }
+    ],
+    "year": 1113
+  },
+  {
+    "selected": "",
+    "test_id": "3",
+    "comment": "",
+    "middle_rows": [
+      "",
+      "\"… ці половці розсипалися по землі; дай, княже, зброю та коні, і ми битимемося з ними…\"",
+      ""
+    ],
+    "bottom_question": "З такою вимогою кияни звернулися до князя Ізяслава",
+    "top_question": "",
+    "af": "на початку X ст.",
+    "bf": "на початку XI ст.",
+    "cf": "у другій половині XI ст.",
+    "df": "в середині XII ст.",
+    "question": "290",
+    "answers": [
+      { "text": "А", "correct": false },
+      { "text": "Б", "correct": false },
+      { "text": "В", "correct": true },
+      { "text": "Г", "correct": false }
+    ],
+    "year": 1068
   }
 ]
