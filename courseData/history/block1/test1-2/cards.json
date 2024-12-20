@@ -2,12 +2,14 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Етнографічні регіони України"
+    "infoText": "Етнографічні регіони України",
+    "type": "map"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "палеоліт, монета НБУ"
+    "infoText": "палеоліт, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 3,
@@ -22,7 +24,8 @@
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "релігійні та мистецькі уявлення"
+    "infoText": "релігійні та мистецькі уявлення",
+    "type": "Інше"
   },
   {
     "id": 6,
@@ -72,22 +75,26 @@
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "гончарство, монета НБУ"
+    "infoText": "гончарство, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "ткацтво, монета НБУ"
+    "infoText": "ткацтво, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "ковальство, монета НБУ"
+    "infoText": "ковальство, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "трипільці, монета НБУ"
+    "infoText": "трипільці, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 19,
@@ -122,12 +129,14 @@
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "Трипільська археологічна культура"
+    "infoText": "Трипільська археологічна культура",
+    "type": "map"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "Велика Скіфія"
+    "infoText": "Велика Скіфія",
+    "type": "map"
   },
   {
     "id": 27,
@@ -142,62 +151,74 @@
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "стоянки первісних людей"
+    "infoText": "стоянки первісних людей",
+    "type": "map"
   },
   {
     "id": 30,
     "frontContentType": "img",
-    "infoText": "скіфи, монета НБУ"
+    "infoText": "скіфи, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 31,
     "frontContentType": "img",
-    "infoText": "скіфи, монета НБУ"
+    "infoText": "скіфи, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 32,
     "frontContentType": "img",
-    "infoText": "монета правителя Атея"
+    "infoText": "монета правителя Атея",
+    "type": "coin"
   },
   {
     "id": 33,
     "frontContentType": "img",
-    "infoText": "Велика Скіфія, монета НБУ"
+    "infoText": "Велика Скіфія, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "сармати"
+    "infoText": "сармати",
+    "type": "map"
   },
   {
     "id": 35,
     "frontContentType": "img",
-    "infoText": "Велика грецька колонізація, монета НБУ"
+    "infoText": "Велика грецька колонізація, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ"
+    "infoText": "античні колонії, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ"
+    "infoText": "античні колонії, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ"
+    "infoText": "античні колонії, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 39,
     "frontContentType": "img",
-    "infoText": "Херсонес Таврійський"
+    "infoText": "Херсонес Таврійський",
+    "type": "monument"
   },
   {
     "id": 40,
     "frontContentType": "img",
-    "infoText": "Херсонес Таврійський"
+    "infoText": "Херсонес Таврійський",
+    "type": "monument"
   },
   {
     "id": 41,
@@ -217,7 +238,8 @@
   {
     "id": 44,
     "frontContentType": "img",
-    "infoText": "монета з грецького поліса"
+    "infoText": "монета з грецького поліса",
+    "type": "coin"
   },
   {
     "id": 45,
@@ -227,12 +249,14 @@
   {
     "id": 46,
     "frontContentType": "img",
-    "infoText": "Велике розселення слов'ян"
+    "infoText": "Велике розселення слов'ян",
+    "type": "map"
   },
   {
     "id": 47,
     "frontContentType": "img",
-    "infoText": "давньоукраїнські племінні союзи"
+    "infoText": "давньоукраїнські племінні союзи",
+    "type": "map"
   },
   {
     "id": 48,
@@ -242,16 +266,19 @@
   {
     "id": 49,
     "frontContentType": "img",
-    "infoText": "реконструкція язичницького капища у слов’ян"
+    "infoText": "реконструкція язичницького капища у слов’ян",
+    "type": "monument"
   },
   {
     "id": 50,
     "frontContentType": "img",
-    "infoText": "пам’ятник засновникам Києва (на 1500-річчя міста Києва, друга половина XX ст.) в місті Київ"
+    "infoText": "пам’ятник засновникам Києва (на 1500-річчя міста Києва, друга половина XX ст.) в місті Київ",
+    "type": "monument"
   },
   {
     "id": 51,
     "frontContentType": "img",
-    "infoText": "князь Кий, монета НБУ"
+    "infoText": "князь Кий, монета НБУ",
+    "type": "coin"
   }
 ]

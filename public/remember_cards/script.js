@@ -12,9 +12,87 @@ let cardList = [];
 let currentCardId;
 let cardUnknownCheck = false;
 let round = 1;
+let cardTypes = new Set();
+let selectedTypes = new Set();
 
 async function addCards(cards) {
-  cardList = shuffle(cards);
+  cards.forEach((card) => {
+    cardTypes.add(card.type || "Інше");
+  });
+
+  if (cardTypes.size === 1) {
+    selectedTypes = cardTypes;
+    await processCards(cards);
+    return;
+  }
+
+  const typeDialog = document.createElement("div");
+  typeDialog.className = "type-selection-dialog";
+  typeDialog.innerHTML = `
+    <div class="type-selection-content">
+      <h3>Оберіть типи карток для вивчення:</h3>
+      <div class="type-options">
+        ${Array.from(cardTypes)
+          .map(
+            (type) => `
+          <label class="type-option">
+            <input type="checkbox" value="${type}" checked>
+            ${getTypeLabel(type)}
+          </label>
+        `
+          )
+          .join("")}
+      </div>
+      <button id="startWithTypes">Почати</button>
+    </div>
+  `;
+
+  document.body.appendChild(typeDialog);
+
+  document.getElementById("startWithTypes").onclick = async () => {
+    const selectedCheckboxes = typeDialog.querySelectorAll(
+      'input[type="checkbox"]:checked'
+    );
+    selectedTypes = new Set(
+      Array.from(selectedCheckboxes).map((cb) => cb.value)
+    );
+
+    if (selectedTypes.size === 0) {
+      alert("Оберіть хоча б один тип карток");
+      return;
+    }
+
+    typeDialog.remove();
+    await processCards(cards);
+  };
+}
+
+function getTypeLabel(type) {
+  const labels = {
+    map: "Карта",
+    person: "Історичний діяч",
+    monument: "Історична пам'ятка",
+    coin: "Монета",
+    Інше: "Інше",
+  };
+  return labels[type] || type;
+}
+
+async function processCards(cards) {
+  const filteredCards = cards.filter((card) =>
+    selectedTypes.has(card.type || "Інше")
+  );
+  cardList = shuffle(filteredCards);
+
+  if (cardList.length === 0) {
+    document.getElementById("loader").remove();
+    document.getElementById("progress").remove();
+    document.getElementById("card_display").innerHTML = `
+      <div class="no-cards-message white_text">Немає карток вибраного типу</div>
+    `;
+    return;
+  }
+
   currentCardId = cardList[0].id;
   for (const card of Array.from(cardList)) {
     const element = document.createElement("div");
@@ -86,6 +164,7 @@ async function addCards(cards) {
   document.getElementById("card_options").classList.toggle("hidden");
   cardDisplay.children[0].classList.toggle("hidden");
 }
+
 function dont_know_btn_click() {
   const card = document.getElementById(`img_id-${currentCardId}`);
   if (cardUnknownCheck || card.classList.contains("flipped")) {
@@ -304,9 +383,15 @@ async function showEditWindow(cardId) {
   editWindow.className = "edit-window";
   editWindow.onclick = (e) => e.stopPropagation();
 
+  const currentCard =
+    cardId === "new" ? null : cardList.find((card) => card.id == cardId);
+  const currentType = currentCard ? currentCard.type || "Інше" : "Інше";
+
   editWindow.innerHTML = `
     <div class="edit-window-content">
-      <h3>${cardId === "new" ? "Створити нову картку" : "Редагувати картку"}</h3>
+      <h3>${
+        cardId === "new" ? "Створити нову картку" : "Редагувати картку"
+      }</h3>
       <div class="edit-section">
         <div class="input_fields-img">
           <div class="delete_q_img-wrapper">
@@ -326,6 +411,26 @@ async function showEditWindow(cardId) {
             accept="image/*"
           />
         </div>
+      </div>
+      <div class="edit-section">
+        <label>Тип картки:</label>
+        <select id="cardType">
+          <option value="map" ${
+            currentType === "map" ? "selected" : ""
+          }>Карта</option>
+          <option value="person" ${
+            currentType === "person" ? "selected" : ""
+          }>Історичний діяч</option>
+          <option value="monument" ${
+            currentType === "monument" ? "selected" : ""
+          }>Історична пам'ятка</option>
+          <option value="coin" ${
+            currentType === "coin" ? "selected" : ""
+          }>Монета</option>
+          <option value="Інше" ${
+            currentType === "Інше" ? "selected" : ""
+          }>Інше</option>
+        </select>
       </div>
       <div class="edit-section">
         <label>Текст зворотної сторони:</label>
@@ -369,7 +474,8 @@ async function showEditWindow(cardId) {
   // Handle paste events
   imageUploadArea.addEventListener("paste", function (event) {
     event.preventDefault();
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    const items = (event.clipboardData || event.originalEvent.clipboardData)
+      .items;
     for (let item of items) {
       if (item.type.indexOf("image") === 0) {
         handleImageUpload(item.getAsFile());
@@ -381,7 +487,8 @@ async function showEditWindow(cardId) {
   // Also handle paste in textarea in case user pastes image while focused on text
   const textArea = editWindow.querySelector("#cardBackText");
   textArea.addEventListener("paste", function (event) {
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
+    const items = (event.clipboardData || event.originalEvent.clipboardData)
+      .items;
     for (let item of items) {
       if (item.type.indexOf("image") === 0) {
         event.preventDefault();
@@ -430,6 +537,7 @@ async function showEditWindow(cardId) {
   document.getElementById("saveCardBtn").onclick = async () => {
     const imageFile = fileInput.files[0];
     const backText = document.getElementById("cardBackText").value;
+    const type = document.getElementById("cardType").value;
     const errorDiv = document.getElementById("editError");
 
     try {
@@ -440,6 +548,7 @@ async function showEditWindow(cardId) {
         const formData = new FormData();
         formData.append("image", imageFile);
         formData.append("text", backText);
+        formData.append("type", type);
 
         const response = await fetch(
           `/createCard?course=${course}&blockId=${block}&testId=${tema}&auth_key=${auth_key}`,
@@ -479,7 +588,7 @@ async function showEditWindow(cardId) {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ text: backText }),
+          body: JSON.stringify({ text: backText, type: type }),
         }
       );
 

@@ -410,7 +410,7 @@ app.get("/loadTestData", async (req, res) => {
     // Parse the blocks JSON string from the database
     const course_obj = {
       ...course,
-      blocks: JSON.parse(course.blocks)
+      blocks: JSON.parse(course.blocks),
     };
 
     let temas_id_list = [];
@@ -508,7 +508,7 @@ app.post("/sendTestResult", async (req, res) => {
     vidpovidnist_questions_accuracy,
     mul_ans_questions_accuracy,
     uuid,
-    questions_data
+    questions_data,
   } = req.body;
 
   try {
@@ -561,7 +561,7 @@ app.post("/sendTestResult", async (req, res) => {
       // Parse the blocks JSON string from the database
       const course_obj = {
         ...course,
-        blocks: JSON.parse(course.blocks)
+        blocks: JSON.parse(course.blocks),
       };
 
       // Get list of all test IDs
@@ -695,7 +695,7 @@ app.post("/sendTestResult", async (req, res) => {
       hronology_questions_accuracy,
       vidpovidnist_questions_accuracy,
       mul_ans_questions_accuracy,
-      questions_data
+      questions_data,
     });
 
     // Cleanup old tests
@@ -704,7 +704,7 @@ app.post("/sendTestResult", async (req, res) => {
     res.status(200).send({
       answer: "Test result saved",
       last_allowed_test: allowedTests[allowedTests.length - 1],
-      test_url: `/test-results/?uuid=${uuid}`
+      test_url: `/test-results/?uuid=${uuid}`,
     });
   } catch (error) {
     console.error("Database error:", error);
@@ -1248,7 +1248,7 @@ app.post("/api/getUserCourses", async (req, res) => {
             ...course,
             tags: JSON.parse(course.tags),
             marketplace_info: JSON.parse(course.marketplace_info),
-            blocks: JSON.parse(course.blocks)
+            blocks: JSON.parse(course.blocks),
           };
 
           return res.status(200).json({
@@ -1264,14 +1264,16 @@ app.post("/api/getUserCourses", async (req, res) => {
 
       // Process each user course
       for (const userCourse of userCourses) {
-        const courseDetails = await dbHelpers.getCourseById(userCourse.course_id);
+        const courseDetails = await dbHelpers.getCourseById(
+          userCourse.course_id
+        );
         if (courseDetails) {
           // Transform course data from DB format
           const transformedCourse = {
             ...courseDetails,
             tags: JSON.parse(courseDetails.tags),
             marketplace_info: JSON.parse(courseDetails.marketplace_info),
-            blocks: JSON.parse(courseDetails.blocks)
+            blocks: JSON.parse(courseDetails.blocks),
           };
 
           if (userCourse.restricted) {
@@ -1315,7 +1317,7 @@ app.post("/api/getOwnedCourses", async (req, res) => {
           ...course,
           tags: JSON.parse(course.tags),
           marketplace_info: JSON.parse(course.marketplace_info),
-          blocks: JSON.parse(course.blocks)
+          blocks: JSON.parse(course.blocks),
         };
         ownedCourses.push(transformedCourse);
       }
@@ -1400,16 +1402,17 @@ app.post("/api/marketplace/getCourses", async (req, res) => {
   try {
     const courses = await dbHelpers.getAllCourses();
     // Transform courses data from DB format
-    const transformedCourses = courses.map(course => ({
+    const transformedCourses = courses.map((course) => ({
       ...course,
       tags: JSON.parse(course.tags),
       marketplace_info: JSON.parse(course.marketplace_info),
-      blocks: JSON.parse(course.blocks)
+      blocks: JSON.parse(course.blocks),
     }));
 
     const searchForTags = search_tags != null && search_tags.length > 0;
     const searchForAuthors = authors != null && authors.length > 0;
-    const searchForUserCourses = auth_key != null && auth_key != "" && only_show_non_owned;
+    const searchForUserCourses =
+      auth_key != null && auth_key != "" && only_show_non_owned;
 
     let tag_courses = [];
     let author_courses = [];
@@ -1418,7 +1421,7 @@ app.post("/api/marketplace/getCourses", async (req, res) => {
     for (const course of transformedCourses) {
       if (searchForTags) {
         const courseTags = course.tags;
-        if (courseTags.some(tag => search_tags.includes(tag))) {
+        if (courseTags.some((tag) => search_tags.includes(tag))) {
           tag_courses.push(course);
         }
       }
@@ -1428,7 +1431,10 @@ app.post("/api/marketplace/getCourses", async (req, res) => {
       }
 
       if (searchForUserCourses) {
-        const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course.id);
+        const userCourse = await dbHelpers.getCourseByUserAndId(
+          auth_key,
+          course.id
+        );
         if (userCourse) {
           owned_courses.push(course);
         }
@@ -1483,16 +1489,22 @@ app.post("/api/marketplace/getCourseInfo", async (req, res) => {
 
     const blocks = JSON.parse(course.blocks);
     const marketplaceInfo = JSON.parse(course.marketplace_info);
-    const testCount = blocks.reduce((count, block) => count + block.tests.length, 0);
+    const testCount = blocks.reduce(
+      (count, block) => count + block.tests.length,
+      0
+    );
 
     res.status(200).json({
       courseName: course.name,
-      masterFeature: testCount > 4 ? marketplaceInfo.master_feature : marketplaceInfo.master_feature,
+      masterFeature:
+        testCount > 4
+          ? marketplaceInfo.master_feature
+          : marketplaceInfo.master_feature,
       courseDetails: marketplaceInfo.course_details,
       authorName: marketplaceInfo.author_name,
       authorAbout: marketplaceInfo.author_about,
       keyFeatures: marketplaceInfo.key_features,
-      blocks: blocks
+      blocks: blocks,
     });
   } catch (error) {
     console.error("Error:", error);
@@ -1549,7 +1561,10 @@ app.post("/uploadCardImage", upload.single("image"), async (req, res) => {
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
       return res.status(403).send("Unauthorized");
     }
 
@@ -1567,9 +1582,7 @@ app.post("/uploadCardImage", upload.single("image"), async (req, res) => {
       fs.mkdirSync(dirPath, { recursive: true });
     }
 
-    await sharp(req.file.buffer)
-      .png()
-      .toFile(filePath);
+    await sharp(req.file.buffer).png().toFile(filePath);
 
     res.status(200).json({ message: "Image updated successfully" });
   } catch (error) {
@@ -1584,11 +1597,14 @@ app.post("/updateCardText", async (req, res) => {
   const blockId = req.query.blockId;
   const testId = req.query.testId;
   const imageId = +req.query.imageId;
-  const { text } = req.body;
+  const { text, type } = req.body;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
       return res.status(403).send("Unauthorized");
     }
 
@@ -1596,18 +1612,22 @@ app.post("/updateCardText", async (req, res) => {
       __dirname,
       `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
     );
-    
+
     const cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
-    const cardIndex = cards.findIndex(card => card.id === imageId);
-    
+    const cardIndex = cards.findIndex((card) => card.id === imageId);
+
     if (cardIndex === -1) {
       return res.status(404).send("Card not found");
     }
 
     cards[cardIndex].infoText = text;
+    if (type) {
+      cards[cardIndex].type = type;
+    }
+
     fs.writeFileSync(cardsPath, JSON.stringify(cards, null, 2));
 
-    res.status(200).json({ message: "Text updated successfully" });
+    res.status(200).json({ message: "Card updated successfully" });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).send("Internal Server Error");
@@ -1620,10 +1640,14 @@ app.post("/createCard", upload.single("image"), async (req, res) => {
   const blockId = req.query.blockId;
   const testId = req.query.testId;
   const text = req.body.text;
+  const type = req.body.type;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
       return res.status(403).send("Unauthorized");
     }
 
@@ -1635,7 +1659,7 @@ app.post("/createCard", upload.single("image"), async (req, res) => {
       __dirname,
       `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
     );
-    
+
     let cards = [];
     try {
       cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
@@ -1644,9 +1668,10 @@ app.post("/createCard", upload.single("image"), async (req, res) => {
     }
 
     // Generate new card ID
-    const newId = cards.length > 0 
-      ? Math.max(...cards.map(card => parseInt(card.id))) + 1 
-      : 1;
+    const newId =
+      cards.length > 0
+        ? Math.max(...cards.map((card) => parseInt(card.id))) + 1
+        : 1;
 
     // Save image
     const dirPath = path.join(
@@ -1664,7 +1689,8 @@ app.post("/createCard", upload.single("image"), async (req, res) => {
     cards.push({
       id: newId,
       frontContentType: "img",
-      infoText: text
+      infoText: text,
+      type: type || "Інше",
     });
 
     // Save updated cards array
@@ -1686,7 +1712,10 @@ app.post("/deleteCard", async (req, res) => {
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
       return res.status(403).send("Unauthorized");
     }
 
@@ -1694,11 +1723,11 @@ app.post("/deleteCard", async (req, res) => {
       __dirname,
       `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
     );
-    
+
     // Read and filter out the card to delete
     const cards = JSON.parse(fs.readFileSync(cardsPath, "utf8"));
-    const filteredCards = cards.filter(card => card.id !== imageId);
-    
+    const filteredCards = cards.filter((card) => card.id !== imageId);
+
     if (cards.length === filteredCards.length) {
       return res.status(404).send("Card not found");
     }
@@ -1724,51 +1753,54 @@ app.post("/deleteCard", async (req, res) => {
   }
 });
 
-app.post('/api/getUncompletedTests', async (req, res) => {
+app.post("/api/getUncompletedTests", async (req, res) => {
   const { auth_key, course } = req.body;
-  
+
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
     if (!userCourse) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
 
     const result = await dbHelpers.getUncompletedTests(auth_key, course);
     res.json({
       tests: result.tests,
-      last_updated: result.last_updated
+      last_updated: result.last_updated,
     });
-
   } catch (error) {
-    console.error('Error getting uncompleted tests:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Error getting uncompleted tests:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
-app.post('/api/updateUncompletedTests', async (req, res) => {
+app.post("/api/updateUncompletedTests", async (req, res) => {
   const { auth_key, course, tests, last_updated } = req.body;
-  
+
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
-      return res.status(401).json({ error: 'Unauthorized' });
+      return res.status(401).json({ error: "Unauthorized" });
     }
 
     const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
     if (!userCourse) {
-      return res.status(404).json({ error: 'Course not found' });
+      return res.status(404).json({ error: "Course not found" });
     }
 
     // Get current server data to compare timestamps
     const currentData = await dbHelpers.getUncompletedTests(auth_key, course);
-    
+
     // Only update if client data is newer
-    if (!currentData.last_updated || !last_updated || last_updated >= currentData.last_updated) {
+    if (
+      !currentData.last_updated ||
+      !last_updated ||
+      last_updated >= currentData.last_updated
+    ) {
       const result = await dbHelpers.updateUncompletedTests(
         auth_key,
         course,
@@ -1776,27 +1808,26 @@ app.post('/api/updateUncompletedTests', async (req, res) => {
       );
 
       if (result.changes === 0) {
-        return res.status(404).json({ error: 'Failed to update tests' });
+        return res.status(404).json({ error: "Failed to update tests" });
       }
-      
-      res.json({ 
+
+      res.json({
         success: true,
         changes: result.changes,
-        last_updated: Date.now()
+        last_updated: Date.now(),
       });
     } else {
       // Client data is older, send back current server data
       res.json({
         success: false,
-        message: 'Server data is newer',
+        message: "Server data is newer",
         tests: currentData.tests,
-        last_updated: currentData.last_updated
+        last_updated: currentData.last_updated,
       });
     }
-
   } catch (error) {
-    console.error('Error updating uncompleted tests:', error);
-    res.status(500).json({ error: 'Server error' });
+    console.error("Error updating uncompleted tests:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -1817,7 +1848,10 @@ app.get("/api/test-details/:uuid", async (req, res) => {
 
     // Check if user owns this test or owns the course
     const coursesOwned = JSON.parse(user.coursesOwned);
-    if (testDetails.auth_key !== auth_key && !coursesOwned.includes(testDetails.course_id)) {
+    if (
+      testDetails.auth_key !== auth_key &&
+      !coursesOwned.includes(testDetails.course_id)
+    ) {
       return res.status(403).send("Access denied");
     }
 
@@ -1831,10 +1865,11 @@ app.get("/api/test-details/:uuid", async (req, res) => {
       score: testDetails.score,
       abcd_questions_accuracy: testDetails.abcd_questions_accuracy,
       hronology_questions_accuracy: testDetails.hronology_questions_accuracy,
-      vidpovidnist_questions_accuracy: testDetails.vidpovidnist_questions_accuracy,
+      vidpovidnist_questions_accuracy:
+        testDetails.vidpovidnist_questions_accuracy,
       mul_ans_questions_accuracy: testDetails.mul_ans_questions_accuracy,
       date: testDetails.date,
-      time: testDetails.time
+      time: testDetails.time,
     });
   } catch (error) {
     console.error("Error:", error);
