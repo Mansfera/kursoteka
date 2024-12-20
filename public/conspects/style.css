@@ -1,0 +1,291 @@
+.conspect-container {
+  max-width: 800px;
+  margin: 7rem auto 2rem;
+  padding: 0 1rem;
+  position: relative;
+}
+
+.editor-controls {
+  position: sticky;
+  top: 4rem;
+  background: black;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  color: white;
+}
+
+.editor-btn {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--rich-green);
+  border-radius: 4px;
+  background: transparent;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.editor-btn:hover {
+  background: var(--rich-green);
+  color: black;
+}
+
+.save-btn {
+  margin-left: auto;
+  background: var(--rich-green);
+  border: none;
+}
+
+.save-btn:hover {
+  background: var(--light-green);
+  color: black;
+}
+
+.conspect-block {
+  position: relative;
+  padding: 1rem 1rem 1rem 4rem;
+  margin: 1.5rem 0;
+  background: transparent;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: aliceblue;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  max-width: 100%;
+  line-height: 1.5;
+  cursor: grab;
+  user-select: none;
+}
+
+.conspect-block::before {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  top: -1.5rem;
+  bottom: -1.5rem;
+  width: 8px;
+  background: white;
+  z-index: 1;
+  border-radius: 4px;
+}
+
+.conspect-block:first-child::before {
+  top: 0;
+}
+
+.conspect-block:last-child::before {
+  bottom: 0;
+}
+
+.conspect-block::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0px;
+  transform: translateY(-50%);
+  width: 2rem;
+  height: 2rem;
+  background: black;
+  border: 6px solid white;
+  z-index: 2;
+}
+
+.conspect-block[data-type="title"]::after {
+  width: 2rem;
+  height: 2rem;
+  left: -1.5px;
+  border-radius: 50%;
+}
+
+.conspect-block[data-type="date"]::after {
+  width: 1.5rem;
+  height: 1.5rem;
+  left: 1.5px;
+  border-radius: 3px;
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.conspect-block[data-type="text"]::after {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+}
+
+.conspect-block[contenteditable="true"] {
+  outline: 2px solid #007bff;
+}
+
+.conspect-block[data-type="title"] {
+  font-size: clamp(1.2rem, 4vw, 1.5rem);
+  font-weight: bold;
+  line-height: 1.3;
+}
+
+.conspect-block[data-type="date"] {
+  font-style: italic;
+  font-size: clamp(0.9rem, 3vw, 1.1rem);
+}
+
+.delete-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: transparent;
+  color: var(--light-red);
+  border: 2px solid var(--rich-red);
+  border-radius: 4px;
+  cursor: pointer;
+  display: none;
+  transition: all 0.2s;
+  padding: 0.25rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+.delete-icon {
+  width: 100%;
+  height: 100%;
+  filter: invert(1); /* Makes the SVG white */
+}
+
+.delete-btn:hover {
+  background: var(--rich-red);
+}
+
+.delete-btn:hover .delete-icon {
+  filter: invert(1); /* Keep it white on hover */
+}
+
+.conspect-block:hover .delete-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.conspect-info {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.conspect-name-input,
+.conspect-id-input {
+  padding: 0.5rem 1rem;
+  border: 2px solid var(--rich-green);
+  border-radius: 4px;
+  font-size: 1rem;
+  background: black;
+  color: white;
+  transition: border-color 0.2s;
+}
+
+.conspect-name-input:focus,
+.conspect-id-input:focus {
+  outline: none;
+  border-color: var(--light-green);
+}
+
+.conspect-name-input::placeholder,
+.conspect-id-input::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.conspect-name-input {
+  flex: 2;
+}
+
+.conspect-id-input {
+  flex: 1;
+}
+
+.editor-buttons {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  .conspect-container {
+    margin-top: 5rem;
+  }
+  
+  .editor-controls {
+    top: 3rem;
+  }
+
+  .editor-buttons {
+    flex-wrap: wrap;
+  }
+
+  .editor-btn {
+    flex: 1 1 calc(50% - 0.5rem);
+    text-align: center;
+  }
+
+  .save-btn {
+    flex: 1 1 100%;
+    margin-top: 0.5rem;
+  }
+}
+
+.conspect-name-input:hover,
+.conspect-id-input:hover {
+  border-color: var(--light-green);
+}
+
+.conspect-block.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.conspect-block.drag-over {
+  border-top: 2px solid var(--rich-green);
+}
+
+.conspect-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  background: black;
+  border-radius: 8px;
+}
+
+.conspect-title {
+  color: white;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.delete-conspect-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: transparent;
+  color: var(--light-red);
+  border: 2px solid var(--rich-red);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.delete-conspect-btn:hover {
+  background: var(--rich-red);
+  color: white;
+}
+
+.delete-conspect-btn .delete-icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  filter: invert(1);
+}

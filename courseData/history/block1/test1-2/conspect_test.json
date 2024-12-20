@@ -1,0 +1,18 @@
+{
+  "id": "test",
+  "name": "Пробний конспект",
+  "blocks": [
+    {
+      "type": "title",
+      "content": "Заголовок"
+    },
+    {
+      "type": "date",
+      "content": "0000 дата"
+    },
+    {
+      "type": "text",
+      "content": "<span style=\"font-size: 14.3px;\">Pariatur aliquip velit et magna Lorem ea fugiat reprehenderit fugiat non laboris. Ullamco eiusmod ullamco duis aliqua minim anim sint labore in qui exercitation. Magna nulla cupidatat ad ex quis reprehenderit nostrud et enim eu quis. Veniam sit enim anim esse proident in. Laborum velit dolor ullamco non reprehenderit id occaecat ea.\n\n(це випадковий текст, це звертайте уваги)</span>"
+    }
+  ]
+}

@@ -581,6 +581,22 @@ async function initializeConnection() {
                         }
                     );
                 });
+            },
+
+            updateCourseBlocks: async (courseId, blocksJson) => {
+                return new Promise((resolve, reject) => {
+                    db.run(
+                        "UPDATE courses SET blocks = ? WHERE id = ?",
+                        [blocksJson, courseId],
+                        function (err) {
+                            if (err) {
+                                reject(err);
+                            } else {
+                                resolve({ changes: this.changes });
+                            }
+                        }
+                    );
+                });
             }
         };
 

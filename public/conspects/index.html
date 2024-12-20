@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="Mansfera's history tests" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=.7"
+      media="(max-width: 600px)"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="apple-touch-icon" href="/site-icon.png" />
+    <link rel="icon" type="image/png" sizes="512x512" href="/site-icon.png" />
+    <link rel="icon" type="image/x-icon" href="/site-icon.ico" />
+    <meta name="description" content="Курсотека! © Mansfera" />
+
+    <link rel="stylesheet" href="/top_bar.css" />
+    <link rel="stylesheet" href="/global.css" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="/text-formatting.css" />
+    <link rel="stylesheet" href="/locomotive-scroll.css" />
+
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/global.js"></script>
+    <script src="/top_bar.js"></script>
+    <title>Курсотека</title>
+  </head>
+  <body>
+    <div class="main_wrapper">
+      <div class="main_wrapper-top_bar" id="top_bar-placeholder"></div>
+      <div
+        class="main_wrapper-mobile_menu collapsed"
+        id="mobile_menu-placeholder"
+      ></div>
+
+      <div class="main-content">
+        <div class="conspect-container">
+          <div class="conspect-header">
+            <h1 class="conspect-title"></h1>
+            <button id="delete-conspect-btn" class="delete-conspect-btn" style="display: none;">
+              <img src="/assets/cross.svg" alt="×" class="delete-icon">
+              Видалити конспект
+            </button>
+          </div>
+
+          <div id="editor-controls" class="editor-controls" style="display: none">
+            <div class="conspect-info">
+              <input
+                type="text"
+                id="conspect-name"
+                placeholder="Назва конспекту"
+                class="conspect-name-input"
+              />
+              <input
+                type="text"
+                id="conspect-id"
+                placeholder="ID конспекту"
+                class="conspect-id-input"
+              />
+            </div>
+            <div class="editor-buttons">
+              <button class="editor-btn" data-type="title">Додати заголовок</button>
+              <button class="editor-btn" data-type="date">Додати дату</button>
+              <button class="editor-btn" data-type="text">Додати текст</button>
+              <button class="editor-btn save-btn">Зберегти</button>
+            </div>
+          </div>
+          <div class="conspect-content">
+            <!-- Content will be added here dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+  <script src="script.js"></script>
+</html>

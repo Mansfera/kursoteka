@@ -105,7 +105,7 @@ async function getConspect(conspectId) {
     viewerContainer.style.msUserSelect = "none"; // For IE/Edge
 
     // Add context menu prevention
-    viewerContainer.addEventListener('contextmenu', (e) => {
+    viewerContainer.addEventListener("contextmenu", (e) => {
       e.preventDefault();
       return false;
     });
@@ -123,8 +123,8 @@ async function getConspect(conspectId) {
     iframe.style.msUserSelect = "none";
 
     // Prevent right-click inside iframe
-    iframe.onload = function() {
-      iframe.contentWindow.document.addEventListener('contextmenu', (e) => {
+    iframe.onload = function () {
+      iframe.contentWindow.document.addEventListener("contextmenu", (e) => {
         e.preventDefault();
         return false;
       });
@@ -234,20 +234,48 @@ getConspectList().then((data) => {
         if (blockElement.id == block) {
           Array.from(blockElement.tests).forEach((testElement) => {
             if (testElement.id == tema) {
-              Array.from(testElement.conspects).forEach((conspect) => {
+              // Create conspects header if there are any conspects
+              if (testElement.conspects && testElement.conspects.length > 0) {
+                const conspectHeader = document.createElement("div");
+                conspectHeader.className = "conspects-name white_text uppercase";
+                conspectHeader.textContent = "Конспекти до теми";
+                conspects.appendChild(conspectHeader);
+              }
+
+              // Display each conspect
+              Array.from(testElement.conspects || []).forEach((conspect) => {
                 const conspectCard = document.createElement("div");
                 conspectCard.className = "conspects-item-wrapper";
                 conspectCard.innerHTML = `
-                <div class="conspects-item-dot white_text">●</div>
-                <div class="conspects-item white_text" id="conspect-${conspect.id}">
-                  ${conspect.name}
-                </div>
-                  `;
+                  <div class="conspects-item-dot white_text">●</div>
+                  <div class="conspects-item white_text" id="conspect-${conspect.id}">
+                    ${conspect.name || "Без назви"}
+                  </div>
+                `;
                 conspects.appendChild(conspectCard);
                 conspectCard.addEventListener("click", () => {
-                  getConspect(conspect.id);
+                  const url = `/conspects/?course=${course.id}&blockId=${blockElement.id}&testId=${testElement.id}&conspectId=${conspect.id}`;
+                  window.open(url, "_blank");
                 });
               });
+
+              // Add "Create New Conspect" button for teachers/admins
+              if (getCookie("group") === "admin" || getCookie("group") === "teacher") {
+                const createBtn = document.createElement("div");
+                createBtn.className = "conspects-item-wrapper create-conspect";
+                createBtn.innerHTML = `
+                  <div class="conspects-item-dot white_text">+</div>
+                  <div class="conspects-item white_text">
+                    Створити конспект
+                  </div>
+                `;
+                conspects.appendChild(createBtn);
+                createBtn.addEventListener("click", () => {
+                  const randomId = Math.random().toString(36).substring(2, 10);
+                  const url = `/conspects/?course=${course.id}&blockId=${blockElement.id}&testId=${testElement.id}&conspectId=${randomId}`;
+                  window.open(url, "_blank");
+                });
+              }
             }
           });
         }
@@ -255,6 +283,34 @@ getConspectList().then((data) => {
     });
   }
 });
+
+function displayConspect(blocks) {
+  const mainContent = document.querySelector(".main-content");
+  const conspectContainer = document.createElement("div");
+  conspectContainer.className = "conspect-container";
+
+  // Create close button
+  const closeBtn = document.createElement("button");
+  closeBtn.className = "conspect-close-btn";
+  closeBtn.innerHTML = "×";
+  closeBtn.onclick = () => conspectContainer.remove();
+  conspectContainer.appendChild(closeBtn);
+
+  // Create content container
+  const contentDiv = document.createElement("div");
+  contentDiv.className = "conspect-content";
+
+  blocks.forEach((block) => {
+    const blockElement = document.createElement("div");
+    blockElement.className = "conspect-block";
+    blockElement.dataset.type = block.type;
+    blockElement.innerHTML = block.content;
+    contentDiv.appendChild(blockElement);
+  });
+
+  conspectContainer.appendChild(contentDiv);
+  mainContent.appendChild(conspectContainer);
+}
 
 function findBlockAndTest(courseData, blockId, temaId) {
   const block = courseData.blocks.find((b) => b.id === blockId);

@@ -1893,3 +1893,178 @@ app.get("/api/course-tests/:courseId", async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+
+app.get("/api/getConspectData", async (req, res) => {
+  const { course, blockId, testId, conspectId } = req.query;
+  const auth_key = req.query.auth_key;
+
+  try {
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
+    
+    if (!userCourse) {
+      return res.status(404).send("Course not found");
+    }
+
+    if (userCourse.restricted) {
+      return res.status(403).send("Access denied");
+    }
+
+    const dirPath = path.join(
+      __dirname,
+      "courseData",
+      course,
+      `block${blockId}`,
+      `test${testId}`
+    );
+
+    let filePath = path.join(dirPath, `conspect_${conspectId}.json`);
+    
+    if (!fs.existsSync(filePath)) {
+      filePath = path.join(dirPath, "conspect.json");
+    }
+
+    fs.readFile(filePath, "utf8", (err, data) => {
+      if (err) {
+        if (err.code === "ENOENT") {
+          res.json({ 
+            id: conspectId || "",
+            name: "",
+            blocks: [] 
+          });
+        } else {
+          res.status(500).send("Error reading conspect");
+        }
+      } else {
+        try {
+          const conspectData = JSON.parse(data);
+          res.json(conspectData);
+        } catch (parseError) {
+          res.status(500).send("Error parsing conspect data");
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Error in getConspectData:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/api/saveConspect", async (req, res) => {
+  const { auth_key, course, blockId, testId, conspectId, name, blocks } = req.body;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    const dirPath = path.join(
+      __dirname,
+      `courseData/${course}/block${blockId}/test${testId}`
+    );
+    const filePath = path.join(dirPath, `conspect_${conspectId}.json`);
+
+    // Create directory if it doesn't exist
+    if (!fs.existsSync(dirPath)) {
+      fs.mkdirSync(dirPath, { recursive: true });
+    }
+
+    // Save the conspect data
+    fs.writeFileSync(
+      filePath,
+      JSON.stringify(
+        {
+          id: conspectId,
+          name: name,
+          blocks: blocks,
+        },
+        null,
+        2
+      )
+    );
+
+    // Update the course's test data to include this conspect
+    try {
+      const courseData = await dbHelpers.getCourseById(course);
+      if (courseData) {
+        const courseBlocks = JSON.parse(courseData.blocks);
+        const targetBlock = courseBlocks.find(b => b.id === blockId);
+        if (targetBlock) {
+          const targetTest = targetBlock.tests.find(t => t.id === testId);
+          if (targetTest) {
+            if (!targetTest.conspects) {
+              targetTest.conspects = [];
+            }
+            // Update or add conspect reference
+            const conspectIndex = targetTest.conspects.findIndex(
+              c => c.id === conspectId
+            );
+            if (conspectIndex >= 0) {
+              targetTest.conspects[conspectIndex].name = name;
+            } else {
+              targetTest.conspects.push({ id: conspectId, name: name });
+            }
+            
+            // Update the course blocks in the database
+            await dbHelpers.updateCourseBlocks(course, JSON.stringify(courseBlocks));
+          }
+        }
+      }
+      
+      res.status(200).json({ message: "Conspect saved successfully" });
+    } catch (error) {
+      console.error("Error updating course blocks:", error);
+      // Still return success since the conspect file was saved
+      res.status(200).json({ 
+        message: "Conspect saved but course update failed",
+        warning: "Course update failed"
+      });
+    }
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+app.post("/api/deleteConspect", async (req, res) => {
+  const { auth_key, course, blockId, testId, conspectId } = req.body;
+
+  try {
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+      return res.status(403).send("Unauthorized");
+    }
+
+    // Delete the conspect file
+    const filePath = path.join(
+      __dirname,
+      `courseData/${course}/block${blockId}/test${testId}/conspect_${conspectId}.json`
+    );
+
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+
+    // Update the course data to remove the conspect reference
+    const courseData = await dbHelpers.getCourseById(course);
+    if (courseData) {
+      const blocks = JSON.parse(courseData.blocks);
+      const targetBlock = blocks.find(b => b.id === blockId);
+      if (targetBlock) {
+        const targetTest = targetBlock.tests.find(t => t.id === testId);
+        if (targetTest && targetTest.conspects) {
+          targetTest.conspects = targetTest.conspects.filter(c => c.id !== conspectId);
+          await dbHelpers.updateCourseBlocks(course, JSON.stringify(blocks));
+        }
+      }
+    }
+
+    res.status(200).json({ message: "Conspect deleted successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).send("Internal Server Error");
+  }
+});
