@@ -122,15 +122,6 @@
   user-select: text;
 }
 
-.conspect-block[contenteditable="true"].dragging {
-  opacity: 0.5;
-  cursor: grabbing;
-}
-
-.conspect-block[contenteditable="true"].drag-over {
-  border-top: 2px solid var(--rich-green);
-}
-
 .conspect-block[data-type="title"] {
   font-size: clamp(1.2rem, 4vw, 1.5rem);
   font-weight: bold;
@@ -248,6 +239,15 @@
 .conspect-name-input:hover,
 .conspect-id-input:hover {
   border-color: var(--light-green);
+}
+
+.conspect-block.dragging {
+  opacity: 0.5;
+  cursor: grabbing;
+}
+
+.conspect-block.drag-over {
+  border-top: 2px solid var(--rich-green);
 }
 
 .conspect-header {
