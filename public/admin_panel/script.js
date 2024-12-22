@@ -306,9 +306,28 @@ document
   .getElementById("create_promocode")
   .addEventListener("click", function () {
     const access_duration = document.getElementById("promocode-duration").value;
-    const expire_date = document.getElementById("promocode-expire_date").value;
+    let expire_date = document.getElementById("promocode-expire_date").value;
     var start_tema = document.getElementById("promocode-start_temas").value;
     var start_temas_list = [];
+
+    // Convert expire_date string to timestamp if it exists
+    if (expire_date) {
+      // Add time to the date string to ensure consistent parsing
+      expire_date = new Date(expire_date + "T23:59:59").getTime();
+      if (isNaN(expire_date)) {
+        console.error("Invalid date");
+        return;
+      }
+    } else {
+      expire_date = "";
+    }
+
+    // Convert access_duration to number
+    const duration = access_duration ? parseInt(access_duration) : "";
+    if (access_duration && isNaN(duration)) {
+      console.error("Invalid duration");
+      return;
+    }
 
     if (start_tema !== "all") {
       const course = courseData.courses.find(
@@ -330,21 +349,30 @@ document
       start_temas_list.push(start_tema);
     }
 
-    requestCode(expire_date, access_duration, start_temas_list);
+    requestCode(expire_date, duration, start_temas_list);
   });
 function requestCode(expire_date, access_duration, start_temas) {
+  // Convert access_duration to milliseconds if it's not empty
+  const duration = access_duration ? access_duration * 24 * 60 * 60 * 1000 : "";
+  
+  const payload = {
+    auth_key,
+    course: selected_course,
+    access_duration: duration,
+    start_temas,
+  };
+
+  // Only add expire_date if it's not empty
+  if (expire_date) {
+    payload.expire_date = expire_date;
+  }
+
   fetch("/api/generateCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({
-      auth_key,
-      course: selected_course,
-      expire_date,
-      access_duration,
-      start_temas,
-    }),
+    body: JSON.stringify(payload),
   })
     .then((response) => {
       if (!response.ok) {
