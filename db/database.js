@@ -381,7 +381,7 @@ async function initializeConnection() {
                 });
             },
 
-            insertCourse: async (courseData) => {
+            insertUserCourse: async (courseData) => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         INSERT INTO user_courses (
@@ -433,7 +433,7 @@ async function initializeConnection() {
                 });
             },
 
-            insertCourse: async (courseData) => {
+            insertNewCourse: async (courseData) => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         INSERT INTO courses (id, name, type, tags, author, marketplace_info, blocks)

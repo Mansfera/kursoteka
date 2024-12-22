@@ -918,7 +918,7 @@ app.post("/api/activateCode", async (req, res) => {
 
     const user = await dbHelpers.getUserByAuthKey(auth_key);
     if (!user) {
-      return res.status(404).json({ message: "Будь ласка увійдіть 🔐" });
+      return res.status(403).json({ message: "Будь ласка увійдіть 🔐" });
     }
 
     // Get unused promocode
@@ -943,25 +943,28 @@ app.post("/api/activateCode", async (req, res) => {
     const course = await dbHelpers.getCourseById(promocode.course_id);
 
     if (!course) {
-      return res.status(404).json({ message: "Курс н знайдено 🤔" });
+      return res.status(404).json({ message: "Курс не знайдено 🤔" });
     }
 
     // Begin transaction
     try {
       await db.run("BEGIN TRANSACTION");
 
-      // Update promocode
+      // Update promocode first
       await dbHelpers.updatePromocode(Date.now(), auth_key, code);
 
-      // Insert new course for user
-      await dbHelpers.insertCourse({
+      // Create user course assignment
+      const userData = {
+        login: user.login,
+        name: user.name || "",
+        surname: user.surname || "",
+      };
+
+      // Use the existing insertUserCourse function
+      await dbHelpers.insertUserCourse({
         auth_key: auth_key,
-        user_data: JSON.stringify({
-          login: user.login,
-          name: user.name || "",
-          surname: user.surname || "",
-        }),
-        course_id: course.id,
+        user_data: JSON.stringify(userData),
+        course_id: promocode.course_id,
         hidden: 0,
         join_date: Date.now(),
         expire_date: Date.now() + promocode.access_duration,
