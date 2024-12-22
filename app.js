@@ -9,6 +9,14 @@ const { error } = require("console");
 const app = express();
 const port = 30000;
 
+// no-cache middleware before static files
+app.use((req, res, next) => {
+  res.set("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.set("Expires", "-1");
+  res.set("Pragma", "no-cache");
+  next();
+});
+
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.static("public"));
@@ -1900,7 +1908,7 @@ app.get("/api/getConspectData", async (req, res) => {
 
   try {
     const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
-    
+
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -1918,7 +1926,7 @@ app.get("/api/getConspectData", async (req, res) => {
     );
 
     let filePath = path.join(dirPath, `conspect_${conspectId}.json`);
-    
+
     if (!fs.existsSync(filePath)) {
       filePath = path.join(dirPath, "conspect.json");
     }
@@ -1926,10 +1934,10 @@ app.get("/api/getConspectData", async (req, res) => {
     fs.readFile(filePath, "utf8", (err, data) => {
       if (err) {
         if (err.code === "ENOENT") {
-          res.json({ 
+          res.json({
             id: conspectId || "",
             name: "",
-            blocks: [] 
+            blocks: [],
           });
         } else {
           res.status(500).send("Error reading conspect");
@@ -1950,7 +1958,8 @@ app.get("/api/getConspectData", async (req, res) => {
 });
 
 app.post("/api/saveConspect", async (req, res) => {
-  const { auth_key, course, blockId, testId, conspectId, name, blocks } = req.body;
+  const { auth_key, course, blockId, testId, conspectId, name, blocks } =
+    req.body;
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
@@ -1991,36 +2000,39 @@ app.post("/api/saveConspect", async (req, res) => {
       const courseData = await dbHelpers.getCourseById(course);
       if (courseData) {
         const courseBlocks = JSON.parse(courseData.blocks);
-        const targetBlock = courseBlocks.find(b => b.id === blockId);
+        const targetBlock = courseBlocks.find((b) => b.id === blockId);
         if (targetBlock) {
-          const targetTest = targetBlock.tests.find(t => t.id === testId);
+          const targetTest = targetBlock.tests.find((t) => t.id === testId);
           if (targetTest) {
             if (!targetTest.conspects) {
               targetTest.conspects = [];
             }
             // Update or add conspect reference
             const conspectIndex = targetTest.conspects.findIndex(
-              c => c.id === conspectId
+              (c) => c.id === conspectId
             );
             if (conspectIndex >= 0) {
               targetTest.conspects[conspectIndex].name = name;
             } else {
               targetTest.conspects.push({ id: conspectId, name: name });
             }
-            
+
             // Update the course blocks in the database
-            await dbHelpers.updateCourseBlocks(course, JSON.stringify(courseBlocks));
+            await dbHelpers.updateCourseBlocks(
+              course,
+              JSON.stringify(courseBlocks)
+            );
           }
         }
       }
-      
+
       res.status(200).json({ message: "Conspect saved successfully" });
     } catch (error) {
       console.error("Error updating course blocks:", error);
       // Still return success since the conspect file was saved
-      res.status(200).json({ 
+      res.status(200).json({
         message: "Conspect saved but course update failed",
-        warning: "Course update failed"
+        warning: "Course update failed",
       });
     }
   } catch (error) {
@@ -2034,7 +2046,10 @@ app.post("/api/deleteConspect", async (req, res) => {
 
   try {
     const user = await dbHelpers.getUserByAuthKey(auth_key);
-    if (!user || (user.group_type !== "admin" && user.group_type !== "teacher")) {
+    if (
+      !user ||
+      (user.group_type !== "admin" && user.group_type !== "teacher")
+    ) {
       return res.status(403).send("Unauthorized");
     }
 
@@ -2052,11 +2067,13 @@ app.post("/api/deleteConspect", async (req, res) => {
     const courseData = await dbHelpers.getCourseById(course);
     if (courseData) {
       const blocks = JSON.parse(courseData.blocks);
-      const targetBlock = blocks.find(b => b.id === blockId);
+      const targetBlock = blocks.find((b) => b.id === blockId);
       if (targetBlock) {
-        const targetTest = targetBlock.tests.find(t => t.id === testId);
+        const targetTest = targetBlock.tests.find((t) => t.id === testId);
         if (targetTest && targetTest.conspects) {
-          targetTest.conspects = targetTest.conspects.filter(c => c.id !== conspectId);
+          targetTest.conspects = targetTest.conspects.filter(
+            (c) => c.id !== conspectId
+          );
           await dbHelpers.updateCourseBlocks(course, JSON.stringify(blocks));
         }
       }
