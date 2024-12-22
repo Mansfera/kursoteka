@@ -310,20 +310,42 @@ document
     var start_tema = document.getElementById("promocode-start_temas").value;
     var start_temas_list = [];
 
+    // Set default values if neither is provided
+    if (!access_duration && !expire_date) {
+      // Set default access duration to 300 days
+      const defaultDuration = 300;
+      
+      // Set default expire date to 2 weeks from now
+      const twoWeeksFromNow = new Date();
+      twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+      expire_date = twoWeeksFromNow.getTime();
+
+      // Update the input fields with default values
+      document.getElementById("promocode-duration").value = defaultDuration;
+      document.getElementById("promocode-expire_date").value = 
+        twoWeeksFromNow.toISOString().split('T')[0];
+
+      requestCode(expire_date, defaultDuration, start_temas_list);
+      return;
+    }
+
     // Convert expire_date string to timestamp if it exists
     if (expire_date) {
-      // Add time to the date string to ensure consistent parsing
       expire_date = new Date(expire_date + "T23:59:59").getTime();
       if (isNaN(expire_date)) {
         console.error("Invalid date");
         return;
       }
     } else {
-      expire_date = "";
+      // Set default expire date to 2 weeks from now
+      const twoWeeksFromNow = new Date();
+      twoWeeksFromNow.setDate(twoWeeksFromNow.getDate() + 14);
+      expire_date = twoWeeksFromNow.getTime();
     }
 
-    // Convert access_duration to number
-    const duration = access_duration ? parseInt(access_duration) : "";
+    // Convert access_duration to number if it exists
+    const duration = access_duration ? parseInt(access_duration) : 300; // Default to 300 days
+
     if (access_duration && isNaN(duration)) {
       console.error("Invalid duration");
       return;
@@ -352,8 +374,8 @@ document
     requestCode(expire_date, duration, start_temas_list);
   });
 function requestCode(expire_date, access_duration, start_temas) {
-  // Convert access_duration to milliseconds if it's not empty
-  const duration = access_duration ? access_duration * 24 * 60 * 60 * 1000 : "";
+  // No need to convert to milliseconds here since we're already passing days
+  const duration = access_duration ? access_duration : -1; // Use -1 for unlimited duration
   
   const payload = {
     auth_key,
@@ -395,6 +417,12 @@ function createPromocodeElement(promocode, used_by, used_date) {
   wrapper.className = "promocodes_list-item-wrapper";
   wrapper.id = `promocodes_list-item-${promocode.code}`;
 
+  // Format the duration display
+  let durationText = "Необмежено";
+  if (promocode.access_duration && promocode.access_duration > 0) {
+    durationText = `${Math.floor(promocode.access_duration / (24 * 60 * 60 * 1000))} днів`;
+  }
+
   // Use template literal to create inner HTML
   wrapper.innerHTML = `
   <div class="promocodes_list-item-info_wrapper">
@@ -409,9 +437,7 @@ function createPromocodeElement(promocode, used_by, used_date) {
     <div class="promocodes_list-item" id="code-course_duration-${
       promocode.code
     }">
-        Кількість днів, що надається: ${
-          promocode.access_duration / (24 * 60 * 60 * 1000)
-        }
+        Кількість днів, що надається: ${durationText}
     </div>
     <div class="promocodes_list-item" id="code-used_by-${promocode.code}">
         Використаний: ${used_by} ${used_date}
