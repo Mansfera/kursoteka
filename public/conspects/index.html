@@ -45,15 +45,41 @@
 
       <div class="main-content">
         <div class="conspect-container">
+          <div class="text-format-toolbar" style="display: none">
+            <button class="format-btn bold-btn" title="Жирний">Ж</button>
+            <button class="format-btn italic-btn" title="Курсив">К</button>
+            <button class="format-btn underline-btn" title="Підкреслений">
+              П
+            </button>
+            <select class="format-select size-select" title="Розмір">
+              <option value="1">Малий</option>
+              <option value="2" selected>Звичайний</option>
+              <option value="3">Великий</option>
+              <option value="4">Дуже великий</option>
+            </select>
+          </div>
           <div class="conspect-header">
             <h1 class="conspect-title"></h1>
-            <button id="delete-conspect-btn" class="delete-conspect-btn" style="display: none;">
-              <img src="/assets/cross.svg" alt="×" class="delete-icon">
-              Видалити конспект
-            </button>
+            <div class="header-buttons">
+              <button class="editor-btn save-btn" style="display: none">
+                Зберегти
+              </button>
+              <button
+                id="delete-conspect-btn"
+                class="delete-conspect-btn"
+                style="display: none"
+              >
+                <img src="/assets/cross.svg" alt="×" class="delete-icon" />
+                Видалити конспект
+              </button>
+            </div>
           </div>
 
-          <div id="editor-controls" class="editor-controls" style="display: none">
+          <div
+            id="editor-controls"
+            class="editor-controls"
+            style="display: none"
+          >
             <div class="conspect-info">
               <input
                 type="text"
@@ -68,16 +94,9 @@
                 class="conspect-id-input"
               />
             </div>
-            <div class="editor-buttons">
-              <button class="editor-btn" data-type="title">Додати заголовок</button>
-              <button class="editor-btn" data-type="date">Додати дату</button>
-              <button class="editor-btn" data-type="text">Додати текст</button>
-              <button class="editor-btn save-btn">Зберегти</button>
-            </div>
           </div>
-          <div class="conspect-content">
-            <!-- Content will be added here dynamically -->
-          </div>
+          <div class="conspect-content"></div>
+          <div class="floating-btn-container"></div>
         </div>
       </div>
     </div>
