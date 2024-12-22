@@ -30,7 +30,8 @@
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "браслет із меандровим орнаментом з Мізинської стоянки"
+    "infoText": "браслет із меандровим орнаментом з Мізинської стоянки",
+    "type": "monument"
   },
   {
     "id": 7,
@@ -60,7 +61,8 @@
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "землеробство"
+    "infoText": "землеробство",
+    "type": "Інше"
   },
   {
     "id": 13,
@@ -114,7 +116,8 @@
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "орнаментована кераміка трипільської культури"
+    "infoText": "орнаментована кераміка трипільської культури",
+    "type": "Інше"
   },
   {
     "id": 23,
@@ -141,12 +144,14 @@
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "золота пектораль із кургану Товста Могила"
+    "infoText": "золота пектораль із кургану Товста Могила",
+    "type": "monument"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "золотий гребінь із кургану Солоха"
+    "infoText": "золотий гребінь із кургану Солоха",
+    "type": "monument"
   },
   {
     "id": 29,
@@ -228,7 +233,8 @@
   {
     "id": 42,
     "frontContentType": "img",
-    "infoText": "кераміка з грецького поліса"
+    "infoText": "кераміка з грецького поліса",
+    "type": "Інше"
   },
   {
     "id": 43,
@@ -261,13 +267,14 @@
   {
     "id": 48,
     "frontContentType": "img",
-    "infoText": "Збруцький ідол"
+    "infoText": "Збруцький ідол",
+    "type": "monument"
   },
   {
     "id": 49,
     "frontContentType": "img",
     "infoText": "реконструкція язичницького капища у слов’ян",
-    "type": "monument"
+    "type": "Інше"
   },
   {
     "id": 50,

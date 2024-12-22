@@ -2,46 +2,55 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "король Данило, монета НБУ"
+    "infoText": "король Данило, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "магдебурзьке право, монета НБУ"
+    "infoText": "магдебурзьке право, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": " герби середньовічних цехів"
+    "infoText": " герби середньовічних цехів",
+    "type": "Інше"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Холмська ікона Богородиці                          "
+    "infoText": "Холмська ікона Богородиці                          ",
+    "type": "monument"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Дорогобузька ікона Богородиці                          "
+    "infoText": "Дорогобузька ікона Богородиці                          ",
+    "type": "monument"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "ікона святого Юрія Змієборця із села Станиля поблизу міста Дрогобич "
+    "infoText": "ікона святого Юрія Змієборця із села Станиля поблизу міста Дрогобич ",
+    "type": "monument"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Галицько-Волинська держава за правдіння князя Романа"
+    "infoText": "Галицько-Волинська держава за правдіння князя Романа",
+    "type": "map"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "битва біля річки Калка"
+    "infoText": "битва біля річки Калка",
+    "type": "map"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "могольська навала"
+    "infoText": "могольська навала",
+    "type": "map"
   }
 ]

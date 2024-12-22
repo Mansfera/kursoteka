@@ -2,67 +2,80 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "князь Аскольд, монета НБУ"
+    "infoText": "князь Аскольд, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "княгиня Ольга, монета НБУ"
+    "infoText": "княгиня Ольга, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "княгиня Ольга, монета НБУ"
+    "infoText": "княгиня Ольга, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "князь Святослав, монета НБУ"
+    "infoText": "князь Святослав, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Володимир Великий, монета НБУ"
+    "infoText": "Володимир Великий, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Десятинна церква, монета НБУ"
+    "infoText": "Десятинна церква, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "златник князя Володимира Великого"
+    "infoText": "златник князя Володимира Великого",
+    "type": "coin"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "карбування монет, монета НБУ"
+    "infoText": "карбування монет, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "донька Ярослава Мудрого, монета НБУ"
+    "infoText": "донька Ярослава Мудрого, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "донька Ярослава Мудрого, монета НБУ"
+    "infoText": "донька Ярослава Мудрого, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "\"Руська правда\", монета НБУ"
+    "infoText": "\"Руська правда\", монета НБУ",
+    "type": "coin"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "\"Золоті ворота\", монета НБУ"
+    "infoText": "\"Золоті ворота\", монета НБУ",
+    "type": "coin"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "місто Галич, монета НБУ"
+    "infoText": "місто Галич, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 14,
@@ -72,146 +85,175 @@
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "гривня, монета НБУ"
+    "infoText": "гривня, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "літописець Нестор, монета НБУ"
+    "infoText": "літописець Нестор, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "Новгород-Сіверське князівство, монета НБУ"
+    "infoText": "Новгород-Сіверське князівство, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Богоматір Оранта, монета НБУ"
+    "infoText": "Богоматір Оранта, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Спаський собор, монета НБУ"
+    "infoText": "Спаський собор, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Михайлівський Золотоверхий собор, монета НБУ"
+    "infoText": "Михайлівський Золотоверхий собор, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Успенський собор у місті Володимир, монета НБУ"
+    "infoText": "Успенський собор у місті Володимир, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Київська держава за правління князів Олега та Ігоря"
+    "infoText": "Київська держава за правління князів Олега та Ігоря",
+    "type": "map"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "Збір князями полюддя в Київській державі"
+    "infoText": "Збір князями полюддя в Київській державі",
+    "type": "map"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "Київська держава та Хозарський каганат"
+    "infoText": "Київська держава та Хозарський каганат",
+    "type": "map"
   },
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "Київська держава за правління князя Святослава"
+    "infoText": "Київська держава за правління князя Святослава",
+    "type": "map"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "Київська держава за правління князя Володимира Великого"
+    "infoText": "Київська держава за правління князя Володимира Великого",
+    "type": "map"
   },
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "Київська держава за правління князя Ярослава Мудрого"
+    "infoText": "Київська держава за правління князя Ярослава Мудрого",
+    "type": "map"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "Удільні князівства Київської держави"
+    "infoText": "Удільні князівства Київської держави",
+    "type": "map"
   },
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "Київська держава за правління князя Володимира Мономаха"
+    "infoText": "Київська держава за правління князя Володимира Мономаха",
+    "type": "map"
   },
   {
     "id": 30,
     "frontContentType": "img",
-    "infoText": "Похід новгород-сіверського князя Ігоря Святославовича на половців"
+    "infoText": "Похід новгород-сіверського князя Ігоря Святославовича на половців",
+    "type": "map"
   },
   {
     "id": 31,
     "frontContentType": "img",
-    "infoText": "Спасо-Преображенський собор у місті Чернігів"
+    "infoText": "Спасо-Преображенський собор у місті Чернігів",
+    "type": "monument"
   },
   {
     "id": 32,
     "frontContentType": "img",
-    "infoText": "Софійський собор у місті Київ "
+    "infoText": "Софійський собор у місті Київ ",
+    "type": "monument"
   },
   {
     "id": 33,
     "frontContentType": "img",
-    "infoText": "Успенський собор у місті Київ "
+    "infoText": "Успенський собор у місті Київ ",
+    "type": "monument"
   },
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "Михайлівський Золотоверхий собор у місті Київ "
+    "infoText": "Михайлівський Золотоверхий собор у місті Київ ",
+    "type": "monument"
   },
   {
     "id": 35,
     "frontContentType": "img",
-    "infoText": "П’ятницька церква в місті Чернігів "
+    "infoText": "П’ятницька церква в місті Чернігів ",
+    "type": "monument"
   },
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "Успенський собор у місті Володимир      "
+    "infoText": "Успенський собор у місті Володимир      ",
+    "type": "monument"
   },
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "церква Святого Пантелеймона поблизу міста Галич"
+    "infoText": "церква Святого Пантелеймона поблизу міста Галич",
+    "type": "monument"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "мозаїка Богоматері Оранти із Софійського собору в місті Київ \r\n"
+    "infoText": "мозаїка Богоматері Оранти із Софійського собору в місті Київ \n",
+    "type": "monument"
   },
   {
     "id": 39,
     "frontContentType": "img",
-    "infoText": "мозаїка Христа Вседержителя з Софійського собору в місті Київ"
+    "infoText": "мозаїка Христа Вседержителя з Софійського собору в місті Київ",
+    "type": "monument"
   },
   {
     "id": 40,
     "frontContentType": "img",
-    "infoText": "мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" "
+    "infoText": "мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" ",
+    "type": "monument"
   },
   {
     "id": 41,
     "frontContentType": "img",
-    "infoText": "мініатюра \"Євангеліст Лука\" з Остромирового Євангелія"
+    "infoText": "мініатюра \"Євангеліст Лука\" з Остромирового Євангелія",
+    "type": "monument"
   },
   {
     "id": 42,
     "frontContentType": "img",
-    "infoText": "Свенська ікона Богородиці з Антонієм і Феодосієм Печерськими"
+    "infoText": "Свенська ікона Богородиці з Антонієм і Феодосієм Печерськими",
+    "type": "monument"
   },
   {
     "id": 43,
     "frontContentType": "img",
-    "infoText": "Вишгородська ікона Богородиці"
+    "infoText": "Вишгородська ікона Богородиці",
+    "type": "monument"
   }
 ]
