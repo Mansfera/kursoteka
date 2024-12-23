@@ -2,25 +2,25 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "князь Аскольд, монета НБУ",
+    "infoText": "Князь Аскольд, монета НБУ",
     "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "княгиня Ольга, монета НБУ",
+    "infoText": "Княгиня Ольга, монета НБУ",
     "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "княгиня Ольга, монета НБУ",
+    "infoText": "Княгиня Ольга, монета НБУ",
     "type": "coin"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "князь Святослав, монета НБУ",
+    "infoText": "Князь Святослав, монета НБУ",
     "type": "coin"
   },
   {
@@ -38,25 +38,25 @@
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "златник князя Володимира Великого",
+    "infoText": "Златник князя Володимира Великого",
     "type": "coin"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "карбування монет, монета НБУ",
+    "infoText": "Карбування монет, монета НБУ",
     "type": "coin"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "донька Ярослава Мудрого, монета НБУ",
+    "infoText": "Донька Ярослава Мудрого, монета НБУ",
     "type": "coin"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "донька Ярослава Мудрого, монета НБУ",
+    "infoText": "Донька Ярослава Мудрого, монета НБУ",
     "type": "coin"
   },
   {
@@ -74,7 +74,7 @@
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "місто Галич, монета НБУ",
+    "infoText": "Місто Галич, монета НБУ",
     "type": "coin"
   },
   {
@@ -85,13 +85,13 @@
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "гривня, монета НБУ",
+    "infoText": "Гривня, монета НБУ",
     "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "літописець Нестор, монета НБУ",
+    "infoText": "Літописець Нестор, монета НБУ",
     "type": "coin"
   },
   {
@@ -217,31 +217,31 @@
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "церква Святого Пантелеймона поблизу міста Галич",
+    "infoText": "Церква Святого Пантелеймона поблизу міста Галич",
     "type": "monument"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "мозаїка Богоматері Оранти із Софійського собору в місті Київ \n",
+    "infoText": "Мозаїка Богоматері Оранти із Софійського собору в місті Київ \n",
     "type": "monument"
   },
   {
     "id": 39,
     "frontContentType": "img",
-    "infoText": "мозаїка Христа Вседержителя з Софійського собору в місті Київ",
+    "infoText": "Мозаїка Христа Вседержителя з Софійського собору в місті Київ",
     "type": "monument"
   },
   {
     "id": 40,
     "frontContentType": "img",
-    "infoText": "мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" ",
+    "infoText": "Мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" ",
     "type": "monument"
   },
   {
     "id": 41,
     "frontContentType": "img",
-    "infoText": "мініатюра \"Євангеліст Лука\" з Остромирового Євангелія",
+    "infoText": "Мініатюра \"Євангеліст Лука\" з Остромирового Євангелія",
     "type": "monument"
   },
   {

@@ -8,126 +8,134 @@
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "палеоліт, монета НБУ",
+    "infoText": "Палеоліт, монета НБУ",
     "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "рубило"
+    "infoText": "Рубило",
+    "type": "Інше"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "релігійні та мистецькі уявлення"
+    "infoText": "Релігійні та мистецькі уявлення",
+    "type": "Інше"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "релігійні та мистецькі уявлення",
+    "infoText": "Релігійні та мистецькі уявлення",
     "type": "Інше"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "браслет із меандровим орнаментом з Мізинської стоянки",
+    "infoText": "Браслет із меандровим орнаментом з Мізинської стоянки",
     "type": "monument"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "житло на стоянці первісних людей"
+    "infoText": "Житло на стоянці первісних людей",
+    "type": "Інше"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "рибальський гачок, гарпун"
-  },
-  {
-    "id": 9,
-    "frontContentType": "img",
-    "infoText": "лук та стріла"
+    "infoText": "Рибальський гачок, гарпун",
+    "type": "Інше"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "лук та стріла"
+    "infoText": "Лук та стріла",
+    "type": "Інше"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "землеробство"
+    "infoText": "Землеробство",
+    "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "землеробство",
+    "infoText": "Землеробство",
     "type": "Інше"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "гончарство"
+    "infoText": "Гончарство",
+    "type": "Інше"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "ткацтво"
+    "infoText": "Ткацтво",
+    "type": "Інше"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "гончарство, монета НБУ",
+    "infoText": "Гончарство, монета НБУ",
     "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "ткацтво, монета НБУ",
+    "infoText": "Ткацтво, монета НБУ",
     "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "ковальство, монета НБУ",
+    "infoText": "Ковальство, монета НБУ",
     "type": "coin"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "трипільці, монета НБУ",
+    "infoText": "Трипільці, монета НБУ",
     "type": "coin"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "реконструкція життя і побуту трипільців"
+    "infoText": "Реконструкція життя і побуту трипільців",
+    "type": "Інше"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "трипільська хата"
+    "infoText": "Реконструкція трипільської хати",
+    "type": "Інше"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "орнаментована кераміка трипільської культури"
+    "infoText": "\"Орнаментована\" кераміка трипільської культури",
+    "type": "Інше"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "орнаментована кераміка трипільської культури",
+    "infoText": "\"Орнаментована\" кераміка трипільської культури",
     "type": "Інше"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "орнаментована кераміка трипільської культури"
+    "infoText": "\"Орнаментована\" кераміка трипільської культури",
+    "type": "Інше"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "вірування трипільців"
+    "infoText": "Трипільська культура",
+    "type": "Інше"
   },
   {
     "id": 25,
@@ -144,37 +152,37 @@
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "золота пектораль із кургану Товста Могила",
+    "infoText": "Золота пектораль із кургану Товста Могила",
     "type": "monument"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "золотий гребінь із кургану Солоха",
+    "infoText": "Золотий гребінь із кургану Солоха",
     "type": "monument"
   },
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "стоянки первісних людей",
+    "infoText": "Стоянки первісних людей",
     "type": "map"
   },
   {
     "id": 30,
     "frontContentType": "img",
-    "infoText": "скіфи, монета НБУ",
+    "infoText": "Скіфська пектораль, монета НБУ",
     "type": "coin"
   },
   {
     "id": 31,
     "frontContentType": "img",
-    "infoText": "скіфи, монета НБУ",
+    "infoText": "Скіфи, монета НБУ",
     "type": "coin"
   },
   {
     "id": 32,
     "frontContentType": "img",
-    "infoText": "монета правителя Атея",
+    "infoText": "Монета скіфського правителя Атея",
     "type": "coin"
   },
   {
@@ -186,7 +194,7 @@
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "сармати",
+    "infoText": "Сармати",
     "type": "map"
   },
   {
@@ -198,19 +206,19 @@
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ",
+    "infoText": "Античні колонії, монета НБУ",
     "type": "coin"
   },
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ",
+    "infoText": "Античні колонії, монета НБУ",
     "type": "coin"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "античні колонії, монета НБУ",
+    "infoText": "Античні колонії, монета НБУ",
     "type": "coin"
   },
   {
@@ -228,29 +236,32 @@
   {
     "id": 41,
     "frontContentType": "img",
-    "infoText": "кераміка з грецького поліса"
+    "infoText": "Кераміка з грецького поліса",
+    "type": "Інше"
   },
   {
     "id": 42,
     "frontContentType": "img",
-    "infoText": "кераміка з грецького поліса",
+    "infoText": "Кераміка з грецького поліса",
     "type": "Інше"
   },
   {
     "id": 43,
     "frontContentType": "img",
-    "infoText": "кераміка з грецького поліса"
+    "infoText": "Кераміка з грецького поліса",
+    "type": "Інше"
   },
   {
     "id": 44,
     "frontContentType": "img",
-    "infoText": "монета з грецького поліса",
+    "infoText": "Монета з грецького поліса",
     "type": "coin"
   },
   {
     "id": 45,
     "frontContentType": "img",
-    "infoText": "реконструкція грецького полісу"
+    "infoText": "Реконструкція грецького полісу",
+    "type": "Інше"
   },
   {
     "id": 46,
@@ -261,7 +272,7 @@
   {
     "id": 47,
     "frontContentType": "img",
-    "infoText": "давньоукраїнські племінні союзи",
+    "infoText": "Давньоукраїнські племінні союзи",
     "type": "map"
   },
   {
@@ -273,19 +284,19 @@
   {
     "id": 49,
     "frontContentType": "img",
-    "infoText": "реконструкція язичницького капища у слов’ян",
+    "infoText": "Реконструкція язичницького капища у слов’ян",
     "type": "Інше"
   },
   {
     "id": 50,
     "frontContentType": "img",
-    "infoText": "пам’ятник засновникам Києва (на 1500-річчя міста Києва, друга половина XX ст.) в місті Київ",
+    "infoText": "Пам’ятник засновникам міста Київ (на 1500-річчя міста Київ, друга половина XX ст.) в місті Київ",
     "type": "monument"
   },
   {
     "id": 51,
     "frontContentType": "img",
-    "infoText": "князь Кий, монета НБУ",
+    "infoText": "Князь Кий, монета НБУ",
     "type": "coin"
   }
 ]

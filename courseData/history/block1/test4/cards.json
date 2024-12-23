@@ -2,19 +2,19 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "король Данило, монета НБУ",
+    "infoText": "Король Данило, монета НБУ",
     "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "магдебурзьке право, монета НБУ",
+    "infoText": "Магдебурзьке право, монета НБУ",
     "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": " герби середньовічних цехів",
+    "infoText": " Герби середньовічних цехів",
     "type": "Інше"
   },
   {
@@ -32,7 +32,7 @@
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "ікона святого Юрія Змієборця із села Станиля поблизу міста Дрогобич ",
+    "infoText": "Ікона святого Юрія Змієборця із села Станиля поблизу міста Дрогобич ",
     "type": "monument"
   },
   {
@@ -44,13 +44,13 @@
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "битва біля річки Калка",
+    "infoText": "Битва біля річки Калка",
     "type": "map"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "могольська навала",
+    "infoText": "Могольська навала",
     "type": "map"
   }
 ]
