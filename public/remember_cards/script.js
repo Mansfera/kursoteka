@@ -71,8 +71,9 @@ function getTypeLabel(type) {
   const labels = {
     map: "Карта",
     person: "Історичний діяч",
-    monument: "Історична пам'ятка",
+    mark: "Марка",
     coin: "Монета",
+    monument: "Історична пам'ятка",
     Інше: "Інше",
   };
   return labels[type] || type;
@@ -427,6 +428,9 @@ async function showEditWindow(cardId) {
           <option value="coin" ${
             currentType === "coin" ? "selected" : ""
           }>Монета</option>
+          <option value="mark" ${
+            currentType === "mark" ? "selected" : ""
+          }>Марка</option>
           <option value="Інше" ${
             currentType === "Інше" ? "selected" : ""
           }>Інше</option>
