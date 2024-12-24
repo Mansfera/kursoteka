@@ -31,7 +31,7 @@ const course = params.get("course");
 const block_id = params.get("block");
 const test_id = params.get("test");
 
-let sortByYear = false;
+let sortByYear = true;
 
 async function loadTestDataFromServer() {
   try {
