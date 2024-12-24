@@ -87,6 +87,16 @@
             placeholder="0"
           />
         </div>
+        <div class="search_bar-item sort_toggle-wrapper">
+          <select
+            id="sort_select"
+            class="sort-select"
+            onchange="handleSortChange(this.value)"
+          >
+            <option value="year">Сортування за роком</option>
+            <option value="id">Сортування за ID</option>
+          </select>
+        </div>
         <div class="search_bar-item nav_bar-navigation_arrows">
           <div class="navigation_arrows-button back-arrow" id="back_arrow">
             <img src="/assets/left-arrow.svg" alt="" />
@@ -101,121 +111,122 @@
         <div class="main_wrapper-input_fields">
           <div class="input_fields-questions input_fields-field_list">
             <input
-            name="year"
-            id="year"
-            type="number"
-            class="input_fields-item"
-            placeholder="Рік"
-          />
-          <textarea
-            name="top_question"
-            id="top_question"
-            class="input_fields-item"
-            placeholder="Верхнє питання"
-          ></textarea>
-          <textarea
-            name="middle_lines"
-            id="middle_lines"
-            class="input_fields-item"
-            placeholder="Пряма мова, цитати, тощо"
-          ></textarea>
-          <textarea
-            name="bottom_question"
-            id="bottom_question"
-            class="input_fields-item"
-            placeholder="Питання знизу"
-          ></textarea>
-        </div>
-        <div class="input_fields-img">
-          <div class="delete_q_img-wrapper">
-            <div id="delete_q_img">
-              <img src="/assets/cross.svg" alt="" />
-            </div>
+              name="year"
+              id="year"
+              type="number"
+              class="input_fields-item"
+              placeholder="Рік"
+            />
+            <textarea
+              name="top_question"
+              id="top_question"
+              class="input_fields-item"
+              placeholder="Верхнє питання"
+            ></textarea>
+            <textarea
+              name="middle_lines"
+              id="middle_lines"
+              class="input_fields-item"
+              placeholder="Пряма мова, цитати, тощо"
+            ></textarea>
+            <textarea
+              name="bottom_question"
+              id="bottom_question"
+              class="input_fields-item"
+              placeholder="Питання знизу"
+            ></textarea>
           </div>
-          <img id="q_img" src="/assets/image-upload.svg" alt="" />
-          <input
-            type="file"
-            id="file_input"
-            style="display: none"
-            accept="image/*"
-          />
-        </div>
-        <div id="list_abcd-fields" class="input_fields-field_list">
-          <textarea
-            name="answer-a"
-            id="af"
-            class="input_fields-item answer-abcd"
-            placeholder="Варіант А"
-          ></textarea>
-          <textarea
-            name="answer-b"
-            id="bf"
-            class="input_fields-item answer-abcd"
-            placeholder="Варіант Б"
-          ></textarea>
-          <textarea
-            name="answer-c"
-            id="cf"
-            class="input_fields-item answer-abcd"
-            placeholder="Варіант В"
-          ></textarea>
-          <textarea
-            name="answer-d"
-            id="df"
-            class="input_fields-item answer-abcd"
-            placeholder="Варіант Г"
-          ></textarea>
-        </div>
-        <div id="list_num-fields" class="input_fields-field_list">
-          <textarea
-            name="answer-1"
-            id="f1"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 1"
-          ></textarea>
-          <textarea
-            name="answer-2"
-            id="f2"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 2"
-          ></textarea>
-          <textarea
-            name="answer-3"
-            id="f3"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 3"
-          ></textarea>
-          <textarea
-            name="answer-4"
-            id="f4"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 4"
-          ></textarea>
-          <textarea
-            name="answer-5"
-            id="f5"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 5"
-          ></textarea>
-          <textarea
-            name="answer-6"
-            id="f6"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 6"
-          ></textarea>
-          <textarea
-            name="answer-7"
-            id="f7"
-            class="input_fields-item answer-num"
-            placeholder="Варіант 7"
-          ></textarea>
-          <div class="input_fields-spacefiller"></div>
-          <textarea
-            name="comment"
-            id="comment"
-            class="input_fields-item comment"
-            placeholder="Коментар"
-          ></textarea>
+          <div class="input_fields-img">
+            <div class="delete_q_img-wrapper">
+              <div id="delete_q_img">
+                <img src="/assets/cross.svg" alt="" />
+              </div>
+            </div>
+            <img id="q_img" src="/assets/image-upload.svg" alt="" />
+            <input
+              type="file"
+              id="file_input"
+              style="display: none"
+              accept="image/*"
+            />
+          </div>
+          <div id="list_abcd-fields" class="input_fields-field_list">
+            <textarea
+              name="answer-a"
+              id="af"
+              class="input_fields-item answer-abcd"
+              placeholder="Варіант А"
+            ></textarea>
+            <textarea
+              name="answer-b"
+              id="bf"
+              class="input_fields-item answer-abcd"
+              placeholder="Варіант Б"
+            ></textarea>
+            <textarea
+              name="answer-c"
+              id="cf"
+              class="input_fields-item answer-abcd"
+              placeholder="Варіант В"
+            ></textarea>
+            <textarea
+              name="answer-d"
+              id="df"
+              class="input_fields-item answer-abcd"
+              placeholder="Варіант Г"
+            ></textarea>
+          </div>
+          <div id="list_num-fields" class="input_fields-field_list">
+            <textarea
+              name="answer-1"
+              id="f1"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 1"
+            ></textarea>
+            <textarea
+              name="answer-2"
+              id="f2"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 2"
+            ></textarea>
+            <textarea
+              name="answer-3"
+              id="f3"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 3"
+            ></textarea>
+            <textarea
+              name="answer-4"
+              id="f4"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 4"
+            ></textarea>
+            <textarea
+              name="answer-5"
+              id="f5"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 5"
+            ></textarea>
+            <textarea
+              name="answer-6"
+              id="f6"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 6"
+            ></textarea>
+            <textarea
+              name="answer-7"
+              id="f7"
+              class="input_fields-item answer-num"
+              placeholder="Варіант 7"
+            ></textarea>
+            <div class="input_fields-spacefiller"></div>
+            <textarea
+              name="comment"
+              id="comment"
+              class="input_fields-item comment"
+              placeholder="Коментар"
+            ></textarea>
+          </div>
         </div>
       </div>
 
@@ -224,8 +235,7 @@
           <div
             class="answer_selection_methdods-abcd_answer_buttons"
             id="answer-buttons"
-          >
-          </div>
+          ></div>
           <div class="answer_selection_methdods-answer_sheet" id="ansSheetBtns">
             <div class="answer_sheet-column" id="answer_sheet_column-abcd">
               <div class="answer_sheet-column-name"></div>

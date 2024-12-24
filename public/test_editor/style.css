@@ -177,3 +177,29 @@
     padding-inline: 2rem;
   }
 }
+
+.sort_toggle-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.sort-select {
+  padding: 8px 12px;
+  font-size: 14px;
+  border: 1px solid var(--rich-green);
+  border-radius: 8px;
+  background-color: transparent;
+  color: white;
+  cursor: pointer;
+  outline: none;
+  min-width: 180px;
+}
+
+.sort-select option {
+  background-color: #1a1a1a;
+  color: white;
+}
+
+.sort-select:hover {
+  border-color: #2ecc71;
+}

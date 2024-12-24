@@ -31,6 +31,8 @@ const course = params.get("course");
 const block_id = params.get("block");
 const test_id = params.get("test");
 
+let sortByYear = false;
+
 async function loadTestDataFromServer() {
   try {
     const response = await fetch(
@@ -62,6 +64,7 @@ loadTestDataFromServer()
         ...hronology_questions,
         ...mul_ans_questions
       );
+      document.getElementById("sort_select").value = sortByYear ? "year" : "id";
       if (params.get("q_id") != null) {
         searchById(params.get("q_id"));
       } else {
@@ -655,7 +658,6 @@ function deleteImg() {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log("Success:", data);
       checkIfImageExists(
         block_id,
         currentQuestion.test_id,
@@ -814,7 +816,6 @@ document
       )
         .then((response) => response.json())
         .then((data) => {
-          console.log("Success:", data);
           checkIfImageExists(
             block_id,
             currentQuestion.test_id,
@@ -833,64 +834,85 @@ Array.from(document.querySelectorAll(".input_fields-item")).forEach((field) => {
   });
 });
 
+function handleSortChange(value) {
+  sortByYear = value === "year";
+
+  // Sort questions locally
+  const sortQuestions = (questions) => {
+    return questions.sort((a, b) => {
+      if (sortByYear) {
+        // Sort by year first, then by ID if years are equal
+        const yearA = parseInt(a.year) || 0;
+        const yearB = parseInt(b.year) || 0;
+        if (yearA !== yearB) {
+          return yearA - yearB;
+        }
+      }
+
+      // Default sort by ID
+      const parseQuestion = (str) => str.split("-").map(Number);
+      const [a1, a2 = 0] = parseQuestion(a.question);
+      const [b1, b2 = 0] = parseQuestion(b.question);
+
+      if (a1 !== b1) {
+        return a1 - b1;
+      }
+      return a2 - b2;
+    });
+  };
+
+  // Sort all question arrays
+  questions = [...sortQuestions(questions)];
+  vidpovidnist_questions = [...sortQuestions(vidpovidnist_questions)];
+  hronology_questions = [...sortQuestions(hronology_questions)];
+  mul_ans_questions = [...sortQuestions(mul_ans_questions)];
+
+  // Update test_questions array with new sorted arrays
+  test_questions = [
+    ...questions,
+    ...vidpovidnist_questions,
+    ...hronology_questions,
+    ...mul_ans_questions,
+  ];
+
+  // Show the first question in the newly sorted list
+  currentQuestionIndex = 0;
+  showQuestion();
+}
+
 function saveTestData() {
+  const sortQuestions = (questions) => {
+    return questions.sort((a, b) => {
+      if (sortByYear) {
+        // Sort by year first, then by ID if years are equal
+        const yearA = a.year || 0;
+        const yearB = b.year || 0;
+        if (yearA !== yearB) {
+          return yearA - yearB;
+        }
+      }
+
+      // Default sort by ID
+      const parseQuestion = (str) => str.split("-").map(Number);
+      const [a1, a2 = 0] = parseQuestion(a.question);
+      const [b1, b2 = 0] = parseQuestion(b.question);
+
+      if (a1 !== b1) {
+        return a1 - b1;
+      }
+      return a2 - b2;
+    });
+  };
+
   const data = {
     auth_key: auth_key,
     courseName: course,
     blockId: block_id,
     testId: test_id,
-    questions: questions.sort((a, b) => {
-      const parseQuestion = (str) => str.split("-").map(Number);
-      const [a1, a2 = 0] = parseQuestion(a.question); // Default to 0 if no second part
-      const [b1, b2 = 0] = parseQuestion(b.question); // Default to 0 if no second part
-
-      // Compare the first parts
-      if (a1 !== b1) {
-        return a1 - b1;
-      }
-
-      // If the first parts are equal, compare the second parts
-      return a2 - b2;
-    }),
-    vidpovidnist_questions: vidpovidnist_questions.sort((a, b) => {
-      const parseQuestion = (str) => str.split("-").map(Number);
-      const [a1, a2 = 0] = parseQuestion(a.question); // Default to 0 if no second part
-      const [b1, b2 = 0] = parseQuestion(b.question); // Default to 0 if no second part
-
-      // Compare the first parts
-      if (a1 !== b1) {
-        return a1 - b1;
-      }
-
-      // If the first parts are equal, compare the second parts
-      return a2 - b2;
-    }),
-    hronology_questions: hronology_questions.sort((a, b) => {
-      const parseQuestion = (str) => str.split("-").map(Number);
-      const [a1, a2 = 0] = parseQuestion(a.question); // Default to 0 if no second part
-      const [b1, b2 = 0] = parseQuestion(b.question); // Default to 0 if no second part
-
-      // Compare the first parts
-      if (a1 !== b1) {
-        return a1 - b1;
-      }
-
-      // If the first parts are equal, compare the second parts
-      return a2 - b2;
-    }),
-    mul_ans_questions: mul_ans_questions.sort((a, b) => {
-      const parseQuestion = (str) => str.split("-").map(Number);
-      const [a1, a2 = 0] = parseQuestion(a.question); // Default to 0 if no second part
-      const [b1, b2 = 0] = parseQuestion(b.question); // Default to 0 if no second part
-
-      // Compare the first parts
-      if (a1 !== b1) {
-        return a1 - b1;
-      }
-
-      // If the first parts are equal, compare the second parts
-      return a2 - b2;
-    }),
+    questions: sortQuestions(questions),
+    vidpovidnist_questions: sortQuestions(vidpovidnist_questions),
+    hronology_questions: sortQuestions(hronology_questions),
+    mul_ans_questions: sortQuestions(mul_ans_questions),
   };
 
   fetch("/saveTest", {
@@ -932,9 +954,10 @@ const imageUploadArea = document.querySelector(".input_fields-img");
 // Handle paste events
 document.addEventListener("paste", function (event) {
   if (!imageUploadArea.matches(":hover")) return;
-  
-  const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-  
+
+  const items = (event.clipboardData || event.originalEvent.clipboardData)
+    .items;
+
   for (let item of items) {
     if (item.type.indexOf("image") === 0) {
       event.preventDefault();
@@ -969,7 +992,7 @@ imageUploadArea.addEventListener("drop", function (event) {
 function handleImageUpload(file) {
   // Show loading state
   document.getElementById("q_img").src = "/assets/three-dots-loader.svg";
-  
+
   // Display the image preview
   let reader = new FileReader();
   reader.onload = function (e) {
@@ -994,7 +1017,6 @@ function handleImageUpload(file) {
   )
     .then((response) => response.json())
     .then((data) => {
-      console.log("Success:", data);
       checkIfImageExists(
         block_id,
         currentQuestion.test_id,
