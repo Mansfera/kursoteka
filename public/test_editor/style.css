@@ -72,9 +72,18 @@
   padding-left: 0;
   font-weight: 600;
 }
+.main_wrapper-input_fields-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
 .main_wrapper-input_fields {
   display: flex;
   flex-direction: column;
+  width: 100%;
+  max-width: 1440px;
   padding-inline: 4rem;
   justify-content: center;
   gap: 3rem;
@@ -100,6 +109,7 @@
 .input_fields-img {
   min-height: 200px;
   max-height: 600px;
+  max-width: 1440px;
   border-radius: 1rem;
   border: 2px aliceblue dashed;
   padding: 1rem;
