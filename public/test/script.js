@@ -214,7 +214,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     }
   } else {
     document.getElementById("initial_black_screen-text").innerHTML =
-      "Тест не знайде��о";
+      "Тест не знайдео";
     return;
   }
 
@@ -1821,8 +1821,59 @@ if (getCookie("removeBlur") === "true") {
   );
 }
 
+function copyToClipboard(text) {
+  // For modern browsers and iOS
+  if (navigator.clipboard && window.isSecureContext) {
+    return navigator.clipboard
+      .writeText(text)
+      .then(() => {
+        return true;
+      })
+      .catch(() => {
+        // Fallback for older browsers
+        return fallbackCopyToClipboard(text);
+      });
+  }
+  // Fallback for non-secure contexts or older browsers
+  return Promise.resolve(fallbackCopyToClipboard(text));
+}
+
+function fallbackCopyToClipboard(text) {
+  try {
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+
+    // Avoid scrolling to bottom
+    textArea.style.top = "0";
+    textArea.style.left = "0";
+    textArea.style.position = "fixed";
+    textArea.style.opacity = "0";
+
+    document.body.appendChild(textArea);
+
+    if (navigator.userAgent.match(/ipad|iphone/i)) {
+      // iOS specific setup
+      const range = document.createRange();
+      range.selectNodeContents(textArea);
+      const selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+      textArea.setSelectionRange(0, 999999);
+    } else {
+      // Other devices
+      textArea.select();
+    }
+
+    document.execCommand("copy");
+    document.body.removeChild(textArea);
+    return true;
+  } catch (err) {
+    console.error("Failed to copy text: ", err);
+    return false;
+  }
+}
+
 function showTestUrlModal(url) {
-  // Create modal elements if they don't exist
   if (!document.getElementById("testUrlModal")) {
     const modalHtml = `
       <div id="testUrlModal" class="modal">
@@ -1840,13 +1891,31 @@ function showTestUrlModal(url) {
 
     // Add event listeners
     document.getElementById("copyTestUrl").addEventListener("click", () => {
-      const urlInput = document.getElementById("testUrlInput");
-      urlInput.select();
-      document.execCommand("copy");
-      document.getElementById("copyTestUrl").textContent = "Скопійовано!";
-      setTimeout(() => {
-        document.getElementById("copyTestUrl").textContent = "Копіювати";
-      }, 2000);
+      copyToClipboard(document.getElementById("testUrlInput").value).then(
+        (success) => {
+          const copyBtn = document.getElementById("copyTestUrl");
+          if (success) {
+            copyBtn.textContent = "Скопійовано!";
+            setTimeout(() => {
+              copyBtn.textContent = "Копіювати";
+            }, 2000);
+          }
+        }
+      );
+    });
+
+    document.getElementById("testUrlInput").addEventListener("click", () => {
+      copyToClipboard(document.getElementById("testUrlInput").value).then(
+        (success) => {
+          const copyBtn = document.getElementById("copyTestUrl");
+          if (success) {
+            copyBtn.textContent = "Скопійовано!";
+            setTimeout(() => {
+              copyBtn.textContent = "Копіювати";
+            }, 2000);
+          }
+        }
+      );
     });
 
     document
@@ -1856,56 +1925,49 @@ function showTestUrlModal(url) {
       });
   }
 
-  // Update URL and show modal
   document.getElementById("testUrlInput").value = url;
   document.getElementById("testUrlModal").style.display = "block";
 }
 
 function showSharePopup(testUrl) {
-  // Copy to clipboard automatically
-  const tempInput = document.createElement("input");
-  tempInput.value = testUrl;
-  document.body.appendChild(tempInput);
-  tempInput.select();
-  document.execCommand("copy");
-  document.body.removeChild(tempInput);
-
-  const popup = document.createElement("div");
-  popup.className = "share-popup";
-  popup.innerHTML = `
-    <div class="share-popup-content">
-      <p>Посилання скопійовано!</p>
-      <div class="share-url-container">
-        <input type="text" readonly value="${testUrl}">
-        <button class="copy-btn">Скопійовано ✓</button>
+  copyToClipboard(testUrl).then(() => {
+    const popup = document.createElement("div");
+    popup.className = "share-popup";
+    popup.innerHTML = `
+      <div class="share-popup-content">
+        <p>Посилання скопійовано!</p>
+        <div class="share-url-container">
+          <input type="text" readonly value="${testUrl}">
+          <button class="copy-btn">Скопійовано ✓</button>
+        </div>
+        <button class="close-btn">✕</button>
       </div>
-      <button class="close-btn">✕</button>
-    </div>
-  `;
+    `;
 
-  document.body.appendChild(popup);
+    document.body.appendChild(popup);
 
-  // Add event listeners
-  const closeBtn = popup.querySelector(".close-btn");
-  const copyBtn = popup.querySelector(".copy-btn");
-  const urlInput = popup.querySelector("input");
+    const closeBtn = popup.querySelector(".close-btn");
+    const copyBtn = popup.querySelector(".copy-btn");
+    const urlInput = popup.querySelector("input");
 
-  closeBtn.addEventListener("click", () => {
-    popup.remove();
-  });
-
-  copyBtn.addEventListener("click", () => {
-    urlInput.select();
-    document.execCommand("copy");
-    copyBtn.textContent = "Скопійовано ✓";
-  });
-
-  // Remove popup after 10 seconds
-  setTimeout(() => {
-    if (document.body.contains(popup)) {
+    closeBtn.addEventListener("click", () => {
       popup.remove();
-    }
-  }, 10000);
+    });
+
+    copyBtn.addEventListener("click", () => {
+      copyToClipboard(urlInput.value).then((success) => {
+        if (success) {
+          copyBtn.textContent = "Скопійовано ✓";
+        }
+      });
+    });
+
+    setTimeout(() => {
+      if (document.body.contains(popup)) {
+        popup.remove();
+      }
+    }, 10000);
+  });
 }
 
 // Move the floating buttons creation to a function
