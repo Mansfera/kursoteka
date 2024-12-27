@@ -2,81 +2,97 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Події Національно-визвольної війни протягом 1648 – 1649 року"
+    "infoText": "Події Національно-визвольної війни протягом 1648 – 1649 року",
+    "type": "map"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Зборівський договір"
-  },{
+    "infoText": "Зборівський договір",
+    "type": "map"
+  },
+  {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "Берестецька битва"
+    "infoText": "Події Національно-визвольної війни 1651 року",
+    "type": "map"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "портрет Богдана Хмельницького авторства Гондіуса"
+    "infoText": "Портрет Богдана Хмельницького авторства Гондіуса",
+    "type": "person"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Білоцерківський договір"
+    "infoText": "Білоцерківський договір",
+    "type": "map"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Події Національно-визвольної війни протягом 1654 року"
+    "infoText": "Події Національно-визвольної війни протягом 1654 року",
+    "type": "map"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Памʼятна монета 500 років з дня заснування столиці Чигирин"
+    "infoText": "500 років з дня заснування міста Чигирин, монета НБУ",
+    "type": "coin"
   },
-  { "id": 8, "frontContentType": "img", "infoText": "Іван Богун, монета НБУ" },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Іван Богун, монета НБУ",
+    "type": "coin"
+  },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "гетьманська столиця м. Чигирин"
+    "infoText": "Гетьманська столиця, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Переяславська рада"
+    "infoText": "Переяславська рада, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "350 років з дня битви під Батогом"
+    "infoText": "350 років з дня битви під Батогом, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "Визвольна війна 1648-1654"
+    "infoText": "Національно-визвольна війна 1648-1657 років, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Богдан Хмельницький, монета НБУ"
+    "infoText": "Богдан Хмельницький, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Гетьманщина, монета НБУ"
+    "infoText": "Гетьманщина, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Богдан Хмельницький"
-  },
-  {
-    "id": 16,
-    "frontContentType": "img",
-    "infoText": "Герб Гетьманщини, монета НБУ"
+    "infoText": "Богдан Хмельницький, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Богдан Хмельницький"
+    "infoText": "ікона \"Покров Богородиці\" з портретом Богдана Хмельницького",
+    "type": "monument"
   }
 ]

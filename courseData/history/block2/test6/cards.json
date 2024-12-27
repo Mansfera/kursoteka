@@ -2,81 +2,97 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Козацькі клейноди"
+    "infoText": "Козацькі клейноди",
+    "type": "Інше"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Байда Вишневецький, монета НБУ"
+    "infoText": "Байда Вишневецький, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Северин Наливайко, монета НБУ"
+    "infoText": "Северин Наливайко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Чорна Кам’яниця у місті Львів (стиль ренесанс)"
+    "infoText": "Чорна Кам’яниця у місті Львів (стиль ренесанс)",
+    "type": "monument"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "будинок Корнякта у місті Львів (стиль ренесанс)"
+    "infoText": "Будинок Корнякта у місті Львів (стиль ренесанс)",
+    "type": "monument"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "мініатюра з Пересопницького Євнгелія"
+    "infoText": "Мініатюра з Пересопницького Євнгелія",
+    "type": "monument"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "Пересопницьке Євангеліє, монета НБУ"
+    "infoText": "Пересопницьке Євангеліє, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "євангеліст Лука, гравюра з львівського «Апостола»"
+    "infoText": "Євангеліст Лука, гравюра з львівського «Апостола»",
+    "type": "monument"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "ансамбль Успенської церкви у місті Львів (стиль ренесанс)"
+    "infoText": "Ансамбль Успенської церкви у місті Львів (стиль ренесанс)",
+    "type": "monument"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "ансамбль Успенської церкви у місті Львів (стиль ренесанс)"
+    "infoText": "Ансамбль Успенської церкви у місті Львів (стиль ренесанс)",
+    "type": "monument"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Острозький замок, Кругла (Нова) вежа"
+    "infoText": "Острозький замок, Кругла (Нова) вежа",
+    "type": "monument"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Острозька школа, монета НБУ"
+    "infoText": "Острозька школа, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "портрет князя Костянтина-Василя Острозького"
+    "infoText": "Портрет князя Костянтина-Василя Костянтиновича Острозького",
+    "type": "person"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "родина Острозьких, монета НБУ"
+    "infoText": "Родина Острозьких, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Острозька Біблія, монета НБУ"
+    "infoText": "Острозька Біблія, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Картосхема Люблінська унія"
+    "infoText": "Люблінська унія",
+    "type": "map"
   }
 ]
