@@ -429,13 +429,6 @@ function showQuestion() {
       document.getElementById("f5").innerHTML = currentQuestion.f5;
       document.getElementById("f6").innerHTML = currentQuestion.f6;
       document.getElementById("f7").innerHTML = currentQuestion.f7;
-      if (getCookie("debugAnswers") != null) {
-        for (let i = 0; i < 3; i++) {
-          document
-            .getElementById("f" + currentQuestion.correct[i] + "_num")
-            .classList.add("debug_answer3");
-        }
-      }
       numeric_answers.classList.remove("display-none");
       document
         .getElementById("list_num-fields")

@@ -1398,6 +1398,42 @@ function showQuestion() {
           }
         }
       }
+      if (test_completed) {
+        for (i = 1; i < 4; i++) {
+          let answer_field = document.getElementById("text_input" + i);
+          answer_field.disabled = true;
+          if (currentQuestion.selected != "") {
+            if (currentQuestion.isCorrect) {
+              answer_field.classList.add("correct");
+            } else if (
+              currentQuestion.correct.includes(currentQuestion.selected[i - 1])
+            ) {
+              answer_field.classList.add("yellow-selected");
+            } else {
+              answer_field.classList.add("incorrect");
+            }
+          }
+        }
+        for (j = 1; j < 8; j++) {
+          if (currentQuestion.isCorrect) {
+            if (currentQuestion.selected.includes(j)) {
+              document.getElementById("f" + j).classList.add("correct");
+            }
+          } else {
+            if (currentQuestion.correct.includes(j)) {
+              if (currentQuestion.selected.includes(j)) {
+                document
+                  .getElementById("f" + j)
+                  .classList.add("yellow-selected");
+              } else {
+                document.getElementById("f" + j).classList.add("correct");
+              }
+            } else if (currentQuestion.selected.includes(j)) {
+              document.getElementById("f" + j).classList.add("incorrect");
+            }
+          }
+        }
+      }
     }
     if (currentQuestionIndex == questionCount - 1 && !test_completed) {
       finishTestButton.classList.remove("display-none");
