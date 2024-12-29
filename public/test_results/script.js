@@ -61,6 +61,8 @@ async function loadTestResults() {
         "final": `Підсумковий тест по блоку ${data.block}`,
       }[data.test_type] || "Тест";
 
+    console.log(alt_test_name);
+
     document.getElementById("result-test_name").innerHTML =
       data.test_name != "" && data.test_name != undefined
         ? data.test_name
