@@ -56,14 +56,17 @@ async function loadTestResults() {
     // Set test info
     const alt_test_name =
       {
-        "short": `Тренувальний тест по темі ${data.test}`,
-        "full": `Розширений тест по темі ${data.test}`,
-        "final": `Підсумковий тест по блоку ${data.block}`,
+        short: `Тренувальний тест по темі ${data.test}`,
+        full: `Розширений тест по темі ${data.test}`,
+        final: `Підсумковий тест по блоку ${data.block}`,
       }[data.test_type] || "Тест";
 
-    console.log(alt_test_name);
-
     document.getElementById("result-test_name").innerHTML =
+      data.test_name != "" && data.test_name != undefined
+        ? data.test_name
+        : alt_test_name;
+
+    document.getElementById("test_name").innerHTML =
       data.test_name != "" && data.test_name != undefined
         ? data.test_name
         : alt_test_name;
