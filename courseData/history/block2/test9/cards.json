@@ -1,134 +1,116 @@
 [
-  { "id": 1, "frontContentType": "img", "infoText": "Виговський" },
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Гетьман Виговський",
+    "type": "Інше"
+  },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Дорошенко"
+    "infoText": "Гетьман Дорошенко",
+    "type": "person"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "Території часів Руїни"
+    "infoText": "Українські землі в часи Руїни",
+    "type": "map"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Виговський"
-  },
-  {
-    "id": 5,
-    "frontContentType": "img",
-    "infoText": "Виговський"
+    "infoText": "Гетьман Виговський",
+    "type": "map"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Чигиринські походи"
+    "infoText": "Чигиринські походи",
+    "type": "map"
   },
-  { "id": 8, "frontContentType": "img", "infoText": "Чигиринські походи" },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Чигиринські походи",
+    "type": "map"
+  },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "Бахчисарайський договір"
+    "infoText": "Бахчисарайський договір",
+    "type": "map"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Вічний мир"
+    "infoText": "\"Вічний мир\"",
+    "type": "map"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "Вічний мир"
-  },
-  {
-    "id": 12,
-    "frontContentType": "img",
-    "infoText": "Мазепа"
-  },
-  {
-    "id": 18,
-    "frontContentType": "img",
-    "infoText": "Замок у селі Підгірці (стиль ренесанс)"
-  },
-  {
-    "id": 19,
-    "frontContentType": "img",
-    "infoText": "Каплиця Боїмів у місті Львів (стиль ренесанс)"
-  },
-  {
-    "id": 20,
-    "frontContentType": "img",
-    "infoText": "Кафедральний костел у місті Львів"
+    "infoText": "\"Вічний мир\" ",
+    "type": "map"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Конотопська битва, монета НБУ"
+    "infoText": "Конотопська битва, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "гетьман Юрій Хмельницький, марка Укрпошта"
+    "infoText": "Гетьман Юрій Хмельницький, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "гетьман Тетеря, марка Укрпошта"
+    "infoText": "Гетьман Тетеря, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "гетьман Брюховецький, марка Укрпошта"
+    "infoText": "Гетьман Брюховецький, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "п’єса початку XX ст. \"Сонце Руїни\""
+    "infoText": "П’єса початку XX ст. \"Сонце Руїни\"",
+    "type": "Інше"
   },
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "гетьман Дорошенко, монета НБУ"
+    "infoText": "Гетьман Дорошенко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "кошовий Сірко, монета НБУ"
+    "infoText": "Кошовий Сірко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "гетьман Многогрішний, марка Укрпошта"
-  },
-  {
-    "id": 30,
-    "frontContentType": "img",
-    "infoText": "Українські землі в період Руїни"
-  },
-  {
-    "id": 31,
-    "frontContentType": "img",
-    "infoText": "Гетьман Виговський"
-  },
-  {
-    "id": 32,
-    "frontContentType": "img",
-    "infoText": "Гетьман Тетеря та гетьман Брюховецький"
+    "infoText": "Гетьман Многогрішний, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 33,
     "frontContentType": "img",
-    "infoText": "Гетьман Тетеря та гетьман Брюховецький"
-  },
-  {
-    "id": 34,
-    "frontContentType": "img",
-    "infoText": "Бахчисарайський договір"
+    "infoText": "Гетьман Тетеря та гетьман Брюховецький",
+    "type": "map"
   },
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "портрет гетьмана Дорошенка"
+    "infoText": "Портрет гетьмана Дорошенка",
+    "type": "person"
   }
 ]

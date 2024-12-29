@@ -1,189 +1,170 @@
 [
-  { "id": 1, "frontContentType": "img", "infoText": "Київ Андріївська церква" },
-  {
-    "id": 2,
-    "frontContentType": "img",
-    "infoText": "Київ Покровська церква"
-  },
-  {
-    "id": 3,
-    "frontContentType": "img",
-    "infoText": "Новомосковська Троїцька церква"
-  },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Розумовський"
+    "infoText": "Портрет гетьмана Розумовського",
+    "type": "person"
   },
-  {
-    "id": 5,
-    "frontContentType": "img",
-    "infoText": "Почаїв Успенська церква"
-  },
-  {
-    "id": 6,
-    "frontContentType": "img",
-    "infoText": "Львів Собор Святого Юра"
-  },
-  {
-    "id": 7,
-    "frontContentType": "img",
-    "infoText": "Бучач ратуша"
-  },
-  { "id": 8, "frontContentType": "img", "infoText": "Львів Пінзель" },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "Українські землі"
+    "infoText": "Українські землі",
+    "type": "map"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Турецько-московські війни"
+    "infoText": "Турецько-російські війни ",
+    "type": "map"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "Колії̈вщина"
-  },
-  {
-    "id": 12,
-    "frontContentType": "img",
-    "infoText": "Опришки"
-  },
-  {
-    "id": 13,
-    "frontContentType": "img",
-    "infoText": "Поділи Речі Посполитої"
+    "infoText": "Колії̈вщина",
+    "type": "map"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Гетьман Розумовський, монета НБУ"
+    "infoText": "Гетьман Розумовський, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Місто Одеса, монета НБУ"
+    "infoText": "Місто Одеса, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Кошовий Калнишевський, монета НБУ"
+    "infoText": "Кошовий Калнишевський, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "Сковорода, монета НБУ"
+    "infoText": "Сковорода, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Сковорода, монета НБУ"
+    "infoText": "Сковорода, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Сковорода, монета НБУ"
+    "infoText": "Сковорода, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Рід Григоровичів-Барських, монета НБУ"
+    "infoText": "Рід Григоровичів-Барських, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Андріївська церква в місті Київ, монета НБУ"
+    "infoText": "Андріївська церква в місті Київ, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Собор святого Юра у місті Львів, монета НБУ"
+    "infoText": "Собор святого Юра у місті Львів, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "Ратуша в місті Бучач, монета НБУ"
+    "infoText": "Ратуша в місті Бучач, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "Пінзель, монета НБУ"
+    "infoText": "Пінзель, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "Пінзель, марка Укрпошта"
+    "infoText": "Пінзель, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "Ведель, марка Укрпошта"
-  },
-  {
-    "id": 27,
-    "frontContentType": "img",
-    "infoText": "Коліївщина, марка Укрпошта"
+    "infoText": "Ведель, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "Перший та Другий поділи Речі Посполитої"
+    "infoText": "Перший та Другий поділи Речі Посполитої",
+    "type": "map"
   },
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "Адміністративно-територіальний устрій українських земель у складі Російської імперії"
-  },
-  {
-    "id": 30,
-    "frontContentType": "img",
-    "infoText": "Портрет гетьмана Розумовського"
+    "infoText": "Адміністративно-територіальний устрій українських земель у складі Російської імперії",
+    "type": "map"
   },
   {
     "id": 31,
     "frontContentType": "img",
-    "infoText": "Палиц Розумовського в місті Батурин (стиль класицизм)"
+    "infoText": "Палац Розумовського в місті Батурин (стиль класицизм)",
+    "type": "monument"
   },
   {
     "id": 32,
     "frontContentType": "img",
-    "infoText": "Портрет Сковороди"
+    "infoText": "Портрет Сковороди",
+    "type": "person"
   },
   {
     "id": 33,
     "frontContentType": "img",
-    "infoText": "Покровська церква в місті Київ (стиль бароко)"
+    "infoText": "Покровська церква в місті Київ (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "Андріївська церква в місті Київ (стиль бароко)"
+    "infoText": "Андріївська церква в місті Київ (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 35,
     "frontContentType": "img",
-    "infoText": "Троїцький собор у місті Новомосковськ (стиль бароко)"
+    "infoText": "Троїцький собор у місті Новомосковськ (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "Успенський собор Почаївської лаври (стиль бароко)"
+    "infoText": "Успенський собор Почаївської лаври (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "Собор святого Юра у місті Львів (стиль бароко)"
+    "infoText": "Собор святого Юра у місті Львів (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "Ратуша в місті Бучач (стиль бароко)"
+    "infoText": "Ратуша в місті Бучач (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 39,
     "frontContentType": "img",
-    "infoText": "Скульптура святого Юрія змієборця на фасаді собору святого Юра в місті Львів (стиль бароко)"
+    "infoText": "Скульптура святого Юрія змієборця на фасаді собору святого Юра в місті Львів (стиль бароко)",
+    "type": "monument"
   }
 ]
