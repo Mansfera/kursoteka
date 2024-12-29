@@ -506,6 +506,7 @@ function continueOldTest() {
   currentQuestionIndex = currentTest.currentQuestionIndex;
   time = currentTest.time;
   startTime = time;
+  clearInterval(timerInterval);
   timerInterval = setInterval(updateCountdown, 1000);
   test_uuid = currentTest.uuid;
   const savedAnswers = currentTest.answers;
@@ -930,7 +931,7 @@ async function sendTestResult() {
       // Create floating buttons after test completion
       createFloatingButtons();
 
-      const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}&course=${course}`;
+      const testUrl = `${window.location.origin}/test_results/?uuid=${test_uuid}&course=${course}`;
       showSharePopup(testUrl);
       if (data.test_params) {
         const testUrl = `${window.location.origin}${window.location.pathname}${data.test_params}`;
@@ -1989,7 +1990,7 @@ function createFloatingButtons() {
   const toggleResultsBtn = floatingButtons.querySelector(".toggle-results-btn");
 
   shareBtn.addEventListener("click", () => {
-    const testUrl = `${window.location.origin}/test-results/?uuid=${test_uuid}&course=${course}`;
+    const testUrl = `${window.location.origin}/test_results/?uuid=${test_uuid}&course=${course}`;
     showSharePopup(testUrl);
   });
 

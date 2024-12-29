@@ -56,9 +56,9 @@ async function loadTestResults() {
     // Set test info
     const alt_test_name =
       {
-        short: `Тренувальний тест по темі ${data.test}`,
-        full: `Розширений тест по темі ${data.test}`,
-        final: `Підсумковий тест по блоку ${data.block}`,
+        "short": `Тренувальний тест по темі ${data.test}`,
+        "full": `Розширений тест по темі ${data.test}`,
+        "final": `Підсумковий тест по блоку ${data.block}`,
       }[data.test_type] || "Тест";
 
     document.getElementById("result-test_name").innerHTML =
@@ -66,16 +66,18 @@ async function loadTestResults() {
         ? data.test_name
         : alt_test_name;
 
-    document.getElementById(
-      "test_result-date"
-    ).innerHTML = `${new Date().toLocaleDateString()} • ${String(
-      new Date().getHours()
-    ).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`;
-    document.getElementById(
-      "test_date"
-    ).innerHTML = `${new Date().toLocaleDateString()} • ${String(
-      new Date().getHours()
-    ).padStart(2, "0")}:${String(new Date().getMinutes()).padStart(2, "0")}`;
+    document.getElementById("test_result-date").innerHTML = `${new Date(
+      data.date
+    ).toLocaleDateString()} • ${String(new Date(data.date).getHours()).padStart(
+      2,
+      "0"
+    )}:${String(new Date(data.date).getMinutes()).padStart(2, "0")}`;
+    document.getElementById("test_date").innerHTML = `${new Date(
+      data.date
+    ).toLocaleDateString()} • ${String(new Date(data.date).getHours()).padStart(
+      2,
+      "0"
+    )}:${String(new Date(data.date).getMinutes()).padStart(2, "0")}`;
 
     document.getElementById(
       "test_result-correct_amount"

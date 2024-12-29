@@ -712,7 +712,7 @@ app.post("/sendTestResult", async (req, res) => {
     res.status(200).send({
       answer: "Test result saved",
       last_allowed_test: allowedTests[allowedTests.length - 1],
-      test_url: `/test-results/?uuid=${uuid}`,
+      test_url: `/test_results/?uuid=${uuid}`,
     });
   } catch (error) {
     console.error("Database error:", error);
