@@ -2,26 +2,31 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "альманах \"Русалка Дністрова\""
+    "infoText": "Альманах \"Русалка Дністрова\"",
+    "type": "Інше"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "твір Шашкевича \"Азбука і Абецадло\""
+    "infoText": "Твір Шашкевича \"Азбука і Абецадло\"",
+    "type": "Інше"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "\"клаптикова імперія\""
+    "infoText": "\"Клаптикова імперія\"",
+    "type": "Інше"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "газета \"Зоря Галицька\""
+    "infoText": "Газета \"Зоря Галицька\"",
+    "type": "Інше"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Шашкевич"
+    "infoText": "Шашкевич",
+    "type": "person"
   }
 ]

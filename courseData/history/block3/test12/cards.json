@@ -2,121 +2,139 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Котляревський, монета НБУ"
+    "infoText": "Котляревський, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "\"Енеїда\" Котляревського"
+    "infoText": "\"Енеїда\" Котляревського",
+    "type": "Інше"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "\"Енеїда\", монета НБУ"
+    "infoText": "\"Енеїда\", монета НБУ",
+    "type": "coin"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "символи масонів"
+    "infoText": "Символ масонів",
+    "type": "Інше"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "символи масонів"
+    "infoText": "Символ масонів",
+    "type": "Інше"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "барельєфна дошка на честь \"Південного товариства\""
+    "infoText": "Барельєфна дошка на честь \"Південного товариства\"",
+    "type": "Інше"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "гасло польських повстанців"
+    "infoText": "Гасло польського визвольного повстання",
+    "type": "Інше"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "чумак, монета НБУ"
+    "infoText": "Чумак, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "Шевченко, монета НБУ"
+    "infoText": "Шевченко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "\"Кобзар\" Шевченка"
+    "infoText": "\"Кобзар\" Шевченка",
+    "type": "Інше"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "\"Живописна Україна\""
+    "infoText": "\"Живописна Україна\"",
+    "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "офорт \"Дари в Чигирині\" із серії \"Живописна Україна\""
+    "infoText": "Офорт \"Дари в Чигирині\" із серії \"Живописна Україна\"",
+    "type": "monument"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Кирило-Мефодіївське братство, монета НБУ"
+    "infoText": "Кирило-Мефодіївське братство, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Кирило-Мефодіївське братство"
+    "infoText": "Кирило-Мефодіївське братство",
+    "type": "Інше"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Костомаров, монета НБУ"
+    "infoText": "Костомаров, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Куліш, монета НБУ"
+    "infoText": "Куліш, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "Куліш, марка Укрпошта"
+    "infoText": "Куліш, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Інкорпорація українських земель Південної України до складу Російської імперії"
-  },
-  {
-    "id": 19,
-    "frontContentType": "img",
-    "infoText": "Теріторія поширення цукрової (харчової) галузі"
+    "infoText": "Турецько-російські війни",
+    "type": "map"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Котляревський"
+    "infoText": "Котляревський",
+    "type": "person"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Костомаров"
+    "infoText": "Костомаров",
+    "type": "person"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Куліш"
+    "infoText": "Куліш",
+    "type": "person"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "картина Шевченка \"Автопортрет\""
+    "infoText": "картина Шевченка \"Автопортрет\"",
+    "type": "person"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "картина Шевченка \"Катерина\" (стиль романтизм)"
+    "infoText": "Картина Шевченка \"Катерина\" (стиль романтизм)",
+    "type": "monument"
   }
 ]
