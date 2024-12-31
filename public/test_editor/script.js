@@ -11,6 +11,7 @@ const ansSheetGrid = document.getElementsByClassName(
   "answer_sheet-column-square"
 );
 const numeric_answers = document.getElementById("text_fields");
+const comment_field = document.getElementById("comment");
 
 let promises = [];
 
@@ -97,7 +98,7 @@ Array.from(ansSheetGrid).forEach((button) => {
 });
 
 function resetState() {
-  comment.value = "";
+  comment_field.value = "";
   year.value = "";
   topLine.value = "";
   middleLines.value = "";
@@ -373,7 +374,7 @@ function showQuestion() {
           }
         }
       }
-      comment.value = currentQuestion.comment;
+      comment_field.value = currentQuestion.comment;
     }
   }
   Array.from(
@@ -685,7 +686,7 @@ function saveQuestionData() {
     currentQuestion.year = +year.value;
   }
   currentQuestion.top_question = topLine.value;
-  currentQuestion.comment = comment.value;
+  currentQuestion.comment = comment_field.value;
   if (middleLines.value.length > 0) {
     currentQuestion.middle_rows = middleLines.value.split("\n");
     let middle_rows_len = currentQuestion.middle_rows.length;

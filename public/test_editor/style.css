@@ -203,3 +203,8 @@
 .sort-select:hover {
   border-color: #2ecc71;
 }
+
+.comment {
+  margin-top: 20px;
+  width: 100%;
+}
