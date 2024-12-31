@@ -259,6 +259,7 @@ function showQuestion() {
   displayedQuestion = currentQuestion;
   document.getElementById("search_bar").value = currentQuestion.question;
   year.value = currentQuestion.year;
+  comment_field.value = currentQuestion.comment;
   topLine.value = currentQuestion.top_question;
   if (currentQuestion.middle_rows != null) {
     currentQuestion.middle_rows.forEach((row) => {
