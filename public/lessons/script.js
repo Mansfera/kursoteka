@@ -283,9 +283,9 @@ function fetchAndDisplayUserCourses() {
               }">
                 <div class="final_test-button" onclick="openFinalTest('${
                   block.id
-                }', ${block.tests[0].id.toString()}, ${block.tests[
-              block.tests.length - 1
-            ].id.toString()})">Підсумковий тест</div>
+                }', '${block.tests[0].id}', '${
+              block.tests[block.tests.length - 1].id
+            }')">Підсумковий тест</div>
               </div>
             `;
             material_list.appendChild(blockCard);
