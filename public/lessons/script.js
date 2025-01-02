@@ -195,7 +195,11 @@ document.addEventListener("DOMContentLoaded", async () => {
               .find((course) => course.id == current_course)
               .blocks.find((block) => block.id == summaryTest.block)
               .tests.reverse()[0].id;
-            openFinalTest(summaryTest.block, first_test_id, last_test_id);
+            openFinalTest(
+              summaryTest.block,
+              first_test_id.toString(),
+              last_test_id.toString()
+            );
           });
 
           document.getElementById("rstn-alert_box-tests").appendChild(element);
@@ -279,9 +283,9 @@ function fetchAndDisplayUserCourses() {
               }">
                 <div class="final_test-button" onclick="openFinalTest('${
                   block.id
-                }', ${block.tests[0].id}, ${
-              block.tests[block.tests.length - 1].id
-            })">Підсумковий тест</div>
+                }', ${block.tests[0].id.toString()}, ${block.tests[
+              block.tests.length - 1
+            ].id.toString()})">Підсумковий тест</div>
               </div>
             `;
             material_list.appendChild(blockCard);
