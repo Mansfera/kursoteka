@@ -258,9 +258,9 @@ function showQuestion() {
 
   displayedQuestion = currentQuestion;
   document.getElementById("search_bar").value = currentQuestion.question;
-  year.value = currentQuestion.year;
-  comment_field.value = currentQuestion.comment;
-  topLine.value = currentQuestion.top_question;
+  year.value = currentQuestion.year ? currentQuestion.year : "";
+  comment_field.value = currentQuestion.comment ? currentQuestion.comment : "";
+  topLine.value = currentQuestion.top_question ? currentQuestion.top_question : "";
   if (currentQuestion.middle_rows != null) {
     currentQuestion.middle_rows.forEach((row) => {
       if (row != "") {
@@ -270,16 +270,16 @@ function showQuestion() {
       }
     });
   }
-  bottomLine.value = currentQuestion.bottom_question;
+  bottomLine.value = currentQuestion.bottom_question ? currentQuestion.bottom_question : "";
   checkIfImageExists(
     block_id,
     currentQuestion.test_id,
     currentQuestion.question
   );
-  document.getElementById("af").value = currentQuestion.af;
-  document.getElementById("bf").value = currentQuestion.bf;
-  document.getElementById("cf").value = currentQuestion.cf;
-  document.getElementById("df").value = currentQuestion.df;
+  document.getElementById("af").value = currentQuestion.af ? currentQuestion.af : "";
+  document.getElementById("bf").value = currentQuestion.bf ? currentQuestion.bf : "";
+  document.getElementById("cf").value = currentQuestion.cf ? currentQuestion.cf : "";
+  document.getElementById("df").value = currentQuestion.df ? currentQuestion.df : "";
 
   if (currentQuestionIndex < q_len) {
     document.getElementById("list_num-fields").classList.add("display-none");
@@ -686,8 +686,12 @@ function saveQuestionData() {
   if (year.value != "0" || year.value != "") {
     currentQuestion.year = +year.value;
   }
-  currentQuestion.top_question = topLine.value;
-  currentQuestion.comment = comment_field.value;
+  if (topLine.value.length > 0) {
+    currentQuestion.top_question = topLine.value;
+  }
+  if (comment_field.value.length > 0) {
+    currentQuestion.comment = comment_field.value;
+  }
   if (middleLines.value.length > 0) {
     currentQuestion.middle_rows = middleLines.value.split("\n");
     let middle_rows_len = currentQuestion.middle_rows.length;
@@ -701,7 +705,9 @@ function saveQuestionData() {
   } else {
     currentQuestion.middle_rows = [];
   }
-  currentQuestion.bottom_question = bottomLine.value;
+  if (bottomLine.value.length > 0) {
+    currentQuestion.bottom_question = bottomLine.value;
+  }
 
   // answers
 

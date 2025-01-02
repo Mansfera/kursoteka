@@ -1229,10 +1229,10 @@ function showQuestion() {
     currentQuestion.test_id,
     currentQuestion.question
   );
-  document.getElementById("af").innerHTML = currentQuestion.af;
-  document.getElementById("bf").innerHTML = currentQuestion.bf;
-  document.getElementById("cf").innerHTML = currentQuestion.cf;
-  document.getElementById("df").innerHTML = currentQuestion.df;
+  document.getElementById("af").innerHTML = currentQuestion.af ? currentQuestion.af : "";
+  document.getElementById("bf").innerHTML = currentQuestion.bf ? currentQuestion.bf : "";
+  document.getElementById("cf").innerHTML = currentQuestion.cf ? currentQuestion.cf : "";
+  document.getElementById("df").innerHTML = currentQuestion.df ? currentQuestion.df : "";
 
   if (currentQuestion.q_type == "abcd") {
     document.getElementById("list_num-fields").classList.add("display-none");
