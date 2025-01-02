@@ -686,12 +686,8 @@ function saveQuestionData() {
   if (year.value != "0" || year.value != "") {
     currentQuestion.year = +year.value;
   }
-  if (topLine.value.length > 0) {
-    currentQuestion.top_question = topLine.value;
-  }
-  if (comment_field.value.length > 0) {
-    currentQuestion.comment = comment_field.value;
-  }
+  currentQuestion.top_question = topLine.value;
+  currentQuestion.comment = comment_field.value;
   if (middleLines.value.length > 0) {
     currentQuestion.middle_rows = middleLines.value.split("\n");
     let middle_rows_len = currentQuestion.middle_rows.length;
@@ -705,9 +701,7 @@ function saveQuestionData() {
   } else {
     currentQuestion.middle_rows = [];
   }
-  if (bottomLine.value.length > 0) {
-    currentQuestion.bottom_question = bottomLine.value;
-  }
+  currentQuestion.bottom_question = bottomLine.value;
 
   // answers
 
