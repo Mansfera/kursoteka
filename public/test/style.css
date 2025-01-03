@@ -881,5 +881,6 @@ input {
 }
 
 .comment_window-text {
-  animation: fadeIn 0.3s ease-out;
+  white-space: pre-line;
+  line-height: 1.4;
 }

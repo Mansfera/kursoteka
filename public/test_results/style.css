@@ -124,4 +124,9 @@
 
 .correct {
     color: #48bb78 !important;
+}
+
+.comment_window-text {
+    white-space: pre-line;
+    line-height: 1.4;
 } 
