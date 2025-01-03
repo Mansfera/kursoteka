@@ -392,66 +392,100 @@ function startFinalTest(final_tema_amount) {
     q.q_type = "mul_ans";
   });
 
+  // Track used test_ids
+  let used_test_ids = {
+    abcd: {}, // Will store count per test_id
+    vidp: new Set(), // Will store used test_ids
+    hron: new Set(),
+    mul_ans: new Set(),
+  };
+
   for (let i = 0; i < questionCount; i++) {
     let currentQuestion;
     if (i < final_tema_amount * 3) {
-      let randomQuestionIndex = Math.floor(Math.random() * questions.length);
-      currentQuestion = questions[randomQuestionIndex];
-      while (temp_questions.includes(currentQuestion)) {
-        randomQuestionIndex = Math.floor(Math.random() * questions.length);
-        currentQuestion = questions[randomQuestionIndex];
+      // Handle ABCD questions - 3 per test_id
+      let availableQuestions = questions.filter((q) => {
+        // Only include questions where we haven't used 3 from that test_id yet
+        return (
+          !used_test_ids.abcd[q.test_id] || used_test_ids.abcd[q.test_id] < 3
+        );
+      });
+
+      if (availableQuestions.length > 0) {
+        let randomQuestionIndex = Math.floor(
+          Math.random() * availableQuestions.length
+        );
+        currentQuestion = availableQuestions[randomQuestionIndex];
+
+        // Initialize or increment counter for this test_id
+        used_test_ids.abcd[currentQuestion.test_id] =
+          (used_test_ids.abcd[currentQuestion.test_id] || 0) + 1;
+
+        temp_questions.push(currentQuestion);
       }
-      temp_questions.push(currentQuestion);
     } else if (i > final_tema_amount * 3 - 1 && i < final_tema_amount * 4) {
-      test_questions.sort((p1, p2) =>
-        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+      // Handle vidpovidnist questions - 1 per test_id
+      let availableQuestions = vidpovidnist_questions.filter(
+        (q) =>
+          !used_test_ids.vidp.has(q.test_id) && !temp_vidpovidnist.includes(q)
       );
-      let randomQuestionIndex = Math.floor(
-        Math.random() * vidpovidnist_questions.length
-      );
-      currentQuestion = vidpovidnist_questions[randomQuestionIndex];
-      while (temp_vidpovidnist.includes(currentQuestion)) {
-        randomQuestionIndex = Math.floor(
-          Math.random() * vidpovidnist_questions.length
+
+      if (availableQuestions.length > 0) {
+        let randomQuestionIndex = Math.floor(
+          Math.random() * availableQuestions.length
         );
-        currentQuestion = vidpovidnist_questions[randomQuestionIndex];
+        currentQuestion = availableQuestions[randomQuestionIndex];
+        used_test_ids.vidp.add(currentQuestion.test_id);
+        temp_vidpovidnist.push(currentQuestion);
       }
-      temp_vidpovidnist.push(currentQuestion);
     } else if (i > final_tema_amount * 4 - 1 && i < final_tema_amount * 5) {
-      let randomQuestionIndex = Math.floor(
-        Math.random() * hronology_questions.length
+      // Handle hronology questions - 1 per test_id
+      let availableQuestions = hronology_questions.filter(
+        (q) => !used_test_ids.hron.has(q.test_id) && !temp_hronology.includes(q)
       );
-      currentQuestion = hronology_questions[randomQuestionIndex];
-      while (temp_hronology.includes(currentQuestion)) {
-        randomQuestionIndex = Math.floor(
-          Math.random() * hronology_questions.length
+
+      if (availableQuestions.length > 0) {
+        let randomQuestionIndex = Math.floor(
+          Math.random() * availableQuestions.length
         );
-        currentQuestion = hronology_questions[randomQuestionIndex];
+        currentQuestion = availableQuestions[randomQuestionIndex];
+        used_test_ids.hron.add(currentQuestion.test_id);
+        temp_hronology.push(currentQuestion);
       }
-      temp_hronology.push(currentQuestion);
     } else if (i > final_tema_amount * 5 - 1 && i < final_tema_amount * 6) {
-      let randomQuestionIndex = Math.floor(
-        Math.random() * mul_ans_questions.length
+      // Handle multiple answer questions - 1 per test_id
+      let availableQuestions = mul_ans_questions.filter(
+        (q) =>
+          !used_test_ids.mul_ans.has(q.test_id) && !temp_mul_ans.includes(q)
       );
-      currentQuestion = mul_ans_questions[randomQuestionIndex];
-      while (temp_mul_ans.includes(currentQuestion)) {
-        randomQuestionIndex = Math.floor(
-          Math.random() * mul_ans_questions.length
+
+      if (availableQuestions.length > 0) {
+        let randomQuestionIndex = Math.floor(
+          Math.random() * availableQuestions.length
         );
-        currentQuestion = mul_ans_questions[randomQuestionIndex];
+        currentQuestion = availableQuestions[randomQuestionIndex];
+        used_test_ids.mul_ans.add(currentQuestion.test_id);
+        temp_mul_ans.push(currentQuestion);
       }
-      temp_mul_ans.push(currentQuestion);
     }
   }
+
+  // Sort and combine all questions
   test_questions.push(
-    ...temp_questions.sort((p1, p2) =>
-      p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-    ),
+    ...temp_questions.sort((p1, p2) => {
+      if (p1.year !== p2.year) {
+        return p1.year > p2.year ? 1 : -1;
+      }
+      return p1.test_id > p2.test_id ? 1 : -1;
+    }),
     ...temp_vidpovidnist,
     ...temp_hronology,
-    ...temp_mul_ans.sort((p1, p2) =>
-      p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-    )
+    ...temp_mul_ans.sort((p1, p2) => {
+      if (p1.year !== p2.year) {
+        return p1.year > p2.year ? 1 : -1;
+      }
+      return p1.test_id > p2.test_id ? 1 : -1;
+    })
   );
 }
 function startFullTest() {
@@ -490,16 +524,22 @@ function startFullTest() {
   let temp_1 = [];
   test_questions = temp_1
     .concat(
-      questions.sort((p1, p2) =>
-        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-      )
+      questions.sort((p1, p2) => {
+        if (p1.year !== p2.year) {
+          return p1.year > p2.year ? 1 : -1;
+        }
+        return p1.test_id > p2.test_id ? 1 : -1;
+      })
     )
     .concat(vidpovidnist_questions)
     .concat(hronology_questions)
     .concat(
-      mul_ans_questions.sort((p1, p2) =>
-        p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-      )
+      mul_ans_questions.sort((p1, p2) => {
+        if (p1.year !== p2.year) {
+          return p1.year > p2.year ? 1 : -1;
+        }
+        return p1.test_id > p2.test_id ? 1 : -1;
+      })
     );
 }
 function continueOldTest() {
@@ -520,34 +560,55 @@ function continueOldTest() {
     let matchingQuestion;
     if (
       savedAnswer.question ===
-      questions.find((q) => q.question === savedAnswer.question)?.question
+      questions.find(
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
+      )?.question
     ) {
       matchingQuestion = questions.find(
-        (q) => q.question === savedAnswer.question
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
       );
     } else if (
       savedAnswer.question ===
-      vidpovidnist_questions.find((q) => q.question === savedAnswer.question)
-        ?.question
+      vidpovidnist_questions.find(
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
+      )?.question
     ) {
       matchingQuestion = vidpovidnist_questions.find(
-        (q) => q.question === savedAnswer.question
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
       );
     } else if (
       savedAnswer.question ===
-      hronology_questions.find((q) => q.question === savedAnswer.question)
-        ?.question
+      hronology_questions.find(
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
+      )?.question
     ) {
       matchingQuestion = hronology_questions.find(
-        (q) => q.question === savedAnswer.question
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
       );
     } else if (
       savedAnswer.question ===
-      mul_ans_questions.find((q) => q.question === savedAnswer.question)
-        ?.question
+      mul_ans_questions.find(
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
+      )?.question
     ) {
       matchingQuestion = mul_ans_questions.find(
-        (q) => q.question === savedAnswer.question
+        (q) =>
+          q.question === savedAnswer.question &&
+          (!savedAnswer.test_id || savedAnswer.test_id === q.test_id)
       );
     }
 
@@ -555,7 +616,7 @@ function continueOldTest() {
       matchingQuestion.selected = savedAnswer.selected;
 
       if (matchingQuestion.q_type !== "abcd") {
-        let correct_percentage = 0;
+        let correct_percentage = matchingQuestion.q_type === "mul_ans" ? 1 : 0;
         let add_percentage = matchingQuestion.q_type === "mul_ans" ? 33 : 25;
 
         for (let i = 0; i < matchingQuestion.correct.length; i++) {
@@ -589,7 +650,11 @@ function continueOldTest() {
 function saveUncompletedTest() {
   let temp_answers = [];
   test_questions.forEach((q) => {
-    temp_answers.push({ question: q.question, selected: q.selected });
+    temp_answers.push({
+      question: q.question,
+      selected: q.selected,
+      test_id: q.test_id,
+    });
   });
   currentTest.answers = temp_answers;
   currentTest.time = time;
@@ -600,6 +665,8 @@ function saveUncompletedTest() {
   currentTest.id = test_id;
   currentTest.block_id = block_id;
   currentTest.test_type = test_type;
+
+  // Filter out old test with same ID
   uncompletedTests = uncompletedTests.filter(
     (test) =>
       !(
@@ -752,6 +819,7 @@ function showScore() {
   test_questions.forEach((q) => {
     if (!q.isCorrect) {
       score = score - q_points;
+      console.log(q.q_type, q.test_id, q.question);
     }
   });
   sendTestResult()
@@ -1229,10 +1297,18 @@ function showQuestion() {
     currentQuestion.test_id,
     currentQuestion.question
   );
-  document.getElementById("af").innerHTML = currentQuestion.af ? currentQuestion.af : "";
-  document.getElementById("bf").innerHTML = currentQuestion.bf ? currentQuestion.bf : "";
-  document.getElementById("cf").innerHTML = currentQuestion.cf ? currentQuestion.cf : "";
-  document.getElementById("df").innerHTML = currentQuestion.df ? currentQuestion.df : "";
+  document.getElementById("af").innerHTML = currentQuestion.af
+    ? currentQuestion.af
+    : "";
+  document.getElementById("bf").innerHTML = currentQuestion.bf
+    ? currentQuestion.bf
+    : "";
+  document.getElementById("cf").innerHTML = currentQuestion.cf
+    ? currentQuestion.cf
+    : "";
+  document.getElementById("df").innerHTML = currentQuestion.df
+    ? currentQuestion.df
+    : "";
 
   if (currentQuestion.q_type == "abcd") {
     document.getElementById("list_num-fields").classList.add("display-none");
