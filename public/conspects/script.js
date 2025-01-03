@@ -4,15 +4,24 @@ class ConspectManager {
     this.blocks = [];
     this.container = document.querySelector(".conspect-content");
     this.editorControls = document.getElementById("editor-controls");
-    this.nameInput = document.getElementById("conspect-name");
     this.idInput = document.getElementById("conspect-id");
+    this.idInputContainer = this.idInput.parentElement;
+
+    // Check URL params for showID
+    const urlParams = new URLSearchParams(window.location.search);
+    if (!urlParams.has("showID")) {
+      this.idInput.style.display = "none"; // Hide the ID input
+    }
+
     this.draggedBlock = null;
     this.conspectTitle = document.querySelector(".conspect-title");
+    this.editTitleBtn = document.querySelector(".edit-title-btn");
     this.deleteConspectBtn = document.getElementById("delete-conspect-btn");
     this.floatingBtnContainer = document.querySelector(
       ".floating-btn-container"
     );
     this.saveBtn = document.querySelector(".conspect-header .save-btn");
+    this.previewBtn = document.querySelector(".preview-btn");
     this.hasUnsavedChanges = false;
     this.toolbar = document.querySelector(".text-format-toolbar");
     this.setupEventListeners();
@@ -20,6 +29,8 @@ class ConspectManager {
     if (this.isEditMode) {
       this.setupDragAndDrop();
       this.addFloatingButton();
+      this.setupTitleEditing();
+      this.setupPreviewMode();
     }
     this.setupWindowClose();
   }
@@ -43,6 +54,10 @@ class ConspectManager {
         this.editorControls.style.display = "flex";
         this.deleteConspectBtn.style.display = "flex";
         this.saveBtn.style.display = "flex";
+        this.previewBtn.style.display = "flex";
+        document.querySelectorAll(".edit-title-btn").forEach((btn) => {
+          btn.style.display = "block";
+        });
         this.setupDeleteConspect(course, blockId, testId, conspectId);
         this.setupEventListeners();
       }
@@ -66,10 +81,10 @@ class ConspectManager {
 
       const data = await response.json();
       this.blocks = data.blocks || [];
-      this.nameInput.value = data.name || "";
       this.idInput.value = data.id || "";
-      this.conspectTitle.textContent = data.name || "Без назви";
+      this.conspectTitle.textContent = data.name || "Назва конспекту";
       this.renderBlocks();
+      console.log(data);
     } catch (error) {
       console.error("Error loading conspect:", error);
     }
@@ -110,10 +125,6 @@ class ConspectManager {
             this.showBlockTypeSelector(block);
           }
         }
-      });
-
-      this.nameInput.addEventListener("input", () => {
-        this.hasUnsavedChanges = true;
       });
 
       // Add text selection handler
@@ -211,19 +222,19 @@ class ConspectManager {
     block.className = "conspect-block";
     block.dataset.type = type;
     block.contentEditable = this.isEditMode;
-    
+
     // Add placeholder attribute
     block.dataset.placeholder = this.getDefaultText(type);
-    
+
     // Create a content div that will be editable
     const contentDiv = document.createElement("div");
     contentDiv.className = "block-content";
     contentDiv.contentEditable = this.isEditMode;
-    
+
     if (content) {
       contentDiv.innerHTML = content;
     }
-    
+
     block.appendChild(contentDiv);
 
     if (this.isEditMode) {
@@ -258,7 +269,8 @@ class ConspectManager {
 
       block.addEventListener("dragend", () => {
         block.classList.remove("dragging");
-        document.querySelectorAll(".drag-over")
+        document
+          .querySelectorAll(".drag-over")
           .forEach((el) => el.classList.remove("drag-over"));
       });
 
@@ -273,7 +285,6 @@ class ConspectManager {
   // Helper method to get default text
   getDefaultText(type) {
     switch (type) {
-      case "title":
       case "line":
         return "Введіть заголовок...";
       case "date":
@@ -328,7 +339,7 @@ class ConspectManager {
           blockId: urlParams.get("blockId"),
           testId: urlParams.get("testId"),
           conspectId: this.idInput.value,
-          name: this.nameInput.value,
+          name: this.conspectTitle.textContent,
           blocks: blocks,
         }),
       });
@@ -380,10 +391,9 @@ class ConspectManager {
     selector.className = "block-type-selector";
 
     const types = [
-      { type: "title", label: "Заголовок" },
-      { type: "date", label: "Дата" },
-      { type: "text", label: "Текст" },
-      { type: "line", label: "Лінія" },
+      { type: "date", label: "" },
+      { type: "text", label: "" },
+      { type: "line", label: "" },
     ];
 
     types.forEach(({ type, label }) => {
@@ -505,6 +515,97 @@ class ConspectManager {
     } else {
       sizeSelect.value = "2"; // Default size
     }
+  }
+
+  setupTitleEditing() {
+    this.editTitleBtn.addEventListener("click", () => {
+      const isEditing = this.conspectTitle.contentEditable === "true";
+
+      if (isEditing) {
+        // Finish editing
+        this.conspectTitle.contentEditable = "false";
+        this.conspectTitle.classList.remove("editable");
+        // If empty, clear content to show placeholder
+        if (!this.conspectTitle.textContent.trim()) {
+          this.conspectTitle.textContent = "";
+        }
+        this.editTitleBtn.querySelector("img").src = "/assets/pencil.svg";
+      } else {
+        // Start editing
+        this.conspectTitle.contentEditable = "true";
+        this.conspectTitle.classList.add("editable");
+        // Clear placeholder text on edit start
+        if (this.conspectTitle.textContent === "Назва конспекту") {
+          this.conspectTitle.textContent = "";
+        }
+        this.conspectTitle.focus();
+        this.editTitleBtn.querySelector("img").src = "/assets/check.svg";
+      }
+    });
+
+    // Handle title changes
+    this.conspectTitle.addEventListener("input", () => {
+      if (this.conspectTitle.contentEditable === "true") {
+        this.hasUnsavedChanges = true;
+      }
+    });
+
+    // Handle enter key
+    this.conspectTitle.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        this.editTitleBtn.click(); // Exit editing
+      }
+    });
+
+    // Handle focus loss
+    this.conspectTitle.addEventListener("blur", () => {
+      if (this.conspectTitle.contentEditable === "true") {
+        // Don't end editing if clicking the edit button
+        if (document.activeElement !== this.editTitleBtn) {
+          this.editTitleBtn.click(); // End editing
+        }
+      }
+    });
+  }
+
+  setupPreviewMode() {
+    this.previewBtn.addEventListener("click", () => {
+      const container = document.querySelector(".conspect-container");
+      const isPreview = container.classList.toggle("preview-mode");
+
+      if (isPreview) {
+        this.previewBtn.querySelector("img").src = "/assets/eye-off.svg";
+        this.previewBtn.querySelector("img").alt = "Редагувати";
+        this.previewBtn.innerHTML = `<img src="/assets/eye-off.svg" alt="Редагувати" />Редагувати`;
+
+        // Make content non-editable in preview
+        document.querySelectorAll(".block-content").forEach((block) => {
+          block.contentEditable = "false";
+        });
+        // Make blocks non-editable and non-draggable
+        document.querySelectorAll(".conspect-block").forEach((block) => {
+          block.contentEditable = "false";
+          block.draggable = false;
+        });
+      } else {
+        this.previewBtn.querySelector("img").src = "/assets/eye.svg";
+        this.previewBtn.querySelector("img").alt = "Перегляд";
+        this.previewBtn.innerHTML = `<img src="/assets/eye.svg" alt="Перегляд" />Перегляд`;
+
+        // Restore editability if in edit mode
+        if (this.isEditMode) {
+          document.querySelectorAll(".block-content").forEach((block) => {
+            block.contentEditable = "true";
+          });
+          // Restore block editability and draggability
+          document.querySelectorAll(".conspect-block").forEach((block) => {
+            block.contentEditable = "true";
+            block.draggable = true;
+          });
+        }
+      }
+    });
   }
 }
 

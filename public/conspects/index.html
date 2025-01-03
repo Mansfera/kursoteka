@@ -43,6 +43,7 @@
         id="mobile_menu-placeholder"
       ></div>
 
+      <div class="top_bar_spacefiller"></div>
       <div class="main-content">
         <div class="conspect-container">
           <div class="text-format-toolbar" style="display: none">
@@ -59,19 +60,35 @@
             </select>
           </div>
           <div class="conspect-header">
-            <h1 class="conspect-title"></h1>
-            <div class="header-buttons">
-              <button class="editor-btn save-btn" style="display: none">
-                Зберегти
-              </button>
-              <button
-                id="delete-conspect-btn"
-                class="delete-conspect-btn"
-                style="display: none"
-              >
-                <img src="/assets/cross.svg" alt="×" class="delete-icon" />
-                Видалити конспект
-              </button>
+            <div class="header-content">
+              <div class="title-container">
+                <div contenteditable="false" class="conspect-title"></div>
+                <button class="edit-title-btn" style="display: none">
+                  <img src="/assets/pencil.svg" alt="Редагувати" />
+                </button>
+              </div>
+              <div class="header-buttons">
+                <button class="editor-btn preview-btn" style="display: none">
+                  <img src="/assets/eye.svg" alt="Перегляд" />
+                  Перегляд
+                </button>
+                <button class="editor-btn save-btn" style="display: none">
+                  <img src="/assets/file.svg" alt="Зберегти" />
+                  Зберегти
+                </button>
+                <button
+                  id="delete-conspect-btn"
+                  class="delete-conspect-btn"
+                  style="display: none"
+                >
+                  <img
+                    src="/assets/trash-bin.svg"
+                    alt="×"
+                    class="delete-icon"
+                  />
+                  Видалити конспект
+                </button>
+              </div>
             </div>
           </div>
 
@@ -81,12 +98,6 @@
             style="display: none"
           >
             <div class="conspect-info">
-              <input
-                type="text"
-                id="conspect-name"
-                placeholder="Назва конспекту"
-                class="conspect-name-input"
-              />
               <input
                 type="text"
                 id="conspect-id"
