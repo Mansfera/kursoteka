@@ -1,6 +1,6 @@
 .conspect-container {
-  max-width: 800px;
-  margin: 7rem auto 2rem;
+  max-width: 1200px;
+  margin: 0 auto 2rem;
   padding: 0 1rem;
   position: relative;
 }
@@ -8,10 +8,8 @@
 .editor-controls {
   position: sticky;
   top: 4rem;
-  background: black;
   padding: 1.5rem;
   border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   z-index: 90;
   display: flex;
   flex-direction: column;
@@ -103,6 +101,9 @@
   cursor: text;
   user-select: text;
 }
+.conspect-block[contenteditable="false"] {
+  outline: none;
+}
 
 .conspect-block[data-type="title"] {
   font-weight: bold;
@@ -157,30 +158,23 @@
   width: 100%;
 }
 
-.conspect-name-input,
 .conspect-id-input {
   padding: 0.5rem 1rem;
-  border: 2px solid var(--rich-green);
+  border: none;
   border-radius: 4px;
-  font-size: 1rem;
+  font-size: 2rem;
   background: black;
   color: aliceblue;
   transition: border-color 0.2s;
+  min-width: 100px;
 }
 
-.conspect-name-input:focus,
 .conspect-id-input:focus {
   outline: none;
-  border-color: var(--light-green);
 }
 
-.conspect-name-input::placeholder,
 .conspect-id-input::placeholder {
   color: rgba(255, 255, 255, 0.6);
-}
-
-.conspect-name-input {
-  flex: 2;
 }
 
 .conspect-id-input {
@@ -192,10 +186,6 @@
 }
 
 @media screen and (max-width: 576px) {
-  .conspect-container {
-    margin-top: 5rem;
-  }
-
   .editor-controls {
     top: 3rem;
   }
@@ -231,31 +221,81 @@
 
 .conspect-header {
   display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  padding: 0;
+  background: transparent;
+}
+
+.header-content {
+  display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding: 1rem;
-  background: black;
-  border-radius: 8px;
+  gap: 2rem;
+}
+
+.title-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
 .conspect-title {
+  font-size: 2.5rem;
+  background: transparent;
+  border: none;
   color: aliceblue;
-  margin: 0;
-  font-size: 1.5rem;
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem;
+  border: 2px solid transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.conspect-title:focus {
+  outline: none;
+  border-color: var(--rich-green);
+}
+
+.conspect-title.editable {
+  border-color: var(--rich-green);
+}
+
+.edit-title-btn {
+  background: transparent;
+  border: none;
+  padding: 0.5rem;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.edit-title-btn:hover {
+  opacity: 1;
+}
+
+.edit-title-btn img {
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+.conspect-title[contenteditable="true"]:empty:before {
+  content: "Назва конспекту";
+  color: rgba(255, 255, 255, 0.3);
 }
 
 .delete-conspect-btn {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
   background: transparent;
-  color: var(--light-red);
   border: 2px solid var(--rich-red);
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s;
+  color: aliceblue;
 }
 
 .delete-conspect-btn:hover {
@@ -263,7 +303,34 @@
   color: aliceblue;
 }
 
-.delete-conspect-btn .delete-icon {
+.header-buttons {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.header-buttons button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.save-btn {
+  background: var(--rich-green);
+  border: none;
+  color: aliceblue;
+}
+
+.save-btn:hover {
+  background: var(--light-green);
+}
+
+.header-buttons button img {
   width: 1.2rem;
   height: 1.2rem;
   filter: invert(1);
@@ -474,23 +541,6 @@
   background: var(--rich-green);
 }
 
-.header-buttons {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-}
-
-.conspect-header .save-btn {
-  background: var(--rich-green);
-  border: none;
-  margin: 0;
-}
-
-.conspect-header .save-btn:hover {
-  background: var(--light-green);
-  color: aliceblue;
-}
-
 .text-format-toolbar {
   position: fixed;
   background: black;
@@ -613,4 +663,57 @@
 
 .block-content:focus:empty::before {
   opacity: 0.3;
+}
+
+.preview-btn {
+  background: transparent;
+  border: 2px solid var(--rich-green);
+  color: aliceblue;
+}
+
+.preview-btn:hover {
+  background: var(--rich-green);
+}
+
+.preview-mode .edit-title-btn,
+.preview-mode .save-btn,
+.preview-mode .delete-conspect-btn,
+.preview-mode .floating-add-btn,
+.preview-mode .delete-btn,
+.preview-mode .editor-controls {
+  display: none !important;
+}
+
+.preview-mode .block-content {
+  outline: none !important;
+  border: none !important;
+}
+
+.preview-mode .conspect-block::before {
+  cursor: default;
+}
+
+.conspect-title:empty:before {
+  content: "Назва конспекту";
+  color: rgba(255, 255, 255, 0.3);
+}
+
+@media screen and (max-width: 576px) {
+  .header-content {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .header-buttons {
+    flex-wrap: wrap;
+  }
+
+  .header-buttons button {
+    flex: 1;
+  }
+
+  .editor-controls {
+    top: 3rem;
+  }
 }
