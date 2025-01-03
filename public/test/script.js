@@ -214,7 +214,25 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     }
   } else {
     document.getElementById("initial_black_screen-text").innerHTML =
-      "Тест не знайдео";
+      "Тест не знайдено";
+    let secondsLeft = 10;
+    const dotsPerSecond = 3;
+    const updateText = () => {
+      const patternPosition = (10 - secondsLeft) % 3;
+      const dots = ".".repeat(patternPosition + 1);
+      
+      document.getElementById(
+        "initial_black_screen-text"
+      ).innerHTML = `Тест не знайдено, повернення на сторінку курсу через ${secondsLeft}${dots}`;
+      secondsLeft--;
+      if (secondsLeft >= 0) {
+        setTimeout(updateText, 1000);
+      }
+    };
+    updateText();
+    setTimeout(() => {
+      window.location.href = `/lessons/?id=${course}`;
+    }, 10000);
     return;
   }
 
