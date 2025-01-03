@@ -493,12 +493,15 @@ function startFinalTest(final_tema_amount) {
 
   // Sort and combine all questions
   test_questions.push(
-    ...temp_questions.sort((p1, p2) => {
-      if (p1.year !== p2.year) {
-        return p1.year - p2.year;
-      }
-      return compareTestIds(p1.test_id, p2.test_id);
-    }),
+    ...temp_questions
+      .sort((p1, p2) => {
+        if (p1.year !== p2.year) {
+          return p1.year - p2.year;
+        }
+      })
+      .sort((p1, p2) => {
+        return compareTestIds(p1.test_id, p2.test_id);
+      }),
     ...temp_vidpovidnist.sort((p1, p2) => {
       return compareTestIds(p1.test_id, p2.test_id);
     }),
