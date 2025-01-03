@@ -11,6 +11,9 @@ const ansSheetGrid = document.getElementsByClassName(
 );
 const numeric_answers = document.getElementById("text_fields");
 const numericInputs = document.querySelectorAll(".text_input");
+const commentWindow = document.getElementById("comment_window");
+const commentText = document.getElementById("comment_text");
+const readExplanationBtn = document.getElementById("read-explanation-btn");
 
 var queryString = window.location.search;
 var params = new URLSearchParams(queryString);
@@ -220,7 +223,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
     const updateText = () => {
       const patternPosition = (10 - secondsLeft) % 3;
       const dots = ".".repeat(patternPosition + 1);
-      
+
       document.getElementById(
         "initial_black_screen-text"
       ).innerHTML = `Тест не знайдено, повернення на сторінку курсу через ${secondsLeft}${dots}`;
@@ -1037,20 +1040,25 @@ async function sendTestResult() {
 }
 
 function readExplanation() {
-  let explanation = "Тут мало бути пояснення, але його немає...";
-  if (test_questions[currentQuestionIndex].comment != "") {
-    explanation = test_questions[currentQuestionIndex].comment;
-  }
-  alert(explanation);
+  commentWindow.classList.remove("display-none");
+  commentText.classList.remove("display-none");
+  readExplanationBtn.classList.add("display-none");
+
+  // Reset animation by removing and re-adding the element
+  commentText.style.animation = "none";
+  commentText.offsetHeight; // Trigger reflow
+  commentText.style.animation = null;
 }
 
-document
-  .getElementById("read-explanation-btn")
-  .addEventListener("click", () => {
-    readExplanation();
-  });
+readExplanationBtn.addEventListener("click", () => {
+  readExplanation();
+});
 
 function resetState() {
+  commentText.innerHTML = "";
+  commentText.classList.add("display-none");
+  commentWindow.classList.add("display-none");
+  readExplanationBtn.classList.remove("display-none");
   Array.from(document.getElementsByClassName("block_answers-item")).forEach(
     (q_id) => {
       q_id.classList.remove("selected");
@@ -1299,6 +1307,12 @@ function showQuestion() {
   displayedQuestion = currentQuestion;
   let questionNo = currentQuestionIndex + 1;
   questionNumber.innerHTML = questionNo;
+  if (displayedQuestion.comment && displayedQuestion.comment != "") {
+    commentText.innerHTML = displayedQuestion.comment;
+    if (test_completed) {
+      commentWindow.classList.remove("display-none");
+    }
+  }
   topLine.classList.remove("display-none");
   currentQuestion.top_question
     ? (topLine.innerHTML = currentQuestion.top_question)

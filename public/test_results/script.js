@@ -27,6 +27,11 @@ const test_uuid = params.get("uuid");
 
 let data = {};
 
+// Add near the top with other const declarations
+const commentWindow = document.getElementById("comment_window");
+const commentText = document.getElementById("comment_text");
+const readExplanationBtn = document.getElementById("read-explanation-btn");
+
 // Load test results from server
 async function loadTestResults() {
   try {
@@ -208,6 +213,10 @@ async function loadTestResults() {
 }
 
 function resetState() {
+  commentText.innerHTML = "";
+  commentText.classList.add("display-none");
+  commentWindow.classList.add("display-none");
+  readExplanationBtn.classList.remove("display-none");
   Array.from(document.getElementsByClassName("block_answers-item")).forEach(
     (q_id) => {
       q_id.classList.remove("selected");
@@ -302,6 +311,10 @@ function showQuestion() {
   displayedQuestion = currentQuestion;
   let questionNo = currentQuestionIndex + 1;
   questionNumber.innerHTML = questionNo;
+  if (displayedQuestion.comment && displayedQuestion.comment != "") {
+    commentText.innerHTML = displayedQuestion.comment;
+    commentWindow.classList.remove("display-none");
+  }
   topLine.classList.remove("display-none");
   currentQuestion.top_question
     ? (topLine.innerHTML = currentQuestion.top_question)
@@ -588,3 +601,20 @@ if (getCookie("group") != "student") {
   });
 }
 loadTestResults();
+
+// Add this function
+function readExplanation() {
+  commentWindow.classList.remove("display-none");
+  commentText.classList.remove("display-none");
+  readExplanationBtn.classList.add("display-none");
+
+  // Reset animation by removing and re-adding the element
+  commentText.style.animation = "none";
+  commentText.offsetHeight; // Trigger reflow
+  commentText.style.animation = null;
+}
+
+// Add the event listener
+if (readExplanationBtn) {
+  readExplanationBtn.addEventListener("click", readExplanation);
+}
