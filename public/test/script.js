@@ -474,17 +474,18 @@ function startFinalTest(final_tema_amount) {
   test_questions.push(
     ...temp_questions.sort((p1, p2) => {
       if (p1.year !== p2.year) {
-        return p1.year > p2.year ? 1 : -1;
+        return p1.year - p2.year;
       }
-      return p1.test_id > p2.test_id ? 1 : -1;
+      return compareTestIds(p1.test_id, p2.test_id);
     }),
-    ...temp_vidpovidnist,
-    ...temp_hronology,
+    ...temp_vidpovidnist.sort((p1, p2) => {
+      return compareTestIds(p1.test_id, p2.test_id);
+    }),
+    ...temp_hronology.sort((p1, p2) => {
+      return compareTestIds(p1.test_id, p2.test_id);
+    }),
     ...temp_mul_ans.sort((p1, p2) => {
-      if (p1.year !== p2.year) {
-        return p1.year > p2.year ? 1 : -1;
-      }
-      return p1.test_id > p2.test_id ? 1 : -1;
+      return compareTestIds(p1.test_id, p2.test_id);
     })
   );
 }
@@ -526,19 +527,24 @@ function startFullTest() {
     .concat(
       questions.sort((p1, p2) => {
         if (p1.year !== p2.year) {
-          return p1.year > p2.year ? 1 : -1;
+          return p1.year - p2.year;
         }
-        return p1.test_id > p2.test_id ? 1 : -1;
+        return compareTestIds(p1.test_id, p2.test_id);
       })
     )
-    .concat(vidpovidnist_questions)
-    .concat(hronology_questions)
+    .concat(
+      vidpovidnist_questions.sort((p1, p2) => {
+        return compareTestIds(p1.test_id, p2.test_id);
+      })
+    )
+    .concat(
+      hronology_questions.sort((p1, p2) => {
+        return compareTestIds(p1.test_id, p2.test_id);
+      })
+    )
     .concat(
       mul_ans_questions.sort((p1, p2) => {
-        if (p1.year !== p2.year) {
-          return p1.year > p2.year ? 1 : -1;
-        }
-        return p1.test_id > p2.test_id ? 1 : -1;
+        return compareTestIds(p1.test_id, p2.test_id);
       })
     );
 }
@@ -2112,4 +2118,23 @@ function createFloatingButtons() {
       testResult.classList.toggle("display-none");
     }
   });
+}
+
+function compareTestIds(id1, id2) {
+  // Split test IDs by hyphen if they contain one
+  const parts1 = id1.toString().split("-").map(Number);
+  const parts2 = id2.toString().split("-").map(Number);
+
+  // Compare first numbers
+  if (parts1[0] !== parts2[0]) {
+    return parts1[0] - parts2[0];
+  }
+
+  // If first numbers are equal and one has a second number, compare those
+  if (parts1.length > 1 && parts2.length > 1) {
+    return parts1[1] - parts2[1];
+  }
+
+  // If one has a second number and other doesn't, the one without goes first
+  return parts1.length - parts2.length;
 }
