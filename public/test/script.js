@@ -616,7 +616,7 @@ function continueOldTest() {
       matchingQuestion.selected = savedAnswer.selected;
 
       if (matchingQuestion.q_type !== "abcd") {
-        let correct_percentage = 0;
+        let correct_percentage = matchingQuestion.q_type === "mul_ans" ? 1 : 0;
         let add_percentage = matchingQuestion.q_type === "mul_ans" ? 33 : 25;
 
         for (let i = 0; i < matchingQuestion.correct.length; i++) {
@@ -819,6 +819,7 @@ function showScore() {
   test_questions.forEach((q) => {
     if (!q.isCorrect) {
       score = score - q_points;
+      console.log(q.q_type, q.test_id, q.question);
     }
   });
   sendTestResult()
