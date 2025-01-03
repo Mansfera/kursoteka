@@ -193,10 +193,10 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
   numeric_answers.classList.add("display-none");
   block_answers.innerHTML = "";
   if (
-    questions_length != 0 &&
-    vidpovidnist_length != 0 &&
-    hronology_length != 0 &&
-    mul_ans_length != 0
+    questions.length != 0 &&
+    vidpovidnist_questions.length != 0 &&
+    hronology_questions.length != 0 &&
+    mul_ans_questions.length != 0
   ) {
     switch (test_type) {
       case "short":
