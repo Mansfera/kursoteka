@@ -327,7 +327,7 @@ function showQuestion() {
   currentQuestion.bottom_question
     ? (bottomLine.innerHTML = currentQuestion.bottom_question)
     : bottomLine.classList.add("display-none");
-  checkIfImageExists(currentQuestion.question);
+  checkIfImageExists(currentQuestion.question, currentQuestion.test_id, block_id);
   document.getElementById("af").innerHTML = currentQuestion.af;
   document.getElementById("bf").innerHTML = currentQuestion.bf;
   document.getElementById("cf").innerHTML = currentQuestion.cf;
@@ -508,7 +508,7 @@ function showQuestion() {
     showTestID + "ID#" + currentQuestion.question;
 }
 let image_xhr = new XMLHttpRequest();
-function checkIfImageExists(imageId) {
+function checkIfImageExists(imageId, test_id, block_id) {
   image_xhr = new XMLHttpRequest();
   image_xhr.onreadystatechange = function () {
     if (image_xhr.readyState === XMLHttpRequest.DONE) {
