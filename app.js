@@ -47,6 +47,30 @@ initializeApp();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
+async function checkAndUpdateExpiredCourses(auth_key) {
+  try {
+    const userCourses = await dbHelpers.getUserCourses(auth_key);
+    const currentTime = Date.now();
+    
+    // Get user's login first
+    const user = await dbHelpers.getUserByAuthKey(auth_key);
+    if (!user) {
+      console.error("User not found for auth_key:", auth_key);
+      return;
+    }
+    
+    for (const course of userCourses) {
+      if (course.expire_date !== -1 && course.expire_date < currentTime && !course.restricted) {
+        // Course has expired, update restricted status
+        console.log("Course expired:", course.course_id, "for user", user.login);
+        await dbHelpers.updateCourseRestrictionByUsername(true, user.login, course.course_id);
+      }
+    }
+  } catch (error) {
+    console.error("Error checking expired courses:", error);
+  }
+}
+
 app.post("/uploadImg", upload.single("image"), async (req, res) => {
   const auth_key = req.query.auth_key;
   const courseName = req.query.course;
@@ -207,10 +231,10 @@ app.get("/getPlaylist", async (req, res) => {
   const testId = req.query.tema;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -241,10 +265,10 @@ app.get("/getConspect", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -279,10 +303,10 @@ app.get("/getImage", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -317,10 +341,10 @@ app.get("/getCardImage", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -354,10 +378,10 @@ app.get("/loadCardsData", async (req, res) => {
   const tema = req.query.tema;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -393,10 +417,10 @@ app.get("/loadTestData", async (req, res) => {
   const lastTest = req.query.lastTest;
 
   try {
-    const userCourse = await dbHelpers.getCourseByUserAndId(
-      auth_key,
-      courseName
-    );
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
+    const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, courseName);
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
@@ -1242,11 +1266,11 @@ app.post("/api/getUserCourses", async (req, res) => {
       return res.status(404).send("User not found");
     }
 
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+
     if (specific_course) {
-      const userCourse = await dbHelpers.getCourseByUserAndId(
-        auth_key,
-        specific_course
-      );
+      const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, specific_course);
       if (!userCourse) {
         return res.status(404).json({ courses: [] });
       }
@@ -1275,9 +1299,7 @@ app.post("/api/getUserCourses", async (req, res) => {
 
       // Process each user course
       for (const userCourse of userCourses) {
-        const courseDetails = await dbHelpers.getCourseById(
-          userCourse.course_id
-        );
+        const courseDetails = await dbHelpers.getCourseById(userCourse.course_id);
         if (courseDetails) {
           // Transform course data from DB format
           const transformedCourse = {
@@ -1910,8 +1932,10 @@ app.get("/api/getConspectData", async (req, res) => {
   const auth_key = req.query.auth_key;
 
   try {
+    // Check for expired courses before proceeding
+    await checkAndUpdateExpiredCourses(auth_key);
+    
     const userCourse = await dbHelpers.getCourseByUserAndId(auth_key, course);
-
     if (!userCourse) {
       return res.status(404).send("Course not found");
     }
