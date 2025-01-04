@@ -383,6 +383,9 @@ function fetchAndDisplayUserCourses() {
             });
           });
         });
+      } else {
+        console.log("No courses found");
+        window.location = "/my_courses";
       }
     })
     .catch((error) => {

@@ -60,7 +60,7 @@ async function getUserStats() {
       start_date_picker.value = formatDate(result.join_date);
       start_date_picker.min = formatDate(result.join_date);
       end_date_picker.min = formatDate(result.join_date);
-      if (result.expire_date != "never" && result.expire_date < Date.now()) {
+      if (result.expire_date != -1 && result.expire_date < Date.now()) {
         start_date_picker.max = formatDate(result.expire_date);
         end_date_picker.max = formatDate(result.expire_date);
         end_date_picker.value = formatDate(result.expire_date);
