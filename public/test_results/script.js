@@ -471,7 +471,7 @@ function showQuestion() {
           } else if (
             currentQuestion.correct.includes(currentQuestion.selected[i - 1])
           ) {
-            answer_field.classList.add("yellow-selected");
+            answer_field.classList.add("yellow-selected", "noImg");
           } else {
             answer_field.classList.add("incorrect");
           }
@@ -485,7 +485,7 @@ function showQuestion() {
         } else {
           if (currentQuestion.correct.includes(j)) {
             if (currentQuestion.selected.includes(j)) {
-              document.getElementById("f" + j).classList.add("yellow-selected");
+              document.getElementById("f" + j).classList.add("yellow-selected", "noImg");
             } else {
               document.getElementById("f" + j).classList.add("correct");
             }
