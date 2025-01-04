@@ -150,11 +150,6 @@ async function loadTestResults() {
       resultBtn.id = "_q" + i;
       resultBtn.innerHTML = i;
 
-      if (test_questions[i - 1].q_type != "abcd") {
-        test_questions[i - 1].isCorrect =
-          test_questions[i - 1].correct_percentage > 50;
-      }
-
       // Add correct/incorrect indicators to main button
       if (test_questions[i - 1].selected) {
         if (test_questions[i - 1].isCorrect) {
@@ -467,6 +462,10 @@ function showQuestion() {
         let answer_field = document.getElementById("text_input" + i);
         answer_field.disabled = true;
         if (currentQuestion.selected != "") {
+          console.log(
+            currentQuestion.isCorrect,
+            currentQuestion.correct.includes(currentQuestion.selected[i - 1])
+          );
           if (currentQuestion.isCorrect) {
             answer_field.classList.add("correct");
           } else if (
