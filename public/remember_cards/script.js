@@ -431,6 +431,9 @@ async function showEditWindow(cardId) {
           <option value="mark" ${
             currentType === "mark" ? "selected" : ""
           }>Марка</option>
+          <option value="poster" ${
+            currentType === "poster" ? "selected" : ""
+          }>Плакат</option>
           <option value="Інше" ${
             currentType === "Інше" ? "selected" : ""
           }>Інше</option>

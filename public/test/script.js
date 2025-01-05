@@ -2089,10 +2089,10 @@ function showSharePopup(testUrl) {
     popup.className = "share-popup";
     popup.innerHTML = `
       <div class="share-popup-content">
-        <p>Посилання скопійовано!</p>
+        <p id="share-popup-text">Копіювати посилання на результати тесту</p>
         <div class="share-url-container">
           <input type="text" readonly value="${testUrl}">
-          <button class="copy-btn">Скопійовано ✓</button>
+          <button class="copy-btn">Копіювати</button>
         </div>
         <button class="close-btn">✕</button>
       </div>
@@ -2102,6 +2102,7 @@ function showSharePopup(testUrl) {
 
     const closeBtn = popup.querySelector(".close-btn");
     const copyBtn = popup.querySelector(".copy-btn");
+    const sharePopupText = popup.querySelector("#share-popup-text");
     const urlInput = popup.querySelector("input");
 
     closeBtn.addEventListener("click", () => {
@@ -2111,6 +2112,7 @@ function showSharePopup(testUrl) {
     copyBtn.addEventListener("click", () => {
       copyToClipboard(urlInput.value).then((success) => {
         if (success) {
+          sharePopupText.textContent = "Посилання скопійовано!";
           copyBtn.textContent = "Скопійовано ✓";
         }
       });
