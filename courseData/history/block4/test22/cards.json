@@ -1,0 +1,284 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Вернадський, монта НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Петрушевич, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Українська Академія Наук, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Західноукраїнська Народна Республіка, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Нарбут, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Махно, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Скоропадський, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Петрушевич",
+    "type": "person"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Махно",
+    "type": "person"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Махно",
+    "type": "person"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Скоропадський",
+    "type": "person"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Петлюра",
+    "type": "person"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Скоропадський",
+    "type": "person"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Петрушевич",
+    "type": "person"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Петлюра",
+    "type": "person"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Вернадський",
+    "type": "person"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Пам'ятник Тарасу Шевченку в иісті Ромни (стиль конструктивізм)",
+    "type": "monument"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Картина Нарбута \"Еней та його військо\" ",
+    "type": "monument"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Холодний Яр",
+    "type": "Інше"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Гетьман Скоропадський",
+    "type": "Інше"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Західноукраїнська Народна Республіка",
+    "type": "Інше"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки",
+    "type": "Інше"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Київська катастрофа",
+    "type": "Інше"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Західноукраїнська Народна Республіка",
+    "type": "Інше"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Українська революція",
+    "type": "poster"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "\"Трикутник смерті\"",
+    "type": "poster"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Радянсько-польська війна",
+    "type": "poster"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Денікінський режим",
+    "type": "poster"
+  },
+  {
+    "id": 50,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Герб ЗУНР",
+    "type": "Інше"
+  },
+  {
+    "id": 58,
+    "frontContentType": "img",
+    "infoText": "Директорія УНР",
+    "type": "Інше"
+  },
+  {
+    "id": 59,
+    "frontContentType": "img",
+    "infoText": "Західноукраїнська Народна Республіка",
+    "type": "Інше"
+  },
+  {
+    "id": 60,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 61,
+    "frontContentType": "img",
+    "infoText": "Холодноярська республіка",
+    "type": "Інше"
+  }
+]

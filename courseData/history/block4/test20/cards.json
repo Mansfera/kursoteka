@@ -2,13 +2,13 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Дмитро Донцов",
+    "infoText": "Донцов",
     "type": "person"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Кость Левицький",
+    "infoText": "Левицький",
     "type": "person"
   },
   {
@@ -57,7 +57,7 @@
     "id": 10,
     "frontContentType": "img",
     "infoText": "Легіон Українських січових стрільців",
-    "type": "Інше"
+    "type": "poster"
   },
   {
     "id": 11,
@@ -93,13 +93,13 @@
     "id": 16,
     "frontContentType": "img",
     "infoText": "Легіон Українських січових стрільців",
-    "type": "Інше"
+    "type": "poster"
   },
   {
     "id": 17,
     "frontContentType": "img",
     "infoText": "Легіон Українських січових стрільців",
-    "type": "Інше"
+    "type": "poster"
   },
   {
     "id": 18,
@@ -110,7 +110,7 @@
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Кость Левицький, монета НБУ",
+    "infoText": "Левицький, монета НБУ",
     "type": "coin"
   },
   {
@@ -124,5 +124,41 @@
     "frontContentType": "img",
     "infoText": "Легіон Українських січових стрільців",
     "type": "Інше"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Європейські держави напередодні Першої світової війни",
+    "type": "map"
   }
 ]

@@ -2,116 +2,139 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "англійська карикатура на Кримську війну"
+    "infoText": "Кримська війна",
+    "type": "poster"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Юз, монета НБУ"
+    "infoText": "Юз, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "карикатура на результат селянської реформи"
+    "infoText": "Результат селянської реформи",
+    "type": "poster"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "карикатура на результат селянської реформи"
+    "infoText": "Результат селянської реформи",
+    "type": "poster"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "карикатура на результат селянської реформи"
+    "infoText": "Результат селянської реформи",
+    "type": "poster"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "листівка на тему польського національно-визвольного повстання"
+    "infoText": "Польське національно-визвольного повстання",
+    "type": "poster"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Володимир Антонович"
+    "infoText": "Антонович",
+    "type": "person"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "Володимир Антонович"
+    "infoText": "Антонович",
+    "type": "person"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "журнал \"Основа\""
+    "infoText": "Журнал \"Основа\"",
+    "type": "Інше"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Київська громада"
+    "infoText": "Київська громада",
+    "type": "Інше"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "імітація Валуєвського циркуляру на акції проти русифікації"
+    "infoText": "Валуєвський циркуляр",
+    "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "газета \"Київський телеграф\""
+    "infoText": "Газета \"Київський телеграф\"",
+    "type": "Інше"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Драгоманов, монета НБУ"
+    "infoText": "Драгоманов, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "журнал \"Громада\""
+    "infoText": "Журнал \"Громада\"",
+    "type": "Інше"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "журнал \"Київська старина\""
+    "infoText": "Журнал \"Київська старина\"",
+    "type": "Інше"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Грінченко, монета НБУ"
+    "infoText": "Грінченко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "газета \"Терджиман\""
+    "infoText": "Газета \"Терджиман\"",
+    "type": "Інше"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Територія промислових індустріальних басейнів"
+    "infoText": "Індустріальні промислові басейни",
+    "type": "map"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Чубинський"
+    "infoText": "Чубинський",
+    "type": "person"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Драгоманов"
+    "infoText": "Драгоманов",
+    "type": "person"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Міхновський"
+    "infoText": "Міхновський",
+    "type": "person"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Гаспринський"
+    "infoText": "Гаспринський",
+    "type": "person"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "Чубинський, монета НБУ"
+    "infoText": "Чубинський, монета НБУ",
+    "type": "coin"
   }
 ]

@@ -2,76 +2,91 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "\"Самостійна Україна\""
+    "infoText": "\"Самостійна Україна\"",
+    "type": "Інше"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Карикатура, російсько-японська війна"
+    "infoText": "Російсько-японська війна",
+    "type": "poster"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "Карикатура, російсько-японська війна"
+    "infoText": "Російсько-японська війна",
+    "type": "poster"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Карикатура, повстання на панцернику \"Потьомкін\""
+    "infoText": "Повстання на панцернику \"Потьомкін\"",
+    "type": "poster"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Царський \"Найвищий маніфест\""
+    "infoText": "Царський \"Найвищий маніфест\"",
+    "type": "Інше"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Чикаленко, марка Укрпошта"
+    "infoText": "Чикаленко, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Газета «Хлібороб»"
+    "infoText": "Газета \"Хлібороб\"",
+    "type": "Інше"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "Газета «Громадська думка»"
+    "infoText": "Газета \"Громадська думка\"",
+    "type": "Інше"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "Селяни-переселенці"
+    "infoText": "Столипінська аграрна реформа",
+    "type": "Інше"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Зелений Клин, марка"
+    "infoText": "Зелений Клин, марка",
+    "type": "mark"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "Чорносотенці, пропагандистське оголошення"
+    "infoText": "Чорносотенці",
+    "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "Справа Бейліса, карикатура"
+    "infoText": "Справа Бейліса",
+    "type": "poster"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Справа Бейліса, газетне повідомлення"
+    "infoText": "Справа Бейліса",
+    "type": "Інше"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Поширення земств на початок XX ст."
+    "infoText": "Поширення земств на почку XX ст.",
+    "type": "map"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Російська карикатура на російсько-японську війну"
+    "infoText": "Російсько-японська війна",
+    "type": "poster"
   }
 ]
