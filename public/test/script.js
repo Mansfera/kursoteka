@@ -1952,7 +1952,7 @@ function startDebugTimer(e) {
   debugPressTimer = setTimeout(() => {
     if (getCookie("debugAnswers") === null) {
       alert("Режим відладки активовано на 7 днів");
-      setCookie("debugAnswers", true, 7);
+      setCookie("debugAnswers", true, 0.5);
       showQuestion();
     } else {
       alert("Режим відладки деактивовано");
