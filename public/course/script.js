@@ -104,7 +104,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 document.getElementById("start_course").addEventListener("click", () => {
   if (auth_key) {
-    fetch("/api/getUserCourses", {
+    fetch("/api/course/getUserCourses", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

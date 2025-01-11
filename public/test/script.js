@@ -126,7 +126,7 @@ async function loadTestDataFromServer(
 ) {
   try {
     const response = await fetch(
-      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
+      `/api/course/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
     );
     if (!response.ok) {
       throw new Error(`Failed to load test data: ${response.statusText}`);
@@ -732,7 +732,7 @@ async function syncUncompletedTests() {
 
   try {
     if (!last_update || current_time - parseInt(last_update) > 10000) {
-      const response = await fetch("/api/getUncompletedTests", {
+      const response = await fetch("/api/course/getUncompletedTests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -760,7 +760,7 @@ async function syncUncompletedTests() {
         }
       }
     } else {
-      await fetch("/api/updateUncompletedTests", {
+      await fetch("/api/course/updateUncompletedTests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -1005,7 +1005,7 @@ async function sendTestResult() {
   document.getElementById("test_result-time").innerHTML = `${formatTime(
     testData.time
   )}`;
-  return fetch("/sendTestResult", {
+  return fetch("/api/course/sendTestResult", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1248,7 +1248,7 @@ function checkIfImageExists(blockId, testId, imageId) {
     if (image_xhr.readyState === XMLHttpRequest.DONE) {
       if (image_xhr.status === 200) {
         // Construct the image URL with a cache buster
-        const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
+        const imageUrl = `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
         const questionImageElement = document.getElementById("question_image");
         if (questionImageElement) {
@@ -1295,7 +1295,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
   image_xhr.open(
     "GET",
-    `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
+    `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
     true
   );
   image_xhr.send();

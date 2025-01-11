@@ -64,7 +64,7 @@ function redeemCode() {
     code: activationCode,
   };
 
-  fetch("/api/activateCode", {
+  fetch("/api/course/activateCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -110,7 +110,7 @@ function saveUserData() {
     name: _name,
     surname: _surname,
   };
-  fetch("/api/changeUserCredentials", {
+  fetch("/api/auth/changeUserCredentials", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

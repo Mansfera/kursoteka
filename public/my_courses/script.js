@@ -1,5 +1,5 @@
 function getCourseInfo() {
-  fetch("/api/getUserCourses", {
+  fetch("/api/course/getUserCourses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -136,7 +136,7 @@ function redeemCode() {
   };
 
   // Send a POST request to /api/activateCode
-  fetch("/api/activateCode", {
+  fetch("/api/course/activateCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

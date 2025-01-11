@@ -1,11 +1,22 @@
-const { Database } = require('@sqlitecloud/drivers');
-require('dotenv').config();
+import { Database } from '@sqlitecloud/drivers';
+import { DbHelpers, DatabaseExports, User, UserCourse, Course, TestDetails, Promocode } from '../types';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const SQLITE_CLOUD_URL = process.env.SQLITE_CLOUD_URL;
 const SQLITE_CLOUD_API_KEY = process.env.SQLITE_CLOUD_API_KEY;
 
-async function initializeConnection() {
+async function initializeConnection(): Promise<DatabaseExports> {
     try {
+        if (!SQLITE_CLOUD_URL || !SQLITE_CLOUD_API_KEY) {
+            console.error('Missing environment variables:', {
+                hasUrl: !!SQLITE_CLOUD_URL,
+                hasApiKey: !!SQLITE_CLOUD_API_KEY
+            });
+            throw new Error('Missing required environment variables');
+        }
+
         const connectionString = `sqlitecloud://${SQLITE_CLOUD_URL}?apikey=${SQLITE_CLOUD_API_KEY}`;
         const db = new Database(connectionString);
         
@@ -78,49 +89,49 @@ async function initializeConnection() {
             );
         `);
 
-        // Helper functions with proper promise handling
-        const dbHelpers = {
-            getUserByAuthKey: async (authKey) => {
+        const dbHelpers: DbHelpers = {
+            getUserByAuthKey: async (authKey: string): Promise<User | null> => {
                 return new Promise((resolve, reject) => {
-                    db.all(`
+                    db.all<User>(`
                         SELECT users.*, GROUP_CONCAT(user_courses.course_id) as course_ids 
                         FROM users 
                         LEFT JOIN user_courses ON users.auth_key = user_courses.auth_key 
                         WHERE users.auth_key = ? 
                         GROUP BY users.id
-                    `, [authKey], (err, rows) => {
+                    `, [authKey], (err: Error | null, rows?: User[]) => {
                         if (err) reject(err);
                         resolve(rows && rows.length ? rows[0] : null);
                     });
                 });
             },
 
-            getUserByLogin: async (login) => {
+            getUserByLogin: async (login: string): Promise<User | null> => {
                 return new Promise((resolve, reject) => {
-                    db.all('SELECT * FROM users WHERE login = ?', [login], (err, rows) => {
-                        if (err) reject(err);
-                        resolve(rows && rows.length ? rows[0] : null);
-                    });
+                    db.all<User>('SELECT * FROM users WHERE login = ?', [login], 
+                        (err: Error | null, rows?: User[]) => {
+                            if (err) reject(err);
+                            resolve(rows && rows.length ? rows[0] : null);
+                        });
                 });
             },
 
-            getUserCourses: async (authKey) => {
+            getUserCourses: async (authKey: string): Promise<UserCourse[]> => {
                 return new Promise((resolve, reject) => {
-                    db.all(`
+                    db.all<UserCourse>(`
                         SELECT uc.*,
                             json_extract(uc.user_data, '$.login') as user_login,
                             json_extract(uc.user_data, '$.name') as user_name,
                             json_extract(uc.user_data, '$.surname') as user_surname
                         FROM user_courses uc 
                         WHERE uc.auth_key = ?
-                    `, [authKey], (err, rows) => {
+                    `, [authKey], (err: Error | null, rows?: UserCourse[]) => {
                         if (err) reject(err);
                         resolve(rows || []);
                     });
                 });
             },
 
-            insertUser: async (userData) => {
+            insertUser: async (userData: Partial<User>): Promise<void> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         INSERT INTO users (login, password, name, surname, group_type, auth_key, coursesOwned)
@@ -130,25 +141,29 @@ async function initializeConnection() {
                         userData.password,
                         userData.name,
                         userData.surname,
-                        userData.group,
+                        userData.group_type,
                         userData.auth_key,
                         userData.coursesOwned
-                    ], (err) => {
+                    ], (err: Error | null) => {
                         if (err) reject(err);
                         resolve();
                     });
                 });
             },
 
-            updateUserAndCourses: async (auth_key, login, name, surname) => {
+            updateUserAndCourses: async (
+                auth_key: string,
+                login: string,
+                name: string | null,
+                surname: string | null
+            ): Promise<void> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE users 
                         SET login = ?, name = ?, surname = ? 
                         WHERE auth_key = ?
-                    `, [login, name, surname, auth_key], async (err) => {
+                    `, [login, name, surname, auth_key], async (err: Error | null) => {
                         if (err) reject(err);
-                        
                         try {
                             await db.run(`
                                 UPDATE user_courses 
@@ -170,9 +185,9 @@ async function initializeConnection() {
                 });
             },
 
-            getCourseByUserAndId: async (authKey, courseId) => {
+            getCourseByUserAndId: async (authKey: string, courseId: string): Promise<UserCourse | null> => {
                 return new Promise((resolve, reject) => {
-                    db.all(`
+                    db.all<UserCourse>(`
                         SELECT uc.*
                         FROM user_courses uc
                         WHERE uc.auth_key = ? AND uc.course_id = ?
@@ -183,9 +198,9 @@ async function initializeConnection() {
                 });
             },
 
-            findCourse: async (authKey, courseId) => {
+            findCourse: async (authKey: string, courseId: string): Promise<UserCourse | null> => {
                 return new Promise((resolve, reject) => {
-                    db.all(`
+                    db.all<UserCourse>(`
                         SELECT uc.* FROM user_courses uc
                         JOIN users u ON uc.auth_key = u.auth_key
                         WHERE u.auth_key = ? AND uc.course_id = ?
@@ -196,7 +211,11 @@ async function initializeConnection() {
                 });
             },
 
-            updateAllowedTestsByUsername: async (allowed_tests, username, courseId) => {
+            updateAllowedTestsByUsername: async (
+                allowed_tests: string[],
+                username: string,
+                courseId: string
+            ): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE user_courses 
@@ -207,42 +226,50 @@ async function initializeConnection() {
                         JSON.stringify(allowed_tests),
                         username,
                         courseId
-                    ], function(err) {
+                    ], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
-            addCompletedTest: async (completedTests, authKey, courseId) => {
+            addCompletedTest: async (
+                completedTests: string,
+                authKey: string,
+                courseId: string
+            ): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE user_courses 
                         SET completed_tests = ? 
                         WHERE auth_key = ? AND course_id = ?
-                    `, [completedTests, authKey, courseId], function(err) {
+                    `, [completedTests, authKey, courseId], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
-            updateAllowedTests: async (allowedTests, authKey, courseId) => {
+            updateAllowedTests: async (
+                allowedTests: string,
+                authKey: string,
+                courseId: string
+            ): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE user_courses 
                         SET allowed_tests = ? 
                         WHERE auth_key = ? AND course_id = ?
-                    `, [allowedTests, authKey, courseId], function(err) {
+                    `, [allowedTests, authKey, courseId], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
-            getUsersWithCourse: async (courseId) => {
+            getUsersWithCourse: async (courseId: string): Promise<User[]> => {
                 return new Promise((resolve, reject) => {
-                    db.all(`
+                    db.all<User>(`
                         SELECT DISTINCT u.*, 
                             json_extract(uc.user_data, '$.login') as user_login,
                             json_extract(uc.user_data, '$.name') as user_name,
@@ -251,24 +278,28 @@ async function initializeConnection() {
                         JOIN user_courses uc ON u.auth_key = uc.auth_key
                         WHERE uc.course_id = ? 
                         AND uc.hidden = 0
-                    `, [courseId], (err, rows) => {
+                    `, [courseId], (err: Error | null, rows?: User[]) => {
                         if (err) reject(err);
                         resolve(rows || []);
                     });
                 });
             },
 
-            updateCourseRestrictionByUsername: async (restricted, username, courseId) => {
+            updateCourseRestrictionByUsername: async (
+                restricted: boolean,
+                username: string,
+                courseId: string
+            ): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE user_courses
                         SET restricted = ?
                         WHERE json_extract(user_data, '$.login') = ?
                         AND course_id = ?
-                    `, [restricted, username, courseId], function(err) {
+                    `, [restricted, username, courseId], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
@@ -282,7 +313,7 @@ async function initializeConnection() {
                             WHERE p.code = ? 
                             AND (p.expire_date > ? OR p.expire_date = -1)
                             AND (p.used_date IS NULL OR p.used_date = -1)
-                        `, [code, currentTime], (err, rows) => {
+                        `, [code, currentTime], (err: Error | null, rows?: Promocode[]) => {
                             if (err) reject(err);
                             resolve(rows && rows.length ? rows[0] : null);
                         });
@@ -298,7 +329,7 @@ async function initializeConnection() {
                     db.all(`
                         SELECT * FROM promocodes 
                         WHERE code = ?
-                    `, [code], (err, rows) => {
+                    `, [code], (err: Error | null, rows?: Promocode[]) => {
                         if (err) reject(err);
                         resolve(rows && rows.length ? rows[0] : null);
                     });
@@ -316,10 +347,10 @@ async function initializeConnection() {
                         promocodeData.expire_date,
                         promocodeData.access_duration,
                         promocodeData.start_temas
-                    ], function(err) {
+                    ], (function(this: { lastID: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ id: this.lastID });
-                    });
+                    }));
                 });
             },
 
@@ -329,10 +360,10 @@ async function initializeConnection() {
                         UPDATE promocodes 
                         SET used_date = ?, used_by = ? 
                         WHERE code = ?
-                    `, [usedDate, usedBy, code], function(err) {
+                    `, [usedDate, usedBy, code], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
@@ -347,7 +378,7 @@ async function initializeConnection() {
                         LEFT JOIN user_courses uc ON p.used_by = uc.auth_key 
                         WHERE p.course_id = ?
                         GROUP BY p.id
-                    `, [courseId], (err, rows) => {
+                    `, [courseId], (err: Error | null, rows?: Promocode[]) => {
                         if (err) reject(err);
                         resolve(rows || []);
                     });
@@ -358,19 +389,19 @@ async function initializeConnection() {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         DELETE FROM promocodes WHERE code = ?
-                    `, [code], function(err) {
+                    `, [code], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
-            checkPromocodeExists: async (code) => {
+            checkPromocodeExists: async (code: string): Promise<Promocode | null> => {
                 return new Promise((resolve, reject) => {
                     db.all(`
                         SELECT * FROM promocodes 
                         WHERE code = ?
-                    `, [code], (err, rows) => {
+                    `, [code], (err: Error | null, rows?: Promocode[]) => {
                         if (err) {
                             console.error('Error checking promocode:', err);
                             reject(err);
@@ -381,7 +412,7 @@ async function initializeConnection() {
                 });
             },
 
-            insertUserCourse: async (courseData) => {
+            insertUserCourse: async (courseData: Partial<UserCourse>): Promise<{ id: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         INSERT INTO user_courses (
@@ -394,7 +425,7 @@ async function initializeConnection() {
                             restricted,
                             allowed_tests,
                             completed_tests
-                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?)
                     `, [
                         courseData.auth_key,
                         courseData.user_data,
@@ -405,35 +436,37 @@ async function initializeConnection() {
                         courseData.restricted,
                         courseData.allowed_tests,
                         courseData.completed_tests
-                    ], function(err) {
+                    ], (function(this: { lastID: number }, err: Error | null) {
                         if (err) {
                             console.error('Error inserting course:', err);
                             reject(err);
                         }
                         resolve({ id: this.lastID });
-                    });
+                    }));
                 });
             },
 
-            getCourseById: async (courseId) => {
+            getCourseById: async (courseId: string): Promise<Course | null> => {
                 return new Promise((resolve, reject) => {
-                    db.all('SELECT * FROM courses WHERE id = ?', [courseId], (err, rows) => {
-                        if (err) reject(err);
-                        resolve(rows && rows.length ? rows[0] : null);
-                    });
+                    db.all<Course>('SELECT * FROM courses WHERE id = ?', [courseId], 
+                        (err: Error | null, rows?: Course[]) => {
+                            if (err) reject(err);
+                            resolve(rows && rows.length ? rows[0] : null);
+                        });
                 });
             },
 
-            getAllCourses: async () => {
+            getAllCourses: async (): Promise<Course[]> => {
                 return new Promise((resolve, reject) => {
-                    db.all('SELECT * FROM courses', [], (err, rows) => {
-                        if (err) reject(err);
-                        resolve(rows || []);
-                    });
+                    db.all<Course>('SELECT * FROM courses', [], 
+                        (err: Error | null, rows?: Course[]) => {
+                            if (err) reject(err);
+                            resolve(rows || []);
+                        });
                 });
             },
 
-            insertNewCourse: async (courseData) => {
+            insertNewCourse: async (courseData: Partial<Course>): Promise<{ id: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         INSERT INTO courses (id, name, type, tags, author, marketplace_info, blocks)
@@ -446,14 +479,14 @@ async function initializeConnection() {
                         courseData.author || '',
                         JSON.stringify(courseData.marketplace_info || {}),
                         JSON.stringify(courseData.blocks || [])
-                    ], function(err) {
+                    ], (function(this: { lastID: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ id: this.lastID });
-                    });
+                    }));
                 });
             },
 
-            updateCourse: async (courseId, courseData) => {
+            updateCourse: async (courseId: string, courseData: Partial<Course>): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(`
                         UPDATE courses 
@@ -467,10 +500,10 @@ async function initializeConnection() {
                         JSON.stringify(courseData.marketplace_info || {}),
                         JSON.stringify(courseData.blocks || []),
                         courseId
-                    ], function(err) {
+                    ], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
@@ -480,7 +513,7 @@ async function initializeConnection() {
                         SELECT uncompleted_tests, last_updated 
                         FROM user_courses 
                         WHERE auth_key = ? AND course_id = ?
-                    `, [auth_key, courseId], (err, row) => {
+                    `, [auth_key, courseId], (err: Error | null, row?: UserCourse) => {
                         if (err) reject(err);
                         resolve({
                             tests: row?.uncompleted_tests ? JSON.parse(row.uncompleted_tests) : [],
@@ -497,10 +530,10 @@ async function initializeConnection() {
                         SET uncompleted_tests = ?, 
                             last_updated = ?
                         WHERE auth_key = ? AND course_id = ?
-                    `, [tests, Date.now(), auth_key, courseId], function(err) {
+                    `, [tests, Date.now(), auth_key, courseId], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
@@ -518,7 +551,7 @@ async function initializeConnection() {
                     db.run(query, [
                         testData.uuid,
                         testData.auth_key,
-                        testData.courseName,
+                        testData.course_id,
                         testData.date,
                         testData.time,
                         testData.test_type,
@@ -530,10 +563,10 @@ async function initializeConnection() {
                         testData.vidpovidnist_questions_accuracy,
                         testData.mul_ans_questions_accuracy,
                         JSON.stringify(testData.questions_data)
-                    ], function(err) {
+                    ], (function(this: { changes: number }, err: Error | null) {
                         if (err) reject(err);
                         resolve({ changes: this.changes });
-                    });
+                    }));
                 });
             },
 
@@ -541,10 +574,10 @@ async function initializeConnection() {
                 const twoWeeksAgo = Date.now() - (14 * 24 * 60 * 60 * 1000);
                 return new Promise((resolve, reject) => {
                     db.run('DELETE FROM test_details WHERE date < ?', [twoWeeksAgo], 
-                        function(err) {
+                        (function(this: { changes: number }, err: Error | null) {
                             if (err) reject(err);
                             resolve({ changes: this.changes });
-                        }
+                        })
                     );
                 });
             },
@@ -552,9 +585,9 @@ async function initializeConnection() {
             async getTestDetails(uuid) {
                 return new Promise((resolve, reject) => {
                     db.get('SELECT * FROM test_details WHERE uuid = ?', [uuid],
-                        (err, row) => {
+                        (err: Error | null, row?: TestDetails) => {
                             if (err) reject(err);
-                            resolve(row);
+                            resolve(row || null);
                         }
                     );
                 });
@@ -575,7 +608,7 @@ async function initializeConnection() {
                          WHERE td.course_id = ?
                          ORDER BY td.date DESC`,
                         [course_id],
-                        (err, rows) => {
+                        (err: Error | null, rows?: TestDetails[]) => {
                             if (err) reject(err);
                             resolve(rows || []);
                         }
@@ -583,18 +616,18 @@ async function initializeConnection() {
                 });
             },
 
-            updateCourseBlocks: async (courseId, blocksJson) => {
+            updateCourseBlocks: async (courseId: string, blocksJson: string): Promise<{ changes: number }> => {
                 return new Promise((resolve, reject) => {
                     db.run(
                         "UPDATE courses SET blocks = ? WHERE id = ?",
                         [blocksJson, courseId],
-                        function (err) {
+                        (function(this: { changes: number }, err: Error | null) {
                             if (err) {
                                 reject(err);
                             } else {
                                 resolve({ changes: this.changes });
                             }
-                        }
+                        })
                     );
                 });
             }
@@ -607,4 +640,25 @@ async function initializeConnection() {
     }
 }
 
-module.exports = initializeConnection();
+let db: Database | null = null;
+let dbHelpers: DbHelpers | null = null;
+
+async function initialize() {
+    try {
+        const database = await initializeConnection();
+        // Set the module-level variables
+        db = database.db;
+        dbHelpers = database.dbHelpers;
+        return { db, dbHelpers };
+    } catch (error) {
+        console.error('Database initialization error:', error);
+        throw error;
+    }
+}
+
+// Export the initialize function and the database objects
+export default { 
+    db,  // This will be updated when initialize() is called
+    dbHelpers,  // This will be updated when initialize() is called
+    initialize 
+}; 

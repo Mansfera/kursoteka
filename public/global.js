@@ -45,7 +45,7 @@ document.addEventListener("contextmenu", function (e) {
 });
 
 const auth_key = getCookie("auth_key");
-fetch("/api/getUserDetails", {
+fetch("/api/auth/getUserDetails", {
   method: "POST",
   headers: {
     "Content-Type": "application/json",

@@ -70,7 +70,7 @@ async function syncUncompletedTests() {
 
   try {
     if (!last_update || current_time - parseInt(last_update) > 10000) {
-      const response = await fetch("/api/getUncompletedTests", {
+      const response = await fetch("/api/course/getUncompletedTests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -98,7 +98,7 @@ async function syncUncompletedTests() {
         }
       }
     } else {
-      await fetch("/api/updateUncompletedTests", {
+      await fetch("/api/course/updateUncompletedTests", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -220,7 +220,7 @@ window.addEventListener("beforeunload", () => {
 
 async function fetchUserStats() {
   try {
-    const response = await fetch("/api/getUserStats", {
+    const response = await fetch("/api/course/getUserStats", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -246,7 +246,7 @@ async function fetchUserStats() {
 
 //make request to get user stats and save them to user_stats
 function fetchAndDisplayUserCourses() {
-  fetch("/api/getUserCourses", {
+  fetch("/api/course/getUserCourses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -355,13 +355,13 @@ function fetchAndDisplayUserCourses() {
                 </div>
               `;
               const imageCard = testCard.querySelector(".lessons-card");
-              imageCard.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
+              imageCard.style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               testCard.querySelector(
                 ".test_picker-bubble_wrapper"
-              ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
+              ).style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               testCard.querySelector(
                 ".lessons-lock_overlay"
-              ).style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
+              ).style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}&blockId=${block.id}&testId=${test.id}&auth_key=${auth_key}')`;
               block_tests.appendChild(testCard);
               if (!data.allowed_tests.includes("all")) {
                 Array.from(data.allowed_tests).forEach((item) => {
