@@ -1,2 +1,2 @@
 git pull
-node app
+bun run app.ts
