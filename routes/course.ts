@@ -364,18 +364,22 @@ router.post("/getPromoCodes", async (req, res) => {
       return res.status(403).json({ message: "User does not own this course" });
     }
 
+    
     const promocodes = await dbh.getPromocodesByCourse(course);
-    const formattedPromocodes = promocodes.map((promocode) => ({
-      id: promocode.course_id,
-      code: promocode.code,
-      expire_date: promocode.expire_date,
-      access_duration: promocode.access_duration,
-      used_date: promocode.used_date,
-      used_by: promocode.used_by || "",
-      used_by_name: promocode.used_by_name || "",
-      used_by_surname: promocode.used_by_surname || "",
-      start_temas: JSON.parse(promocode.start_temas),
-    }));
+    const formattedPromocodes = await Promise.all(promocodes.map(async (promocode) => {
+      const used_by_user = promocode.used_by ? await dbh.getUserByAuthKey(promocode.used_by) : null;
+      const name = used_by_user ? `${used_by_user.name} ${used_by_user.surname}` : "";
+      return {
+        id: promocode.course_id,
+          code: promocode.code,
+          expire_date: promocode.expire_date,
+          access_duration: promocode.access_duration,
+          used_date: promocode.used_date,
+          used_by: name,
+          start_temas: JSON.parse(promocode.start_temas),
+        };
+      })
+    );
 
     res.status(200).json({ promocodes: formattedPromocodes });
   } catch (error) {
@@ -1024,6 +1028,7 @@ router.post("/sendTestResult", async (req, res) => {
             );
 
             if (lastTest.score >= 85 && next_tema_is_in_block) {
+              console.log("full_test_check");
               full_test_check = true;
             }
           }
