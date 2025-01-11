@@ -36,7 +36,7 @@ const readExplanationBtn = document.getElementById("read-explanation-btn");
 async function loadTestResults() {
   try {
     const response = await fetch(
-      `/api/test-details/${test_uuid}?auth_key=${auth_key}`
+      `/api/course/test-details/${test_uuid}?auth_key=${auth_key}`
     );
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -514,7 +514,7 @@ function checkIfImageExists(imageId, test_id, block_id) {
     if (image_xhr.readyState === XMLHttpRequest.DONE) {
       if (image_xhr.status === 200) {
         // Construct the image URL with a cache buster
-        const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${block_id}&testId=${test_id}&imageId=${imageId}&t=${new Date().getTime()}`;
+        const imageUrl = `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${block_id}&testId=${test_id}&imageId=${imageId}&t=${new Date().getTime()}`;
 
         const questionImageElement = document.getElementById("question_image");
         if (questionImageElement) {
@@ -561,7 +561,7 @@ function checkIfImageExists(imageId, test_id, block_id) {
 
   image_xhr.open(
     "GET",
-    `/getImage?auth_key=${auth_key}&course=${course}&blockId=${block_id}&testId=${test_id}&imageId=${imageId}`,
+    `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${block_id}&testId=${test_id}&imageId=${imageId}`,
     true
   );
   image_xhr.send();

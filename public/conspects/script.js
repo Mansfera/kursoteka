@@ -75,7 +75,7 @@ class ConspectManager {
   async loadConspect(course, blockId, testId, conspectId) {
     try {
       const response = await fetch(
-        `/api/getConspectData?course=${course}&blockId=${blockId}&testId=${testId}&conspectId=${conspectId}&auth_key=${auth_key}`
+        `/api/course/getConspectData?course=${course}&blockId=${blockId}&testId=${testId}&conspectId=${conspectId}&auth_key=${auth_key}`
       );
       if (!response.ok) throw new Error("Failed to load conspect");
 
@@ -330,7 +330,7 @@ class ConspectManager {
     const urlParams = new URLSearchParams(window.location.search);
 
     try {
-      const response = await fetch("/api/saveConspect", {
+      const response = await fetch("/api/courseEditor/saveConspect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -357,7 +357,7 @@ class ConspectManager {
     this.deleteConspectBtn.addEventListener("click", async () => {
       if (confirm("Ви впевнені, що хочете видалити цей коспект?")) {
         try {
-          const response = await fetch("/api/deleteConspect", {
+          const response = await fetch("/api/courseEditor/deleteConspect", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

@@ -40,7 +40,7 @@ function register() {
   }
 }
 function sendRegisterInfo(login, password, name, surname) {
-  fetch("/api/register", {
+  fetch("/api/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -126,7 +126,7 @@ function login_func() {
   }
 }
 function sendLoginInfo(login, password) {
-  fetch("/api/login", {
+  fetch("/api/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

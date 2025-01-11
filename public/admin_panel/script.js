@@ -5,7 +5,7 @@ let courseData;
 document.addEventListener("DOMContentLoaded", function () {
   const courseSelector = document.getElementById("course_selector-list");
 
-  fetch("/api/getOwnedCourses", {
+  fetch("/api/course/getOwnedCourses", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -46,11 +46,11 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       document.getElementById(
         "main_wrapper"
-      ).style.backgroundImage = `url('/api/getCoverImage?course=${selected_course}&auth_key=${auth_key}&image_name=admin_panel')`;
+      ).style.backgroundImage = `url('/api/course/getCoverImage?course=${selected_course}&auth_key=${auth_key}&image_name=admin_panel')`;
       getUsers();
       document.getElementById("existing_promocodes").innerHTML = "";
 
-      fetch("/api/getPromoCodes", {
+      fetch("/api/course/getPromoCodes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -92,7 +92,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 async function changeUserAllowedCourse(username, allowed_tests) {
   try {
-    const response = await fetch("/api/changeUserAllowedCourse", {
+    const response = await fetch("/api/course/changeUserAllowedCourse", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -117,7 +117,7 @@ async function changeUserAllowedCourse(username, allowed_tests) {
   }
 }
 function getUsers() {
-  fetch("/api/getUsers", {
+  fetch("/api/course/getUsers", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -197,7 +197,7 @@ function getUsers() {
             switchElement.classList.toggle("switch-active");
             const isActive = switchElement.classList.contains("switch-active");
 
-            fetch("/api/changeAccessCourseForUser", {
+            fetch("/api/course/changeAccessCourseForUser", {
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
@@ -389,7 +389,7 @@ function requestCode(expire_date, access_duration, start_temas) {
     payload.expire_date = expire_date;
   }
 
-  fetch("/api/generateCode", {
+  fetch("/api/course/generateCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -488,7 +488,7 @@ function formatDate(timestamp) {
   return `${day}.${month}.${year} ${hours}:${minutes}`;
 }
 function deleteCode(code) {
-  fetch("/api/deletePromoCode", {
+  fetch("/api/course/deletePromoCode", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

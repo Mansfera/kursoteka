@@ -47,8 +47,8 @@ function createGalleryItem(course, moveIndex) {
 
   const imageBg = wrapper.querySelector(".course_gallery-item");
   const lockImageBg = wrapper.querySelector(".course_gallery-lock_overlay");
-  imageBg.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}')`;
-  lockImageBg.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}')`;
+  imageBg.style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}')`;
+  lockImageBg.style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}')`;
 
   return wrapper;
 }
@@ -217,59 +217,79 @@ document.addEventListener("DOMContentLoaded", function () {
         false
       );
 
-      galleryElement.addEventListener('mousedown', function(event) {
-        isDragging = true;
-        startDragX = event.clientX;
-        startX = event.clientX;
-        startY = event.clientY;
-      }, false);
+      galleryElement.addEventListener(
+        "mousedown",
+        function (event) {
+          isDragging = true;
+          startDragX = event.clientX;
+          startX = event.clientX;
+          startY = event.clientY;
+        },
+        false
+      );
 
-      galleryElement.addEventListener('mousemove', function(event) {
-        if (isDragging) {
-          endX = event.clientX;
-          endY = event.clientY;
-        }
-      }, false);
-
-      galleryElement.addEventListener('mouseup', function(event) {
-        if (isDragging) {
-          isDragging = false;
-          const diffX = endX - startX;
-          const diffY = endY - startY;
-
-          // Only consider horizontal swipes with a significant difference
-          if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
-            if (diffX > 0) {
-              // Swipe to the right
-              swipeRightGallery();
-            } else {
-              // Swipe to the left
-              swipeLeftGallery();
-            }
+      galleryElement.addEventListener(
+        "mousemove",
+        function (event) {
+          if (isDragging) {
+            endX = event.clientX;
+            endY = event.clientY;
           }
-          resetSwipeInterval();
+        },
+        false
+      );
 
-          // Reset values
-          startX = 0;
-          startY = 0;
-          endX = 0;
-          endY = 0;
-        }
-      }, false);
+      galleryElement.addEventListener(
+        "mouseup",
+        function (event) {
+          if (isDragging) {
+            isDragging = false;
+            const diffX = endX - startX;
+            const diffY = endY - startY;
 
-      galleryElement.addEventListener('mouseleave', function() {
-        isDragging = false;
-      }, false);
+            // Only consider horizontal swipes with a significant difference
+            if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 30) {
+              if (diffX > 0) {
+                // Swipe to the right
+                swipeRightGallery();
+              } else {
+                // Swipe to the left
+                swipeLeftGallery();
+              }
+            }
+            resetSwipeInterval();
 
-      document.addEventListener('keydown', function(event) {
-        if (event.key === 'ArrowLeft') {
-          swipeLeftGallery();
-          resetSwipeInterval();
-        } else if (event.key === 'ArrowRight') {
-          swipeRightGallery();
-          resetSwipeInterval();
-        }
-      }, false);
+            // Reset values
+            startX = 0;
+            startY = 0;
+            endX = 0;
+            endY = 0;
+          }
+        },
+        false
+      );
+
+      galleryElement.addEventListener(
+        "mouseleave",
+        function () {
+          isDragging = false;
+        },
+        false
+      );
+
+      document.addEventListener(
+        "keydown",
+        function (event) {
+          if (event.key === "ArrowLeft") {
+            swipeLeftGallery();
+            resetSwipeInterval();
+          } else if (event.key === "ArrowRight") {
+            swipeRightGallery();
+            resetSwipeInterval();
+          }
+        },
+        false
+      );
     })
     .catch((error) => console.error("Error:", error));
 });

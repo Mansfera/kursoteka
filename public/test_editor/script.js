@@ -37,7 +37,7 @@ let sortByYear = true;
 async function loadTestDataFromServer() {
   try {
     const response = await fetch(
-      `/loadTestData?auth_key=${auth_key}&course=${course}&block=${block_id}&firstTest=${test_id}&lastTest=${test_id}`
+      `/api/course/loadTestData?auth_key=${auth_key}&course=${course}&block=${block_id}&firstTest=${test_id}&lastTest=${test_id}`
     );
     if (!response.ok) {
       throw new Error(`Failed to load test data: ${response.statusText}`);
@@ -174,7 +174,7 @@ function checkIfImageExists(blockId, testId, imageId) {
   xhr_q_img.onreadystatechange = function () {
     if (xhr_q_img.readyState === XMLHttpRequest.DONE) {
       if (xhr_q_img.status === 200) {
-        const imageUrl = `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
+        const imageUrl = `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&t=${new Date().getTime()}`;
 
         if (q_img) {
           const tempImage = new Image();
@@ -233,7 +233,7 @@ function checkIfImageExists(blockId, testId, imageId) {
 
   xhr_q_img.open(
     "GET",
-    `/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
+    `/api/course/getImage?auth_key=${auth_key}&course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}`,
     true
   );
   xhr_q_img.send();
@@ -260,7 +260,9 @@ function showQuestion() {
   document.getElementById("search_bar").value = currentQuestion.question;
   year.value = currentQuestion.year ? currentQuestion.year : "";
   comment_field.value = currentQuestion.comment ? currentQuestion.comment : "";
-  topLine.value = currentQuestion.top_question ? currentQuestion.top_question : "";
+  topLine.value = currentQuestion.top_question
+    ? currentQuestion.top_question
+    : "";
   if (currentQuestion.middle_rows != null) {
     currentQuestion.middle_rows.forEach((row) => {
       if (row != "") {
@@ -270,16 +272,26 @@ function showQuestion() {
       }
     });
   }
-  bottomLine.value = currentQuestion.bottom_question ? currentQuestion.bottom_question : "";
+  bottomLine.value = currentQuestion.bottom_question
+    ? currentQuestion.bottom_question
+    : "";
   checkIfImageExists(
     block_id,
     currentQuestion.test_id,
     currentQuestion.question
   );
-  document.getElementById("af").value = currentQuestion.af ? currentQuestion.af : "";
-  document.getElementById("bf").value = currentQuestion.bf ? currentQuestion.bf : "";
-  document.getElementById("cf").value = currentQuestion.cf ? currentQuestion.cf : "";
-  document.getElementById("df").value = currentQuestion.df ? currentQuestion.df : "";
+  document.getElementById("af").value = currentQuestion.af
+    ? currentQuestion.af
+    : "";
+  document.getElementById("bf").value = currentQuestion.bf
+    ? currentQuestion.bf
+    : "";
+  document.getElementById("cf").value = currentQuestion.cf
+    ? currentQuestion.cf
+    : "";
+  document.getElementById("df").value = currentQuestion.df
+    ? currentQuestion.df
+    : "";
 
   if (currentQuestionIndex < q_len) {
     document.getElementById("list_num-fields").classList.add("display-none");
@@ -649,7 +661,7 @@ function removeQuestion() {
 }
 function deleteImg() {
   fetch(
-    `/deleteImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
+    `/api/courseEditor/deleteImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
       currentQuestion.question
     )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
       currentQuestion.test_id
@@ -806,7 +818,7 @@ document
       formData.append("image", file);
 
       fetch(
-        `/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
+        `/api/courseEditor/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
           currentQuestion.question
         )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
           currentQuestion.test_id
@@ -917,7 +929,7 @@ function saveTestData() {
     mul_ans_questions: sortQuestions(mul_ans_questions),
   };
 
-  fetch("/saveTest", {
+  fetch("/api/courseEditor/saveTest", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -1007,7 +1019,7 @@ function handleImageUpload(file) {
   formData.append("image", file);
 
   fetch(
-    `/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
+    `/api/courseEditor/uploadImg?auth_key=${auth_key}&course=${course}&img_name=${encodeURIComponent(
       currentQuestion.question
     )}&blockId=${encodeURIComponent(block_id)}&testId=${encodeURIComponent(
       currentQuestion.test_id

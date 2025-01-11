@@ -72,6 +72,7 @@ function getTypeLabel(type) {
     map: "Карта",
     person: "Історичний діяч",
     mark: "Марка",
+    poster: "Плакат",
     coin: "Монета",
     monument: "Історична пам'ятка",
     Інше: "Інше",
@@ -271,7 +272,7 @@ function startNewRound() {
 
 async function fetchCardImage(course, blockId, testId, imageId, auth_key) {
   try {
-    const url = `/getCardImage?course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&auth_key=${auth_key}`;
+    const url = `/api/course/getCardImage?course=${course}&blockId=${blockId}&testId=${testId}&imageId=${imageId}&auth_key=${auth_key}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -291,7 +292,7 @@ async function fetchCardImage(course, blockId, testId, imageId, auth_key) {
 
 async function loadCardsData() {
   try {
-    const url = `/loadCardsData?auth_key=${auth_key}&course=${course}&block=${block}&tema=${tema}`;
+    const url = `/api/course/loadCardsData?auth_key=${auth_key}&course=${course}&block=${block}&tema=${tema}`;
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -356,7 +357,7 @@ if (getCookie("group") === "admin" || getCookie("group") === "teacher") {
     if (confirm("Ви впевнені, що хочете видалити цю картку?")) {
       try {
         const response = await fetch(
-          `/deleteCard?course=${course}&blockId=${block}&testId=${tema}&imageId=${currentCardId}&auth_key=${auth_key}`,
+          `/api/courseEditor/deleteCard?course=${course}&blockId=${block}&testId=${tema}&imageId=${currentCardId}&auth_key=${auth_key}`,
           {
             method: "POST",
           }
@@ -403,7 +404,7 @@ async function showEditWindow(cardId) {
           <img id="currentImage" src="${
             cardId === "new"
               ? "/assets/image-upload.svg"
-              : `/getCardImage?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`
+              : `/api/course/getCardImage?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`
           }" alt="" />
           <input
             type="file"
@@ -558,7 +559,7 @@ async function showEditWindow(cardId) {
         formData.append("type", type);
 
         const response = await fetch(
-          `/createCard?course=${course}&blockId=${block}&testId=${tema}&auth_key=${auth_key}`,
+          `/api/courseEditor/createCard?course=${course}&blockId=${block}&testId=${tema}&auth_key=${auth_key}`,
           {
             method: "POST",
             body: formData,
@@ -578,7 +579,7 @@ async function showEditWindow(cardId) {
         formData.append("image", imageFile);
 
         const response = await fetch(
-          `/uploadCardImage?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`,
+          `/api/courseEditor/uploadCardImage?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`,
           {
             method: "POST",
             body: formData,
@@ -589,7 +590,7 @@ async function showEditWindow(cardId) {
       }
 
       const textResponse = await fetch(
-        `/updateCardText?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`,
+        `/api/courseEditor/updateCardText?course=${course}&blockId=${block}&testId=${tema}&imageId=${cardId}&auth_key=${auth_key}`,
         {
           method: "POST",
           headers: {

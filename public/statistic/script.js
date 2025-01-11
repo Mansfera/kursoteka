@@ -38,7 +38,7 @@ async function getUserStats() {
 
   // Send the POST request
   try {
-    const response = await fetch("/api/getUserStats", {
+    const response = await fetch("/api/course/getUserStats", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -68,7 +68,7 @@ async function getUserStats() {
       getUserStats();
     } else {
       completed_tests = result.completed_tests;
-      fetch("/api/getUserCourses", {
+      fetch("/api/course/getUserCourses", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
