@@ -2,101 +2,109 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "журнал \"Правда\""
+    "infoText": "Журнал \"Правда\"",
+    "type": "Інше"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "газета \"Діло\""
+    "infoText": "Газета \"Діло\"",
+    "type": "Інше"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "трудова еміграція, газетне оголошення"
+    "infoText": "Трудова еміграція",
+    "type": "Інше"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "трудова еміграція, газетне оголошення"
+    "infoText": "Трудова еміграція",
+    "type": "Інше"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "українські емігранти"
+    "infoText": "Трудова еміграція",
+    "type": "Інше"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "товариство \"Просвіта\""
+    "infoText": "Товариство \"Просвіта\"",
+    "type": "Інше"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Франко, монета НБУ"
+    "infoText": "Франко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "Франко, монета НБУ"
+    "infoText": "Франко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "\"Україна irredenta\""
+    "infoText": "\"Україна irredenta\"",
+    "type": "Інше"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "газетне оголошення"
+    "infoText": "\"Дністер\"",
+    "type": "Інше"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "товариство \"Дністер\""
+    "infoText": "Товариство \"Дністер\"",
+    "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "\"Історія України-Руси\""
+    "infoText": "\"Історія України-Руси\"",
+    "type": "Інше"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "\"Записки Наукового товариства імені Тараса Шевченка\""
+    "infoText": "\"Записки Наукового товариства імені Тараса Шевченка\"",
+    "type": "Інше"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Грушевський, монета НБУ"
+    "infoText": "Грушевський, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Федькович, монета НБУ"
+    "infoText": "Федькович, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "значок спортивно-патріотичного товариства \"Сокіл\""
-  },
-  {
-    "id": 17,
-    "frontContentType": "img",
-    "infoText": "Левицький, монета НБУ"
+    "infoText": "Значок товариства \"Сокіл\"",
+    "type": "Інше"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Франко"
+    "infoText": "Франко",
+    "type": "person"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Грушевський"
-  },
-  {
-    "id": 20,
-    "frontContentType": "img",
-    "infoText": "Левицький"
+    "infoText": "Грушевський",
+    "type": "person"
   }
 ]

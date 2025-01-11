@@ -1,0 +1,134 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Українська революція, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Петлюра, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Винниченко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Винниченко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Українська Народна Республіка, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Битва біля станції Крути, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Лютнева революція",
+    "type": "Інше"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "II Універсал Української Центральної Ради",
+    "type": "poster"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Генеральний секретаріат",
+    "type": "poster"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Лютнева революція",
+    "type": "Інше"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Українізація військових частин російської армії",
+    "type": "Інше"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Берестейський мирний договір",
+    "type": "Інше"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Перша війна більшовицької Росії з УНР",
+    "type": "poster"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Михайло Грушевський",
+    "type": "poster"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Проголошення Української Народної Республіки",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Герб Української Народної Республіки",
+    "type": "Інше"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Українська Народна Республіка після проголошення III Універсалу УЦР",
+    "type": "map"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Перша війна більшовицької Росії з УНР",
+    "type": "map"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Українська Народна Республіка після укладення Берестейського договору",
+    "type": "map"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Більшовицькі респуюліки на території України",
+    "type": "map"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Єфремов, марка ",
+    "type": "mark"
+  }
+]

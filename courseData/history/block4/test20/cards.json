@@ -1,0 +1,164 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Донцов",
+    "type": "person"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Левицький",
+    "type": "person"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Брусиловський прорив",
+    "type": "map"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців",
+    "type": "map"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Горлицька наступальна операція",
+    "type": "map"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Галицька битва",
+    "type": "map"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Територіальні зазіхання Австро-Угорщини",
+    "type": "map"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Територіальні зазіхання Німецької імперії",
+    "type": "map"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Східний фронт Першої світової війни на кінець 1914 року",
+    "type": "map"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців",
+    "type": "poster"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Російська окупація міста Львів 1914 року",
+    "type": "Інше"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Російська окупація міста Львів 1914 року",
+    "type": "Інше"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Союз визволення України ",
+    "type": "Інше"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Українська бойова управа",
+    "type": "Інше"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Союз визвволення України",
+    "type": "Інше"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців",
+    "type": "poster"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців",
+    "type": "poster"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Союз визволення України",
+    "type": "Інше"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Левицький, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців",
+    "type": "Інше"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Європейські держави напередодні Першої світової війни",
+    "type": "map"
+  }
+]

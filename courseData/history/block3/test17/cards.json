@@ -2,221 +2,265 @@
   {
     "id": 1,
     "frontContentType": "img",
-    "infoText": "Одеський університет, монета НБУ"
+    "infoText": "Одеський університет, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 2,
     "frontContentType": "img",
-    "infoText": "Мечников, монета НБУ"
+    "infoText": "Мечников, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 3,
     "frontContentType": "img",
-    "infoText": "Чернівецький університет, монета НБУ"
+    "infoText": "Чернівецький університет, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Леся Українка, монета НБУ"
+    "infoText": "Леся Українка, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "\"Лісова пісня\", монета НБУ"
+    "infoText": "\"Лісова пісня\", монета НБУ",
+    "type": "coin"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Кримський, монета НБУ"
+    "infoText": "Кримський, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Яворницький, монета НБУ"
+    "infoText": "Яворницький, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 8,
     "frontContentType": "img",
-    "infoText": "\"Ще не вмерла Україна\", монета НБУ"
+    "infoText": "\"Ще не вмерла Україна\", монета НБУ",
+    "type": "coin"
   },
   {
     "id": 9,
     "frontContentType": "img",
-    "infoText": "Вербицький, монета НБУ"
+    "infoText": "Вербицький, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 10,
     "frontContentType": "img",
-    "infoText": "Лисенко, монета НБУ"
+    "infoText": "Лисенко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 11,
     "frontContentType": "img",
-    "infoText": "Семен Гулак-Артемовський, монета НБУ"
+    "infoText": "Автор першої української опери, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "Крушельницька, монета НБУ"
+    "infoText": "Крушельницька, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 13,
     "frontContentType": "img",
-    "infoText": "Кропивницький, марка Укрпошта"
+    "infoText": "Кропивницький, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 14,
     "frontContentType": "img",
-    "infoText": "Корифеї українського театру, марка Укрпошта"
+    "infoText": "Корифеї українського театру, марка Укрпошта",
+    "type": "Інше"
   },
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Заньковецька, монета НБУ"
+    "infoText": "Заньковецька, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Пулюй, марка Укрпошта"
+    "infoText": "Пулюй, марка Укрпошта",
+    "type": "mark"
   },
   {
     "id": 17,
     "frontContentType": "img",
-    "infoText": "Ханенко, монета НБУ"
+    "infoText": "Ханенко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 18,
     "frontContentType": "img",
-    "infoText": "Родина Симиренків, монета НБУ"
+    "infoText": "Родина Симиренків, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 19,
     "frontContentType": "img",
-    "infoText": "Картина Пимоненка \"Святочне ворожіння\" (стиль реалізм)"
+    "infoText": "Картина Пимоненка \"Святочне ворожіння\" (стиль реалізм)",
+    "type": "monument"
   },
   {
     "id": 20,
     "frontContentType": "img",
-    "infoText": "Картина Васильківського \"Козаки в степу\""
+    "infoText": "Картина Васильківського \"Козаки в степу\"",
+    "type": "monument"
   },
   {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "Картина Рєпіна \"Козаки пишуть лист турецькому султану\""
+    "infoText": "Картина Рєпіна \"Козаки пишуть лист турецькому султану\"",
+    "type": "monument"
   },
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Картина Труша \"Портрет Лесі Українки\" (стиль модернізм)"
+    "infoText": "Картина Труша \"Портрет Лесі Українки\" (стиль модернізм)",
+    "type": "monument"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "Труш, монета НБУ"
+    "infoText": "Труш, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 24,
     "frontContentType": "img",
-    "infoText": "Труш, монета НБУ"
+    "infoText": "Труш, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "Картина Мурашка \"Дівчина в червоному капелюсі\""
+    "infoText": "Картина Мурашка \"Дівчина в червоному капелюсі\"",
+    "type": "monument"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "Мурашко, монета НБУ"
+    "infoText": "Мурашко, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "Резиденція православних митрополитів Буковини та Далмації в місті Чернівці"
+    "infoText": "Резиденція православних митрополитів Буковини та Далмації в місті Чернівці",
+    "type": "monument"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "Володимирський собор у місті Київ (неовізантійський стиль)"
+    "infoText": "Володимирський собор у місті Київ (неовізантійський стиль)",
+    "type": "monument"
   },
   {
     "id": 29,
     "frontContentType": "img",
-    "infoText": "Володимирський собор, монета НБУ"
+    "infoText": "Володимирський собор, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 30,
     "frontContentType": "img",
-    "infoText": "Будівля оперного театру в місті Одеса (стиль бароко)"
+    "infoText": "Будівля оперного театру в місті Одеса (стиль бароко)",
+    "type": "monument"
   },
   {
     "id": 31,
     "frontContentType": "img",
-    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ"
+    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 32,
     "frontContentType": "img",
-    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ"
+    "infoText": "Будівля оперного театру в місті Одеса, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 33,
     "frontContentType": "img",
-    "infoText": "Будинок з химерами в місті Київ (стиль модернізм)"
+    "infoText": "Будинок з химерами в місті Київ (стиль модернізм)",
+    "type": "monument"
   },
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "Будинок з химерами в місті Київ, монета НБУ"
+    "infoText": "Будинок з химерами в місті Київ, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 35,
     "frontContentType": "img",
-    "infoText": "Будинок з химерами в місті Київ, монета НБУ"
+    "infoText": "Будинок з химерами в місті Київ, монета НБУ",
+    "type": "coin"
   },
   {
     "id": 36,
     "frontContentType": "img",
-    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм)"
+    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм)",
+    "type": "monument"
   },
   {
     "id": 37,
     "frontContentType": "img",
-    "infoText": "Будинок Полтавського губернського земства, монета НБУ"
+    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм), монета НБУ",
+    "type": "coin"
   },
   {
     "id": 38,
     "frontContentType": "img",
-    "infoText": "Будинок страхового товариства \"Дністер\" у місті Львів (стиль український модернізм)"
+    "infoText": "Будинок страхового товариства \"Дністер\" у місті Львів (стиль український модернізм)",
+    "type": "monument"
   },
   {
     "id": 39,
     "frontContentType": "img",
-    "infoText": "Пам’ятник Богдану Хмельницькому в місті Київ (стиль класицизм)"
+    "infoText": "Пам’ятник Богдану Хмельницькому в місті Київ (стиль класицизм)",
+    "type": "monument"
   },
   {
     "id": 40,
     "frontContentType": "img",
-    "infoText": "Крушельницька"
+    "infoText": "Крушельницька",
+    "type": "person"
   },
   {
     "id": 41,
     "frontContentType": "img",
-    "infoText": "Лисенко"
+    "infoText": "Лисенко",
+    "type": "person"
   },
   {
     "id": 42,
     "frontContentType": "img",
-    "infoText": "Вербицький"
+    "infoText": "Вербицький",
+    "type": "person"
   },
   {
     "id": 43,
     "frontContentType": "img",
-    "infoText": "Кримський"
+    "infoText": "Кримський",
+    "type": "person"
   },
   {
     "id": 44,
     "frontContentType": "img",
-    "infoText": "Леся Українка"
+    "infoText": "Леся Українка",
+    "type": "person"
   }
 ]
