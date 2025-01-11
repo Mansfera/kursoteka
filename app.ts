@@ -30,22 +30,29 @@ let db: DatabaseType | null = null;
 
 async function initializeApp(): Promise<void> {
   try {
-    const { db: initializedDb, dbHelpers: initializedHelpers } = await database.initialize();
-    
+    const { db: initializedDb, dbHelpers: initializedHelpers } =
+      await database.initialize();
+
     if (!initializedDb || !initializedHelpers) {
       throw new Error(
         `Database not initialized correctly:\n` +
-        `db: ${initializedDb ? 'exists' : 'missing'}\n` +
-        `dbHelpers: ${initializedHelpers ? 'exists' : 'missing'}`
+          `db: ${initializedDb ? "exists" : "missing"}\n` +
+          `dbHelpers: ${initializedHelpers ? "exists" : "missing"}`
       );
     }
-    
+
     db = initializedDb;
     dbHelpers = initializedHelpers;
 
-    const checkDbHelpers = (req: Request, res: Response, next: NextFunction) => {
+    const checkDbHelpers = (
+      req: Request,
+      res: Response,
+      next: NextFunction
+    ) => {
       if (!dbHelpers) {
-        return res.status(500).json({ error: "Database helpers not initialized" });
+        return res
+          .status(500)
+          .json({ error: "Database helpers not initialized" });
       }
       next();
     };
@@ -60,7 +67,7 @@ async function initializeApp(): Promise<void> {
     app.use("/api/marketplace", checkDbHelpers, marketplaceRoutes);
     app.use("/api/courseEditor", checkDbHelpers, courseEditorRoutes);
 
-    app.post(
+    app.get(
       "/api/updateserver",
       checkDbHelpers,
       async (req: UpdateServerRequest, res: Response) => {
@@ -79,8 +86,17 @@ async function initializeApp(): Promise<void> {
           exec("./update.sh", (error, stdout, stderr) => {
             if (error) {
               console.error(`Error executing update.sh: ${error}`);
-              return res.status(500).json({ error: "Update failed" });
+              console.error(`stderr: ${stderr}`);
+              return res
+                .status(500)
+                .json({ error: "Update failed", details: stderr });
             }
+
+            if (stderr) {
+              console.warn(`Warning from update.sh: ${stderr}`);
+            }
+
+            console.log(`update.sh output: ${stdout}`);
             res.status(200).json({ message: "Update successful" });
           });
         } catch (err) {
