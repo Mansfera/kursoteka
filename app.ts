@@ -25,74 +25,6 @@ app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.static("public"));
 
-const requestLogger = (req: Request, res: Response, next: NextFunction) => {
-  // Only log /api requests
-  if (!req.url.startsWith("/api")) {
-    return next();
-  }
-
-  const start = Date.now();
-  const originalSend = res.send;
-  const originalJson = res.json;
-
-  // Capture both res.send() and res.json() responses
-  res.send = function (body) {
-    logRequest(req, res, start, body);
-    return originalSend.call(this, body);
-  };
-
-  res.json = function (body) {
-    logRequest(req, res, start, body);
-    return originalJson.call(this, body);
-  };
-
-  // Capture all responses including 404s
-  res.on("finish", () => {
-    // Only log if it hasn't been logged by send/json
-    if (!res.locals.logged) {
-      logRequest(req, res, start);
-    }
-  });
-
-  next();
-};
-
-const logRequest = (
-  req: Request,
-  res: Response,
-  start: number,
-  body: any = null
-) => {
-  // Prevent double-logging
-  if (res.locals.logged) return;
-  res.locals.logged = true;
-
-  const duration = Date.now() - start;
-  const timestamp = new Date().toISOString();
-
-  let logMessage = `[${timestamp}] ${req.method} ${req.url}`;
-  logMessage += ` - Status: ${res.statusCode}`;
-  logMessage += ` - Duration: ${duration}ms`;
-
-  if (req.query.auth_key) {
-    logMessage += ` - Auth: ${req.query.auth_key}`;
-  }
-
-  // Log request body if it exists and isn't empty
-  if (req.body && Object.keys(req.body).length > 0) {
-    logMessage += `\n  Request Body: ${JSON.stringify(req.body)}`;
-  }
-
-  // Log response body
-  if (body) {
-    logMessage += `\n  Response: ${JSON.stringify(body)}`;
-  }
-
-  console.log(logMessage);
-};
-
-app.use(requestLogger);
-
 let dbHelpers: DbHelpersType | null = null;
 let db: DatabaseType | null = null;
 
@@ -140,8 +72,6 @@ async function initializeApp(): Promise<void> {
       checkDbHelpers,
       async (req: UpdateServerRequest, res: Response) => {
         const auth_key = req.query.auth_key;
-
-        console.log("api/updateserver");
 
         try {
           const user = await dbHelpers!.getUserByAuthKey(auth_key);
