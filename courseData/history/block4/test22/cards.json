@@ -114,18 +114,6 @@
     "type": "person"
   },
   {
-    "id": 20,
-    "frontContentType": "img",
-    "infoText": "Пам'ятник Тарасу Шевченку в иісті Ромни (стиль конструктивізм)",
-    "type": "monument"
-  },
-  {
-    "id": 21,
-    "frontContentType": "img",
-    "infoText": "Картина Нарбута \"Еней та його військо\" ",
-    "type": "monument"
-  },
-  {
     "id": 22,
     "frontContentType": "img",
     "infoText": "Радянсько-польська війна",
@@ -280,5 +268,17 @@
     "frontContentType": "img",
     "infoText": "Холодноярська республіка",
     "type": "Інше"
+  },
+  {
+    "id": 62,
+    "frontContentType": "img",
+    "infoText": "Картина Нарбута \"Еней та його військо\"",
+    "type": "monument"
+  },
+  {
+    "id": 63,
+    "frontContentType": "img",
+    "infoText": "Пам'ятник Тарасові Шевченку в місті Ромни (скульптор Кавалерідзе)",
+    "type": "monument"
   }
 ]
