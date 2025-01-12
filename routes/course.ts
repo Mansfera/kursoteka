@@ -1274,7 +1274,7 @@ router.get("/getConspectData", async (req, res) => {
     }
 
     const dirPath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       "courseData",
       course,
       `block${blockId}`,

@@ -48,7 +48,7 @@ router.post("/uploadImg", upload.single("image"), async (req: Request, res: Resp
     // Define the new filename
     const newFileName = `${imgName}.png`;
     const dirPath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${courseName}/block${blockId}/test${testId}/images/`
     );
 
@@ -99,7 +99,7 @@ router.post("/deleteImg", async (req: Request, res: Response) => {
     }
 
     const filePath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${courseName}/block${blockId}/test${testId}/images/`,
       `${imgName}.png`
     );
@@ -182,7 +182,7 @@ router.post("/saveConspect", async (req, res) => {
     }
 
     const dirPath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${course}/block${blockId}/test${testId}`
     );
     const filePath = path.join(dirPath, `conspect_${conspectId}.json`);
@@ -266,7 +266,7 @@ router.post("/deleteConspect", async (req, res) => {
 
     // Delete the conspect file
     const filePath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${course}/block${blockId}/test${testId}/conspect_${conspectId}.json`
     );
 
@@ -318,7 +318,7 @@ router.post("/uploadCardImage", upload.single("image"), async (req, res) => {
     }
 
     const dirPath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${courseName}/block${blockId}/test${testId}/cardImages/`
     );
     const filePath = path.join(dirPath, `${imageId}.png`);
@@ -354,7 +354,7 @@ router.post("/updateCardText", async (req, res) => {
     }
 
     const cardsPath = path.join(
-      __dirname,
+      PROJECT_ROOT,
       `courseData/${courseName}/block${blockId}/test${testId}/cards.json`
     );
 
