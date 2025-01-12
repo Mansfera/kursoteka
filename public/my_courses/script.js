@@ -36,7 +36,7 @@ function getCourseInfo() {
             </div>
           `;
           const courseCardElement = courseCard.querySelector(".courses-card");
-          courseCardElement.style.backgroundImage = `url('/api/getCoverImage?course=${course.id}&auth_key=${auth_key}')`;
+          courseCardElement.style.backgroundImage = `url('/api/course/getCoverImage?course=${course.id}&auth_key=${auth_key}')`;
 
           courseListElement.appendChild(courseCard);
         });
