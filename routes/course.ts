@@ -16,6 +16,7 @@ function readJsonFile(filePath: string) {
   return new Promise((resolve, reject) => {
     fs.readFile(path.join(PROJECT_ROOT, filePath), "utf8", (err, data) => {
       if (err) {
+        console.log(err);
         resolve(null);
       } else {
         try {
@@ -581,6 +582,7 @@ router.get("/getCoverImage", async (req: Request, res: Response) => {
 
       fs.readFile(filePathImg, (err, data) => {
         if (err) {
+          console.log(err);
           res.status(404).send("Image not found");
         } else {
           res.writeHead(200, { "Content-Type": "image/jpeg" });
