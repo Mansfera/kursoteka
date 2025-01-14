@@ -1579,6 +1579,7 @@ function showQuestion() {
       );
     }
   }
+  renderMathInElement(document.body);
 }
 
 function selectAnswer(e) {
