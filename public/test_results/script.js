@@ -327,7 +327,11 @@ function showQuestion() {
   currentQuestion.bottom_question
     ? (bottomLine.innerHTML = currentQuestion.bottom_question)
     : bottomLine.classList.add("display-none");
-  checkIfImageExists(currentQuestion.question, currentQuestion.test_id, block_id);
+  checkIfImageExists(
+    currentQuestion.question,
+    currentQuestion.test_id,
+    block_id
+  );
   document.getElementById("af").innerHTML = currentQuestion.af;
   document.getElementById("bf").innerHTML = currentQuestion.bf;
   document.getElementById("cf").innerHTML = currentQuestion.cf;
@@ -485,7 +489,9 @@ function showQuestion() {
         } else {
           if (currentQuestion.correct.includes(j)) {
             if (currentQuestion.selected.includes(j)) {
-              document.getElementById("f" + j).classList.add("yellow-selected", "noImg");
+              document
+                .getElementById("f" + j)
+                .classList.add("yellow-selected", "noImg");
             } else {
               document.getElementById("f" + j).classList.add("correct");
             }
@@ -506,6 +512,7 @@ function showQuestion() {
   const showTestID = test_type == "final" ? `${currentQuestion.test_id}/` : "";
   document.getElementById("question_id").innerHTML =
     showTestID + "ID#" + currentQuestion.question;
+  renderMathInElement(document.body);
 }
 let image_xhr = new XMLHttpRequest();
 function checkIfImageExists(imageId, test_id, block_id) {
