@@ -132,12 +132,6 @@
     "type": "map"
   },
   {
-    "id": 23,
-    "frontContentType": "img",
-    "infoText": "Збір князями полюддя в Київській державі",
-    "type": "map"
-  },
-  {
     "id": 24,
     "frontContentType": "img",
     "infoText": "Київська держава та Хозарський каганат",
@@ -222,27 +216,9 @@
     "type": "monument"
   },
   {
-    "id": 38,
-    "frontContentType": "img",
-    "infoText": "Мозаїка Богоматері Оранти із Софійського собору в місті Київ \n",
-    "type": "monument"
-  },
-  {
     "id": 39,
     "frontContentType": "img",
     "infoText": "Мозаїка Христа Вседержителя з Софійського собору в місті Київ",
-    "type": "monument"
-  },
-  {
-    "id": 40,
-    "frontContentType": "img",
-    "infoText": "Мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" ",
-    "type": "monument"
-  },
-  {
-    "id": 41,
-    "frontContentType": "img",
-    "infoText": "Мініатюра \"Євангеліст Лука\" з Остромирового Євангелія",
     "type": "monument"
   },
   {
@@ -255,6 +231,30 @@
     "id": 43,
     "frontContentType": "img",
     "infoText": "Вишгородська ікона Богородиці",
+    "type": "monument"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "Збір князем полюддя в Київській державі",
+    "type": "map"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Мініатюра \"Євангеліст Лука\" з Остромирового Євангелія",
+    "type": "monument"
+  },
+  {
+    "id": 46,
+    "frontContentType": "img",
+    "infoText": "Мініатюра \"Родина князя Святослава Ярославовича\" з \"Ізборника\" ",
+    "type": "monument"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "Мозаїка Богоматері Оранти із Софійського собору в місті Київ ",
     "type": "monument"
   }
 ]

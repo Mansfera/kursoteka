@@ -84,28 +84,10 @@
     "type": "person"
   },
   {
-    "id": 15,
-    "frontContentType": "img",
-    "infoText": "Петлюра",
-    "type": "person"
-  },
-  {
     "id": 16,
     "frontContentType": "img",
-    "infoText": "Скоропадський",
-    "type": "person"
-  },
-  {
-    "id": 17,
-    "frontContentType": "img",
-    "infoText": "Петрушевич",
-    "type": "person"
-  },
-  {
-    "id": 18,
-    "frontContentType": "img",
-    "infoText": "Петлюра",
-    "type": "person"
+    "infoText": "Гетьман Скоропадський ",
+    "type": "Інше"
   },
   {
     "id": 19,
@@ -138,12 +120,6 @@
     "type": "poster"
   },
   {
-    "id": 26,
-    "frontContentType": "img",
-    "infoText": "Холодний Яр",
-    "type": "Інше"
-  },
-  {
     "id": 27,
     "frontContentType": "img",
     "infoText": "Громадянська війна",
@@ -162,12 +138,6 @@
     "type": "Інше"
   },
   {
-    "id": 31,
-    "frontContentType": "img",
-    "infoText": "Акт Злуки",
-    "type": "Інше"
-  },
-  {
     "id": 32,
     "frontContentType": "img",
     "infoText": "Київська катастрофа",
@@ -182,7 +152,7 @@
   {
     "id": 34,
     "frontContentType": "img",
-    "infoText": "Українська революція",
+    "infoText": "Війна Директорії УНР з генералом Денікіним",
     "type": "poster"
   },
   {
@@ -242,7 +212,7 @@
   {
     "id": 57,
     "frontContentType": "img",
-    "infoText": "Герб ЗУНР",
+    "infoText": "Західноукраїнська Народна Республіка ",
     "type": "Інше"
   },
   {
@@ -270,15 +240,87 @@
     "type": "Інше"
   },
   {
-    "id": 62,
-    "frontContentType": "img",
-    "infoText": "Картина Нарбута \"Еней та його військо\"",
-    "type": "monument"
-  },
-  {
     "id": 63,
     "frontContentType": "img",
     "infoText": "Пам'ятник Тарасові Шевченку в місті Ромни (скульптор Кавалерідзе)",
+    "type": "monument"
+  },
+  {
+    "id": 64,
+    "frontContentType": "img",
+    "infoText": "Воєнний комунізм",
+    "type": "poster"
+  },
+  {
+    "id": 65,
+    "frontContentType": "img",
+    "infoText": "Воєнний комунізм",
+    "type": "poster"
+  },
+  {
+    "id": 66,
+    "frontContentType": "img",
+    "infoText": "Українська СРР",
+    "type": "poster"
+  },
+  {
+    "id": 67,
+    "frontContentType": "img",
+    "infoText": "Воєнний комунізм",
+    "type": "Інше"
+  },
+  {
+    "id": 68,
+    "frontContentType": "img",
+    "infoText": "Українська СРР",
+    "type": "Інше"
+  },
+  {
+    "id": 69,
+    "frontContentType": "img",
+    "infoText": "Воєнний комунізм",
+    "type": "poster"
+  },
+  {
+    "id": 70,
+    "frontContentType": "img",
+    "infoText": "Громадянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 71,
+    "frontContentType": "img",
+    "infoText": "Українська революція",
+    "type": "poster"
+  },
+  {
+    "id": 72,
+    "frontContentType": "img",
+    "infoText": "Червоний терор",
+    "type": "Інше"
+  },
+  {
+    "id": 73,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки",
+    "type": "Інше"
+  },
+  {
+    "id": 74,
+    "frontContentType": "img",
+    "infoText": "Липківський, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 75,
+    "frontContentType": "img",
+    "infoText": "Другий Зимовий похід Армії УНР, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 76,
+    "frontContentType": "img",
+    "infoText": "Картина Нарбута \"Еней та його військо\"",
     "type": "monument"
   }
 ]

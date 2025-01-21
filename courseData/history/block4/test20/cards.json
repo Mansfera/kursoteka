@@ -138,12 +138,6 @@
     "type": "poster"
   },
   {
-    "id": 24,
-    "frontContentType": "img",
-    "infoText": "Перша світова війна",
-    "type": "poster"
-  },
-  {
     "id": 25,
     "frontContentType": "img",
     "infoText": "Перша світова війна",
@@ -160,5 +154,23 @@
     "frontContentType": "img",
     "infoText": "Європейські держави напередодні Першої світової війни",
     "type": "map"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "poster"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Окупація царськими військами міста Львів (1914)",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Вигнання російських військ з міста Львів (1915)",
+    "type": "poster"
   }
 ]

@@ -262,5 +262,11 @@
     "frontContentType": "img",
     "infoText": "Леся Українка",
     "type": "person"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Заньковецька, марка Укрпошта",
+    "type": "mark"
   }
 ]

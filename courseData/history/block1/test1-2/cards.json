@@ -12,69 +12,33 @@
     "type": "coin"
   },
   {
-    "id": 3,
-    "frontContentType": "img",
-    "infoText": "Рубило",
-    "type": "Інше"
-  },
-  {
     "id": 4,
     "frontContentType": "img",
-    "infoText": "Релігійні та мистецькі уявлення",
+    "infoText": "Релігійні та мистецькі уявлення (палеоліт)",
     "type": "Інше"
   },
   {
     "id": 5,
     "frontContentType": "img",
-    "infoText": "Релігійні та мистецькі уявлення",
+    "infoText": "Релігійні та мистецькі уявлення (палеоліт)",
     "type": "Інше"
   },
   {
     "id": 6,
     "frontContentType": "img",
-    "infoText": "Браслет із меандровим орнаментом з Мізинської стоянки",
+    "infoText": "Браслет із меандровим орнаментом з Мізинської стоянки (палеоліт)",
     "type": "monument"
   },
   {
     "id": 7,
     "frontContentType": "img",
-    "infoText": "Житло на стоянці первісних людей",
-    "type": "Інше"
-  },
-  {
-    "id": 8,
-    "frontContentType": "img",
-    "infoText": "Рибальський гачок, гарпун",
-    "type": "Інше"
-  },
-  {
-    "id": 10,
-    "frontContentType": "img",
-    "infoText": "Лук та стріла",
-    "type": "Інше"
-  },
-  {
-    "id": 11,
-    "frontContentType": "img",
-    "infoText": "Землеробство",
+    "infoText": "Житло на стоянці первісних людей (палеоліт)",
     "type": "Інше"
   },
   {
     "id": 12,
     "frontContentType": "img",
-    "infoText": "Землеробство",
-    "type": "Інше"
-  },
-  {
-    "id": 13,
-    "frontContentType": "img",
-    "infoText": "Гончарство",
-    "type": "Інше"
-  },
-  {
-    "id": 14,
-    "frontContentType": "img",
-    "infoText": "Ткацтво",
+    "infoText": "Землеробство (неоліт)",
     "type": "Інше"
   },
   {
@@ -108,57 +72,33 @@
     "type": "Інше"
   },
   {
-    "id": 20,
-    "frontContentType": "img",
-    "infoText": "Реконструкція трипільської хати",
-    "type": "Інше"
-  },
-  {
     "id": 21,
     "frontContentType": "img",
-    "infoText": "\"Орнаментована\" кераміка трипільської культури",
-    "type": "Інше"
-  },
-  {
-    "id": 22,
-    "frontContentType": "img",
-    "infoText": "\"Орнаментована\" кераміка трипільської культури",
+    "infoText": "\"Орнаментована\" кераміка трипільської культури (енеоліт)",
     "type": "Інше"
   },
   {
     "id": 23,
     "frontContentType": "img",
-    "infoText": "\"Орнаментована\" кераміка трипільської культури",
+    "infoText": "\"Орнаментована\" кераміка трипільської культури (енеоліт)",
     "type": "Інше"
-  },
-  {
-    "id": 24,
-    "frontContentType": "img",
-    "infoText": "Трипільська культура",
-    "type": "Інше"
-  },
-  {
-    "id": 25,
-    "frontContentType": "img",
-    "infoText": "Трипільська археологічна культура",
-    "type": "map"
   },
   {
     "id": 26,
     "frontContentType": "img",
-    "infoText": "Велика Скіфія",
+    "infoText": "Велика Скіфія та Боспорське царство",
     "type": "map"
   },
   {
     "id": 27,
     "frontContentType": "img",
-    "infoText": "Золота пектораль із кургану Товста Могила",
+    "infoText": "Золота пектораль із кургану Товста Могила (ранній залізний вік)",
     "type": "monument"
   },
   {
     "id": 28,
     "frontContentType": "img",
-    "infoText": "Золотий гребінь із кургану Солоха",
+    "infoText": "Золотий гребінь із кургану Солоха (ранній залізний вік)",
     "type": "monument"
   },
   {
@@ -171,12 +111,6 @@
     "id": 30,
     "frontContentType": "img",
     "infoText": "Скіфська пектораль, монета НБУ",
-    "type": "coin"
-  },
-  {
-    "id": 31,
-    "frontContentType": "img",
-    "infoText": "Скіфи, монета НБУ",
     "type": "coin"
   },
   {
@@ -222,33 +156,15 @@
     "type": "coin"
   },
   {
-    "id": 39,
-    "frontContentType": "img",
-    "infoText": "Херсонес Таврійський",
-    "type": "monument"
-  },
-  {
-    "id": 40,
-    "frontContentType": "img",
-    "infoText": "Херсонес Таврійський",
-    "type": "monument"
-  },
-  {
-    "id": 41,
-    "frontContentType": "img",
-    "infoText": "Кераміка з грецького поліса",
-    "type": "Інше"
-  },
-  {
     "id": 42,
     "frontContentType": "img",
-    "infoText": "Кераміка з грецького поліса",
+    "infoText": "Кераміка з грецького поліса (ранній залізний вік)",
     "type": "Інше"
   },
   {
     "id": 43,
     "frontContentType": "img",
-    "infoText": "Кераміка з грецького поліса",
+    "infoText": "Кераміка з грецького поліса (ранній залізний вік)",
     "type": "Інше"
   },
   {
@@ -270,22 +186,10 @@
     "type": "map"
   },
   {
-    "id": 47,
-    "frontContentType": "img",
-    "infoText": "Давньоукраїнські племінні союзи",
-    "type": "map"
-  },
-  {
     "id": 48,
     "frontContentType": "img",
-    "infoText": "Збруцький ідол",
+    "infoText": "Збруцький ідол (ранній залізний вік)",
     "type": "monument"
-  },
-  {
-    "id": 49,
-    "frontContentType": "img",
-    "infoText": "Реконструкція язичницького капища у слов’ян",
-    "type": "Інше"
   },
   {
     "id": 50,
@@ -298,5 +202,47 @@
     "frontContentType": "img",
     "infoText": "Князь Кий, монета НБУ",
     "type": "coin"
+  },
+  {
+    "id": 52,
+    "frontContentType": "img",
+    "infoText": "Херсонес",
+    "type": "monument"
+  },
+  {
+    "id": 53,
+    "frontContentType": "img",
+    "infoText": "Реконструкція тріпільської хати",
+    "type": "Інше"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "Рубило (палеоліт)",
+    "type": "Інше"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Давньоукраїнські племінні союзи",
+    "type": "map"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Рибальський гачок, гарпун (мезоліт)",
+    "type": "Інше"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Трипільська археологічна культура",
+    "type": "map"
+  },
+  {
+    "id": 58,
+    "frontContentType": "img",
+    "infoText": "Лук та стріла (мезоліт)",
+    "type": "Інше"
   }
 ]

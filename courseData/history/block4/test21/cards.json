@@ -130,5 +130,29 @@
     "frontContentType": "img",
     "infoText": "Єфремов, марка ",
     "type": "mark"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "III Універсал Української Центральної Ради",
+    "type": "poster"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Берестейський договір",
+    "type": "poster"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Конституція Української Народної Республіки",
+    "type": "Інше"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Українська Центральна Рада",
+    "type": "poster"
   }
 ]
