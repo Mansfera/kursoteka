@@ -154,5 +154,11 @@
     "frontContentType": "img",
     "infoText": "Українська Центральна Рада",
     "type": "poster"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Берестейський договір",
+    "type": "Інше"
   }
 ]

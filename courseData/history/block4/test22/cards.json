@@ -322,5 +322,17 @@
     "frontContentType": "img",
     "infoText": "Картина Нарбута \"Еней та його військо\"",
     "type": "monument"
+  },
+  {
+    "id": 77,
+    "frontContentType": "img",
+    "infoText": "\"Листопадовий зрив\"",
+    "type": "poster"
+  },
+  {
+    "id": 78,
+    "frontContentType": "img",
+    "infoText": "Друга війна більшовицької Росії з УНР",
+    "type": "Інше"
   }
 ]
