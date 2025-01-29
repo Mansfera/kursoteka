@@ -73,6 +73,8 @@ function getTypeLabel(type) {
     person: "Історичний діяч",
     mark: "Марка",
     poster: "Плакат",
+    diagram: "Діаграма",
+    table: "Таблиця",
     coin: "Монета",
     monument: "Історична пам'ятка",
     Інше: "Інше",
@@ -435,6 +437,12 @@ async function showEditWindow(cardId) {
           <option value="poster" ${
             currentType === "poster" ? "selected" : ""
           }>Плакат</option>
+          <option value="diagram" ${
+            currentType === "diagram" ? "selected" : ""
+          }>Діаграма</option>
+          <option value="table" ${
+            currentType === "table" ? "selected" : ""
+          }>Таблиця</option>
           <option value="Інше" ${
             currentType === "Інше" ? "selected" : ""
           }>Інше</option>
