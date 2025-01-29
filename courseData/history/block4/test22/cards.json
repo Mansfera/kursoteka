@@ -300,12 +300,6 @@
     "type": "Інше"
   },
   {
-    "id": 73,
-    "frontContentType": "img",
-    "infoText": "Акт Злуки",
-    "type": "Інше"
-  },
-  {
     "id": 74,
     "frontContentType": "img",
     "infoText": "Липківський, марка Укрпошта",
@@ -334,5 +328,17 @@
     "frontContentType": "img",
     "infoText": "Друга війна більшовицької Росії з УНР",
     "type": "Інше"
+  },
+  {
+    "id": 79,
+    "frontContentType": "img",
+    "infoText": "Акт Злуки УНР і ЗУНР",
+    "type": "Інше"
+  },
+  {
+    "id": 80,
+    "frontContentType": "img",
+    "infoText": "Агресія білого руху проти УНР",
+    "type": "poster"
   }
 ]
