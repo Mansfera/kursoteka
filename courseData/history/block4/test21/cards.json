@@ -160,5 +160,35 @@
     "frontContentType": "img",
     "infoText": "Берестейський договір",
     "type": "Інше"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "IV Універсал Української Центральної Ради",
+    "type": "Інше"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "III Універсал Української Центральної Ради",
+    "type": "Інше"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "I Універсал Української Центральної Ради ",
+    "type": "Інше"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Тимчасова інструкція",
+    "type": "map"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Тимчасова інструкція",
+    "type": "map"
   }
 ]

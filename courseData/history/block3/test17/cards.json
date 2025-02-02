@@ -78,12 +78,6 @@
     "type": "mark"
   },
   {
-    "id": 14,
-    "frontContentType": "img",
-    "infoText": "Корифеї українського театру, марка Укрпошта",
-    "type": "Інше"
-  },
-  {
     "id": 15,
     "frontContentType": "img",
     "infoText": "Заньковецька, монета НБУ",
@@ -108,30 +102,6 @@
     "type": "coin"
   },
   {
-    "id": 19,
-    "frontContentType": "img",
-    "infoText": "Картина Пимоненка \"Святочне ворожіння\" (стиль реалізм)",
-    "type": "monument"
-  },
-  {
-    "id": 20,
-    "frontContentType": "img",
-    "infoText": "Картина Васильківського \"Козаки в степу\"",
-    "type": "monument"
-  },
-  {
-    "id": 21,
-    "frontContentType": "img",
-    "infoText": "Картина Рєпіна \"Козаки пишуть лист турецькому султану\"",
-    "type": "monument"
-  },
-  {
-    "id": 22,
-    "frontContentType": "img",
-    "infoText": "Картина Труша \"Портрет Лесі Українки\" (стиль модернізм)",
-    "type": "monument"
-  },
-  {
     "id": 23,
     "frontContentType": "img",
     "infoText": "Труш, монета НБУ",
@@ -144,40 +114,10 @@
     "type": "coin"
   },
   {
-    "id": 25,
-    "frontContentType": "img",
-    "infoText": "Картина Мурашка \"Дівчина в червоному капелюсі\"",
-    "type": "monument"
-  },
-  {
     "id": 26,
     "frontContentType": "img",
     "infoText": "Мурашко, монета НБУ",
     "type": "coin"
-  },
-  {
-    "id": 27,
-    "frontContentType": "img",
-    "infoText": "Резиденція православних митрополитів Буковини та Далмації в місті Чернівці",
-    "type": "monument"
-  },
-  {
-    "id": 28,
-    "frontContentType": "img",
-    "infoText": "Володимирський собор у місті Київ (неовізантійський стиль)",
-    "type": "monument"
-  },
-  {
-    "id": 29,
-    "frontContentType": "img",
-    "infoText": "Володимирський собор, монета НБУ",
-    "type": "coin"
-  },
-  {
-    "id": 30,
-    "frontContentType": "img",
-    "infoText": "Будівля оперного театру в місті Одеса (стиль бароко)",
-    "type": "monument"
   },
   {
     "id": 31,
@@ -192,12 +132,6 @@
     "type": "coin"
   },
   {
-    "id": 33,
-    "frontContentType": "img",
-    "infoText": "Будинок з химерами в місті Київ (стиль модернізм)",
-    "type": "monument"
-  },
-  {
     "id": 34,
     "frontContentType": "img",
     "infoText": "Будинок з химерами в місті Київ, монета НБУ",
@@ -210,28 +144,10 @@
     "type": "coin"
   },
   {
-    "id": 36,
-    "frontContentType": "img",
-    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм)",
-    "type": "monument"
-  },
-  {
     "id": 37,
     "frontContentType": "img",
     "infoText": "Будинок Полтавського губернського земства (стиль український модернізм), монета НБУ",
     "type": "coin"
-  },
-  {
-    "id": 38,
-    "frontContentType": "img",
-    "infoText": "Будинок страхового товариства \"Дністер\" у місті Львів (стиль український модернізм)",
-    "type": "monument"
-  },
-  {
-    "id": 39,
-    "frontContentType": "img",
-    "infoText": "Пам’ятник Богдану Хмельницькому в місті Київ (стиль класицизм, скульптор Мікешин)",
-    "type": "monument"
   },
   {
     "id": 40,
@@ -268,5 +184,77 @@
     "frontContentType": "img",
     "infoText": "Заньковецька, марка Укрпошта",
     "type": "mark"
+  },
+  {
+    "id": 46,
+    "frontContentType": "img",
+    "infoText": "Будинок страхового товариства \"Дністер\" у місті Львів (стиль український модернізм)",
+    "type": "monument"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "Картина Пимоненка \"Святочне ворожіння\" (стиль реалізм)",
+    "type": "monument"
+  },
+  {
+    "id": 48,
+    "frontContentType": "img",
+    "infoText": "Володимирський собор у місті Київ (неовізантійський стиль)",
+    "type": "monument"
+  },
+  {
+    "id": 49,
+    "frontContentType": "img",
+    "infoText": "Картина Васильківського \"Козаки в степу\"",
+    "type": "monument"
+  },
+  {
+    "id": 53,
+    "frontContentType": "img",
+    "infoText": "Картина Мурашка \"Дівчина в червоному капелюсі\"",
+    "type": "monument"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "Будинок з химерами в місті Київ (стиль модернізм)",
+    "type": "monument"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Будівля оперного театру в місті Одеса (стиль бароко)",
+    "type": "monument"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Картина Рєпіна \"Козаки пишуть лист турецькому султану\"",
+    "type": "monument"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Резиденція православних митрополитів Буковини та Далмації в місті Чернівці",
+    "type": "monument"
+  },
+  {
+    "id": 58,
+    "frontContentType": "img",
+    "infoText": "Будинок Полтавського губернського земства (стиль український модернізм)",
+    "type": "monument"
+  },
+  {
+    "id": 60,
+    "frontContentType": "img",
+    "infoText": "Картина Труша \"Портрет Лесі Українки\" (стиль модернізм)",
+    "type": "monument"
+  },
+  {
+    "id": 61,
+    "frontContentType": "img",
+    "infoText": "Пам’ятник Богдану Хмельницькому в місті Київ (стиль класицизм, скульптор Мікешин)",
+    "type": "monument"
   }
 ]
