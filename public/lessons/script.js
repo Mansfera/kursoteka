@@ -164,7 +164,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (
       lastCompletedSummaryTests.length > 0 &&
       !getCookie("ignoreSummaryTestNotification") &&
-      getCookie("group") != "teacher" &&
+      getCookie("group") != "teacher" && 
+      getCookie("group") != "admin" && 
       !getCookie("debugAnswers") &&
       !getCookie("singleSessionCode")
     ) {
