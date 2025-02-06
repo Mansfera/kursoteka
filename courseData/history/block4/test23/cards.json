@@ -150,12 +150,6 @@
     "type": "monument"
   },
   {
-    "id": 31,
-    "frontContentType": "img",
-    "infoText": "Будівля Держпрому в місті Харків",
-    "type": "monument"
-  },
-  {
     "id": 32,
     "frontContentType": "img",
     "infoText": "Літографія Касіяна \"Гуцул з квіткою\"",
@@ -280,5 +274,17 @@
     "frontContentType": "img",
     "infoText": "Масовий голод в Українській СРР у 1921 – 1923-х роках ",
     "type": "poster"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "Будівля Держпрому в місті Харків (стиль конструктивізм)",
+    "type": "monument"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Масовий голод в Українській СРР у 1921 – 1923-х роках, марка УСРР",
+    "type": "mark"
   }
 ]

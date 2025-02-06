@@ -172,5 +172,11 @@
     "frontContentType": "img",
     "infoText": "Вигнання російських військ з міста Львів (1915)",
     "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Легіон Українських січових стрільців, марка",
+    "type": "mark"
   }
 ]

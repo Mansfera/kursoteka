@@ -190,5 +190,17 @@
     "frontContentType": "img",
     "infoText": "Тимчасова інструкція",
     "type": "map"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Українська Народна Республіка, марка",
+    "type": "mark"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Українська Народна Республіка, марка",
+    "type": "mark"
   }
 ]
