@@ -1,0 +1,392 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Процес \"Спілки визволення України\"",
+    "type": "Інше"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка, марка",
+    "type": "mark"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Форсована (соціалістична) індустріалізація",
+    "type": "poster"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Форсована (соціалістична) індустріалізація",
+    "type": "poster"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "map"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Сталінська модернізація",
+    "type": "poster"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Друга п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Соціалістична перебудова",
+    "type": "poster"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Русифікація",
+    "type": "poster"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Русифікація",
+    "type": "poster"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Паспортна система",
+    "type": "Інше"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація, марка",
+    "type": "mark"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Соціалістична перебудова",
+    "type": "poster"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Соціалістичні змагання (стаханівський рух)",
+    "type": "poster"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Соціалістичні змагання (стаханівський рух)",
+    "type": "poster"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Соціалістичні змагання",
+    "type": "poster"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка ",
+    "type": "poster"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "poster"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Будівля Верховної Ради УРСР у місті Київ (сталінський ампір)",
+    "type": "monument"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Картина Самокиша \"Бій Богуна з Чарнецьким під Монастирищем у 1653 році\"",
+    "type": "monument"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Довженко",
+    "type": "person"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "Культ особи",
+    "type": "poster"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "Культ особи",
+    "type": "poster"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Сталінська модернізація",
+    "type": "poster"
+  },
+  {
+    "id": 46,
+    "frontContentType": "img",
+    "infoText": "ГУТАБ",
+    "type": "Інше"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "Сталінська модернізація",
+    "type": "poster"
+  },
+  {
+    "id": 48,
+    "frontContentType": "img",
+    "infoText": "Перша п'ятирічка",
+    "type": "poster"
+  },
+  {
+    "id": 49,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 50,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "Інше"
+  },
+  {
+    "id": 51,
+    "frontContentType": "img",
+    "infoText": "Перенесення столиці УСРР з Харкова до Києва",
+    "type": "Інше"
+  },
+  {
+    "id": 52,
+    "frontContentType": "img",
+    "infoText": "ГУТАБ",
+    "type": "map"
+  },
+  {
+    "id": 53,
+    "frontContentType": "img",
+    "infoText": "Голомор в Україні 1932-1933-х років, марка",
+    "type": "mark"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "Довженко, марка",
+    "type": "mark"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Курбас, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Малевич, марка",
+    "type": "mark"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Малевич, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 58,
+    "frontContentType": "img",
+    "infoText": "Форсована (соціалістична) індустріалізація",
+    "type": "poster"
+  },
+  {
+    "id": 59,
+    "frontContentType": "img",
+    "infoText": "Сталінська модернізація",
+    "type": "poster"
+  },
+  {
+    "id": 60,
+    "frontContentType": "img",
+    "infoText": "Довженко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 61,
+    "frontContentType": "img",
+    "infoText": "Довженко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 62,
+    "frontContentType": "img",
+    "infoText": "\"Великий терор\"",
+    "type": "table"
+  },
+  {
+    "id": 63,
+    "frontContentType": "img",
+    "infoText": "Колгосп",
+    "type": "table"
+  },
+  {
+    "id": 64,
+    "frontContentType": "img",
+    "infoText": "Форсована (соціалістична) модернізація",
+    "type": "table"
+  },
+  {
+    "id": 65,
+    "frontContentType": "img",
+    "infoText": "\"Великий терор\"",
+    "type": "diagram"
+  },
+  {
+    "id": 66,
+    "frontContentType": "img",
+    "infoText": "П'ятирічка",
+    "type": "Інше"
+  }
+]

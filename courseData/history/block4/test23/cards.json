@@ -162,12 +162,6 @@
     "type": "monument"
   },
   {
-    "id": 34,
-    "frontContentType": "img",
-    "infoText": "Курбас, монета НБУ",
-    "type": "coin"
-  },
-  {
     "id": 35,
     "frontContentType": "img",
     "infoText": "Літературне об'єднання ВАПЛІТЕ",
@@ -228,12 +222,6 @@
     "type": "mark"
   },
   {
-    "id": 46,
-    "frontContentType": "img",
-    "infoText": "Нова економічна політика ",
-    "type": "coin"
-  },
-  {
     "id": 47,
     "frontContentType": "img",
     "infoText": "Політика коренізації/українізації в УСРР ",
@@ -286,5 +274,11 @@
     "frontContentType": "img",
     "infoText": "Масовий голод в Українській СРР у 1921 – 1923-х роках, марка УСРР",
     "type": "mark"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Нова економічна політика, монета",
+    "type": "coin"
   }
 ]

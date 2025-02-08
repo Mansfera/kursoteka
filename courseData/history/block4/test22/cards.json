@@ -340,5 +340,11 @@
     "frontContentType": "img",
     "infoText": "Західноукраїнська Народна Республіка, марка ЗУНР",
     "type": "mark"
+  },
+  {
+    "id": 83,
+    "frontContentType": "img",
+    "infoText": "Липківський, монета НБУ",
+    "type": "coin"
   }
 ]

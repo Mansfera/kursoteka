@@ -1,0 +1,170 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна, марка",
+    "type": "mark"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Коновалець",
+    "type": "person"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Коновалець",
+    "type": "Інше"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Український таємний університет",
+    "type": "Інше"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Українське національно-демократичне об'єднання",
+    "type": "Інше"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Український таємний університет",
+    "type": "Інше"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Паризька мирна конференція ",
+    "type": "Інше"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Волошин",
+    "type": "person"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Карпатська Січ",
+    "type": "poster"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "poster"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "poster"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Українське національне об'єднання",
+    "type": "Інше"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Пацифікація",
+    "type": "Інше"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Пацифікація",
+    "type": "Інше"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська змова",
+    "type": "poster"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Організація українських націоналістів, марка",
+    "type": "mark"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна, марка",
+    "type": "mark"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна",
+    "type": "Інше"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Коновалець, монета НБУ",
+    "type": "coin"
+  }
+]

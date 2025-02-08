@@ -178,5 +178,11 @@
     "frontContentType": "img",
     "infoText": "Легіон Українських січових стрільців, марка",
     "type": "mark"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Перша світова війна",
+    "type": "Інше"
   }
 ]
