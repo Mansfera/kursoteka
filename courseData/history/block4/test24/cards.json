@@ -388,5 +388,11 @@
     "frontContentType": "img",
     "infoText": "П'ятирічка",
     "type": "Інше"
+  },
+  {
+    "id": 67,
+    "frontContentType": "img",
+    "infoText": "Соціалістичні змагання (стаханівський рух), марка",
+    "type": "mark"
   }
 ]
