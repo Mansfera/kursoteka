@@ -394,5 +394,29 @@
     "frontContentType": "img",
     "infoText": "Соціалістичні змагання (стаханівський рух), марка",
     "type": "mark"
+  },
+  {
+    "id": 68,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 69,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 70,
+    "frontContentType": "img",
+    "infoText": "Конституція УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 71,
+    "frontContentType": "img",
+    "infoText": "Масові репресії",
+    "type": "Інше"
   }
 ]

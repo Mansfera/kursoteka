@@ -42,12 +42,6 @@
     "type": "Інше"
   },
   {
-    "id": 8,
-    "frontContentType": "img",
-    "infoText": "Український таємний університет",
-    "type": "Інше"
-  },
-  {
     "id": 9,
     "frontContentType": "img",
     "infoText": "Паризька мирна конференція ",
@@ -128,14 +122,8 @@
   {
     "id": 22,
     "frontContentType": "img",
-    "infoText": "Пацифікація",
+    "infoText": "Реакція української діаспори на пацифікацію",
     "type": "Інше"
-  },
-  {
-    "id": 23,
-    "frontContentType": "img",
-    "infoText": "Мюнхенська змова",
-    "type": "poster"
   },
   {
     "id": 24,
@@ -166,5 +154,77 @@
     "frontContentType": "img",
     "infoText": "Коновалець, монета НБУ",
     "type": "coin"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Політика умиротворення (аншлюз Австрії)",
+    "type": "Інше"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "poster"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Політика умиротворення",
+    "type": "Інше"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Політика умиротворення",
+    "type": "Інше"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Мюнхенська угода",
+    "type": "Інше"
   }
 ]
