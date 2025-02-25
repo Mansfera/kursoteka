@@ -174,18 +174,6 @@
     "type": "Інше"
   },
   {
-    "id": 32,
-    "frontContentType": "img",
-    "infoText": "Мюнхенська угода",
-    "type": "Інше"
-  },
-  {
-    "id": 33,
-    "frontContentType": "img",
-    "infoText": "Політика умиротворення (аншлюз Австрії)",
-    "type": "Інше"
-  },
-  {
     "id": 34,
     "frontContentType": "img",
     "infoText": "Мюнхенська угода",
@@ -196,18 +184,6 @@
     "frontContentType": "img",
     "infoText": "Мюнхенська угода",
     "type": "poster"
-  },
-  {
-    "id": 36,
-    "frontContentType": "img",
-    "infoText": "Політика умиротворення",
-    "type": "Інше"
-  },
-  {
-    "id": 37,
-    "frontContentType": "img",
-    "infoText": "Політика умиротворення",
-    "type": "Інше"
   },
   {
     "id": 38,
@@ -226,5 +202,11 @@
     "frontContentType": "img",
     "infoText": "Мюнхенська угода",
     "type": "Інше"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Карпатська Україна, монета НБУ",
+    "type": "coin"
   }
 ]

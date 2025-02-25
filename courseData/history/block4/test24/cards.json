@@ -418,5 +418,11 @@
     "frontContentType": "img",
     "infoText": "Масові репресії",
     "type": "Інше"
+  },
+  {
+    "id": 72,
+    "frontContentType": "img",
+    "infoText": "Голодомор в Україні 1932-1933-х років",
+    "type": "poster"
   }
 ]

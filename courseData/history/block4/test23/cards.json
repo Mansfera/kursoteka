@@ -280,5 +280,11 @@
     "frontContentType": "img",
     "infoText": "Нова економічна політика, монета",
     "type": "coin"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Політика коренізації/українізації в УСРР ",
+    "type": "coin"
   }
 ]

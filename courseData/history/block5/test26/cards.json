@@ -1,0 +1,590 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Проголошення Акта відновлення Української Держави",
+    "type": "Інше"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "\"Ні кроку назад\"",
+    "type": "poster"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Дивізія \"Галичина\"",
+    "type": "poster"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Корсунь-Шевченківська наступальна операція",
+    "type": "poster"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "Інше"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Проголошення Акта відновлення Української Держави",
+    "type": "mark"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "Кирило Осьмак, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\" ",
+    "type": "Інше"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "Інше"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Трансністрія",
+    "type": "poster"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "Інше"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з Донеччини",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Харків",
+    "type": "poster"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "Інше"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "Інше"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Бандера",
+    "type": "person"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Завершення вигнання німецьких військ та їх союзників з території України",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Символ пам'яті про жертви Другої світової війни в світі",
+    "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Ялтинська конференція",
+    "type": "Інше"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Постдамська конференція ",
+    "type": "Інше"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Голокост",
+    "type": "Інше"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Національний рух опору",
+    "type": "poster"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "\"Новий порядок\"",
+    "type": "poster"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Українська головна визвольна рада",
+    "type": "Інше"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Депортація кримських татар та інших народів Криму",
+    "type": "poster"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Радянський рух опору",
+    "type": "poster"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "\"Все для фронту-все для перемоги\"",
+    "type": "poster"
+  },
+  {
+    "id": 48,
+    "frontContentType": "img",
+    "infoText": "Праця жінок у роки німецько-радянської війни",
+    "type": "poster"
+  },
+  {
+    "id": 49,
+    "frontContentType": "img",
+    "infoText": "Праця жінок у роки німецько-радянської війни",
+    "type": "poster"
+  },
+  {
+    "id": 52,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Харків",
+    "type": "poster"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "poster"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 58,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "poster"
+  },
+  {
+    "id": 59,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "poster"
+  },
+  {
+    "id": 60,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 61,
+    "frontContentType": "img",
+    "infoText": "Корсунь-Шевченківська наступальна операція",
+    "type": "poster"
+  },
+  {
+    "id": 62,
+    "frontContentType": "img",
+    "infoText": "Завершення вигнання німецьких військ та їх союзників з території України",
+    "type": "poster"
+  },
+  {
+    "id": 64,
+    "frontContentType": "img",
+    "infoText": "Антигітлерівська коаліція (альянти)",
+    "type": "poster"
+  },
+  {
+    "id": 65,
+    "frontContentType": "img",
+    "infoText": "Праця жінок у роки німецько-радянської війни",
+    "type": "poster"
+  },
+  {
+    "id": 66,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 68,
+    "frontContentType": "img",
+    "infoText": "Національний рух опору",
+    "type": "poster"
+  },
+  {
+    "id": 69,
+    "frontContentType": "img",
+    "infoText": "Національний рух опору",
+    "type": "poster"
+  },
+  {
+    "id": 70,
+    "frontContentType": "img",
+    "infoText": "Національний рух опору",
+    "type": "poster"
+  },
+  {
+    "id": 71,
+    "frontContentType": "img",
+    "infoText": "\"Новий порядок\"",
+    "type": "poster"
+  },
+  {
+    "id": 73,
+    "frontContentType": "img",
+    "infoText": "Дивізія \"Галичина\"",
+    "type": "poster"
+  },
+  {
+    "id": 74,
+    "frontContentType": "img",
+    "infoText": "Шухевич",
+    "type": "person"
+  },
+  {
+    "id": 75,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "poster"
+  },
+  {
+    "id": 76,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "poster"
+  },
+  {
+    "id": 77,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "poster"
+  },
+  {
+    "id": 78,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "poster"
+  },
+  {
+    "id": 79,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "poster"
+  },
+  {
+    "id": 80,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
+  },
+  {
+    "id": 81,
+    "frontContentType": "img",
+    "infoText": "Остарбайтер",
+    "type": "Інше"
+  },
+  {
+    "id": 82,
+    "frontContentType": "img",
+    "infoText": "Пакт \"Молотова-Ріббентропа\"",
+    "type": "Інше"
+  },
+  {
+    "id": 83,
+    "frontContentType": "img",
+    "infoText": "Пакт \"Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 87,
+    "frontContentType": "img",
+    "infoText": "Пакт \"Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 90,
+    "frontContentType": "img",
+    "infoText": "Наслідки \"пакту Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 92,
+    "frontContentType": "img",
+    "infoText": "Наслідки \"пакту Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 93,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 94,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "poster"
+  },
+  {
+    "id": 96,
+    "frontContentType": "img",
+    "infoText": "\"Пакт Молотова-Ріббентропа\"",
+    "type": "Інше"
+  },
+  {
+    "id": 97,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "Інше"
+  },
+  {
+    "id": 98,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 99,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 100,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 102,
+    "frontContentType": "img",
+    "infoText": "\"Новий порядок\"",
+    "type": "Інше"
+  },
+  {
+    "id": 103,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 104,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 105,
+    "frontContentType": "img",
+    "infoText": "Лист митрополита Шептицького",
+    "type": "Інше"
+  },
+  {
+    "id": 106,
+    "frontContentType": "img",
+    "infoText": "Відновлення Української Державності",
+    "type": "Інше"
+  },
+  {
+    "id": 107,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "mark"
+  },
+  {
+    "id": 108,
+    "frontContentType": "img",
+    "infoText": "Українське Державне Правління",
+    "type": "Інше"
+  },
+  {
+    "id": 109,
+    "frontContentType": "img",
+    "infoText": "Наслідки \"пакту Молотова-Ріббентропа\"",
+    "type": "map"
+  },
+  {
+    "id": 110,
+    "frontContentType": "img",
+    "infoText": "Наслідки \"пакту Молотова-Ріббентропа\"",
+    "type": "map"
+  },
+  {
+    "id": 111,
+    "frontContentType": "img",
+    "infoText": "Наслідки \"пакту Молотова-Ріббентропа\"",
+    "type": "map"
+  },
+  {
+    "id": 113,
+    "frontContentType": "img",
+    "infoText": "Вигнання німецьких військ з міста Київ",
+    "type": "map"
+  },
+  {
+    "id": 114,
+    "frontContentType": "img",
+    "infoText": "Київська оборонна операція",
+    "type": "map"
+  },
+  {
+    "id": 115,
+    "frontContentType": "img",
+    "infoText": "Корсунь-Шевченківська наступальна операція ",
+    "type": "map"
+  },
+  {
+    "id": 116,
+    "frontContentType": "img",
+    "infoText": "\"Новий порядок\"",
+    "type": "map"
+  },
+  {
+    "id": 117,
+    "frontContentType": "img",
+    "infoText": "Національний рух опору",
+    "type": "map"
+  },
+  {
+    "id": 118,
+    "frontContentType": "img",
+    "infoText": "Кримська, Львівсько-Сандомирська та Ясько-Кишинівські наступальні операції",
+    "type": "map"
+  },
+  {
+    "id": 119,
+    "frontContentType": "img",
+    "infoText": "План \"Барбаросса\" ",
+    "type": "map"
+  },
+  {
+    "id": 120,
+    "frontContentType": "img",
+    "infoText": "Кожедуб, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 122,
+    "frontContentType": "img",
+    "infoText": "Битва за Дніпро, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 123,
+    "frontContentType": "img",
+    "infoText": "Корсунь-Шевченківська наступальна операція, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 124,
+    "frontContentType": "img",
+    "infoText": "День перемоги над нацизмом у Другій світовій війні",
+    "type": "coin"
+  },
+  {
+    "id": 125,
+    "frontContentType": "img",
+    "infoText": "День перемоги над нацизмом у Другій світовій війні",
+    "type": "coin"
+  },
+  {
+    "id": 126,
+    "frontContentType": "img",
+    "infoText": "Друга світова війна",
+    "type": "coin"
+  },
+  {
+    "id": 127,
+    "frontContentType": "img",
+    "infoText": "Амет-Хан Султан",
+    "type": "coin"
+  },
+  {
+    "id": 128,
+    "frontContentType": "img",
+    "infoText": "Депортація кримських татар та інших народів Криму",
+    "type": "coin"
+  },
+  {
+    "id": 129,
+    "frontContentType": "img",
+    "infoText": "Українська повстанська армія",
+    "type": "mark"
+  },
+  {
+    "id": 130,
+    "frontContentType": "img",
+    "infoText": "Шухевич, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 131,
+    "frontContentType": "img",
+    "infoText": "Багряний, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 132,
+    "frontContentType": "img",
+    "infoText": "Теліга, монета НБУ",
+    "type": "coin"
+  }
+]
