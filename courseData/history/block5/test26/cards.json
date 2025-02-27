@@ -32,7 +32,7 @@
   {
     "id": 15,
     "frontContentType": "img",
-    "infoText": "Проголошення Акта відновлення Української Держави",
+    "infoText": "Проголошення Акта відновлення Української Держави, марка",
     "type": "mark"
   },
   {
@@ -432,12 +432,6 @@
     "type": "Інше"
   },
   {
-    "id": 105,
-    "frontContentType": "img",
-    "infoText": "Лист митрополита Шептицького",
-    "type": "Інше"
-  },
-  {
     "id": 106,
     "frontContentType": "img",
     "infoText": "Відновлення Української Державності",
@@ -446,7 +440,7 @@
   {
     "id": 107,
     "frontContentType": "img",
-    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\", марка",
     "type": "mark"
   },
   {
@@ -566,7 +560,7 @@
   {
     "id": 129,
     "frontContentType": "img",
-    "infoText": "Українська повстанська армія",
+    "infoText": "Українська повстанська армія, марка",
     "type": "mark"
   },
   {
@@ -586,5 +580,35 @@
     "frontContentType": "img",
     "infoText": "Теліга, монета НБУ",
     "type": "coin"
+  },
+  {
+    "id": 133,
+    "frontContentType": "img",
+    "infoText": "Голокост",
+    "type": "coin"
+  },
+  {
+    "id": 134,
+    "frontContentType": "img",
+    "infoText": "Голокост, марка",
+    "type": "mark"
+  },
+  {
+    "id": 135,
+    "frontContentType": "img",
+    "infoText": "Голокост, марка",
+    "type": "mark"
+  },
+  {
+    "id": 136,
+    "frontContentType": "img",
+    "infoText": "Депортація кримських татар та інших народів Криму",
+    "type": "diagram"
+  },
+  {
+    "id": 137,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "Інше"
   }
 ]
