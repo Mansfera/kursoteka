@@ -42,12 +42,6 @@
     "type": "mark"
   },
   {
-    "id": 18,
-    "frontContentType": "img",
-    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\" ",
-    "type": "Інше"
-  },
-  {
     "id": 19,
     "frontContentType": "img",
     "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
@@ -96,12 +90,6 @@
     "type": "person"
   },
   {
-    "id": 29,
-    "frontContentType": "img",
-    "infoText": "Завершення вигнання німецьких військ та їх союзників з території України",
-    "type": "poster"
-  },
-  {
     "id": 30,
     "frontContentType": "img",
     "infoText": "Символ пам'яті про жертви Другої світової війни в світі",
@@ -111,12 +99,6 @@
     "id": 31,
     "frontContentType": "img",
     "infoText": "Ялтинська конференція",
-    "type": "Інше"
-  },
-  {
-    "id": 32,
-    "frontContentType": "img",
-    "infoText": "Постдамська конференція ",
     "type": "Інше"
   },
   {
@@ -300,31 +282,13 @@
     "type": "person"
   },
   {
-    "id": 75,
-    "frontContentType": "img",
-    "infoText": "Остарбайтер",
-    "type": "poster"
-  },
-  {
     "id": 76,
     "frontContentType": "img",
     "infoText": "Остарбайтер",
     "type": "poster"
   },
   {
-    "id": 77,
-    "frontContentType": "img",
-    "infoText": "Остарбайтер",
-    "type": "poster"
-  },
-  {
     "id": 78,
-    "frontContentType": "img",
-    "infoText": "Остарбайтер",
-    "type": "poster"
-  },
-  {
-    "id": 79,
     "frontContentType": "img",
     "infoText": "Остарбайтер",
     "type": "poster"
@@ -609,6 +573,42 @@
     "id": 137,
     "frontContentType": "img",
     "infoText": "Німецько-радянська війна",
+    "type": "Інше"
+  },
+  {
+    "id": 138,
+    "frontContentType": "img",
+    "infoText": "Стецько, марка",
+    "type": "mark"
+  },
+  {
+    "id": 139,
+    "frontContentType": "img",
+    "infoText": "Бандера, марка ",
+    "type": "mark"
+  },
+  {
+    "id": 140,
+    "frontContentType": "img",
+    "infoText": "Бандера",
+    "type": "coin"
+  },
+  {
+    "id": 141,
+    "frontContentType": "img",
+    "infoText": "Дерев'янко",
+    "type": "coin"
+  },
+  {
+    "id": 142,
+    "frontContentType": "img",
+    "infoText": "Стецько",
+    "type": "Інше"
+  },
+  {
+    "id": 143,
+    "frontContentType": "img",
+    "infoText": "Багряний",
     "type": "Інше"
   }
 ]

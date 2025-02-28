@@ -430,5 +430,11 @@
     "frontContentType": "img",
     "infoText": "Голомор в Україні 1932-1933-х років, марка",
     "type": "mark"
+  },
+  {
+    "id": 74,
+    "frontContentType": "img",
+    "infoText": "П'ятирічки",
+    "type": "table"
   }
 ]
