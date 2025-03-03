@@ -346,5 +346,11 @@
     "frontContentType": "img",
     "infoText": "Липківський, монета НБУ",
     "type": "coin"
+  },
+  {
+    "id": 84,
+    "frontContentType": "img",
+    "infoText": "Другий Зимовий похід Армії УНР",
+    "type": "mark"
   }
 ]
