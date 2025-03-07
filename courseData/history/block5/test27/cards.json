@@ -1,0 +1,320 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "Сліпий",
+    "type": "person"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "Інше"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Перші повоєнні роки",
+    "type": "poster"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Перші повоєнні роки",
+    "type": "poster"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Повоєнні роки",
+    "type": "poster"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Повоєнні роки",
+    "type": "poster"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "Соціалістичне змагання",
+    "type": "poster"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Встановлення західного кордоку Української РСР",
+    "type": "map"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "Ліквідація УГКЦ",
+    "type": "Інше"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Картина Яблонської \"Хліб\"",
+    "type": "monument"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "Переселення в Крим",
+    "type": "Інше"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "\"План Маршала\"",
+    "type": "poster"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "\"План Маршала\"",
+    "type": "poster"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "\"План Маршала\"",
+    "type": "poster"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Встановлення кордонів УРСР у міжнародних договорах",
+    "type": "poster"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "Інше"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 32,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Входження Закарпаття до складу Української РСР",
+    "type": "Інше"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "Маніфест про возз'єднання Закарпатської України з Радянською Україною",
+    "type": "Інше"
+  },
+  {
+    "id": 36,
+    "frontContentType": "img",
+    "infoText": "Указ про утворення Закарпатської області у складі Української РСР",
+    "type": "Інше"
+  },
+  {
+    "id": 37,
+    "frontContentType": "img",
+    "infoText": "Антибільшовицький блок народів, марка",
+    "type": "mark"
+  },
+  {
+    "id": 38,
+    "frontContentType": "img",
+    "infoText": "Операція \"Захід\"",
+    "type": "map"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "Встановлення кордонів УРСР у міжнародних договорах",
+    "type": "map"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "Встановлення кордонів УРСР у міжнародних договорах",
+    "type": "map"
+  },
+  {
+    "id": 41,
+    "frontContentType": "img",
+    "infoText": "Перші повоєнні роки",
+    "type": "diagram"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "Перші повоєнні роки",
+    "type": "diagram"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "Філатов, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Малишко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 46,
+    "frontContentType": "img",
+    "infoText": "Богомолець, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "Рильський, монетпа НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 48,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "Інше"
+  },
+  {
+    "id": 49,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "Інше"
+  },
+  {
+    "id": 50,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "Інше"
+  },
+  {
+    "id": 51,
+    "frontContentType": "img",
+    "infoText": "Сліпий, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 52,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 53,
+    "frontContentType": "img",
+    "infoText": "Ідеологічна кампанія",
+    "type": "poster"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Сосюра, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "Тичина, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Яблонська, монета НБУ",
+    "type": "coin"
+  }
+]

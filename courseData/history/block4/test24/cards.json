@@ -402,12 +402,6 @@
     "type": "Інше"
   },
   {
-    "id": 69,
-    "frontContentType": "img",
-    "infoText": "Конституція УРСР",
-    "type": "Інше"
-  },
-  {
     "id": 70,
     "frontContentType": "img",
     "infoText": "Конституція УРСР",
@@ -436,5 +430,11 @@
     "frontContentType": "img",
     "infoText": "П'ятирічки",
     "type": "table"
+  },
+  {
+    "id": 75,
+    "frontContentType": "img",
+    "infoText": "Русифікація",
+    "type": "poster"
   }
 ]
