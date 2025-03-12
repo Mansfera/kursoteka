@@ -1,0 +1,188 @@
+[
+  {
+    "id": 1,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\"",
+    "type": "Інше"
+  },
+  {
+    "id": 2,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\", монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 3,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\", монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 4,
+    "frontContentType": "img",
+    "infoText": "Корольов, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 5,
+    "frontContentType": "img",
+    "infoText": "Симоненко",
+    "type": "person"
+  },
+  {
+    "id": 6,
+    "frontContentType": "img",
+    "infoText": "Бандера",
+    "type": "Інше"
+  },
+  {
+    "id": 7,
+    "frontContentType": "img",
+    "infoText": "Горська",
+    "type": "Інше"
+  },
+  {
+    "id": 8,
+    "frontContentType": "img",
+    "infoText": "Семирічка, марка",
+    "type": "mark"
+  },
+  {
+    "id": 9,
+    "frontContentType": "img",
+    "infoText": "Семирічка, марка",
+    "type": "mark"
+  },
+  {
+    "id": 10,
+    "frontContentType": "img",
+    "infoText": "Крим",
+    "type": "Інше"
+  },
+  {
+    "id": 11,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\"",
+    "type": "poster"
+  },
+  {
+    "id": 12,
+    "frontContentType": "img",
+    "infoText": "Сталін",
+    "type": "Інше"
+  },
+  {
+    "id": 13,
+    "frontContentType": "img",
+    "infoText": "\"Маруся Чурай\", марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 14,
+    "frontContentType": "img",
+    "infoText": "Білокур, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 15,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 16,
+    "frontContentType": "img",
+    "infoText": "Повстання політичних в'язнів у сталінських концтаборах",
+    "type": "Інше"
+  },
+  {
+    "id": 17,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 18,
+    "frontContentType": "img",
+    "infoText": "Симоненко, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 19,
+    "frontContentType": "img",
+    "infoText": "Стус, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 20,
+    "frontContentType": "img",
+    "infoText": "Білокур, монета НБУ",
+    "type": "coin"
+  },
+  {
+    "id": 21,
+    "frontContentType": "img",
+    "infoText": "Симоненко, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 22,
+    "frontContentType": "img",
+    "infoText": "Стус, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 23,
+    "frontContentType": "img",
+    "infoText": "Стус",
+    "type": "person"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Світличний, марка Укрпошта",
+    "type": "mark"
+  },
+  {
+    "id": 25,
+    "frontContentType": "img",
+    "infoText": "Надпрограма Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 26,
+    "frontContentType": "img",
+    "infoText": "Надпрограма Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 27,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 28,
+    "frontContentType": "img",
+    "infoText": "Надпрограма Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 29,
+    "frontContentType": "img",
+    "infoText": "Надпрограма Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 30,
+    "frontContentType": "img",
+    "infoText": "Надпрограма Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 31,
+    "frontContentType": "img",
+    "infoText": "Десталінізація",
+    "type": "poster"
+  }
+]

@@ -136,5 +136,11 @@
     "frontContentType": "img",
     "infoText": "Чубинський, монета НБУ",
     "type": "coin"
+  },
+  {
+    "id": 24,
+    "frontContentType": "img",
+    "infoText": "Герб польського національно-визвольного повстання",
+    "type": "Інше"
   }
 ]

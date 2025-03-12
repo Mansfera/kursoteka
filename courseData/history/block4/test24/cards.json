@@ -436,5 +436,11 @@
     "frontContentType": "img",
     "infoText": "Русифікація",
     "type": "poster"
+  },
+  {
+    "id": 76,
+    "frontContentType": "img",
+    "infoText": "Суцільна (насильницька) колективізація",
+    "type": "poster"
   }
 ]

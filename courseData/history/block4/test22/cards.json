@@ -352,5 +352,11 @@
     "frontContentType": "img",
     "infoText": "Другий Зимовий похід Армії УНР",
     "type": "mark"
+  },
+  {
+    "id": 85,
+    "frontContentType": "img",
+    "infoText": "Західноукраїнська Народна Республіка ",
+    "type": "Інше"
   }
 ]
