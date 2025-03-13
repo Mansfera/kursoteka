@@ -646,5 +646,11 @@
     "frontContentType": "img",
     "infoText": "День перемоги над нацизмом у Другій світовій війні",
     "type": "Інше"
+  },
+  {
+    "id": 155,
+    "frontContentType": "img",
+    "infoText": "Німецько-радянська війна",
+    "type": "poster"
   }
 ]

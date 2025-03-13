@@ -96,12 +96,6 @@
     "type": "Інше"
   },
   {
-    "id": 18,
-    "frontContentType": "img",
-    "infoText": "Голодомор в Україні 1932-1933-х років",
-    "type": "Інше"
-  },
-  {
     "id": 19,
     "frontContentType": "img",
     "infoText": "Голодомор в Україні 1932-1933-х років",
@@ -129,12 +123,6 @@
     "id": 23,
     "frontContentType": "img",
     "infoText": "Паспортна система",
-    "type": "Інше"
-  },
-  {
-    "id": 24,
-    "frontContentType": "img",
-    "infoText": "Голодомор в Україні 1932-1933-х років",
     "type": "Інше"
   },
   {
@@ -387,7 +375,7 @@
     "id": 66,
     "frontContentType": "img",
     "infoText": "П'ятирічка",
-    "type": "Інше"
+    "type": "table"
   },
   {
     "id": 67,
@@ -399,18 +387,6 @@
     "id": 68,
     "frontContentType": "img",
     "infoText": "Конституція УРСР",
-    "type": "Інше"
-  },
-  {
-    "id": 70,
-    "frontContentType": "img",
-    "infoText": "Конституція УРСР",
-    "type": "Інше"
-  },
-  {
-    "id": 71,
-    "frontContentType": "img",
-    "infoText": "Масові репресії",
     "type": "Інше"
   },
   {

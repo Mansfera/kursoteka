@@ -36,12 +36,6 @@
     "type": "Інше"
   },
   {
-    "id": 7,
-    "frontContentType": "img",
-    "infoText": "Горська",
-    "type": "Інше"
-  },
-  {
     "id": 8,
     "frontContentType": "img",
     "infoText": "Семирічка, марка",
@@ -66,12 +60,6 @@
     "type": "poster"
   },
   {
-    "id": 12,
-    "frontContentType": "img",
-    "infoText": "Сталін",
-    "type": "Інше"
-  },
-  {
     "id": 13,
     "frontContentType": "img",
     "infoText": "\"Маруся Чурай\", марка Укрпошта",
@@ -94,12 +82,6 @@
     "frontContentType": "img",
     "infoText": "Повстання політичних в'язнів у сталінських концтаборах",
     "type": "Інше"
-  },
-  {
-    "id": 17,
-    "frontContentType": "img",
-    "infoText": "\"Холодна війна\"",
-    "type": "poster"
   },
   {
     "id": 18,
@@ -146,13 +128,7 @@
   {
     "id": 25,
     "frontContentType": "img",
-    "infoText": "Надпрограма Хрущова",
-    "type": "poster"
-  },
-  {
-    "id": 26,
-    "frontContentType": "img",
-    "infoText": "Надпрограма Хрущова",
+    "infoText": "\"Надпрограма\" Хрущова",
     "type": "poster"
   },
   {
@@ -162,27 +138,147 @@
     "type": "poster"
   },
   {
-    "id": 28,
+    "id": 32,
     "frontContentType": "img",
-    "infoText": "Надпрограма Хрущова",
+    "infoText": "Входження Кримської області до складу УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 33,
+    "frontContentType": "img",
+    "infoText": "Входження Кримської області до складу УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 34,
+    "frontContentType": "img",
+    "infoText": "Входження Кримської області до складу УРСР",
+    "type": "Інше"
+  },
+  {
+    "id": 35,
+    "frontContentType": "img",
+    "infoText": "\"Надпрограма\" Хрущова",
     "type": "poster"
   },
   {
-    "id": 29,
+    "id": 36,
     "frontContentType": "img",
-    "infoText": "Надпрограма Хрущова",
+    "infoText": "\"Надпрограма\" Хрущова",
     "type": "poster"
   },
   {
-    "id": 30,
+    "id": 37,
     "frontContentType": "img",
-    "infoText": "Надпрограма Хрущова",
+    "infoText": "\"Надпрограма\" Хрущова",
     "type": "poster"
   },
   {
-    "id": 31,
+    "id": 38,
     "frontContentType": "img",
-    "infoText": "Десталінізація",
+    "infoText": "\"Надпрограма\" Хрущова",
     "type": "poster"
+  },
+  {
+    "id": 39,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "Інше"
+  },
+  {
+    "id": 40,
+    "frontContentType": "img",
+    "infoText": "\"Холодна війна\"",
+    "type": "poster"
+  },
+  {
+    "id": 42,
+    "frontContentType": "img",
+    "infoText": "XX з'їзд КПРС, марка",
+    "type": "mark"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "\"Надпрограма\" Хрущова, марка",
+    "type": "mark"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "\"Хрущовка\"",
+    "type": "Інше"
+  },
+  {
+    "id": 45,
+    "frontContentType": "img",
+    "infoText": "Раднаргосп",
+    "type": "poster"
+  },
+  {
+    "id": 47,
+    "frontContentType": "img",
+    "infoText": "Лук'яненко",
+    "type": "person"
+  },
+  {
+    "id": 48,
+    "frontContentType": "img",
+    "infoText": "Білокур \"Хата в Богданівці\"",
+    "type": "monument"
+  },
+  {
+    "id": 49,
+    "frontContentType": "img",
+    "infoText": "Сталін",
+    "type": "Інше"
+  },
+  {
+    "id": 50,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\"",
+    "type": "Інше"
+  },
+  {
+    "id": 51,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\"",
+    "type": "Інше"
+  },
+  {
+    "id": 52,
+    "frontContentType": "img",
+    "infoText": "\"Надпрограма\" Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 53,
+    "frontContentType": "img",
+    "infoText": "\"Надпрограма\" Хрущова",
+    "type": "poster"
+  },
+  {
+    "id": 54,
+    "frontContentType": "img",
+    "infoText": "Входження Кримської області до складу Української РСР",
+    "type": "map"
+  },
+  {
+    "id": 55,
+    "frontContentType": "img",
+    "infoText": "Північно-кримський канал",
+    "type": "map"
+  },
+  {
+    "id": 56,
+    "frontContentType": "img",
+    "infoText": "\"Космічна ера\"",
+    "type": "mark"
+  },
+  {
+    "id": 57,
+    "frontContentType": "img",
+    "infoText": "Бандера",
+    "type": "Інше"
   }
 ]
