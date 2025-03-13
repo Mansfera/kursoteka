@@ -1,7 +1,6 @@
 class ConspectManager {
   constructor() {
     this.isEditMode = false;
-    this.blocks = [];
     this.container = document.querySelector(".conspect-content");
     this.editorControls = document.getElementById("editor-controls");
     this.idInput = document.getElementById("conspect-id");
@@ -13,13 +12,9 @@ class ConspectManager {
       this.idInput.style.display = "none"; // Hide the ID input
     }
 
-    this.draggedBlock = null;
     this.conspectTitle = document.querySelector(".conspect-title");
     this.editTitleBtn = document.querySelector(".edit-title-btn");
     this.deleteConspectBtn = document.getElementById("delete-conspect-btn");
-    this.floatingBtnContainer = document.querySelector(
-      ".floating-btn-container"
-    );
     this.saveBtn = document.querySelector(".conspect-header .save-btn");
     this.previewBtn = document.querySelector(".preview-btn");
     this.hasUnsavedChanges = false;
@@ -27,8 +22,6 @@ class ConspectManager {
     this.setupEventListeners();
     this.init();
     if (this.isEditMode) {
-      this.setupDragAndDrop();
-      this.addFloatingButton();
       this.setupTitleEditing();
       this.setupPreviewMode();
     }
@@ -80,11 +73,12 @@ class ConspectManager {
       if (!response.ok) throw new Error("Failed to load conspect");
 
       const data = await response.json();
-      this.blocks = data.blocks || [];
+      this.container.innerHTML = this.sanitizeHTML(data.content || "");
       this.idInput.value = data.id || "";
       this.conspectTitle.textContent = data.name || "Назва конспекту";
-      this.renderBlocks();
-      console.log(data);
+      if (this.isEditMode) {
+        this.container.contentEditable = "true";
+      }
     } catch (error) {
       console.error("Error loading conspect:", error);
     }
@@ -93,46 +87,16 @@ class ConspectManager {
   setupEventListeners() {
     if (this.isEditMode) {
       this.saveBtn.addEventListener("click", () => this.saveConspect());
-      // Handle add block button
-      this.editorControls.addEventListener("click", (e) => {
-        const button = e.target.closest(".editor-btn");
-        if (button) {
-          if (button.classList.contains("add-block-btn")) {
-            this.addBlock("line");
-          } else if (button.classList.contains("save-btn")) {
-            this.saveConspect();
-          }
-        }
-      });
-
-      // Handle line and shape clicks
-      this.container.addEventListener("click", (e) => {
-        const block = e.target.closest(".conspect-block");
-        if (block) {
-          // Check if click is on the line or line area
-          const rect = block.getBoundingClientRect();
-          const clickX = e.clientX - rect.left;
-
-          if (clickX <= 40) {
-            // Line click area width (includes the actual line)
-            this.showBlockTypeSelector(block);
-          }
-          // Check if click is on the shape
-          else if (
-            e.target.closest(".shape-click-area") ||
-            e.target.closest(".conspect-block::after")
-          ) {
-            this.showBlockTypeSelector(block);
-          }
-        }
-      });
 
       // Add text selection handler
       document.addEventListener("selectionchange", () => {
         const selection = window.getSelection();
+        const container = document.querySelector(".conspect-container");
+        // Only show toolbar if not in preview mode and there is text selected
         if (
+          !container.classList.contains("preview-mode") &&
           selection.toString().length > 0 &&
-          selection.anchorNode.parentElement.closest(".conspect-block")
+          selection.anchorNode.parentElement.closest(".conspect-content")
         ) {
           this.showTextFormatToolbar(selection);
         } else {
@@ -143,14 +107,37 @@ class ConspectManager {
       // Add format button handlers
       this.toolbar.querySelectorAll(".format-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const command = btn.classList.contains("bold-btn")
-            ? "bold"
-            : btn.classList.contains("italic-btn")
-            ? "italic"
-            : "underline";
-          document.execCommand(command, false);
-          btn.classList.toggle("active");
-          this.hasUnsavedChanges = true;
+          if (btn.classList.contains("citation-btn")) {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+              const range = selection.getRangeAt(0);
+
+              // Check if selection is already inside a citation
+              const isInsideCitation =
+                range.commonAncestorContainer.parentElement.closest(
+                  ".citation"
+                );
+              if (isInsideCitation) {
+                return; // Don't allow nested citations
+              }
+
+              const citationDiv = document.createElement("div");
+              citationDiv.className = "citation";
+              citationDiv.innerHTML = range.toString();
+              range.deleteContents();
+              range.insertNode(citationDiv);
+              this.hasUnsavedChanges = true;
+            }
+          } else {
+            const command = btn.classList.contains("bold-btn")
+              ? "bold"
+              : btn.classList.contains("italic-btn")
+              ? "italic"
+              : "underline";
+            document.execCommand(command, false);
+            btn.classList.toggle("active");
+            this.hasUnsavedChanges = true;
+          }
         });
       });
 
@@ -185,148 +172,166 @@ class ConspectManager {
           }
         }
       });
-    }
-  }
 
-  setupDragAndDrop() {
-    this.container.addEventListener("dragover", (e) => {
-      e.preventDefault();
-      const draggingBlock = document.querySelector(".dragging");
-      if (!draggingBlock) return;
-
-      const siblings = [
-        ...this.container.querySelectorAll(".conspect-block:not(.dragging)"),
-      ];
-      const nextSibling = siblings.find((sibling) => {
-        const rect = sibling.getBoundingClientRect();
-        const centerY = rect.top + rect.height / 2;
-        return e.clientY < centerY;
+      // Add content change handler
+      this.container.addEventListener("input", () => {
+        this.hasUnsavedChanges = true;
       });
 
-      // Remove all drag-over indicators
-      siblings.forEach((sibling) => sibling.classList.remove("drag-over"));
+      // Handle Enter key to preserve formatting
+      this.container.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
 
-      if (nextSibling) {
-        nextSibling.classList.add("drag-over");
-        this.container.insertBefore(draggingBlock, nextSibling);
-        this.hasUnsavedChanges = true;
-      } else {
-        this.container.appendChild(draggingBlock);
-        this.hasUnsavedChanges = true;
-      }
-    });
-  }
+          const selection = window.getSelection();
+          const range = selection.getRangeAt(0);
 
-  createBlock(type = "line", content = "") {
-    const block = document.createElement("div");
-    block.className = "conspect-block";
-    block.dataset.type = type;
-    block.contentEditable = this.isEditMode;
+          // Get the current formatting
+          const isBold = document.queryCommandState("bold");
+          const isItalic = document.queryCommandState("italic");
+          const isUnderline = document.queryCommandState("underline");
 
-    // Add placeholder attribute
-    block.dataset.placeholder = this.getDefaultText(type);
+          // Find the closest block element
+          let currentBlock = range.startContainer;
+          while (currentBlock && currentBlock.nodeType !== 1) {
+            currentBlock = currentBlock.parentElement;
+          }
 
-    // Create a content div that will be editable
-    const contentDiv = document.createElement("div");
-    contentDiv.className = "block-content";
-    contentDiv.contentEditable = this.isEditMode;
+          // Create a new div
+          const newBlock = document.createElement("div");
 
-    if (content) {
-      contentDiv.innerHTML = content;
-    }
+          // Copy text size if present
+          if (currentBlock) {
+            const sizeClass = Array.from(currentBlock.classList || []).find(
+              (cls) => cls.startsWith("text-size-")
+            );
+            if (sizeClass) {
+              newBlock.classList.add(sizeClass);
+            }
+          }
 
-    block.appendChild(contentDiv);
+          // Handle citation: only copy citation class if we're directly inside a citation block
+          // and not inside a nested element within the citation
+          const citationBlock =
+            range.startContainer.parentElement.closest(".citation");
+          if (citationBlock && citationBlock.contains(range.startContainer)) {
+            // Check if we're at the end of the citation block
+            const isAtEnd = range.startOffset === range.startContainer.length;
 
-    if (this.isEditMode) {
-      // Add delete button
-      const deleteBtn = document.createElement("button");
-      deleteBtn.className = "delete-btn";
-      deleteBtn.innerHTML = `<img src="/assets/cross.svg" alt="×" class="delete-icon">`;
-      deleteBtn.contentEditable = false;
-      deleteBtn.onclick = (e) => {
-        e.stopPropagation();
-        block.remove();
-        this.hasUnsavedChanges = true;
-      };
-      block.appendChild(deleteBtn);
+            if (!isAtEnd) {
+              // If not at the end, keep the citation formatting
+              newBlock.classList.add("citation");
+            } else {
+              // If at the end, create a new block without citation
+              // Move the cursor after the citation block
+              range.setStartAfter(citationBlock);
+              range.collapse(true);
+            }
+          }
 
-      // Add selection handler
-      block.addEventListener("mouseup", (e) => {
-        const selection = window.getSelection();
-        if (selection.toString().includes("×")) {
-          const range = document.createRange();
-          range.selectNodeContents(contentDiv);
+          // Insert a break
+          newBlock.innerHTML = "<br>";
+          range.insertNode(newBlock);
+
+          // Move cursor to new block
+          const newRange = document.createRange();
+          newRange.setStart(newBlock, 0);
+          newRange.collapse(true);
           selection.removeAllRanges();
-          selection.addRange(range);
+          selection.addRange(newRange);
+
+          // Reapply text formatting if needed
+          if (isBold) document.execCommand("bold", false);
+          if (isItalic) document.execCommand("italic", false);
+          if (isUnderline) document.execCommand("underline", false);
+
+          this.hasUnsavedChanges = true;
         }
       });
 
-      // Add drag attributes
-      block.draggable = true;
-      block.addEventListener("dragstart", () => {
-        block.classList.add("dragging");
-      });
-
-      block.addEventListener("dragend", () => {
-        block.classList.remove("dragging");
-        document
-          .querySelectorAll(".drag-over")
-          .forEach((el) => el.classList.remove("drag-over"));
-      });
-
-      contentDiv.addEventListener("input", () => {
-        this.hasUnsavedChanges = true;
-      });
-    }
-
-    return block;
-  }
-
-  // Helper method to get default text
-  getDefaultText(type) {
-    switch (type) {
-      case "line":
-        return "Введіть заголовок...";
-      case "date":
-        return "Введіть дату...";
-      case "text":
-        return "Введіть текст...";
-      default:
-        return "";
-    }
-  }
-
-  addBlock(type) {
-    const block = this.createBlock(type);
-    this.container.appendChild(block);
-
-    if (this.isEditMode) {
-      // Focus immediately
-      requestAnimationFrame(() => {
-        block.focus();
+      // Handle paste to preserve formatting
+      this.container.addEventListener("paste", (e) => {
+        e.preventDefault();
+        const text =
+          e.clipboardData?.getData("text/html") ||
+          e.clipboardData?.getData("text/plain");
+        if (text) {
+          const sanitizedContent = this.sanitizeHTML(text);
+          document.execCommand("insertHTML", false, sanitizedContent);
+        }
       });
     }
   }
 
-  renderBlocks() {
-    this.container.innerHTML = "";
-    this.blocks.forEach((block) => {
-      const element = this.createBlock(block.type, block.content);
-      this.container.appendChild(element);
-    });
+  sanitizeHTML(html) {
+    // Create a temporary div
+    const temp = document.createElement("div");
+    temp.innerHTML = html;
 
-    // Re-add the floating button after rendering blocks
-    if (this.isEditMode) {
-      this.addFloatingButton();
+    // Remove any potentially dangerous elements/attributes
+    const allowedTags = [
+      "p",
+      "b",
+      "strong",
+      "i",
+      "em",
+      "u",
+      "span",
+      "br",
+      "div",
+      "blockquote",
+    ];
+    const allowedAttributes = ["class", "style"];
+
+    function cleanNode(node) {
+      if (node.nodeType === 1) {
+        // Element node
+        if (!allowedTags.includes(node.tagName.toLowerCase())) {
+          // Replace disallowed tags with their content
+          const fragment = document.createDocumentFragment();
+          while (node.firstChild) {
+            fragment.appendChild(node.firstChild);
+          }
+          node.parentNode.replaceChild(fragment, node);
+          return;
+        }
+
+        // Remove all attributes except allowed ones
+        const attributes = Array.from(node.attributes);
+        attributes.forEach((attr) => {
+          if (!allowedAttributes.includes(attr.name)) {
+            node.removeAttribute(attr.name);
+          }
+        });
+
+        // Clean style attribute to only allow specific properties
+        if (node.hasAttribute("style")) {
+          const allowedStyles = [
+            "font-weight",
+            "font-style",
+            "text-decoration",
+          ];
+          const styles = node.style;
+          const validStyles = {};
+          allowedStyles.forEach((style) => {
+            if (styles[style]) {
+              validStyles[style] = styles[style];
+            }
+          });
+          node.removeAttribute("style");
+          Object.assign(node.style, validStyles);
+        }
+      }
+
+      // Clean child nodes
+      Array.from(node.childNodes).forEach(cleanNode);
     }
+
+    cleanNode(temp);
+    return temp.innerHTML;
   }
 
   async saveConspect() {
-    const blocks = Array.from(this.container.children).map((block) => ({
-      type: block.dataset.type,
-      content: block.innerHTML.replace(/<button.*?<\/button>/g, "").trim(),
-    }));
-
     const urlParams = new URLSearchParams(window.location.search);
 
     try {
@@ -340,7 +345,7 @@ class ConspectManager {
           testId: urlParams.get("testId"),
           conspectId: this.idInput.value,
           name: this.conspectTitle.textContent,
-          blocks: blocks,
+          content: this.sanitizeHTML(this.container.innerHTML),
         }),
       });
 
@@ -377,72 +382,6 @@ class ConspectManager {
           console.error("Помилка при вдаленні:", error);
           alert("Помилка при видаленні конспекту");
         }
-      }
-    });
-  }
-
-  showBlockTypeSelector(block) {
-    // Remove any existing selectors
-    document
-      .querySelectorAll(".block-type-selector")
-      .forEach((el) => el.remove());
-
-    const selector = document.createElement("div");
-    selector.className = "block-type-selector";
-
-    const types = [
-      { type: "date", label: "" },
-      { type: "text", label: "" },
-      { type: "line", label: "" },
-    ];
-
-    types.forEach(({ type, label }) => {
-      const option = document.createElement("div");
-      option.className = `block-type-option ${type}`;
-      option.title = label;
-      option.onclick = () => {
-        block.dataset.type = type;
-        selector.remove();
-        this.hasUnsavedChanges = true;
-      };
-      selector.appendChild(option);
-    });
-
-    block.appendChild(selector);
-
-    // Close selector when clicking outside
-    const closeSelector = (e) => {
-      if (
-        !selector.contains(e.target) &&
-        !e.target.closest(".conspect-block::before")
-      ) {
-        selector.remove();
-        document.removeEventListener("click", closeSelector);
-      }
-    };
-
-    setTimeout(() => {
-      document.addEventListener("click", closeSelector);
-    }, 0);
-  }
-
-  addFloatingButton() {
-    // Clear existing button if any
-    this.floatingBtnContainer.innerHTML = "";
-
-    const addBtn = document.createElement("button");
-    addBtn.className = "floating-add-btn";
-    addBtn.textContent = "+ Додати блок";
-    addBtn.onclick = () => this.addBlock("line");
-    this.floatingBtnContainer.appendChild(addBtn);
-  }
-
-  setupWindowClose() {
-    window.addEventListener("beforeunload", (e) => {
-      if (this.hasUnsavedChanges) {
-        e.preventDefault();
-        e.returnValue = "Чи ви дійсно хочете вийти без збереження?";
-        return e.returnValue;
       }
     });
   }
@@ -513,7 +452,7 @@ class ConspectManager {
       );
       sizeSelect.value = currentSize.split("-")[2];
     } else {
-      sizeSelect.value = "2"; // Default size
+      sizeSelect.value = "3"; // Default size
     }
   }
 
@@ -579,15 +518,15 @@ class ConspectManager {
         this.previewBtn.querySelector("img").alt = "Редагувати";
         this.previewBtn.innerHTML = `<img src="/assets/eye-off.svg" alt="Редагувати" />Редагувати`;
 
-        // Make content non-editable in preview
-        document.querySelectorAll(".block-content").forEach((block) => {
-          block.contentEditable = "false";
-        });
-        // Make blocks non-editable and non-draggable
-        document.querySelectorAll(".conspect-block").forEach((block) => {
-          block.contentEditable = "false";
-          block.draggable = false;
-        });
+        // Hide the formatting toolbar
+        this.toolbar.style.display = "none";
+
+        // Make content non-editable
+        this.container.contentEditable = "false";
+        this.conspectTitle.contentEditable = "false";
+
+        // Remove any existing selection
+        window.getSelection().removeAllRanges();
       } else {
         this.previewBtn.querySelector("img").src = "/assets/eye.svg";
         this.previewBtn.querySelector("img").alt = "Перегляд";
@@ -595,15 +534,18 @@ class ConspectManager {
 
         // Restore editability if in edit mode
         if (this.isEditMode) {
-          document.querySelectorAll(".block-content").forEach((block) => {
-            block.contentEditable = "true";
-          });
-          // Restore block editability and draggability
-          document.querySelectorAll(".conspect-block").forEach((block) => {
-            block.contentEditable = "true";
-            block.draggable = true;
-          });
+          this.container.contentEditable = "true";
         }
+      }
+    });
+  }
+
+  setupWindowClose() {
+    window.addEventListener("beforeunload", (e) => {
+      if (this.hasUnsavedChanges) {
+        e.preventDefault();
+        e.returnValue = "Чи ви дійсно хочете вийти без збереження?";
+        return e.returnValue;
       }
     });
   }
