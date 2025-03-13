@@ -169,7 +169,7 @@ router.post("/saveTest", async (req, res) => {
 });
 
 router.post("/saveConspect", async (req, res) => {
-  const { auth_key, course, blockId, testId, conspectId, name, blocks } =
+  const { auth_key, course, blockId, testId, conspectId, name, content } =
     req.body;
 
   try {
@@ -199,7 +199,7 @@ router.post("/saveConspect", async (req, res) => {
         {
           id: conspectId,
           name: name,
-          blocks: blocks,
+          content: content,
         },
         null,
         2

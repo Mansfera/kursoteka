@@ -34,121 +34,25 @@
   color: aliceblue;
 }
 
-.conspect-block {
+.conspect-content {
   position: relative;
-  padding: 1rem 1rem 1rem 4rem;
+  padding: 1rem;
   margin: 1.5rem 0;
   background: transparent;
   border-radius: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   color: aliceblue;
+  min-height: 300px;
 }
 
-.conspect-block::before {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  top: -1.5rem;
-  bottom: -1.5rem;
-  width: 8px;
-  background: aliceblue;
-  z-index: 1;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.conspect-block:first-child::before {
-  top: 0;
-}
-
-.conspect-block:last-child::before {
-  bottom: 0;
-}
-
-.conspect-block::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 0px;
-  transform: translateY(-50%);
-  width: 2rem;
-  height: 2rem;
-  background: black;
-  border: 6px solid aliceblue;
-  z-index: 2;
-}
-
-.conspect-block[data-type="title"]::after {
-  display: none;
-}
-
-.conspect-block[data-type="date"]::after {
-  width: 1.5rem;
-  height: 1.5rem;
-  left: 1.5px;
-  border-radius: 3px;
-  transform: translateY(-50%) rotate(45deg);
-}
-
-.conspect-block[data-type="text"]::after {
-  width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 50%;
-}
-
-.conspect-block[contenteditable="true"] {
-  outline: 2px solid #007bff;
+.conspect-content[contenteditable="true"] {
+  outline: none;
   cursor: text;
   user-select: text;
 }
-.conspect-block[contenteditable="false"] {
+
+.conspect-content[contenteditable="false"] {
   outline: none;
-}
-
-.conspect-block[data-type="title"] {
-  font-weight: bold;
-  line-height: 1.3;
-}
-
-.conspect-block[data-type="date"] {
-  font-size: clamp(0.9rem, 3vw, 1.1rem);
-  transform: none;
-}
-
-.delete-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: transparent;
-  color: var(--light-red);
-  border: 2px solid var(--rich-red);
-  border-radius: 4px;
-  cursor: pointer;
-  display: none;
-  transition: all 0.2s;
-  padding: 0.25rem;
-  width: 2rem;
-  height: 2rem;
-}
-
-.delete-icon {
-  width: 100%;
-  height: 100%;
-  filter: invert(1); /* Makes the SVG aliceblue */
-}
-
-.delete-btn:hover {
-  background: var(--rich-red);
-}
-
-.delete-btn:hover .delete-icon {
-  filter: invert(1); /* Keep it aliceblue on hover */
-}
-
-.conspect-block:hover .delete-btn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .conspect-info {
@@ -210,15 +114,6 @@
   border-color: var(--light-green);
 }
 
-.conspect-block.dragging {
-  opacity: 0.5;
-  cursor: grabbing;
-}
-
-.conspect-block.drag-over {
-  border-top: 2px solid var(--rich-green);
-}
-
 .conspect-header {
   display: flex;
   flex-direction: column;
@@ -249,53 +144,49 @@
   background: transparent;
   border: none;
   color: aliceblue;
-  flex: 1;
-  min-width: 0;
   padding: 0.5rem;
-  border: 2px solid transparent;
-  transition: all 0.2s;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  border-radius: 4px;
+  width: 100%;
+  outline: none;
+  font-weight: 500;
+  line-height: 1.2;
 }
 
 .conspect-title:focus {
   outline: none;
-  border-color: var(--rich-green);
 }
 
 .conspect-title.editable {
-  border-color: var(--rich-green);
+  cursor: text;
 }
 
 .edit-title-btn {
   background: transparent;
   border: none;
-  padding: 0.5rem;
   cursor: pointer;
-  opacity: 0.7;
-  transition: all 0.2s;
-  flex-shrink: 0;
+  padding: 0.5rem;
+  display: none;
 }
 
 .edit-title-btn:hover {
-  opacity: 1;
+  opacity: 0.8;
 }
 
 .edit-title-btn img {
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #f0f8ff;
 }
 
 .conspect-title[contenteditable="true"]:empty:before {
   content: "Назва конспекту";
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .delete-conspect-btn {
   background: transparent;
   border: 2px solid var(--rich-red);
-  color: aliceblue;
+  color: var(--light-red);
 }
 
 .delete-conspect-btn:hover {
@@ -310,403 +201,166 @@
 }
 
 .header-buttons button {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
   padding: 0.5rem 1rem;
   border-radius: 4px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
   font-weight: 500;
   transition: all 0.2s;
 }
 
 .save-btn {
-  background: var(--rich-green);
-  border: none;
-  color: aliceblue;
+  background: transparent;
+  border: 2px solid var(--rich-green);
+  color: var(--light-green);
 }
 
 .save-btn:hover {
-  background: var(--light-green);
+  background: var(--rich-green);
+  color: aliceblue;
 }
 
 .header-buttons button img {
-  width: 1.2rem;
-  height: 1.2rem;
+  width: 1.25rem;
+  height: 1.25rem;
   filter: invert(1);
-}
-
-/* Add styles for the block type selector */
-.block-type-selector {
-  position: absolute;
-  left: 2rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: black;
-  border-radius: 8px;
-  padding: 1rem;
-  display: flex;
-  flex-direction: row;
-  gap: 1.5rem;
-  z-index: 3;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.block-type-option {
-  width: 2rem;
-  height: 2rem;
-  border: 6px solid aliceblue;
-  background: black;
-  cursor: pointer;
-  transition: all 0.2s;
-  position: relative;
-}
-
-.block-type-option:hover {
-  transform: scale(1.1);
-}
-
-.block-type-option.title {
-  width: 0.5rem;
-  height: 2rem;
-  border: none;
-  background: aliceblue;
-  border-radius: 4px;
-}
-
-.block-type-option.title:hover {
-  transform: scale(1.1);
-}
-
-.block-type-option.date {
-  transform: rotate(45deg);
-}
-
-.block-type-option.date:hover {
-  transform: rotate(45deg) scale(1.1);
-}
-
-.block-type-option.text {
-  width: 1.6rem;
-  height: 1.6rem;
-  border-radius: 50%;
-}
-
-.block-type-option.line {
-  width: 0.5rem;
-  height: 2rem;
-  border: none;
-  background: aliceblue;
-  border-radius: 4px;
-}
-
-/* Add tooltips */
-.block-type-option::after {
-  content: attr(title);
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 0.5rem);
-  transform: translateX(-50%);
-  white-space: nowrap;
-  color: aliceblue;
-  opacity: 0;
-  transition: opacity 0.2s;
-}
-
-.block-type-option:hover::after {
-  opacity: 1;
-}
-
-/* Make both line and shape clickable */
-.line-click-area,
-.shape-click-area {
-  position: absolute;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.line-click-area {
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1rem;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.shape-click-area {
-  position: absolute;
-  left: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 2rem;
-  height: 2rem;
-  z-index: 3;
-}
-
-.line-click-area:hover::after {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  background: var(--rich-green);
-  border-radius: 4px;
-}
-
-/* Update the add block button style */
-.add-block-btn {
-  display: none;
-}
-
-.floating-add-btn {
-  width: 100%;
-  padding: 1rem;
-  margin-top: 1rem;
-  background: transparent;
-  border: 2px dashed var(--rich-green);
-  border-radius: 8px;
-  color: var(--rich-green);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.floating-add-btn:hover {
-  background: var(--rich-green);
-  color: aliceblue;
-}
-
-.conspect-content {
-  margin-bottom: 1rem;
-}
-
-.floating-btn-container {
-  margin-top: 2rem;
-}
-
-.floating-add-btn {
-  width: 100%;
-  padding: 1rem;
-  background: transparent;
-  border: 2px dashed var(--rich-green);
-  border-radius: 8px;
-  color: var(--rich-green);
-  cursor: pointer;
-  transition: all 0.2s;
-  font-size: 1.1rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-}
-
-.floating-add-btn:hover {
-  background: var(--rich-green);
-  color: aliceblue;
-}
-
-.line-click-area {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1rem;
-  cursor: pointer;
-  z-index: 2;
-}
-
-.line-click-area:hover::after {
-  content: "";
-  position: absolute;
-  left: 1rem;
-  top: 0;
-  bottom: 0;
-  width: 8px;
-  background: var(--rich-green);
-  border-radius: 4px;
-}
-
-/* Update block type styles */
-.conspect-block[data-type="line"]::after {
-  display: none; /* No shape for line type */
-}
-
-.conspect-block::before:hover {
-  background: var(--rich-green);
 }
 
 .text-format-toolbar {
   position: fixed;
-  background: black;
+  display: none;
+  background: #1a1a1a;
+  border: 1px solid #333;
   border-radius: 4px;
   padding: 0.5rem;
-  display: flex;
   gap: 0.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
   z-index: 1000;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .format-btn {
-  width: 2rem;
-  height: 2rem;
-  border: 2px solid var(--rich-green);
   background: transparent;
+  border: 1px solid #444;
   color: aliceblue;
-  border-radius: 4px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 3px;
   cursor: pointer;
+  font-size: 0.9rem;
   transition: all 0.2s;
+  min-width: 2rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-weight: bold;
 }
 
 .format-btn:hover,
 .format-btn.active {
-  background: var(--rich-green);
-  color: aliceblue;
+  background: #333;
+  border-color: #555;
 }
 
-/* Add styles for size selector */
 .format-select {
-  height: 2rem;
-  background: transparent;
-  border: 2px solid var(--rich-green);
-  border-radius: 4px;
+  background: #1a1a1a;
+  border: 1px solid #444;
   color: aliceblue;
+  padding: 0.25rem;
+  border-radius: 3px;
   cursor: pointer;
-  padding: 0 0.5rem;
   font-size: 0.9rem;
+  transition: all 0.2s;
+  outline: none;
+  min-width: 4rem;
 }
 
 .format-select option {
-  background: black;
-  color: var(--rich-green);
+  background: #1a1a1a;
+  color: aliceblue;
 }
 
 .format-select:hover,
 .format-select:focus {
-  outline: none;
-  border-color: var(--light-green);
+  border-color: #555;
 }
 
-/* Size classes */
 .text-size-1 {
-  font-size: 0.9rem !important;
+  font-size: 2rem;
 }
 
 .text-size-2 {
-  font-size: 1rem !important;
+  font-size: 1.5rem;
 }
 
 .text-size-3 {
-  font-size: 1.2rem !important;
+  font-size: 1.25rem;
 }
 
 .text-size-4 {
-  font-size: 1.5rem !important;
-  font-weight: bold !important;
-  line-height: 1.3 !important;
+  font-size: 1rem;
 }
 
-/* Keep all text using parent color */
-.conspect-block [style*="font-weight: bold"],
-.conspect-block [style*="font-style: italic"],
-.conspect-block [style*="text-decoration: underline"] {
+.conspect-content [style*="font-weight: bold"],
+.conspect-content b,
+.conspect-content strong {
   color: inherit;
 }
 
-/* Make text size classes have higher specificity */
-.conspect-block .text-size-1,
-.conspect-block span.text-size-1 {
-  font-size: 0.9rem !important;
+.conspect-content .text-size-1,
+.conspect-content .text-size-2,
+.conspect-content .text-size-3,
+.conspect-content .text-size-4 {
+  display: inline-block;
+  line-height: 1.4;
 }
 
-.conspect-block .text-size-2,
-.conspect-block span.text-size-2 {
-  font-size: 1rem !important;
-}
-
-.conspect-block .text-size-3,
-.conspect-block span.text-size-3 {
-  font-size: 1.2rem !important;
-}
-
-.conspect-block .text-size-4,
-.conspect-block span.text-size-4 {
-  font-size: 1.5rem !important;
-  font-weight: bold !important;
-  line-height: 1.3 !important;
-}
-
-.block-content {
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  max-width: 100%;
-  line-height: 1.5;
-  min-height: 1.5em;
-}
-
-.block-content:empty::before {
-  content: attr(data-placeholder);
-  color: #666;
+.conspect-content:empty::before {
+  content: "Введіть текст конспекту...";
+  color: rgba(255, 255, 255, 0.6);
+  position: absolute;
   pointer-events: none;
-  opacity: 0.6;
-}
-
-.block-content:focus:empty::before {
-  opacity: 0.3;
 }
 
 .preview-btn {
   background: transparent;
   border: 2px solid var(--rich-green);
-  color: aliceblue;
+  color: var(--light-green);
 }
 
 .preview-btn:hover {
   background: var(--rich-green);
+  color: aliceblue;
 }
 
 .preview-mode .edit-title-btn,
 .preview-mode .save-btn,
-.preview-mode .delete-conspect-btn,
-.preview-mode .floating-add-btn,
-.preview-mode .delete-btn,
-.preview-mode .editor-controls {
+.preview-mode .delete-conspect-btn {
   display: none !important;
 }
 
-.preview-mode .block-content {
-  outline: none !important;
-  border: none !important;
-}
-
-.preview-mode .conspect-block::before {
+.preview-mode .conspect-content {
+  outline: none;
   cursor: default;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
 }
 
 .conspect-title:empty:before {
   content: "Назва конспекту";
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 @media screen and (max-width: 576px) {
   .header-content {
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 1rem;
   }
 
   .header-buttons {
-    flex-wrap: wrap;
+    width: 100%;
   }
 
   .header-buttons button {
