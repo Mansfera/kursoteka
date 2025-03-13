@@ -371,3 +371,12 @@
     top: 3rem;
   }
 }
+
+.conspect-content .citation {
+  display: block;
+  margin-left: 20px;
+  padding-left: 15px;
+  border-left: 3px solid #e0e0e0;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}

@@ -107,14 +107,37 @@ class ConspectManager {
       // Add format button handlers
       this.toolbar.querySelectorAll(".format-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
-          const command = btn.classList.contains("bold-btn")
-            ? "bold"
-            : btn.classList.contains("italic-btn")
-            ? "italic"
-            : "underline";
-          document.execCommand(command, false);
-          btn.classList.toggle("active");
-          this.hasUnsavedChanges = true;
+          if (btn.classList.contains("citation-btn")) {
+            const selection = window.getSelection();
+            if (selection.rangeCount > 0) {
+              const range = selection.getRangeAt(0);
+
+              // Check if selection is already inside a citation
+              const isInsideCitation =
+                range.commonAncestorContainer.parentElement.closest(
+                  ".citation"
+                );
+              if (isInsideCitation) {
+                return; // Don't allow nested citations
+              }
+
+              const citationDiv = document.createElement("div");
+              citationDiv.className = "citation";
+              citationDiv.innerHTML = range.toString();
+              range.deleteContents();
+              range.insertNode(citationDiv);
+              this.hasUnsavedChanges = true;
+            }
+          } else {
+            const command = btn.classList.contains("bold-btn")
+              ? "bold"
+              : btn.classList.contains("italic-btn")
+              ? "italic"
+              : "underline";
+            document.execCommand(command, false);
+            btn.classList.toggle("active");
+            this.hasUnsavedChanges = true;
+          }
         });
       });
 
@@ -155,6 +178,77 @@ class ConspectManager {
         this.hasUnsavedChanges = true;
       });
 
+      // Handle Enter key to preserve formatting
+      this.container.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+
+          const selection = window.getSelection();
+          const range = selection.getRangeAt(0);
+
+          // Get the current formatting
+          const isBold = document.queryCommandState("bold");
+          const isItalic = document.queryCommandState("italic");
+          const isUnderline = document.queryCommandState("underline");
+
+          // Find the closest block element
+          let currentBlock = range.startContainer;
+          while (currentBlock && currentBlock.nodeType !== 1) {
+            currentBlock = currentBlock.parentElement;
+          }
+
+          // Create a new div
+          const newBlock = document.createElement("div");
+
+          // Copy text size if present
+          if (currentBlock) {
+            const sizeClass = Array.from(currentBlock.classList || []).find(
+              (cls) => cls.startsWith("text-size-")
+            );
+            if (sizeClass) {
+              newBlock.classList.add(sizeClass);
+            }
+          }
+
+          // Handle citation: only copy citation class if we're directly inside a citation block
+          // and not inside a nested element within the citation
+          const citationBlock =
+            range.startContainer.parentElement.closest(".citation");
+          if (citationBlock && citationBlock.contains(range.startContainer)) {
+            // Check if we're at the end of the citation block
+            const isAtEnd = range.startOffset === range.startContainer.length;
+
+            if (!isAtEnd) {
+              // If not at the end, keep the citation formatting
+              newBlock.classList.add("citation");
+            } else {
+              // If at the end, create a new block without citation
+              // Move the cursor after the citation block
+              range.setStartAfter(citationBlock);
+              range.collapse(true);
+            }
+          }
+
+          // Insert a break
+          newBlock.innerHTML = "<br>";
+          range.insertNode(newBlock);
+
+          // Move cursor to new block
+          const newRange = document.createRange();
+          newRange.setStart(newBlock, 0);
+          newRange.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(newRange);
+
+          // Reapply text formatting if needed
+          if (isBold) document.execCommand("bold", false);
+          if (isItalic) document.execCommand("italic", false);
+          if (isUnderline) document.execCommand("underline", false);
+
+          this.hasUnsavedChanges = true;
+        }
+      });
+
       // Handle paste to preserve formatting
       this.container.addEventListener("paste", (e) => {
         e.preventDefault();
@@ -185,6 +279,7 @@ class ConspectManager {
       "span",
       "br",
       "div",
+      "blockquote",
     ];
     const allowedAttributes = ["class", "style"];
 
