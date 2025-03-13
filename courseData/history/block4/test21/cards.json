@@ -202,5 +202,17 @@
     "frontContentType": "img",
     "infoText": "Українська Народна Республіка, марка",
     "type": "mark"
+  },
+  {
+    "id": 43,
+    "frontContentType": "img",
+    "infoText": "Грушевський, марка",
+    "type": "mark"
+  },
+  {
+    "id": 44,
+    "frontContentType": "img",
+    "infoText": "Курултай кримськотатарського народу",
+    "type": "coin"
   }
 ]
