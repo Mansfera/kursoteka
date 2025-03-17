@@ -264,12 +264,6 @@
     "type": "poster"
   },
   {
-    "id": 71,
-    "frontContentType": "img",
-    "infoText": "\"Новий порядок\"",
-    "type": "poster"
-  },
-  {
     "id": 73,
     "frontContentType": "img",
     "infoText": "Дивізія \"Галичина\"",
@@ -594,12 +588,6 @@
     "type": "Інше"
   },
   {
-    "id": 146,
-    "frontContentType": "img",
-    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
-    "type": "poster"
-  },
-  {
     "id": 147,
     "frontContentType": "img",
     "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
@@ -652,5 +640,17 @@
     "frontContentType": "img",
     "infoText": "Німецько-радянська війна",
     "type": "poster"
+  },
+  {
+    "id": 156,
+    "frontContentType": "img",
+    "infoText": "\"Новий порядок\"",
+    "type": "poster"
+  },
+  {
+    "id": 157,
+    "frontContentType": "img",
+    "infoText": "Наслідок \"пакту Молотова-Ріббентропа\"",
+    "type": "Інше"
   }
 ]
