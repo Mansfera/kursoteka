@@ -119,8 +119,11 @@ async function syncUncompletedTests() {
 function openTest(block, test, type, test_name) {
   window.location = `/test/?course=${current_course}&block=${block}&id=${test}&test_type=${type}&test_name=${test_name}`;
 }
-function openFinalTest(block, first_test_id, last_test_id) {
-  window.location = `/test/?course=${current_course}&block=${block}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
+function openFinalTest(block_id, first_test_id, last_test_id) {
+  window.location = `/test/?course=${current_course}&block=${block_id}&test_type=final&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
+}
+function openSummaryTest(first_test_id, last_test_id) {
+  window.location = `/test/?course=${current_course}&test_type=summary&first_test_id=${first_test_id}&last_test_id=${last_test_id}`;
 }
 function openCards(block, test, test_name) {
   window.open(
@@ -164,8 +167,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (
       lastCompletedSummaryTests.length > 0 &&
       !getCookie("ignoreSummaryTestNotification") &&
-      getCookie("group") != "teacher" && 
-      getCookie("group") != "admin" && 
+      getCookie("group") != "teacher" &&
+      getCookie("group") != "admin" &&
       !getCookie("debugAnswers") &&
       !getCookie("singleSessionCode")
     ) {
@@ -261,6 +264,34 @@ function fetchAndDisplayUserCourses() {
       if (data.courses.length > 0) {
         course_data = data;
         data.courses.forEach((course) => {
+          // Add summary test button at the end if user has access to all tests
+          if (
+            data.allowed_tests.includes("all") ||
+            (user_stats?.completed_tests || []).find(
+              (test) =>
+                test.test ==
+                course.blocks[course.blocks.length - 1].tests[
+                  course.blocks[course.blocks.length - 1].tests.length - 1
+                ].id
+            )
+          ) {
+            const summaryTestCard = document.createElement("div");
+            summaryTestCard.className = "material_list-element summary-test";
+            summaryTestCard.innerHTML = `
+              <div class="material_list-final_test">
+                <div class="final_test-button" onclick="openSummaryTest('${
+                  course.blocks[0].tests[0].id
+                }', '${
+              course.blocks[course.blocks.length - 1].tests[
+                course.blocks[course.blocks.length - 1].tests.length - 1
+              ].id
+            }')">
+                  Загальний тест по курсу
+                </div>
+              </div>
+            `;
+            material_list.appendChild(summaryTestCard);
+          }
           Array.from(course.blocks).forEach((block) => {
             const blockCard = document.createElement("div");
             blockCard.className = "material_list-element";
@@ -394,8 +425,8 @@ function fetchAndDisplayUserCourses() {
     });
 }
 
-function openTestEditor(block, test) {
+function openTestEditor(block_id, test_id) {
   window.open(
-    `/test_editor?course=${current_course}&block=${block}&test=${test}`
+    `/test_editor?course=${current_course}&block=${block_id}&test=${test_id}`
   );
 }

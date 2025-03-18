@@ -731,6 +731,7 @@ router.get("/loadTestData", async (req, res) => {
   const block = req.query.block as string;
   const firstTest = req.query.firstTest as string;
   const lastTest = req.query.lastTest as string;
+  const testType = req.query.testType as string;
 
   try {
     // Check for expired courses before proceeding
@@ -762,68 +763,190 @@ router.get("/loadTestData", async (req, res) => {
     };
 
     let temas_id_list: string[] = [];
-    let first_tema_found = false;
-    let last_tema_found = false;
-
-    course_obj.blocks.some((block_obj: { tests: { id: string }[] }) => {
-      return block_obj.tests.some((test_obj: { id: string }) => {
-        if (test_obj.id == firstTest) {
-          first_tema_found = true;
-        }
-        if (first_tema_found && !last_tema_found) {
+    
+    if (testType === "summary") {
+      // For summary test, get all test IDs from all blocks
+      course_obj.blocks.forEach((block_obj: { id: string; tests: { id: string }[] }) => {
+        block_obj.tests.forEach((test_obj: { id: string }) => {
           temas_id_list.push(test_obj.id);
-        }
-        if (test_obj.id == lastTest) {
-          last_tema_found = true;
-        }
+        });
       });
-    });
+    } else {
+      // Original logic for other test types
+      let first_tema_found = false;
+      let last_tema_found = false;
+
+      course_obj.blocks.some((block_obj: { tests: { id: string }[] }) => {
+        return block_obj.tests.some((test_obj: { id: string }) => {
+          if (test_obj.id == firstTest) {
+            first_tema_found = true;
+          }
+          if (first_tema_found && !last_tema_found) {
+            temas_id_list.push(test_obj.id);
+          }
+          if (test_obj.id == lastTest) {
+            last_tema_found = true;
+          }
+        });
+      });
+    }
 
     const questions = [];
     const vidpovidnistQuestions = [];
     const hronologyQuestions = [];
     const mulAnsQuestions = [];
 
-    for (const id of temas_id_list) {
-      let testQuestions: any[] = [];
-      let testVidpovidnistQuestions: any[] = [];
-      let testHronologyQuestions: any[] = [];
-      let testMulAnsQuestions: any[] = [];
+    if (testType === "summary") {
+      // Randomly select test IDs for each question type
+      const selectedTestIds = new Set<string>();
+      
+      // Helper function to get random questions from a file
+      const getRandomQuestions = async (testId: string, filePath: string, count: number) => {
+        const data = await readJsonFile(filePath) as any[];
+        if (!data) return [];
+        return data.sort(() => Math.random() - 0.5).slice(0, count);
+      };
 
-      await Promise.all([
-        readJsonFile(
-          `courseData/${courseName}/block${block}/test${id}/questions.json`
-        ).then((data) => {
-          if (data)
-            testQuestions = (data as any[]).sort(
-              (p1: { year: number }, p2: { year: number }) =>
+      // Helper function to find block ID for a test ID
+      const findBlockForTest = (testId: string): string => {
+        for (const block of course_obj.blocks) {
+          if (block.tests.some((test: { id: string }) => test.id === testId)) {
+            return block.id;
+          }
+        }
+        return "";
+      };
+
+      // Get 23 random test questions
+      while (questions.length < 23 && temas_id_list.length > 0) {
+        const randomIndex = Math.floor(Math.random() * temas_id_list.length);
+        const testId = temas_id_list[randomIndex];
+        
+        if (!selectedTestIds.has(testId)) {
+          const blockId = findBlockForTest(testId);
+          const testQuestions = await getRandomQuestions(
+            testId,
+            `courseData/${courseName}/block${blockId}/test${testId}/questions.json`,
+            1
+          );
+          if (testQuestions.length > 0) {
+            questions.push(...testQuestions);
+            selectedTestIds.add(testId);
+          }
+        }
+        
+        if (selectedTestIds.size === temas_id_list.length) break;
+      }
+
+      // Get 3 random vidpovidnist questions
+      selectedTestIds.clear();
+      while (vidpovidnistQuestions.length < 3 && temas_id_list.length > 0) {
+        const randomIndex = Math.floor(Math.random() * temas_id_list.length);
+        const testId = temas_id_list[randomIndex];
+        
+        if (!selectedTestIds.has(testId)) {
+          const blockId = findBlockForTest(testId);
+          const questions = await getRandomQuestions(
+            testId,
+            `courseData/${courseName}/block${blockId}/test${testId}/vidpovidnist_questions.json`,
+            1
+          );
+          if (questions.length > 0) {
+            vidpovidnistQuestions.push(...questions);
+            selectedTestIds.add(testId);
+          }
+        }
+        
+        if (selectedTestIds.size === temas_id_list.length) break;
+      }
+
+      // Get 3 random hronology questions
+      selectedTestIds.clear();
+      while (hronologyQuestions.length < 3 && temas_id_list.length > 0) {
+        const randomIndex = Math.floor(Math.random() * temas_id_list.length);
+        const testId = temas_id_list[randomIndex];
+        
+        if (!selectedTestIds.has(testId)) {
+          const blockId = findBlockForTest(testId);
+          const questions = await getRandomQuestions(
+            testId,
+            `courseData/${courseName}/block${blockId}/test${testId}/hronology_questions.json`,
+            1
+          );
+          if (questions.length > 0) {
+            hronologyQuestions.push(...questions);
+            selectedTestIds.add(testId);
+          }
+        }
+        
+        if (selectedTestIds.size === temas_id_list.length) break;
+      }
+
+      // Get 3 random multiple answer questions
+      selectedTestIds.clear();
+      while (mulAnsQuestions.length < 3 && temas_id_list.length > 0) {
+        const randomIndex = Math.floor(Math.random() * temas_id_list.length);
+        const testId = temas_id_list[randomIndex];
+        
+        if (!selectedTestIds.has(testId)) {
+          const blockId = findBlockForTest(testId);
+          const questions = await getRandomQuestions(
+            testId,
+            `courseData/${courseName}/block${blockId}/test${testId}/mul_ans_questions.json`,
+            1
+          );
+          if (questions.length > 0) {
+            mulAnsQuestions.push(...questions);
+            selectedTestIds.add(testId);
+          }
+        }
+        
+        if (selectedTestIds.size === temas_id_list.length) break;
+      }
+
+    } else {
+      // Original logic for other test types
+      for (const id of temas_id_list) {
+        let testQuestions: any[] = [];
+        let testVidpovidnistQuestions: any[] = [];
+        let testHronologyQuestions: any[] = [];
+        let testMulAnsQuestions: any[] = [];
+
+        await Promise.all([
+          readJsonFile(
+            `courseData/${courseName}/block${block}/test${id}/questions.json`
+          ).then((data) => {
+            if (data)
+              testQuestions = (data as any[]).sort(
+                (p1: { year: number }, p2: { year: number }) =>
+                  p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
+              );
+          }),
+          readJsonFile(
+            `courseData/${courseName}/block${block}/test${id}/vidpovidnist_questions.json`
+          ).then((data) => {
+            if (data) testVidpovidnistQuestions = data as any[];
+          }),
+          readJsonFile(
+            `courseData/${courseName}/block${block}/test${id}/hronology_questions.json`
+          ).then((data) => {
+            if (data) testHronologyQuestions = data as any[];
+          }),
+          readJsonFile(
+            `courseData/${courseName}/block${block}/test${id}/mul_ans_questions.json`
+          ).then((data) => {
+            if (data)
+              testMulAnsQuestions = (data as any[]).sort((p1, p2) =>
                 p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-            );
-        }),
-        readJsonFile(
-          `courseData/${courseName}/block${block}/test${id}/vidpovidnist_questions.json`
-        ).then((data) => {
-          if (data) testVidpovidnistQuestions = data as any[];
-        }),
-        readJsonFile(
-          `courseData/${courseName}/block${block}/test${id}/hronology_questions.json`
-        ).then((data) => {
-          if (data) testHronologyQuestions = data as any[];
-        }),
-        readJsonFile(
-          `courseData/${courseName}/block${block}/test${id}/mul_ans_questions.json`
-        ).then((data) => {
-          if (data)
-            testMulAnsQuestions = (data as any[]).sort((p1, p2) =>
-              p1.year > p2.year ? 1 : p1.year < p2.year ? -1 : 0
-            );
-        }),
-      ]);
+              );
+          }),
+        ]);
 
-      questions.push(...testQuestions);
-      vidpovidnistQuestions.push(...testVidpovidnistQuestions);
-      hronologyQuestions.push(...testHronologyQuestions);
-      mulAnsQuestions.push(...testMulAnsQuestions);
+        questions.push(...testQuestions);
+        vidpovidnistQuestions.push(...testVidpovidnistQuestions);
+        hronologyQuestions.push(...testHronologyQuestions);
+        mulAnsQuestions.push(...testMulAnsQuestions);
+      }
     }
 
     let response = {
@@ -916,6 +1039,10 @@ router.post("/sendTestResult", async (req, res) => {
     }
 
     const completedTests = JSON.parse(userCourse.completed_tests);
+    const allowedTests = JSON.parse(userCourse.allowed_tests);
+    
+    let short_test_check = false;
+    let full_test_check = false;
 
     const test_uuid_exists = completedTests.find(
       (test: { uuid: string }) => test.uuid === uuid
@@ -924,16 +1051,14 @@ router.post("/sendTestResult", async (req, res) => {
       return res.status(403).send("Test already completed");
     }
 
-    const allowedTests = JSON.parse(userCourse.allowed_tests);
-
-    let short_test_check = false;
-    let full_test_check = false;
+    // For summary tests, we'll store a special block ID
+    const blockToStore = test_type === "summary" ? "summary" : block;
 
     completedTests.push({
       date,
       time,
       test_type,
-      block,
+      block: blockToStore,
       test,
       score,
       abcd_questions_accuracy,
@@ -941,6 +1066,24 @@ router.post("/sendTestResult", async (req, res) => {
       vidpovidnist_questions_accuracy,
       mul_ans_questions_accuracy,
       uuid,
+    });
+
+    // Save test details with the special block ID for summary tests
+    await dbh.saveTestDetails({
+      uuid,
+      auth_key,
+      course_id: courseName,
+      date,
+      time,
+      test_type,
+      block: blockToStore,
+      test,
+      score,
+      abcd_questions_accuracy,
+      hronology_questions_accuracy,
+      vidpovidnist_questions_accuracy,
+      mul_ans_questions_accuracy,
+      questions_data,
     });
 
     // Check if we need to update allowed tests
@@ -1030,7 +1173,6 @@ router.post("/sendTestResult", async (req, res) => {
             );
 
             if (lastTest.score >= 85 && next_tema_is_in_block) {
-              console.log("full_test_check");
               full_test_check = true;
             }
           }
@@ -1067,6 +1209,10 @@ router.post("/sendTestResult", async (req, res) => {
           }
           break;
         }
+        case "summary": {
+          // Summary test doesn't affect allowed tests
+          break;
+        }
       }
     }
 
@@ -1083,24 +1229,6 @@ router.post("/sendTestResult", async (req, res) => {
         courseName
       );
     }
-
-    // Save test details
-    await dbh.saveTestDetails({
-      uuid,
-      auth_key,
-      course_id: courseName,
-      date,
-      time,
-      test_type,
-      block,
-      test,
-      score,
-      abcd_questions_accuracy,
-      hronology_questions_accuracy,
-      vidpovidnist_questions_accuracy,
-      mul_ans_questions_accuracy,
-      questions_data,
-    });
 
     // Cleanup old tests
     await dbh.cleanupOldTests();

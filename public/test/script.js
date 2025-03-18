@@ -122,12 +122,21 @@ async function loadTestDataFromServer(
   course,
   block,
   firstTest,
-  lastTest
+  lastTest,
+  testType = null
 ) {
   try {
-    const response = await fetch(
-      `/api/course/loadTestData?auth_key=${auth_key}&course=${course}&block=${block}&firstTest=${firstTest}&lastTest=${lastTest}`
-    );
+    const url = new URL("/api/course/loadTestData", window.location.origin);
+    url.searchParams.append("auth_key", auth_key);
+    url.searchParams.append("course", course);
+    url.searchParams.append("block", block);
+    url.searchParams.append("firstTest", firstTest);
+    url.searchParams.append("lastTest", lastTest);
+    if (testType) {
+      url.searchParams.append("testType", testType);
+    }
+
+    const response = await fetch(url);
     if (!response.ok) {
       throw new Error(`Failed to load test data: ${response.statusText}`);
     }
@@ -142,7 +151,14 @@ function loadTestQuestions(newTestData) {
     case "short":
     case "full":
       test_name = params.get("test_name");
-      loadTestDataFromServer(auth_key, course, block_id, test_id, test_id)
+      loadTestDataFromServer(
+        auth_key,
+        course,
+        block_id,
+        test_id,
+        test_id,
+        test_type
+      )
         .then((testData) => {
           if (testData) {
             questions = testData.questions;
@@ -157,7 +173,6 @@ function loadTestQuestions(newTestData) {
         .catch((error) => {
           console.error("Error loading test data:", error);
         });
-
       break;
     case "final":
       test_name = `<i>Підсумковий тест по блоку ${block_id}</i>`;
@@ -166,7 +181,8 @@ function loadTestQuestions(newTestData) {
         course,
         block_id,
         first_test_id,
-        last_test_id
+        last_test_id,
+        test_type
       )
         .then((testData) => {
           if (testData) {
@@ -176,6 +192,31 @@ function loadTestQuestions(newTestData) {
             mul_ans_questions = testData.mulAnsQuestions;
             final_tema_amount = testData.final_tema_amount;
             prepareTest(newTestData, final_tema_amount);
+          } else {
+            console.error("Failed to load test data");
+          }
+        })
+        .catch((error) => {
+          console.error("Error loading test data:", error);
+        });
+      break;
+    case "summary":
+      test_name = `<i>Загальний тест по блоку ${block_id}</i>`;
+      loadTestDataFromServer(
+        auth_key,
+        course,
+        block_id,
+        first_test_id,
+        last_test_id,
+        test_type
+      )
+        .then((testData) => {
+          if (testData) {
+            questions = testData.questions;
+            vidpovidnist_questions = testData.vidpovidnistQuestions;
+            hronology_questions = testData.hronologyQuestions;
+            mul_ans_questions = testData.mulAnsQuestions;
+            prepareTest(newTestData);
           } else {
             console.error("Failed to load test data");
           }
@@ -210,6 +251,9 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
         break;
       case "final":
         startFinalTest(final_tema_amount);
+        break;
+      case "summary":
+        startSummaryTest();
         break;
     }
     if (loadNewData) {
@@ -286,7 +330,9 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
           top: 0,
           behavior: "smooth",
         });
-        saveUncompletedTest();
+        if (test_type != "summary") {
+          saveUncompletedTest();
+        }
       }
     });
   });
@@ -675,7 +721,9 @@ function continueOldTest() {
   // Update questionCount to match the actual number of questions
   questionCount = test_questions.length;
 
-  saveUncompletedTest();
+  if (test_type != "summary") {
+    saveUncompletedTest();
+  }
 }
 function saveUncompletedTest() {
   let temp_answers = [];
@@ -782,7 +830,9 @@ syncInterval = setInterval(syncUncompletedTests, 300000);
 
 window.addEventListener("beforeunload", (event) => {
   if (has_user_interacted && !test_completed) {
-    saveUncompletedTest();
+    if (test_type != "summary") {
+      saveUncompletedTest();
+    }
     syncUncompletedTests();
   }
 });
@@ -946,11 +996,15 @@ async function sendTestResult() {
   test_mul_ans_q.forEach((q) => {
     temp_mul_ans_questions_accuracy += q.correct_percentage;
   });
+
+  // For summary tests, use "summary" as the block ID
+  const blockIdToSend = test_type === "summary" ? "summary" : block_id;
+  
   let testData = {
     date: Date.now(),
     time: startingMinutes * 60 - time,
     test_type,
-    block: block_id,
+    block: blockIdToSend,
     test: _test_id,
     score: Math.ceil(score),
     auth_key,
@@ -1306,8 +1360,15 @@ function showQuestion() {
   currentTest.currentQuestionIndex = currentQuestionIndex;
   let currentQuestion = test_questions[currentQuestionIndex];
   const q_id = document.getElementById("q" + (currentQuestionIndex + 1));
-  q_id.classList.add("selected");
+  if (q_id) {
+    q_id.classList.add("selected");
+  } else {
+    console.log("q_id not found: q" + (currentQuestionIndex + 1));
+  }
   displayedQuestion = currentQuestion;
+  if (!displayedQuestion) {
+    console.log("displayedQuestion not found: q" + (currentQuestionIndex + 1));
+  }
   let questionNo = currentQuestionIndex + 1;
   questionNumber.innerHTML = questionNo;
   if (displayedQuestion.comment && displayedQuestion.comment != "") {
@@ -1563,7 +1624,10 @@ function showQuestion() {
       field.parentElement.classList.add("display-none");
     }
   });
-  const showTestID = test_type == "final" ? `${currentQuestion.test_id}/` : "";
+  const showTestID =
+    test_type == "final" || test_type == "summary"
+      ? `${currentQuestion.test_id}/`
+      : "";
   document.getElementById("question_id").innerHTML =
     showTestID + "ID#" + currentQuestion.question;
   if (getCookie("debugAnswers") != null) {
@@ -1649,7 +1713,9 @@ function selectAnswer(e) {
     }
     displayedQuestion = currentQuestion;
     test_questions[currentQuestionIndex] = currentQuestion;
-    saveUncompletedTest();
+    if (test_type != "summary") {
+      saveUncompletedTest();
+    }
   }
 }
 
@@ -1689,7 +1755,9 @@ function saveNumAnswer() {
       }
     }
   }
-  saveUncompletedTest();
+  if (test_type != "summary") {
+    saveUncompletedTest();
+  }
 }
 Array.from(numeric_answers.children).forEach((field) => {
   field.addEventListener("input", function () {
@@ -1753,7 +1821,9 @@ function nextQuestionArrow() {
   } else {
     currentQuestionIndex--;
   }
-  saveUncompletedTest();
+  if (test_type != "summary") {
+    saveUncompletedTest();
+  }
 }
 document.getElementById("next_arrow").addEventListener("click", () => {
   if (!testIsPaused) {
@@ -1769,7 +1839,9 @@ function previousQuestionArrow() {
   } else {
     currentQuestionIndex++;
   }
-  saveUncompletedTest();
+  if (test_type != "summary") {
+    saveUncompletedTest();
+  }
 }
 document.getElementById("back_arrow").addEventListener("click", () => {
   if (!testIsPaused) {
@@ -2175,4 +2247,143 @@ function compareTestIds(id1, id2) {
 
   // If one has a second number and other doesn't, the one without goes first
   return parts1.length - parts2.length;
+}
+
+function startSummaryTest() {
+  currentTest.id = test_id;
+  currentTest.test_type = test_type;
+  currentTest.block_id = block_id;
+  document.getElementById("test_name").innerHTML = "Загальний тест по курсу";
+  document.getElementById("result-test_name").innerHTML =
+    "Загальний тест по курсу";
+
+  // Set fixed lengths for summary test
+  questions_length = 23;
+  vidpovidnist_length = 3;
+  hronology_length = 3;
+  mul_ans_length = 3;
+  questionCount =
+    questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
+
+  startingMinutes = questionCount;
+  currentTest.startingMinutes = startingMinutes;
+  time = startingMinutes * 60;
+  startTime = time;
+  timerInterval = setInterval(updateCountdown, 1000);
+
+  let temp_questions = [];
+  let temp_vidpovidnist = [];
+  let temp_hronology = [];
+  let temp_mul_ans = [];
+  test_uuid = Math.random().toString(36).substring(2, 10);
+
+  questions.forEach((q) => {
+    q.q_type = "abcd";
+  });
+  vidpovidnist_questions.forEach((q) => {
+    q.q_type = "vidp";
+  });
+  hronology_questions.forEach((q) => {
+    q.q_type = "hron";
+  });
+  mul_ans_questions.forEach((q) => {
+    q.q_type = "mul_ans";
+  });
+
+  // Track used test_ids
+  let used_test_ids = {
+    abcd: new Set(), // For summary test, we want only one question per test_id
+    vidp: new Set(),
+    hron: new Set(),
+    mul_ans: new Set(),
+  };
+
+  // Helper function to get random questions while ensuring we get the exact count needed
+  const getRandomQuestions = (sourceQuestions, count, usedIds, type) => {
+    let result = [];
+    let availableQuestions = [...sourceQuestions]; // Create a copy to work with
+
+    while (result.length < count && availableQuestions.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availableQuestions.length);
+      const question = availableQuestions[randomIndex];
+
+      if (!usedIds.has(question.test_id)) {
+        result.push(question);
+        usedIds.add(question.test_id);
+        availableQuestions.splice(randomIndex, 1);
+      } else {
+        // If we've used this test_id, remove the question from available pool
+        availableQuestions.splice(randomIndex, 1);
+      }
+    }
+
+    // If we still need more questions and have used all unique test_ids,
+    // start reusing test_ids to meet the required count
+    if (result.length < count) {
+      availableQuestions = sourceQuestions.filter((q) => !result.includes(q));
+      while (result.length < count && availableQuestions.length > 0) {
+        const randomIndex = Math.floor(
+          Math.random() * availableQuestions.length
+        );
+        result.push(availableQuestions[randomIndex]);
+        availableQuestions.splice(randomIndex, 1);
+      }
+    }
+
+    return result;
+  };
+
+  // Get exactly 23 test questions
+  temp_questions = getRandomQuestions(
+    questions,
+    questions_length,
+    used_test_ids.abcd,
+    "abcd"
+  );
+
+  // Get exactly 3 vidpovidnist questions
+  temp_vidpovidnist = getRandomQuestions(
+    vidpovidnist_questions,
+    vidpovidnist_length,
+    used_test_ids.vidp,
+    "vidp"
+  );
+
+  // Get exactly 3 hronology questions
+  temp_hronology = getRandomQuestions(
+    hronology_questions,
+    hronology_length,
+    used_test_ids.hron,
+    "hron"
+  );
+
+  // Get exactly 3 multiple answer questions
+  temp_mul_ans = getRandomQuestions(
+    mul_ans_questions,
+    mul_ans_length,
+    used_test_ids.mul_ans,
+    "mul_ans"
+  );
+
+  // Sort and combine all questions
+  test_questions.push(
+    ...temp_questions
+      .sort((p1, p2) => {
+        if (p1.year !== p2.year) {
+          return p1.year - p2.year;
+        }
+      })
+      .sort((p1, p2) => {
+        return compareTestIds(p1.test_id, p2.test_id);
+      }),
+    ...temp_vidpovidnist.sort((p1, p2) => {
+      return compareTestIds(p1.test_id, p2.test_id);
+    }),
+    ...temp_hronology.sort((p1, p2) => {
+      return compareTestIds(p1.test_id, p2.test_id);
+    }),
+    ...temp_mul_ans.sort((p1, p2) => {
+      return compareTestIds(p1.test_id, p2.test_id);
+    })
+  );
 }
