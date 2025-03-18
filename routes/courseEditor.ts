@@ -169,7 +169,7 @@ router.post("/saveTest", async (req, res) => {
 });
 
 router.post("/saveConspect", async (req, res) => {
-  const { auth_key, course, blockId, testId, conspectId, name, content } =
+  const { auth_key, course, blockId, testId, conspectId, name, content, usedImages } =
     req.body;
 
   try {
@@ -186,6 +186,7 @@ router.post("/saveConspect", async (req, res) => {
       `courseData/${course}/block${blockId}/test${testId}`
     );
     const filePath = path.join(dirPath, `conspect_${conspectId}.json`);
+    const imagesPath = path.join(dirPath, 'conspectImages');
 
     // Create directory if it doesn't exist
     if (!fs.existsSync(dirPath)) {
@@ -205,6 +206,24 @@ router.post("/saveConspect", async (req, res) => {
         2
       )
     );
+
+    // Clean up unused images
+    if (fs.existsSync(imagesPath)) {
+      const files = fs.readdirSync(imagesPath);
+      for (const file of files) {
+        const imagePath = path.join(imagesPath, file);
+        const imageUrl = `/courseData/${course}/block${blockId}/test${testId}/conspectImages/${file}`;
+        
+        // Check if the image is used in the current content
+        if (!usedImages.includes(imageUrl)) {
+          try {
+            fs.unlinkSync(imagePath);
+          } catch (error) {
+            console.error(`Error deleting unused image ${file}:`, error);
+          }
+        }
+      }
+    }
 
     // Update the course's test data to include this conspect
     try {

@@ -2,9 +2,19 @@ class ConspectManager {
   constructor() {
     this.isEditMode = false;
     this.container = document.querySelector(".conspect-content");
+    this.container.__manager = this;
     this.editorControls = document.getElementById("editor-controls");
     this.idInput = document.getElementById("conspect-id");
     this.idInputContainer = this.idInput.parentElement;
+
+    // Image related elements
+    this.imagePopup = document.querySelector(".image-popup");
+    this.imageUploadDialog = document.querySelector(".image-upload-dialog");
+    this.imageTooltip = document.querySelector(".image-tooltip");
+    this.currentImage = null;
+
+    // Setup ESC key handler
+    this.setupEscapeKeyHandler();
 
     // Check URL params for showID
     const urlParams = new URLSearchParams(window.location.search);
@@ -128,6 +138,23 @@ class ConspectManager {
               range.insertNode(citationDiv);
               this.hasUnsavedChanges = true;
             }
+          } else if (btn.classList.contains("link-btn")) {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+              const url = prompt("Введіть URL посилання:", "https://");
+              if (url) {
+                const link = document.createElement("a");
+                link.href = url;
+                link.target = "_blank";
+                link.textContent = selection.toString();
+                const range = selection.getRangeAt(0);
+                range.deleteContents();
+                range.insertNode(link);
+                this.hasUnsavedChanges = true;
+              }
+            }
+          } else if (btn.classList.contains("image-btn")) {
+            this.showImageUploadDialog();
           } else {
             const command = btn.classList.contains("bold-btn")
               ? "bold"
@@ -139,6 +166,68 @@ class ConspectManager {
             this.hasUnsavedChanges = true;
           }
         });
+      });
+
+      // Setup image upload handling
+      const imageUpload = document.getElementById("image-upload");
+      imageUpload.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const preview = document.querySelector(".image-preview");
+            preview.src = e.target.result;
+            preview.classList.add("active");
+            // Automatically start upload
+            this.uploadImage();
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+
+      // Setup image popup close button
+      this.imagePopup.querySelector(".image-popup-close").addEventListener("click", () => {
+        this.imagePopup.classList.remove("active");
+      });
+
+      // Setup image popup edit button
+      this.imagePopup.querySelector(".image-popup-edit").addEventListener("click", () => {
+        if (this.currentImage) {
+          this.showImageUploadDialog(this.currentImage);
+        }
+      });
+
+      // Handle image click for popup
+      this.container.addEventListener("click", (e) => {
+        if (e.target.tagName === "IMG") {
+          this.currentImage = e.target;
+          this.showImagePopup(e.target);
+        } else if (e.target.classList.contains("image-link")) {
+          e.preventDefault();
+          const img = document.createElement("img");
+          img.src = e.target.dataset.imageUrl;
+          img.alt = e.target.textContent;
+          this.currentImage = img;
+          this.showImagePopup(img);
+        }
+      });
+
+      // Handle image hover for preview
+      this.container.addEventListener("mouseover", (e) => {
+        if (e.target.tagName === "IMG" || e.target.classList.contains("image-link")) {
+          const rect = e.target.getBoundingClientRect();
+          const imgSrc = e.target.tagName === "IMG" ? e.target.src : e.target.dataset.imageUrl;
+          this.imageTooltip.querySelector("img").src = imgSrc;
+          this.imageTooltip.style.left = `${rect.right + 10}px`;
+          this.imageTooltip.style.top = `${rect.top}px`;
+          this.imageTooltip.classList.add("active");
+        }
+      });
+
+      this.container.addEventListener("mouseout", (e) => {
+        if (e.target.tagName === "IMG" || e.target.classList.contains("image-link")) {
+          this.imageTooltip.classList.remove("active");
+        }
       });
 
       // Add size selector handler
@@ -280,8 +369,20 @@ class ConspectManager {
       "br",
       "div",
       "blockquote",
+      "img",
+      "a"
     ];
-    const allowedAttributes = ["class", "style"];
+    const allowedAttributes = [
+      "class",
+      "style",
+      "src",
+      "alt",
+      "href",
+      "target",
+      "title",
+      "data-original-src",
+      "data-image-url"
+    ];
 
     function cleanNode(node) {
       if (node.nodeType === 1) {
@@ -335,6 +436,24 @@ class ConspectManager {
     const urlParams = new URLSearchParams(window.location.search);
 
     try {
+      // Collect all image URLs from both <img> tags and image links
+      const usedImages = [];
+      
+      // Get URLs from embedded images
+      this.container.querySelectorAll('img').forEach(img => {
+        if (img.src.startsWith('/courseData/')) {
+          usedImages.push(img.src);
+        }
+      });
+      
+      // Get URLs from image links
+      this.container.querySelectorAll('.image-link').forEach(link => {
+        const imageUrl = link.dataset.imageUrl;
+        if (imageUrl && imageUrl.startsWith('/courseData/')) {
+          usedImages.push(imageUrl);
+        }
+      });
+
       const response = await fetch("/api/courseEditor/saveConspect", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -346,6 +465,7 @@ class ConspectManager {
           conspectId: this.idInput.value,
           name: this.conspectTitle.textContent,
           content: this.sanitizeHTML(this.container.innerHTML),
+          usedImages: usedImages
         }),
       });
 
@@ -549,8 +669,155 @@ class ConspectManager {
       }
     });
   }
+
+  showImageUploadDialog(existingImage = null) {
+    this.imageUploadDialog.classList.add("active");
+    if (existingImage) {
+      const preview = this.imageUploadDialog.querySelector(".image-preview");
+      preview.src = existingImage.src;
+      preview.classList.add("active");
+    }
+  }
+
+  showImagePopup(image) {
+    const popupImg = this.imagePopup.querySelector("img");
+    popupImg.src = image.src;
+    popupImg.alt = image.alt;
+    this.imagePopup.classList.add("active");
+    
+    // Hide edit button in preview mode
+    const container = document.querySelector(".conspect-container");
+    const editButton = this.imagePopup.querySelector(".image-popup-edit");
+    if (container.classList.contains("preview-mode")) {
+      editButton.style.display = "none";
+    } else {
+      editButton.style.display = "block";
+    }
+  }
+
+  async uploadImage(autoUpload = false) {
+    const fileInput = document.getElementById("image-upload");
+    const file = fileInput.files[0];
+    
+    if (!file) {
+      alert("Будь ласка, виберіть файл");
+      return;
+    }
+
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      const course = urlParams.get("course");
+      const blockId = urlParams.get("blockId");
+      const testId = urlParams.get("testId");
+
+      if (!course || !blockId || !testId) {
+        alert("Помилка: відсутні параметри курсу");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("image", file);
+      formData.append("auth_key", auth_key);
+      formData.append("course", course);
+      formData.append("blockId", blockId);
+      formData.append("testId", testId);
+      formData.append("conspectId", this.idInput.value);
+
+      const response = await fetch("/api/upload/conspectImage", {
+        method: "POST",
+        body: formData
+      });
+
+      if (!response.ok) throw new Error("Помилка при завантаженні зображення");
+
+      const data = await response.json();
+      const imgUrl = data.url;
+
+      // Create a hyperlink if text is selected, otherwise insert image directly
+      const selection = window.getSelection();
+      const hasSelection = selection.rangeCount > 0 && selection.toString().length > 0;
+      this.insertImage(imgUrl, file.name, hasSelection);
+
+      this.hasUnsavedChanges = true;
+      this.imageUploadDialog.classList.remove("active");
+      document.querySelector(".image-preview").classList.remove("active");
+      fileInput.value = "";
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Помилка при завантаженні зображення");
+    }
+  }
+
+  insertImage(imgUrl, altText, createLink = false) {
+    // Insert image at current cursor position or replace existing image
+    if (this.currentImage) {
+      // Store the old image URL for cleanup if needed
+      const oldUrl = this.currentImage.src;
+      this.currentImage.src = imgUrl;
+    } else {
+      const selection = window.getSelection();
+      if (selection.rangeCount > 0) {
+        if (createLink) {
+          // Create a hyperlink
+          const link = document.createElement("a");
+          link.href = "#";
+          link.dataset.imageUrl = imgUrl;
+          link.textContent = selection.toString() || altText;
+          link.className = "image-link";
+          
+          const range = selection.getRangeAt(0);
+          range.deleteContents();
+          range.insertNode(link);
+        } else {
+          // Insert image directly
+          const img = document.createElement("img");
+          img.src = imgUrl;
+          img.alt = altText;
+          const range = selection.getRangeAt(0);
+          range.deleteContents();
+          range.insertNode(img);
+        }
+      } else {
+        const img = document.createElement("img");
+        img.src = imgUrl;
+        img.alt = altText;
+        this.container.appendChild(img);
+      }
+    }
+  }
+
+  setupEscapeKeyHandler() {
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // Close image popup if open
+        if (this.imagePopup.classList.contains('active')) {
+          this.imagePopup.classList.remove('active');
+        }
+        // Close image upload dialog if open
+        if (this.imageUploadDialog.classList.contains('active')) {
+          this.imageUploadDialog.classList.remove('active');
+          // Reset the file input and preview
+          const fileInput = document.getElementById('image-upload');
+          fileInput.value = '';
+          document.querySelector('.image-preview').classList.remove('active');
+        }
+        // Hide image tooltip if visible
+        if (this.imageTooltip.classList.contains('active')) {
+          this.imageTooltip.classList.remove('active');
+        }
+      }
+    });
+  }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   new ConspectManager();
 });
+
+// Make uploadImage globally accessible
+window.uploadImage = function() {
+  const manager = document.querySelector(".conspect-content")?.__manager;
+  if (manager) {
+    manager.uploadImage();
+  }
+};

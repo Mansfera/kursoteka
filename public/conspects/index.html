@@ -65,6 +65,12 @@
               П
             </button>
             <button class="format-btn citation-btn" title="Цитата">Ц</button>
+            <button class="format-btn link-btn" title="Посилання">
+              <img src="/assets/link.badge.plus.svg" alt="Посилання" style="width: 16px; height: 16px; filter: invert(1);" />
+            </button>
+            <button class="format-btn image-btn" title="Зображення">
+              <img src="/assets/photo.badge.plus.svg" alt="Зображення" style="width: 16px; height: 16px; filter: invert(1);" />
+            </button>
             <select class="format-select size-select" title="Розмір">
               <option value="1">Дуже великий</option>
               <option value="2">Великий</option>
@@ -121,6 +127,32 @@
           </div>
           <div class="conspect-content"></div>
         </div>
+      </div>
+
+      <!-- Image Popup -->
+      <div class="image-popup">
+        <div class="image-popup-content">
+          <button class="image-popup-close">&times;</button>
+          <img src="" alt="" />
+          <button class="image-popup-edit">Редагувати</button>
+        </div>
+      </div>
+
+      <!-- Image Upload Dialog -->
+      <div class="image-upload-dialog">
+        <div class="image-upload-form">
+          <label for="image-upload">Виберіть зображення</label>
+          <input type="file" id="image-upload" accept="image/*" />
+          <div class="image-upload-button" onclick="document.getElementById('image-upload').click()">
+            Вибрати файл
+          </div>
+          <img class="image-preview" src="" alt="" />
+        </div>
+      </div>
+
+      <!-- Image Tooltip -->
+      <div class="image-tooltip">
+        <img src="" alt="" />
       </div>
     </div>
   </body>
