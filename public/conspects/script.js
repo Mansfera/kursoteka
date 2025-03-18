@@ -190,12 +190,12 @@ class ConspectManager {
         this.imagePopup.classList.remove("active");
       });
 
-      // Setup image popup edit button
-      this.imagePopup.querySelector(".image-popup-edit").addEventListener("click", () => {
-        if (this.currentImage) {
-          this.showImageUploadDialog(this.currentImage);
-        }
-      });
+      // // Setup image popup edit button
+      // this.imagePopup.querySelector(".image-popup-edit").addEventListener("click", () => {
+      //   if (this.currentImage) {
+      //     this.showImageUploadDialog(this.currentImage);
+      //   }
+      // });
 
       // Handle image click for popup
       this.container.addEventListener("click", (e) => {
@@ -687,12 +687,12 @@ class ConspectManager {
     
     // Hide edit button in preview mode
     const container = document.querySelector(".conspect-container");
-    const editButton = this.imagePopup.querySelector(".image-popup-edit");
-    if (container.classList.contains("preview-mode")) {
-      editButton.style.display = "none";
-    } else {
-      editButton.style.display = "block";
-    }
+    // const editButton = this.imagePopup.querySelector(".image-popup-edit");
+    // if (container.classList.contains("preview-mode")) {
+    //   editButton.style.display = "none";
+    // } else {
+    //   editButton.style.display = "block";
+    // }
   }
 
   async uploadImage(autoUpload = false) {
