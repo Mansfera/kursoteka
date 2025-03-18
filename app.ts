@@ -24,6 +24,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use(bodyParser.json({ limit: "10mb" }));
 app.use(bodyParser.urlencoded({ limit: "10mb", extended: true }));
 app.use(express.static("public"));
+app.use("/courseData", express.static("courseData"));
 
 let dbHelpers: DbHelpersType | null = null;
 let db: DatabaseType | null = null;
@@ -61,11 +62,13 @@ async function initializeApp(): Promise<void> {
     const courseRoutes = (await import("./routes/course")).default;
     const marketplaceRoutes = (await import("./routes/marketplace")).default;
     const courseEditorRoutes = (await import("./routes/courseEditor")).default;
+    const uploadRoutes = (await import("./routes/upload")).default;
 
     app.use("/api/auth", checkDbHelpers, authRoutes);
     app.use("/api/course", checkDbHelpers, courseRoutes);
     app.use("/api/marketplace", checkDbHelpers, marketplaceRoutes);
     app.use("/api/courseEditor", checkDbHelpers, courseEditorRoutes);
+    app.use("/api/upload", checkDbHelpers, uploadRoutes);
 
     app.get(
       "/api/updateserver",
