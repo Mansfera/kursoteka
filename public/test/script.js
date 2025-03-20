@@ -201,7 +201,7 @@ function loadTestQuestions(newTestData) {
         });
       break;
     case "summary":
-      test_name = `<i>Загальний тест по блоку ${block_id}</i>`;
+      test_name = `<i>Симуляція НМТ</i>`;
       loadTestDataFromServer(
         auth_key,
         course,
@@ -216,7 +216,8 @@ function loadTestQuestions(newTestData) {
             vidpovidnist_questions = testData.vidpovidnistQuestions;
             hronology_questions = testData.hronologyQuestions;
             mul_ans_questions = testData.mulAnsQuestions;
-            prepareTest(newTestData);
+            final_tema_amount = testData.final_tema_amount;
+            prepareTest(newTestData, final_tema_amount);
           } else {
             console.error("Failed to load test data");
           }
@@ -253,7 +254,7 @@ function prepareTest(loadNewData, final_tema_amount = 1) {
         startFinalTest(final_tema_amount);
         break;
       case "summary":
-        startSummaryTest();
+        startSummaryTest(final_tema_amount);
         break;
     }
     if (loadNewData) {
@@ -2249,7 +2250,7 @@ function compareTestIds(id1, id2) {
   return parts1.length - parts2.length;
 }
 
-function startSummaryTest() {
+function startSummaryTest(final_tema_amount) {
   currentTest.id = test_id;
   currentTest.test_type = test_type;
   currentTest.block_id = block_id;
@@ -2258,12 +2259,11 @@ function startSummaryTest() {
     "Загальний тест по курсу";
 
   // Set fixed lengths for summary test
-  questions_length = 23;
-  vidpovidnist_length = 3;
-  hronology_length = 3;
-  mul_ans_length = 3;
-  questionCount =
-    questions_length + vidpovidnist_length + hronology_length + mul_ans_length;
+  questions_length = questions.length;
+  vidpovidnist_length = vidpovidnist_questions.length;
+  hronology_length = hronology_questions.length;
+  mul_ans_length = mul_ans_questions.length;
+  questionCount = final_tema_amount;
 
   startingMinutes = questionCount;
   currentTest.startingMinutes = startingMinutes;

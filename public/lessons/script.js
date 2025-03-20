@@ -286,7 +286,7 @@ function fetchAndDisplayUserCourses() {
                 course.blocks[course.blocks.length - 1].tests.length - 1
               ].id
             }')">
-                  Загальний тест по курсу
+                  Симуляція НМТ
                 </div>
               </div>
             `;

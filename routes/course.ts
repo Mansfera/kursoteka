@@ -365,13 +365,17 @@ router.post("/getPromoCodes", async (req, res) => {
       return res.status(403).json({ message: "User does not own this course" });
     }
 
-    
     const promocodes = await dbh.getPromocodesByCourse(course);
-    const formattedPromocodes = await Promise.all(promocodes.map(async (promocode) => {
-      const used_by_user = promocode.used_by ? await dbh.getUserByAuthKey(promocode.used_by) : null;
-      const name = used_by_user ? `${used_by_user.name} ${used_by_user.surname}` : "";
-      return {
-        id: promocode.course_id,
+    const formattedPromocodes = await Promise.all(
+      promocodes.map(async (promocode) => {
+        const used_by_user = promocode.used_by
+          ? await dbh.getUserByAuthKey(promocode.used_by)
+          : null;
+        const name = used_by_user
+          ? `${used_by_user.name} ${used_by_user.surname}`
+          : "";
+        return {
+          id: promocode.course_id,
           code: promocode.code,
           expire_date: promocode.expire_date,
           access_duration: promocode.access_duration,
@@ -763,14 +767,16 @@ router.get("/loadTestData", async (req, res) => {
     };
 
     let temas_id_list: string[] = [];
-    
+
     if (testType === "summary") {
       // For summary test, get all test IDs from all blocks
-      course_obj.blocks.forEach((block_obj: { id: string; tests: { id: string }[] }) => {
-        block_obj.tests.forEach((test_obj: { id: string }) => {
-          temas_id_list.push(test_obj.id);
-        });
-      });
+      course_obj.blocks.forEach(
+        (block_obj: { id: string; tests: { id: string }[] }) => {
+          block_obj.tests.forEach((test_obj: { id: string }) => {
+            temas_id_list.push(test_obj.id);
+          });
+        }
+      );
     } else {
       // Original logic for other test types
       let first_tema_found = false;
@@ -799,10 +805,14 @@ router.get("/loadTestData", async (req, res) => {
     if (testType === "summary") {
       // Randomly select test IDs for each question type
       const selectedTestIds = new Set<string>();
-      
+
       // Helper function to get random questions from a file
-      const getRandomQuestions = async (testId: string, filePath: string, count: number) => {
-        const data = await readJsonFile(filePath) as any[];
+      const getRandomQuestions = async (
+        testId: string,
+        filePath: string,
+        count: number
+      ) => {
+        const data = (await readJsonFile(filePath)) as any[];
         if (!data) return [];
         return data.sort(() => Math.random() - 0.5).slice(0, count);
       };
@@ -816,12 +826,12 @@ router.get("/loadTestData", async (req, res) => {
         }
         return "";
       };
-
-      // Get 23 random test questions
-      while (questions.length < 23 && temas_id_list.length > 0) {
+      const clearTestIds = true || temas_id_list.length < 30;
+      // Get 20 random test questions
+      while (questions.length < 20 && temas_id_list.length > 0) {
         const randomIndex = Math.floor(Math.random() * temas_id_list.length);
         const testId = temas_id_list[randomIndex];
-        
+
         if (!selectedTestIds.has(testId)) {
           const blockId = findBlockForTest(testId);
           const testQuestions = await getRandomQuestions(
@@ -834,16 +844,15 @@ router.get("/loadTestData", async (req, res) => {
             selectedTestIds.add(testId);
           }
         }
-        
+
         if (selectedTestIds.size === temas_id_list.length) break;
       }
-
-      // Get 3 random vidpovidnist questions
-      selectedTestIds.clear();
-      while (vidpovidnistQuestions.length < 3 && temas_id_list.length > 0) {
+      // Get 4 random vidpovidnist questions
+      clearTestIds && selectedTestIds.clear();
+      while (vidpovidnistQuestions.length < 4 && temas_id_list.length > 0) {
         const randomIndex = Math.floor(Math.random() * temas_id_list.length);
         const testId = temas_id_list[randomIndex];
-        
+
         if (!selectedTestIds.has(testId)) {
           const blockId = findBlockForTest(testId);
           const questions = await getRandomQuestions(
@@ -856,16 +865,14 @@ router.get("/loadTestData", async (req, res) => {
             selectedTestIds.add(testId);
           }
         }
-        
+
         if (selectedTestIds.size === temas_id_list.length) break;
       }
-
       // Get 3 random hronology questions
-      selectedTestIds.clear();
       while (hronologyQuestions.length < 3 && temas_id_list.length > 0) {
         const randomIndex = Math.floor(Math.random() * temas_id_list.length);
         const testId = temas_id_list[randomIndex];
-        
+
         if (!selectedTestIds.has(testId)) {
           const blockId = findBlockForTest(testId);
           const questions = await getRandomQuestions(
@@ -878,16 +885,14 @@ router.get("/loadTestData", async (req, res) => {
             selectedTestIds.add(testId);
           }
         }
-        
+
         if (selectedTestIds.size === temas_id_list.length) break;
       }
-
       // Get 3 random multiple answer questions
-      selectedTestIds.clear();
       while (mulAnsQuestions.length < 3 && temas_id_list.length > 0) {
         const randomIndex = Math.floor(Math.random() * temas_id_list.length);
         const testId = temas_id_list[randomIndex];
-        
+
         if (!selectedTestIds.has(testId)) {
           const blockId = findBlockForTest(testId);
           const questions = await getRandomQuestions(
@@ -900,10 +905,9 @@ router.get("/loadTestData", async (req, res) => {
             selectedTestIds.add(testId);
           }
         }
-        
+
         if (selectedTestIds.size === temas_id_list.length) break;
       }
-
     } else {
       // Original logic for other test types
       for (const id of temas_id_list) {
@@ -957,7 +961,11 @@ router.get("/loadTestData", async (req, res) => {
       final_tema_amount: 0,
     };
     if (temas_id_list.length > 1) {
-      response.final_tema_amount = temas_id_list.length;
+      response.final_tema_amount =
+        questions.length +
+        vidpovidnistQuestions.length +
+        hronologyQuestions.length +
+        mulAnsQuestions.length;
     }
 
     res.json(response);
@@ -1040,7 +1048,7 @@ router.post("/sendTestResult", async (req, res) => {
 
     const completedTests = JSON.parse(userCourse.completed_tests);
     const allowedTests = JSON.parse(userCourse.allowed_tests);
-    
+
     let short_test_check = false;
     let full_test_check = false;
 
